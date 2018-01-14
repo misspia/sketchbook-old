@@ -1,28 +1,28 @@
 import React, { Component } from 'react';
 import { HashRouter, Route, Switch, NavLink } from 'react-router-dom'
 
+import Routes from './routes.js'
+
 import Home from '../screens/home/home.jsx'
-class App extends Component {
+import SketchList from '../screens/sketchList/sketchList.jsx'
+import Entry from '../screens/entry/entry.jsx'
+
+class AppRouter extends Component {
   render() {
-    return <div>
-      testing
-    </div>
+    return <HashRouter>
+  		<div>
+  			<div>
+          <NavLink exact to='/'>home</NavLink>
+          <NavLink to={Routes.toSketch(0)}>test0</NavLink>
+          <NavLink to={Routes.toSketch(1)}>test1</NavLink>
+        </div>
+  			<Switch>
+  				<Route exact path={Routes.home} component={Home}/>
+  				<Route path={Routes.sketch} component={Entry}/>
+  			</Switch>
+  		</div>
+  	</HashRouter>
   }
 }
 
-export default () => {
-	return <HashRouter>
-		<div>
-			<div>
-        <NavLink to='/'>home</NavLink>
-        <NavLink to='/entry/0'>test0</NavLink>
-        <NavLink to='/entry/1'>test1</NavLink>
-        <NavLink to='/entry/2'>test2</NavLink>
-      </div>
-			<Switch>
-				<Route exact path='/' component={App}/>
-				<Route path='/entry/:index' component={Home}/>
-			</Switch>
-		</div>
-	</HashRouter>
-};
+export default AppRouter;
