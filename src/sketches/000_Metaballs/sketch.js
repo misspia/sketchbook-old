@@ -76,23 +76,54 @@ const Sketch = (canvas) => {
     metaballs.push({
       x: Math.random() * (canvas.width - 2 * radius) + radius,
       y: Math.random() * (canvas.height - 2 * radius) + radius,
+      velX: Math.random() * 10 - 5,
+      velY: Math.random() * 10 - 5,
       r: radius
     })
   }
 
-  const flattenedMetaballs = new Float32Array(3 * numMetaballs);
-  for(let i = 0; i < numMetaballs; i ++) {
-    const baseIndex = 3 * i;
-    const ball = metaballs[i];
-    flattenedMetaballs[baseIndex + 0] = ball.x;
-    flattenedMetaballs[baseIndex + 1] = ball.y;
-    flattenedMetaballs[baseIndex + 2] = ball.r;
-  }
-  const uMetaballs = Utils.getUniformLocation(program, 'u_metaballs');
-  gl.uniform3fv(uMetaballs, flattenedMetaballs);
+  const step = () => {
+      for(let i = 0; i < numMetaballs; i++) {
+        const ball = metaballs[i];
+
+        ball.x += ball.velX;
+        ball.y += ball.velY;
+
+        if(ball.x - ball.r < 0) {
+          ball.x = ball.r + 1;
+          ball.velX = Math.abs(ball.velX);
+        } else if(ball.x + ball.r > canvas.width) {
+          ball.x = canvas.width - ball.r;
+          ball.velX = -Math.abs(ball.velX);
+        }
+        if(ball.y - ball.r < 0) {
+          ball.y = ball.r + 1;
+          ball.velY = Math.abs(ball.velY);
+        } else if(ball.y + ball.r > canvas.height) {
+          ball.y = canvas.height - ball.r;
+          ball.velY = -Math.abs(ball.velY);
+        }
+      }
+      const flattenedMetaballs = new Float32Array(3 * numMetaballs);
+      for(let i = 0; i < numMetaballs; i ++) {
+        const baseIndex = 3 * i;
+        const ball = metaballs[i];
+        flattenedMetaballs[baseIndex + 0] = ball.x;
+        flattenedMetaballs[baseIndex + 1] = ball.y;
+        flattenedMetaballs[baseIndex + 2] = ball.r;
+      }
+      const uMetaballs = Utils.getUniformLocation(program, 'u_metaballs');
+      gl.uniform3fv(uMetaballs, flattenedMetaballs);
 
 
-  gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+
+      requestAnimationFrame(step);
+  };
+
+  step();
+
 }
 
 export default Sketch;
