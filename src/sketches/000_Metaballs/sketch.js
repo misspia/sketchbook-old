@@ -20,6 +20,13 @@ const Utils = {
           throw `Cannot find attribute ${name}`;
         }
         return attribLocation;
+      },
+      getUniformLocation(program, name) {
+        const uniformLocation = gl.getUniformLocation(program, name);
+        if(uniformLocation === -1) {
+          throw `Cannot find uniform ${name}`;
+        }
+        return uniformLocation;
       }
 }
 
@@ -49,13 +56,18 @@ const Sketch = (canvas) => {
   gl.bufferData(gl.ARRAY_BUFFER, vertData, gl.STATIC_DRAW);
 
   // pass position attrib to shader
-  const positionHandle = Utils.getAttribLocation(program, 'position');
-  gl.enableVertexAttribArray(positionHandle);
+  const aPosition = Utils.getAttribLocation(program, 'position');
+  gl.enableVertexAttribArray(aPosition);
   gl.vertexAttribPointer(
-    positionHandle, 2,
+    aPosition, 2,
     gl.FLOAT, gl.FALSE,
     2 * 4, 0
   )
+
+  const uDimmensions = Utils.getUniformLocation(program, 'u_dimmensions');
+  gl.uniform2f(uDimmensions, canvas.width, canvas.height);
+
+
   gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
 
 }
