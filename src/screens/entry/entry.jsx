@@ -38,10 +38,8 @@ class Entry extends Component {
   }
   setResizeHandler() {
     window.addEventListener('resize', () => {
-      console.log('resizing')
       this.canvas.width = this.getDimensions().x;
       this.canvas.height = this.getDimensions().y;
-      // this.canvas.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     })
   }
   getDimensions() {

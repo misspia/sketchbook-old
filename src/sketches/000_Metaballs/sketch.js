@@ -30,6 +30,14 @@ const Utils = {
       }
 }
 
+const canvasVertices = [
+  -1.0, 1.0,
+  -1.0, -1.0,
+  1.0, 1.0,
+  1.0, -1.0
+];
+const numMetaballs = 10;
+
 const Sketch = (canvas) => {
 
   gl = canvas.getContext('webgl');
@@ -44,12 +52,7 @@ const Sketch = (canvas) => {
   gl.linkProgram(program);
   gl.useProgram(program);
 
-  const vertData = new Float32Array([
-    -1.0, 1.0,
-    -1.0, -1.0,
-    1.0, 1.0,
-    1.0, -1.0
-  ])
+  const vertData = new Float32Array(canvasVertices);
 
   const vertDataBuffer = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, vertDataBuffer);
@@ -67,9 +70,29 @@ const Sketch = (canvas) => {
   const uDimmensions = Utils.getUniformLocation(program, 'u_dimmensions');
   gl.uniform2f(uDimmensions, canvas.width, canvas.height);
 
+  let metaballs = [];
+  for(let i = 0; i < numMetaballs; i ++) {
+    const radius = Math.random() * 60 + 10;
+    metaballs.push({
+      x: Math.random() * (canvas.width - 2 * radius) + radius,
+      y: Math.random() * (canvas.height - 2 * radius) + radius,
+      r: radius
+    })
+  }
+
+  const flattenedMetaballs = new Float32Array(3 * numMetaballs);
+  for(let i = 0; i < numMetaballs; i ++) {
+    const baseIndex = 3 * i;
+    const ball = metaballs[i];
+    flattenedMetaballs[baseIndex + 0] = ball.x;
+    flattenedMetaballs[baseIndex + 1] = ball.y;
+    flattenedMetaballs[baseIndex + 2] = ball.r;
+  }
+  const uMetaballs = Utils.getUniformLocation(program, 'u_metaballs');
+  gl.uniform3fv(uMetaballs, flattenedMetaballs);
+
 
   gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-
 }
 
 export default Sketch;
