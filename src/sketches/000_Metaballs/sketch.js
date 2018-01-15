@@ -95,7 +95,6 @@ class Metaballs extends SketchManager {
     })
   }
   render() {
-    console.log('======== metaball sketch ========')
     this.init()
     this.draw();
   }

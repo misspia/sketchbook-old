@@ -6,6 +6,10 @@ class Sketch {
     this.vertShader = {};
     this.fragShader = {};
   }
+  clear() {
+    this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
+    this.gl.clear(this.gl.COLOR_BUFFER_BIT);
+  }
   resize(width, height) {
     this.gl.canvas.width = this.canvas.width;
     this.gl.canvas.height = this.canvas.height;
