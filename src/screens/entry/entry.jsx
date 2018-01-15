@@ -19,9 +19,11 @@ class Entry extends Component {
 
       this.setState({
         title: Sketches[sketchIndex].title,
-        renderer: Sketches[sketchIndex].renderer,
+        // renderer: Sketches[sketchIndex].renderer,
+        renderer: new Sketches[sketchIndex].renderer(this.canvas),
       }, () => {
-        this.state.renderer(this.canvas)
+        this.state.renderer.render()
+        // this.state.renderer(this.canvas)
       })
   }
   componentWillUnmount() {

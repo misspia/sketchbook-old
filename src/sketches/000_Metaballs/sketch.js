@@ -1,135 +1,105 @@
 import vert from './metaball.vert'
 import frag from './metaball.frag'
+import SketchManager from '../sketchManager.js'
 
-let gl;
-
-const Utils = {
-  createProgram: (vertShader, fragShader) => {
-    const program = gl.createProgram();
-    gl.attachShader(program, vertShader);
-    gl.attachShader(program, fragShader);
-    gl.linkProgram(program);
-    gl.useProgram(program);
-    return program;
-  },
-  compileShader: (shaderSource, type) => {
-    const shader = gl.createShader(type);
-    gl.shaderSource(shader, shaderSource);
-    gl.compileShader(shader);
-
-    if(!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-      throw `Failed to compile shader: ${gl.getShaderInfoLog(shader)}`
-    }
-    return shader;
-  },
-  getAttribLocation(program, name) {
-    const attribLocation = gl.getAttribLocation(program, name);
-    if(attribLocation === -1) {
-      throw `Cannot find attribute ${name}`;
-    }
-    return attribLocation;
-  },
-  getUniformLocation(program, name) {
-    const uniformLocation = gl.getUniformLocation(program, name);
-    if(uniformLocation === -1) {
-      throw `Cannot find uniform ${name}`;
-    }
-    return uniformLocation;
+class Metaballs extends SketchManager {
+  constructor(canvas) {
+    super(canvas);
+    this.metaballs = [];
+    this.numMetaballs = 10;
   }
-}
+  init() {
+    this.vertShader = this.compileShader(vert, this.gl.VERTEX_SHADER);
+    this.fragShader = this.compileShader(frag, this.gl.FRAGMENT_SHADER);
 
-const canvasVertices = [
-  -1.0, 1.0,
-  -1.0, -1.0,
-  1.0, 1.0,
-  1.0, -1.0
-];
-const numMetaballs = 10;
+    this.program = this.createProgram(this.vertShader, this.fragShader);
 
-const generateMetaballs = (canvas, numMetaballs) => {
-  let metaballs = [];
-  for(let i = 0; i < numMetaballs; i ++) {
-    const radius = Math.random() * 60 + 10;
-    metaballs.push({
-      x: Math.random() * (canvas.width - 2 * radius) + radius,
-      y: Math.random() * (canvas.height - 2 * radius) + radius,
-      velX: Math.random() * 10 - 5,
-      velY: Math.random() * 10 - 5,
-      r: radius
+    const canvasVertices = [
+      -1.0, 1.0,
+      -1.0, -1.0,
+      1.0, 1.0,
+      1.0, -1.0
+    ];
+    const vertData = new Float32Array(canvasVertices);
+    const vertDataBuffer = this.gl.createBuffer();
+    this.gl.bindBuffer(this.gl.ARRAY_BUFFER, vertDataBuffer);
+    this.gl.bufferData(this.gl.ARRAY_BUFFER, vertData, this.gl.STATIC_DRAW);
+
+    this.setStaticAttributes();
+    this.setStaticUniforms();
+    this.generateMetaballs();
+  }
+  setStaticAttributes() {
+    const aPosition = this.getAttribLocation(this.program, 'position');
+    this.gl.enableVertexAttribArray(aPosition);
+    this.gl.vertexAttribPointer(
+      aPosition, 2,
+      this.gl.FLOAT, this.gl.FALSE,
+      2 * 4, 0
+    )
+  }
+  setStaticUniforms() {
+    const uResolution = this.getUniformLocation(this.program, 'u_resolution');
+    this.gl.uniform2f(uResolution, this.canvas.width, this.canvas.height);
+  }
+  generateMetaballs()  {
+    for(let i = 0; i < this.numMetaballs; i ++) {
+      const radius = Math.random() * 60 + 10;
+      this.metaballs.push({
+        x: Math.random() * (this.canvas.width - 2 * radius) + radius,
+        y: Math.random() * (this.canvas.height - 2 * radius) + radius,
+        velX: Math.random() * 10 - 5,
+        velY: Math.random() * 10 - 5,
+        r: radius
+      })
+    }
+  }
+  draw() {
+    this.updateMetaballs()
+
+    const vectorSize = 3;
+    const flattenedMetaballs = new Float32Array(vectorSize * this.numMetaballs);
+
+    this.metaballs.forEach((ball, index) => {
+      const baseIndex = vectorSize * index;
+      flattenedMetaballs[baseIndex + 0] = ball.x;
+      flattenedMetaballs[baseIndex + 1] = ball.y;
+      flattenedMetaballs[baseIndex + 2] = ball.r;
+    })
+
+    const uMetaballs = this.getUniformLocation(this.program, 'u_metaballs');
+    this.gl.uniform3fv(uMetaballs, flattenedMetaballs);
+
+    this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
+    requestAnimationFrame(() => this.draw());
+  };
+  updateMetaballs() {
+    this.metaballs.map(ball => {
+      ball.x += ball.velX;
+      ball.y += ball.velY;
+
+      if(ball.x - ball.r < 0) {
+        ball.x = ball.r + 1;
+        ball.velX = Math.abs(ball.velX);
+      } else if(ball.x + ball.r > this.canvas.width) {
+        ball.x = this.canvas.width - ball.r;
+        ball.velX = -Math.abs(ball.velX);
+      }
+      if(ball.y - ball.r < 0) {
+        ball.y = ball.r + 1;
+        ball.velY = Math.abs(ball.velY);
+      } else if(ball.y + ball.r > this.canvas.height) {
+        ball.y = this.canvas.height - ball.r;
+        ball.velY = -Math.abs(ball.velY);
+      }
     })
   }
-  return metaballs;
-}
-
-const Sketch = (canvas) => {
-  gl = canvas.getContext('webgl');
-  console.log('======== metaball sketch ========')
-
-  const vertShader = Utils.compileShader(vert, gl.VERTEX_SHADER);
-  const fragShader = Utils.compileShader(frag, gl.FRAGMENT_SHADER);
-
-  const program = Utils.createProgram(vertShader, fragShader);
-
-  const vertData = new Float32Array(canvasVertices);
-  const vertDataBuffer = gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER, vertDataBuffer);
-  gl.bufferData(gl.ARRAY_BUFFER, vertData, gl.STATIC_DRAW);
-
-  // pass position attrib to shader
-  const aPosition = Utils.getAttribLocation(program, 'position');
-  gl.enableVertexAttribArray(aPosition);
-  gl.vertexAttribPointer(
-    aPosition, 2,
-    gl.FLOAT, gl.FALSE,
-    2 * 4, 0
-  )
-
-  const uResolution = Utils.getUniformLocation(program, 'u_resolution');
-  gl.uniform2f(uResolution, canvas.width, canvas.height);
-
-  let metaballs = generateMetaballs(canvas, numMetaballs);
-
-  const render = () => {
-      for(let i = 0; i < numMetaballs; i++) {
-        const ball = metaballs[i];
-
-        ball.x += ball.velX;
-        ball.y += ball.velY;
-
-        if(ball.x - ball.r < 0) {
-          ball.x = ball.r + 1;
-          ball.velX = Math.abs(ball.velX);
-        } else if(ball.x + ball.r > canvas.width) {
-          ball.x = canvas.width - ball.r;
-          ball.velX = -Math.abs(ball.velX);
-        }
-        if(ball.y - ball.r < 0) {
-          ball.y = ball.r + 1;
-          ball.velY = Math.abs(ball.velY);
-        } else if(ball.y + ball.r > canvas.height) {
-          ball.y = canvas.height - ball.r;
-          ball.velY = -Math.abs(ball.velY);
-        }
-      }
-      const flattenedMetaballs = new Float32Array(3 * numMetaballs);
-      for(let i = 0; i < numMetaballs; i ++) {
-        const baseIndex = 3 * i;
-        const ball = metaballs[i];
-        flattenedMetaballs[baseIndex + 0] = ball.x;
-        flattenedMetaballs[baseIndex + 1] = ball.y;
-        flattenedMetaballs[baseIndex + 2] = ball.r;
-      }
-      const uMetaballs = Utils.getUniformLocation(program, 'u_metaballs');
-      gl.uniform3fv(uMetaballs, flattenedMetaballs);
-
-
-      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-
-      requestAnimationFrame(render);
-  };
-
-  render();
+  render() {
+    console.log('======== metaball sketch ========')
+    this.init()
+    this.draw();
+  }
 
 }
 
-export default Sketch;
+export default Metaballs;
