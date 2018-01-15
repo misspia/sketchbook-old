@@ -12,16 +12,6 @@ const Sketches = [
     image: Images.S000,
     sketch: S000
   },
-  {
-    title: 'metaballs2',
-    image: Images.S000,
-    sketch: S000
-  },
-  {
-    title: 'metaballs2',
-    image: Images.S000,
-    sketch: S000
-  },
 
 ];
 

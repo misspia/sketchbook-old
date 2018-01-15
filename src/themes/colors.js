@@ -5,6 +5,7 @@ const Colors = {
   grey: '#6C7A89',
   cream: '#eeeeee',
   shadow: 'rgba(0,0,0,0.26)',
+  pink: '#f16156',
 
 }
 
