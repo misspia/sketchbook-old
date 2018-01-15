@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { Colors, Metrics, Styles } from '../../../themes/themes.js'
 
 export const Container = styled.div`
-  margin: 0.5em;
+  margin: ${Metrics.previewMargin}em;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -60,7 +60,7 @@ export const HiddenContainer = styled.div`
 
 `;
 export const Title = styled.h2`
-  font-size: 1em;
+  font-size: 1.1em;
   letter-spacing: 0.1em;
   color: ${Colors.black};
 `;

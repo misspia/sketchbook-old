@@ -43,13 +43,16 @@ class Metaballs extends SketchManager {
     this.gl.uniform2f(uResolution, this.canvas.width, this.canvas.height);
   }
   generateMetaballs()  {
+    const smallestDimmension = this.getSmallestDimmention();
+    const maxRadius = smallestDimmension * 0.10;
+    const minRadius = smallestDimmension * 0.02;
     for(let i = 0; i < this.numMetaballs; i ++) {
-      const radius = Math.random() * 60 + 10;
+      const radius = this.getRandomRange(minRadius, maxRadius);
       this.metaballs.push({
-        x: Math.random() * (this.canvas.width - 2 * radius) + radius,
-        y: Math.random() * (this.canvas.height - 2 * radius) + radius,
-        velX: Math.random() * 10 - 5,
-        velY: Math.random() * 10 - 5,
+        x: this.getRandomRange(radius, this.canvas.width - 2),
+        y: this.getRandomRange(radius, this.canvas.height - 2),
+        velX: this.getRandomRange(1, 9),
+        velY: this.getRandomRange(1, 9),
         r: radius
       })
     }

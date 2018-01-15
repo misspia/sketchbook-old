@@ -16,7 +16,7 @@ export const HeaderContainer = styled.header`
   box-sizing: border-box;
 
   height: 1.5em;
-  font-size: 0.7em;
+  font-size: 1em;
 
   & > * {
     margin: 0;

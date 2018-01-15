@@ -14,6 +14,12 @@ class Sketch {
     this.gl.canvas.width = this.canvas.width;
     this.gl.canvas.height = this.canvas.height;
   }
+  getRandomRange(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+  getSmallestDimmention() {
+    return this.canvas.width > this.canvas.height ? this.canvas.width : this.canvas.height;
+  }
   createProgram(vertShader, fragShader) {
     const program = this.gl.createProgram();
     this.gl.attachShader(program, vertShader);

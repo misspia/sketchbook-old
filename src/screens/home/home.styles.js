@@ -22,7 +22,7 @@ export const Header = styled.header`
 `;
 
 export const Title = styled.h1`
-  font-size: 1.3em;
+  font-size: 2em;
   margin: 0;
 `;
 
@@ -34,7 +34,7 @@ export const Subtitle = styled.h2`
 
 export const SocialContainer = styled.div`
   display: flex;
-  font-size: 0.9em;
+  font-size: 1.1em;
 `;
 
 export const SocialLink = styled.a`
