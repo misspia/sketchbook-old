@@ -6,7 +6,7 @@ const Sketches = [
   {
     title: 'metaballs',
     image: '',
-    renderer: S000
+    sketch: S000
   },
 
 ];

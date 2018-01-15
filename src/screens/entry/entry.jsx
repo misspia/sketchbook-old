@@ -19,11 +19,9 @@ class Entry extends Component {
 
       this.setState({
         title: Sketches[sketchIndex].title,
-        // renderer: Sketches[sketchIndex].renderer,
-        renderer: new Sketches[sketchIndex].renderer(this.canvas),
+        sketch: new Sketches[sketchIndex].sketch(this.canvas),
       }, () => {
-        this.state.renderer.render()
-        // this.state.renderer(this.canvas)
+        this.state.sketch.render()
       })
   }
   componentWillUnmount() {
@@ -42,6 +40,7 @@ class Entry extends Component {
     window.addEventListener('resize', () => {
       this.canvas.width = this.getDimensions().x;
       this.canvas.height = this.getDimensions().y;
+      this.state.sketch.resize(this.canvas.width, this.canvas.height)
     })
   }
   getDimensions() {

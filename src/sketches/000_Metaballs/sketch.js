@@ -99,7 +99,6 @@ class Metaballs extends SketchManager {
     this.init()
     this.draw();
   }
-
 }
 
 export default Metaballs;
