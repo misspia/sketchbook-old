@@ -3,16 +3,17 @@ import { NavLink } from 'react-router-dom'
 import Routes from '../../router/routes.js'
 import Sketches from '../../sketches/sketches.js'
 
-import SketchList from '../sketchList/sketchList.jsx'
+import { Container } from './home.styles.js'
+import SketchList from './sketchList/sketchList.jsx'
 
 class Home extends Component {
   constructor(props) {
     super(props);
   }
   render() {
-    return <div>
+    return <Container>
         <SketchList />
-    </div>
+    </Container>
   }
 }
 

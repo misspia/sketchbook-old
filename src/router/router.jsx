@@ -5,7 +5,6 @@ import { Container, Nav } from './router.styles.js'
 import Routes from './routes.js'
 
 import Home from '../screens/home/home.jsx'
-import SketchList from '../screens/sketchList/sketchList.jsx'
 import Entry from '../screens/entry/entry.jsx'
 
 // <Nav>
