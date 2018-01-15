@@ -1,33 +1,41 @@
-import geometry from './geometry.vert'
-import texture from './texture.frag'
+import vert from './metaball.vert'
+import frag from './metaball.frag'
 
 let gl;
 
 const Utils = {
-      compileShader: (shaderSource, type) => {
-        const shader = gl.createShader(type);
-        gl.shaderSource(shader, shaderSource);
-        gl.compileShader(shader);
+  createProgram: (vertShader, fragShader) => {
+    const program = gl.createProgram();
+    gl.attachShader(program, vertShader);
+    gl.attachShader(program, fragShader);
+    gl.linkProgram(program);
+    gl.useProgram(program);
+    return program;
+  },
+  compileShader: (shaderSource, type) => {
+    const shader = gl.createShader(type);
+    gl.shaderSource(shader, shaderSource);
+    gl.compileShader(shader);
 
-        if(!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-          throw `Failed to compile shader: ${gl.getShaderInfoLog(shader)}`
-        }
-        return shader;
-      },
-      getAttribLocation(program, name) {
-        const attribLocation = gl.getAttribLocation(program, name);
-        if(attribLocation === -1) {
-          throw `Cannot find attribute ${name}`;
-        }
-        return attribLocation;
-      },
-      getUniformLocation(program, name) {
-        const uniformLocation = gl.getUniformLocation(program, name);
-        if(uniformLocation === -1) {
-          throw `Cannot find uniform ${name}`;
-        }
-        return uniformLocation;
-      }
+    if(!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+      throw `Failed to compile shader: ${gl.getShaderInfoLog(shader)}`
+    }
+    return shader;
+  },
+  getAttribLocation(program, name) {
+    const attribLocation = gl.getAttribLocation(program, name);
+    if(attribLocation === -1) {
+      throw `Cannot find attribute ${name}`;
+    }
+    return attribLocation;
+  },
+  getUniformLocation(program, name) {
+    const uniformLocation = gl.getUniformLocation(program, name);
+    if(uniformLocation === -1) {
+      throw `Cannot find uniform ${name}`;
+    }
+    return uniformLocation;
+  }
 }
 
 const canvasVertices = [
@@ -38,22 +46,31 @@ const canvasVertices = [
 ];
 const numMetaballs = 10;
 
+const generateMetaballs = (canvas, numMetaballs) => {
+  let metaballs = [];
+  for(let i = 0; i < numMetaballs; i ++) {
+    const radius = Math.random() * 60 + 10;
+    metaballs.push({
+      x: Math.random() * (canvas.width - 2 * radius) + radius,
+      y: Math.random() * (canvas.height - 2 * radius) + radius,
+      velX: Math.random() * 10 - 5,
+      velY: Math.random() * 10 - 5,
+      r: radius
+    })
+  }
+  return metaballs;
+}
+
 const Sketch = (canvas) => {
-
   gl = canvas.getContext('webgl');
-  console.log('======== metaball sketch ========', gl)
+  console.log('======== metaball sketch ========')
 
-  const vertShader = Utils.compileShader(geometry, gl.VERTEX_SHADER);
-  const fragShader = Utils.compileShader(texture, gl.FRAGMENT_SHADER);
+  const vertShader = Utils.compileShader(vert, gl.VERTEX_SHADER);
+  const fragShader = Utils.compileShader(frag, gl.FRAGMENT_SHADER);
 
-  const program = gl.createProgram();
-  gl.attachShader(program, vertShader);
-  gl.attachShader(program, fragShader);
-  gl.linkProgram(program);
-  gl.useProgram(program);
+  const program = Utils.createProgram(vertShader, fragShader);
 
   const vertData = new Float32Array(canvasVertices);
-
   const vertDataBuffer = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, vertDataBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, vertData, gl.STATIC_DRAW);
@@ -67,22 +84,12 @@ const Sketch = (canvas) => {
     2 * 4, 0
   )
 
-  const uDimmensions = Utils.getUniformLocation(program, 'u_dimmensions');
-  gl.uniform2f(uDimmensions, canvas.width, canvas.height);
+  const uResolution = Utils.getUniformLocation(program, 'u_resolution');
+  gl.uniform2f(uResolution, canvas.width, canvas.height);
 
-  let metaballs = [];
-  for(let i = 0; i < numMetaballs; i ++) {
-    const radius = Math.random() * 60 + 10;
-    metaballs.push({
-      x: Math.random() * (canvas.width - 2 * radius) + radius,
-      y: Math.random() * (canvas.height - 2 * radius) + radius,
-      velX: Math.random() * 10 - 5,
-      velY: Math.random() * 10 - 5,
-      r: radius
-    })
-  }
+  let metaballs = generateMetaballs(canvas, numMetaballs);
 
-  const step = () => {
+  const render = () => {
       for(let i = 0; i < numMetaballs; i++) {
         const ball = metaballs[i];
 
@@ -116,13 +123,12 @@ const Sketch = (canvas) => {
       gl.uniform3fv(uMetaballs, flattenedMetaballs);
 
 
-
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
 
-      requestAnimationFrame(step);
+      requestAnimationFrame(render);
   };
 
-  step();
+  render();
 
 }
 
