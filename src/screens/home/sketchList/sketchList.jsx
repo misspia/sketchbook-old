@@ -1,7 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
-import Routes from '../../router/routes.js'
-import Sketches from '../../sketches/sketches.js'
+import Routes from '../../../router/routes.js'
+import Preview from '../preview/preview.jsx'
+
+import { Container } from './SketchList.styles.js'
+
+import Sketches from '../../../sketches/sketches.js'
 
 class SketchList extends Component {
   constructor(props) {
@@ -14,18 +18,17 @@ class SketchList extends Component {
   }
   renderPreview(sketch, index) {
     const path = Routes.toSketch(index);
-    
-    return <NavLink
-            key={index}
-            to={path}>
-      {sketch.title}
-    </NavLink>
+
+    return <Preview
+      key={index}
+      to={path}
+      title={sketch.title}
+      image={sketch.image}/>
   }
   render() {
-    return <div>
-        sketch list
+    return <Container>
         {this.renderList()}
-    </div>
+    </Container>
   }
 }
 
