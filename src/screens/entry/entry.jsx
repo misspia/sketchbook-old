@@ -1,36 +1,58 @@
-import React, { Component } from 'react';
-import Sketches from '../../sketches/sketches.js'
+import React, { Component } from 'react'
 
+import Header from './header.jsx'
+
+import { Icons } from '../../themes/themes.js'
+import Icon from '../../shared/icon/icon.jsx'
 import { Container } from './entry.styles.js'
+
+import Sketches from '../../sketches/sketches.js'
 
 class Entry extends Component {
   constructor(props) {
     super(props);
     this.state = {
       title: '',
-      renderer: () => {}
+      sketch: null
     }
   }
   componentDidMount() {
       this.initCanvas()
       this.setResizeHandler()
-      const sketchIndex = this.props.match.params.index;
-      console.log('mouunted', sketchIndex)
 
-      this.setState({
-        title: Sketches[sketchIndex].title,
-        sketch: new Sketches[sketchIndex].sketch(this.canvas),
-      }, () => {
-        this.state.sketch.render()
-      })
+      const sketchIndex = this.props.match.params.index;
+      this.setNewSketch(sketchIndex);
+
   }
   componentWillUnmount() {
     // TODO remove canvas
     console.log('unmounting sketch', this.props.match.params.index)
   }
-  componentWillReceiveProps() {
-    // if different sketch index,
-    // clear context for new sketch
+  componentWillReceiveProps(nextProps) {
+    if(!nextProps.match) return; // 404 handler
+
+    const currentIndex = parseInt(this.props.match.params.index);
+    const nextIndex = parseInt(nextProps.match.params.index);
+
+    if(currentIndex != nextIndex) {
+      this.clearSketchContext();
+      this.setNewSketch(nextIndex);
+    }
+  }
+  clearSketchContext() {
+    if(this.state.sketch) this.state.sketch.clear();
+    this.setState({
+      title: '',
+      sketch: {}
+    })
+  }
+  setNewSketch(sketchIndex) {
+    this.setState({
+      title: Sketches[sketchIndex].title,
+      sketch: new Sketches[sketchIndex].sketch(this.canvas),
+    }, () => {
+      this.state.sketch.render()
+    })
   }
   initCanvas() {
     this.canvas.width = this.getDimensions().x;
@@ -49,9 +71,12 @@ class Entry extends Component {
       y: document.documentElement.clientHeight
     }
   }
+  clearCanvas() {
+
+  }
   render() {
     return <Container innerRef={(ref) => this.container = ref }>
-        <div>sketch entry {this.props.match.params.index}</div>
+        <Header title={this.state.title}/>
         <canvas ref={(ref) => this.canvas = ref }></canvas>
 
     </Container>
