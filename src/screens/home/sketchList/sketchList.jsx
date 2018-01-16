@@ -12,7 +12,7 @@ class SketchList extends Component {
     super(props);
   }
   renderList() {
-    return Sketches.map((sketch, index) => {
+    return Sketches.reverse().map((sketch, index) => {
       return this.renderPreview(sketch, index);
     })
   }

@@ -1,5 +1,5 @@
 const Metrics = {
-  previewSize: 14,
+  previewSize: 16,
   previewMargin: 1,
 }
 

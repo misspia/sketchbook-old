@@ -44,7 +44,7 @@ class Metaballs extends SketchManager {
   }
   generateMetaballs()  {
     const smallestDimmension = this.getSmallestDimmention();
-    const maxRadius = smallestDimmension * 0.10;
+    const maxRadius = smallestDimmension * 0.15;
     const minRadius = smallestDimmension * 0.02;
     for(let i = 0; i < this.numMetaballs; i ++) {
       const radius = this.getRandomRange(minRadius, maxRadius);
