@@ -8,7 +8,9 @@ class Fluid extends SketchManager {
 
   }
   init() {
-
+    this.vertShader = this.compileShader(vert, this.gl.VERTEX_SHADER);
+    this.fragShader = this.compileShader(frag, this.gl.FRAGMENT_SHADER);
+    this.program = this.createProgram(this.vertShader, this.fragShader);
   }
   render() {
     console.log('========= Fluid Sim =========');
