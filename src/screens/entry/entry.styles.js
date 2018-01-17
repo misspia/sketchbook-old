@@ -16,7 +16,7 @@ export const HeaderContainer = styled.header`
   box-sizing: border-box;
 
   height: 1.5em;
-  font-size: 1em;
+  font-size: 1.0em;
 
   & > * {
     margin: 0;
@@ -33,8 +33,6 @@ export const HeaderContainer = styled.header`
 `;
 
 export const Title = styled.h1`
-  font-size: 1.1em;
-
   letter-spacing: 0.1em;
   text-transform: capitalize;
 `;

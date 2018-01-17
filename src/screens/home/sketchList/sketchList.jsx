@@ -12,8 +12,11 @@ class SketchList extends Component {
     super(props);
   }
   renderList() {
-    return Sketches.map((sketch, index) => {
-      return this.renderPreview(sketch, index);
+    const reversedList = Sketches.slice().reverse(); // display newest at top
+    const total = Sketches.length - 1;
+    return reversedList.map((sketch, index) => {
+      const originalIndex = total - index;
+      return this.renderPreview(sketch, originalIndex);
     })
   }
   renderPreview(sketch, index) {
