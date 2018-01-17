@@ -1,7 +1,7 @@
 import { Images } from '../themes/themes.js'
 
 import S000 from './000_metaballs/sketch.js'
-import S001 from './001_fluid/sketch.js'
+import S001 from './001_ps_oscillators/sketch.js'
 
 const Sketches = [
   {
@@ -10,7 +10,7 @@ const Sketches = [
     sketch: S000
   },
   {
-    title: 'fluid simulation',
+    title: 'playing with oscillators',
     image: Images.S000,
     sketch: S001
   },
