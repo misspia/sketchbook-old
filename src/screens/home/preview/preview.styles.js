@@ -55,12 +55,13 @@ export const HiddenContainer = styled.div`
 
   ${Container}:hover & {
     background-color: ${Colors.shadow};
-    opacity: 0.8;
+    opacity: 1;
   }
 
 `;
 export const Title = styled.h2`
-  font-size: 1.1em;
+  font-size: 1.2em;
   letter-spacing: 0.1em;
-  color: ${Colors.black};
+  text-align: center;
+  color: ${Colors.greyYellow};
 `;

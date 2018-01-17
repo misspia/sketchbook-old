@@ -11,7 +11,7 @@ const Sketches = [
   },
   {
     title: 'playing with oscillators',
-    image: Images.S000,
+    image: Images.S001,
     sketch: S001
   },
 ];

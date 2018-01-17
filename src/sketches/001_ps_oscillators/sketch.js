@@ -29,7 +29,6 @@ class ParticleSystem extends SketchManager {
     this.gl.disable(this.gl.DEPTH_TEST);
 
     this.gl.clearColor(0.1, 0.1, 0.12, 1.0);
-    // this.gl.clearColor(0,0,0,1);
   }
   generateParticles() {
     let i = this.particleVert.length;
