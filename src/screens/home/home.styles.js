@@ -22,13 +22,15 @@ export const Header = styled.header`
 `;
 
 export const Title = styled.h1`
-  font-size: 2em;
+  font-size: 2.5em;
   margin: 0;
 `;
 
 export const Subtitle = styled.h2`
-  font-size: 1em;
-  margin: 0;
+  margin: 0 0 0.2em 0;
+  font-size: 1.1em;
+  font-style: italic;
+  font-weight: ${Fonts.weightLight};
   font-family: ${Fonts.familyBody};
 `;
 

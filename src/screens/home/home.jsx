@@ -19,6 +19,7 @@ class Home extends Component {
   renderHeader() {
     return <Header>
       <Title>Sketchbook</Title>
+      <Subtitle>a collection of WebGL experiments</Subtitle>
       {this.renderSocialLinks()}
     </Header>
   }
