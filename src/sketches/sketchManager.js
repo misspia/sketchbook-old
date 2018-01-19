@@ -5,20 +5,35 @@ class Sketch {
     this.program = {};
     this.vertShader = {};
     this.fragShader = {};
+    this.mouse = {};
   }
   clear() {
     this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
     this.gl.clear(this.gl.COLOR_BUFFER_BIT);
   }
   resize(width, height) {
-    this.gl.canvas.width = this.canvas.width;
-    this.gl.canvas.height = this.canvas.height;
+    this.gl.viewport(
+      0, 0,
+      this.gl.drawingBufferWidth,
+      this.gl.drawingBufferHeight
+    );
   }
   getRandomRange(min, max) {
     return Math.random() * (max - min) + min;
   }
   getSmallestDimmention() {
     return this.canvas.width > this.canvas.height ? this.canvas.width : this.canvas.height;
+  }
+  setMouseMoveListener(e) {
+    this.canvas.addEventListener('mousemove', e => {
+      this.mouse = {
+        x: e.clientX ? e.clientX : 0.0,
+        y: e.clientY ? e.clientY : 0.0
+      }
+    })
+  }
+  addMouseListener(e) {
+    // window.addEventListener('mousemove', e);
   }
   createProgram(vertShader, fragShader) {
     const program = this.gl.createProgram();

@@ -45,12 +45,12 @@ class ParticleSystem extends SketchManager {
     this.gl.vertexAttribPointer(this.particleVertBuffer, 2, this.gl.FLOAT, false, 4, 0);
   }
   draw() {
-    const deltaTime = Date.now() - this.startTime;
+    const deltaTime = (Date.now() - this.startTime) / 3000.0;
 
     this.gl.clear(this.gl.COLOR_BUFFER_BIT);
 
     const uTime = this.gl.getUniformLocation(this.program, 'u_time');
-    this.gl.uniform1f(uTime, deltaTime / 3000.0);
+    this.gl.uniform1f(uTime, deltaTime);
 
     this.gl.drawArrays(this.gl.POINTS, 0, this.numParticles);
 
