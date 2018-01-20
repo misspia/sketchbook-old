@@ -42,7 +42,7 @@ class PaintSwirls extends SketchManager {
     this.gl.uniform2f(uResolution, this.canvas.width, this.canvas.height);
   }
   draw() {
-    const deltaTime = (Date.now() - this.startTime) / 3000.0;
+    const deltaTime = (Date.now() - this.startTime) / 1000.0;
     const uTime = this.getUniformLocation(this.program, 'u_time');
     this.gl.uniform1f(uTime, deltaTime);
 
@@ -54,7 +54,6 @@ class PaintSwirls extends SketchManager {
     requestAnimationFrame(() => this.draw());
   }
   render() {
-    console.log('========= Paint Splatters =========');
     this.init();
     this.draw();
   }

@@ -51,8 +51,8 @@ class Metaballs extends SketchManager {
       this.metaballs.push({
         x: this.getRandomRange(radius, this.canvas.width - 2),
         y: this.getRandomRange(radius, this.canvas.height - 2),
-        velX: this.getRandomRange(1, 9),
-        velY: this.getRandomRange(1, 9),
+        velX: this.getRandomRange(2, 8),
+        velY: this.getRandomRange(2, 8),
         r: radius
       })
     }
