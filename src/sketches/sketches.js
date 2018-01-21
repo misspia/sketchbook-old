@@ -3,6 +3,7 @@ import { Images } from '../themes/themes.js'
 import S000 from './S000/sketch.js'
 import S001 from './S001/sketch.js'
 import S002 from './S002/sketch.js'
+import S003 from './S003/sketch.js'
 
 const Sketches = [
   {
@@ -16,9 +17,14 @@ const Sketches = [
     sketch: S001
   },
   {
-    title: 'gradient',
+    title: 'SDFs',
     image: Images.S002,
     sketch: S002
+  },
+  {
+    title: 'Ray marching magic',
+    image: Images.S002,
+    sketch: S003
   },
 ];
 

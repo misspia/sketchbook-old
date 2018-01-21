@@ -2,7 +2,7 @@ import vert from './vertex.glsl'
 import frag from './fragment.glsl'
 import SketchManager from '../sketchManager.js'
 
-class GradientBlobs extends SketchManager {
+class RayMarch extends SketchManager {
   constructor(canvas) {
     super(canvas);
     this.startTime = Date.now();
@@ -25,32 +25,17 @@ class GradientBlobs extends SketchManager {
 
     this.setStaticAttributes();
     this.setStaticUniforms();
-
-    this.setMouseMoveListener();
   }
   setStaticAttributes() {
-    const aPosition = this.getAttribLocation(this.program, 'a_position');
-    this.gl.enableVertexAttribArray(aPosition);
-    this.gl.vertexAttribPointer(
-      aPosition, 2,
-      this.gl.FLOAT, this.gl.FALSE,
-      2 * 4, 0
-    )
+    this.getAPosition('a_position');
   }
   setStaticUniforms() {
-    const uResolution = this.getUniformLocation(this.program, 'u_resolution');
-    this.gl.uniform2f(uResolution, this.canvas.width, this.canvas.height);
+    this.getUResolution('u_resolution');
   }
   draw() {
-    const deltaTime = (Date.now() - this.startTime) / 1000.0;
-    const uTime = this.getUniformLocation(this.program, 'u_time');
-    this.gl.uniform1f(uTime, deltaTime);
-
-    const uMouse = this.getUniformLocation(this.program, 'u_mouse');
-    this.gl.uniform2f(uMouse, this.mouse.x, this.mouse.y);
+    this.getUTime('u_time');
 
     this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
-
     requestAnimationFrame(() => this.draw());
   }
   render() {
@@ -59,4 +44,4 @@ class GradientBlobs extends SketchManager {
   }
 }
 
-export default GradientBlobs;
+export default RayMarch;
