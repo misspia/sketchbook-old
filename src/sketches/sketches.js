@@ -1,8 +1,8 @@
 import { Images } from '../themes/themes.js'
 
-import S000 from './000_metaballs/sketch.js'
-import S001 from './001_ps_oscillators/sketch.js'
-import S002 from './002_gradient/sketch.js'
+import S000 from './S000/sketch.js'
+import S001 from './S001/sketch.js'
+import S002 from './S002/sketch.js'
 
 const Sketches = [
   {

@@ -1,5 +1,5 @@
-import vert from './gradient.vert'
-import frag from './gradient.frag'
+import vert from './vertex.glsl'
+import frag from './fragment.glsl'
 import SketchManager from '../sketchManager.js'
 
 class PaintSwirls extends SketchManager {

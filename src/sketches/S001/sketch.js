@@ -1,5 +1,5 @@
-import vert from './particle.vert'
-import frag from './particle.frag'
+import vert from './vertex.glsl'
+import frag from './fragment.glsl'
 import SketchManager from '../sketchManager.js'
 
 class ParticleSystem extends SketchManager {

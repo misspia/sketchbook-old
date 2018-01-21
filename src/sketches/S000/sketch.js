@@ -1,5 +1,5 @@
-import vert from './metaball.vert'
-import frag from './metaball.frag'
+import vert from './vertex.glsl'
+import frag from './fragment.glsl'
 import SketchManager from '../sketchManager.js'
 
 class Metaballs extends SketchManager {

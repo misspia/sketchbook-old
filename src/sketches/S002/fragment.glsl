@@ -11,12 +11,12 @@ float mapRange(float value, float oldMin, float oldMax, float newMin, float newM
     return newMin + (newMax - newMin) * (value - oldMin) / (oldMax - oldMin);
 }
 
-float smin( float a, float b, float k ) {
+float smin(float a, float b, float k ) {
     float h = clamp( 0.5+0.5*(b-a)/k, 0.0, 1.0 );
     return mix( b, a, h ) - k*h*(1.0-h);
 }
 
-float distanceField ( vec2 pos, float radius, vec2 origin1, vec2 origin2) {
+float distanceField(vec2 pos, float radius, vec2 origin1, vec2 origin2) {
    	float d1 = length(pos - origin1) - radius;
     float d2 = length(pos - origin2) - radius;
 
