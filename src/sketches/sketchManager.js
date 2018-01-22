@@ -67,6 +67,31 @@ class Sketch {
     }
     return uniformLocation;
   }
+
+  // common attributes / uniforms
+  getAPosition(name='a_position') {
+    const aPosition = this.getAttribLocation(this.program, 'a_position');
+    this.gl.enableVertexAttribArray(aPosition);
+    this.gl.vertexAttribPointer(
+      aPosition, 2,
+      this.gl.FLOAT, this.gl.FALSE,
+      2 * 4, 0
+    )
+  }
+  getUResolution(name='u_resolution') {
+    const uResolution = this.getUniformLocation(this.program, 'u_resolution');
+    this.gl.uniform2f(uResolution, this.canvas.width, this.canvas.height);
+  }
+  getUTime(name='u_time') {
+    const deltaTime = (Date.now() - this.startTime) / 1000.0;
+    const uTime = this.getUniformLocation(this.program, 'u_time');
+    this.gl.uniform1f(uTime, deltaTime);
+  }
+  getUMouse(name='u_mouse') { //   setMouseMoveListener
+    const uMouse = this.getUniformLocation(this.program, 'u_mouse');
+    this.gl.uniform2f(uMouse, this.mouse.x, this.mouse.y);
+  }
+
 }
 
 export default Sketch;
