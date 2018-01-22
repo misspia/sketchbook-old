@@ -22,8 +22,8 @@ const Sketches = [
     sketch: S002
   },
   {
-    title: 'Ray marching magic',
-    image: Images.S002,
+    title: 'Ray marching',
+    image: Images.S003,
     sketch: S003
   },
 ];
