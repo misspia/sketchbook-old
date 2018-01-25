@@ -1,11 +1,12 @@
 const Colors = {
+  shadow: 'rgba(0,0,0,0.26)',
+  whiteTranslucent: 'rgba(255, 255, 255, 0.6)',
 
   white: '#fff',
   black: '#22313F',
   grey: '#6C7A89',
-  greyYellow: '#777a66',
+  greyDark: '#343a39',
   cream: '#eeeeee',
-  shadow: 'rgba(0,0,0,0.26)',
   pink: '#f16156',
 
 }
