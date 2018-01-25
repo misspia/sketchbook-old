@@ -22,7 +22,7 @@ const Sketches = [
     sketch: S002
   },
   {
-    title: 'Ray marching',
+    title: 'ray marching',
     image: Images.S003,
     sketch: S003
   },
