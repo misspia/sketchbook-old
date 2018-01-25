@@ -22,7 +22,6 @@ class Entry extends Component {
 
       const sketchIndex = this.props.match.params.index;
       this.setNewSketch(sketchIndex);
-
   }
   componentWillUnmount() {
     // TODO remove canvas

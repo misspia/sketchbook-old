@@ -4,14 +4,38 @@ uniform vec2 u_resolution;
 uniform vec2 u_mouse;
 uniform float u_time;
 
+#define MTL_YLW             1.0
+#define MTL_BLUE            2.0
+
 #define MAX_MARCHING_STEPS  255
 #define MIN_DIST            0.0
 #define MAX_DIST            100.0
 #define EPSILON             0.0001
 
+float smin( float a, float b, float k ) {
+    float h = clamp( 0.5+0.5*(b-a)/k, 0.0, 1.0 );
+    return mix( b, a, h ) - k*h*(1.0-h);
+}
 
-float torus(vec3 p, float ri, float ro) {
-  return length(vec2(length(p.xz) - ri, p.y)) - ro;
+float add(float a, float b) {
+  return smin(a, b, 0.8);
+}
+
+float sdSphere(vec3 p, float s) {
+  return length(p) - s;
+}
+
+float sdTorus(vec3 p, vec2 t) {
+  vec2 q = vec2(length(p.xz) - t.x, p.y);
+  return length(q) - t.y;
+}
+
+vec3 distort(vec3 p) {
+    float c = cos(10.0 * p.y);
+    float s = sin(10.0 * p.y);
+    mat2  m = mat2(c, -s, s, c);
+    vec3  q = vec3(m * p.xz, p.y);
+    return q;
 }
 
 vec2 rotate(vec2 p, float angle) {
@@ -20,11 +44,19 @@ vec2 rotate(vec2 p, float angle) {
 }
 
 float sceneSDF(vec3 p) {
-  p.xz = rotate(p.xz, sin(u_time) * 0.7);
-  float torus1 = torus(p.yzx, 0.7, 0.1);
-  float torus2 = torus(p, 0.5, 0.1);
+  float timeFactor = 1.5;
+  vec3 pt = p, ps1 = p, ps2 = p;
 
-  return torus1;
+  ps1.y += sin(u_time * timeFactor);
+  ps1.x += sin(-u_time * timeFactor);
+
+  ps2.y += cos(u_time * timeFactor);
+  ps2.x += cos(u_time * timeFactor);
+
+  float torus = sdTorus(distort(pt), vec2(0.4, 0.1));
+  float sphereLeft = sdSphere(ps1, 0.15);
+  float sphereRight = sdSphere(ps2, 0.15);
+  return add(add(torus, sphereLeft), sphereRight);
 }
 
 float rayMarch(vec3 camera, vec3 dir, float start, float end) {
@@ -95,7 +127,6 @@ void main() {
   vec3 camera = vec3(0.0, 0.0, 5.0);
   float dist = rayMarch(camera, dir, MIN_DIST, MAX_DIST);
 
-  // Didn't hit anything
   if (dist > MAX_DIST - EPSILON) {
       gl_FragColor = vec4(bgColor, 1.0);
       return;

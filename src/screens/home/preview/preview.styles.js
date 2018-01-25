@@ -54,14 +54,14 @@ export const HiddenContainer = styled.div`
   opacity: 0;
 
   ${Container}:hover & {
-    background-color: ${Colors.shadow};
+    background-color: ${Colors.whiteTranslucent};
     opacity: 1;
   }
-
 `;
+
 export const Title = styled.h2`
   font-size: 1.2em;
   letter-spacing: 0.1em;
   text-align: center;
-  color: ${Colors.greyYellow};
+  color: ${Colors.greyDark};
 `;
