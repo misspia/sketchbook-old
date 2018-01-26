@@ -11,7 +11,6 @@ class RayMarch extends SketchManager {
     this.initFragPlayground(vert, frag);
     this.getAPosition('a_position');
     this.getUResolution('u_resolution');
-
   }
   draw() {
     this.getUTime('u_time');
