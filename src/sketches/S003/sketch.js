@@ -18,10 +18,6 @@ class RayMarch extends SketchManager {
     this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
     requestAnimationFrame(() => this.draw());
   }
-  render() {
-    this.init();
-    this.draw();
-  }
 }
 
 export default RayMarch;

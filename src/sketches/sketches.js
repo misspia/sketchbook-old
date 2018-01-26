@@ -4,6 +4,7 @@ import S000 from './S000/sketch.js'
 import S001 from './S001/sketch.js'
 import S002 from './S002/sketch.js'
 import S003 from './S003/sketch.js'
+import S004 from './S004/sketch.js'
 
 const Sketches = [
   {
@@ -25,6 +26,11 @@ const Sketches = [
     title: 'ray marching',
     image: Images.S003,
     sketch: S003
+  },
+  {
+    title: '???',
+    image: Images.S003,
+    sketch: S004
   },
 ];
 

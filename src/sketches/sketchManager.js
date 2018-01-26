@@ -7,6 +7,14 @@ class Sketch {
     this.fragShader = {};
     this.mouse = {};
   }
+  //minimum functions
+  init() {}
+  draw() {}
+  render() {
+    this.init();
+    this.draw();
+  }
+  // window handlers
   clear() {
     this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
     this.gl.clear(this.gl.COLOR_BUFFER_BIT);
@@ -18,6 +26,7 @@ class Sketch {
       this.gl.drawingBufferHeight
     );
   }
+  // utils
   getRandomRange(min, max) {
     return Math.random() * (max - min) + min;
   }

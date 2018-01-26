@@ -56,10 +56,6 @@ class ParticleSystem extends SketchManager {
 
     requestAnimationFrame(() => this.draw());
   }
-  render() {
-    this.init();
-    this.draw();
-  }
 }
 
 
