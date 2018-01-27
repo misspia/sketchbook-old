@@ -25,8 +25,6 @@ class Entry extends Component {
       this.setNewSketch(sketchIndex);
   }
   componentWillUnmount() {
-    // TODO remove canvas
-    console.log('unmounting sketch', this.props.match.params.index)
     this.removeResizeHandler();
   }
   componentWillReceiveProps(nextProps) {
@@ -63,11 +61,9 @@ class Entry extends Component {
     window.addEventListener('resize', this.resizeHandler);
   }
   removeResizeHandler() {
-    console.log('remove handler')
     window.removeEventListener('resize', this.resizeHandler);
   }
   resizeHandler() {
-    console.log('resize')
     this.canvas.width = this.getDimensions().x;
     this.canvas.height = this.getDimensions().y;
     this.state.sketch.resize(this.canvas.width, this.canvas.height)

@@ -28,7 +28,7 @@ const Sketches = [
     sketch: S003
   },
   {
-    title: '???',
+    title: 'Toon Shading',
     image: Images.S003,
     sketch: S004
   },
