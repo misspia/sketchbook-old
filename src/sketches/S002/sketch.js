@@ -22,10 +22,6 @@ class GradientBlobs extends SketchManager {
 
     requestAnimationFrame(() => this.draw());
   }
-  render() {
-    this.init();
-    this.draw();
-  }
 }
 
 export default GradientBlobs;

@@ -2,7 +2,7 @@ import vert from './vertex.glsl'
 import frag from './fragment.glsl'
 import SketchManager from '../sketchManager.js'
 
-class RayMarch extends SketchManager {
+class Noise extends SketchManager {
   constructor(canvas) {
     super(canvas);
     this.startTime = Date.now();
@@ -20,4 +20,4 @@ class RayMarch extends SketchManager {
   }
 }
 
-export default RayMarch;
+export default Noise;

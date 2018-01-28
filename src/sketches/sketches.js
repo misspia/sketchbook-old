@@ -4,15 +4,16 @@ import S000 from './S000/sketch.js'
 import S001 from './S001/sketch.js'
 import S002 from './S002/sketch.js'
 import S003 from './S003/sketch.js'
+import S004 from './S004/sketch.js'
 
 const Sketches = [
   {
-    title: 'metaballs',
+    title: 'Metaballs',
     image: Images.S000,
     sketch: S000
   },
   {
-    title: 'playing with oscillators',
+    title: 'Playing with oscillators',
     image: Images.S001,
     sketch: S001
   },
@@ -22,9 +23,14 @@ const Sketches = [
     sketch: S002
   },
   {
-    title: 'ray marching',
+    title: 'Ray marching',
     image: Images.S003,
     sketch: S003
+  },
+  {
+    title: 'Toon Shading',
+    image: Images.S004,
+    sketch: S004
   },
 ];
 

@@ -15,17 +15,17 @@ class Entry extends Component {
       title: '',
       sketch: null
     }
+    this.resizeHandler = this.resizeHandler.bind(this);
   }
   componentDidMount() {
       this.initCanvas()
-      this.setResizeHandler()
+      this.addResizeHandler()
 
       const sketchIndex = this.props.match.params.index;
       this.setNewSketch(sketchIndex);
   }
   componentWillUnmount() {
-    // TODO remove canvas
-    console.log('unmounting sketch', this.props.match.params.index)
+    this.removeResizeHandler();
   }
   componentWillReceiveProps(nextProps) {
     if(!nextProps.match) return; // 404 handler
@@ -57,12 +57,16 @@ class Entry extends Component {
     this.canvas.width = this.getDimensions().x;
     this.canvas.height = this.getDimensions().y;
   }
-  setResizeHandler() {
-    window.addEventListener('resize', () => {
-      this.canvas.width = this.getDimensions().x;
-      this.canvas.height = this.getDimensions().y;
-      this.state.sketch.resize(this.canvas.width, this.canvas.height)
-    })
+  addResizeHandler() {
+    window.addEventListener('resize', this.resizeHandler);
+  }
+  removeResizeHandler() {
+    window.removeEventListener('resize', this.resizeHandler);
+  }
+  resizeHandler() {
+    this.canvas.width = this.getDimensions().x;
+    this.canvas.height = this.getDimensions().y;
+    this.state.sketch.resize(this.canvas.width, this.canvas.height)
   }
   getDimensions() {
     return {

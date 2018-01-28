@@ -70,10 +70,6 @@ class Metaballs extends SketchManager {
       }
     })
   }
-  render() {
-    this.init()
-    this.draw();
-  }
 }
 
 export default Metaballs;
