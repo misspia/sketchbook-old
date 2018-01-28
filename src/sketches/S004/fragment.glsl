@@ -1,10 +1,9 @@
 precision mediump float;
 
 uniform vec2 u_resolution;
-uniform vec2 u_mouse;
 uniform float u_time;
 
-#define MAX_ITER	100
+#define MAX_ITER	40
 #define MIN_DIST	0.0
 #define MAX_DIST	10.0
 #define EPSILON		0.001
@@ -13,47 +12,68 @@ float udRoundBox( vec3 p, vec3 b, float r ) {
   return length(max(abs(p) - b, 0.0)) - r;
 }
 
-float sdSphere( vec3 p, float s ) {
-  return length(p) - s;
+float smin( float a, float b, float k ) {
+    float h = clamp( 0.5 + 0.5 * (b - a) / k, 0.0, 1.0 );
+    return mix( b, a, h ) - k * h * (1.0 - h);
 }
+
+mat2 rotate(float angle) {
+    return mat2(
+      vec3(cos(angle), -sin(angle), 0.0),
+      vec3(sin(angle), cos(angle), 0.0)
+    );
+}
+
+float repeat(float axis, float n) {
+  return mod(axis, n) - n * 0.5;
+}
+
 
 float sceneSDF(vec3 p) {
-    vec3 dim = vec3(0.4, 0.4, 0.9);
-    float rounding = 0.1;
-    float box = udRoundBox(p, dim, rounding);
-    return box;
+    vec3 qLeft = p;
+    vec3 qRight = p;
 
+    float rotationDeg = 15.0;
+
+    qLeft.xy = p.xy * rotate(rotationDeg);
+    qRight.xy = p.xy * rotate(-rotationDeg);
+
+    vec3 dimmensions = vec3(0.4, 1.5, 1.0);
+    float rounding = 0.1;
+    float boxLeft = udRoundBox(qLeft, dimmensions, rounding);
+    float boxRight = udRoundBox(qRight, dimmensions, rounding);
+    return smin(boxLeft, boxRight, 0.1);
 }
 
-vec3 estimateNormal(vec3 pos) {
+
+vec3 estimateNormal(vec3 p) {
   vec2 eps = vec2(0.0, EPSILON);
   return normalize(vec3(
-        sceneSDF(pos + eps.yxx) - sceneSDF(pos - eps.yxx),
-        sceneSDF(pos + eps.xyx) - sceneSDF(pos - eps.xyx),
-        sceneSDF(pos + eps.xxy) - sceneSDF(pos - eps.xxy)));
+        sceneSDF(p + eps.yxx) - sceneSDF(p - eps.yxx),
+        sceneSDF(p + eps.xyx) - sceneSDF(p - eps.xyx),
+        sceneSDF(p + eps.xxy) - sceneSDF(p - eps.xxy)));
 }
 
-float toonIllunination(float intensity) {
-  float toonMap;
+vec3 toonIllunination(float intensity) {
+  vec3 toonMap;
   if (intensity < 0.256) {
-      // toonMap = 0.195;
-      toonMap = 0.195;
+      toonMap = vec3(0.195);
   } else if (intensity < 0.781) {
-      toonMap = 0.781;
+      toonMap = vec3(0.781);
   } else {
-      toonMap = 0.900;
+      toonMap = vec3(0.900);
   }
   return toonMap;
 }
 
-vec4 colorObject(vec3 pos, vec3 rayDir) {
-  vec3 normal = estimateNormal(pos);
+vec4 colorObject(vec3 p, vec3 rayDir) {
+  vec3 normal = estimateNormal(p);
 
 	float diffuse = max(0.0, dot(-rayDir, normal));
 	float specular = pow(diffuse, 128.0);
-  float lighting = toonIllunination(diffuse + specular);
+  vec3 lighting = toonIllunination(diffuse + specular);
 
-  return vec4(vec3(lighting), 1.0);
+  return vec4(lighting, 1.0);
 }
 
 vec4 colorBG() {
@@ -62,26 +82,26 @@ vec4 colorBG() {
 
 vec4 rayMarch(vec3 camera, vec3 rayDir) {
   float totalDist = 0.0;
-  vec3 pos = camera;
+  vec3 p = camera;
   float dist = EPSILON;
 
   for (int i = 0; i < MAX_ITER; i++) {
       if (dist < EPSILON) break;
-      dist = sceneSDF(pos);
-      pos += dist * rayDir;
+      dist = sceneSDF(p);
+      p += dist * rayDir;
   }
 
   if(dist < EPSILON) {
-    return colorObject(pos, rayDir);
+    return colorObject(p, rayDir);
   } else {
     return colorBG();
   }
 }
 
-
 void main() {
-  vec3 camera	= vec3(1.0, 2.0, 2.0);
-  vec3 target	= vec3(0.0);
+  vec3 camera	= vec3(1.0 + cos(u_time) * 2.0, 3.5 + sin( u_time), 3.5);
+  vec3 target	= vec3(0.0, 0.0, 0.0);
+
   vec3 upDir		= vec3(0.0, 1.0, 0.0);
 
   vec3 camDir		= normalize(target - camera);
@@ -95,5 +115,4 @@ void main() {
 
   vec4 color = rayMarch(camera, rayDir);
   gl_FragColor = color;
-
 }
