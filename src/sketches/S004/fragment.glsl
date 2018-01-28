@@ -13,11 +13,16 @@ float udRoundBox( vec3 p, vec3 b, float r ) {
   return length(max(abs(p) - b, 0.0)) - r;
 }
 
+float sdSphere( vec3 p, float s ) {
+  return length(p) - s;
+}
+
 float sceneSDF(vec3 p) {
-    vec3 dim = vec3(0.4, 0.9, 0.6);
+    vec3 dim = vec3(0.4, 0.4, 0.9);
     float rounding = 0.1;
     float box = udRoundBox(p, dim, rounding);
     return box;
+
 }
 
 vec3 estimateNormal(vec3 pos) {
@@ -31,6 +36,7 @@ vec3 estimateNormal(vec3 pos) {
 float toonIllunination(float intensity) {
   float toonMap;
   if (intensity < 0.256) {
+      // toonMap = 0.195;
       toonMap = 0.195;
   } else if (intensity < 0.781) {
       toonMap = 0.781;
@@ -40,10 +46,41 @@ float toonIllunination(float intensity) {
   return toonMap;
 }
 
-void main() {
-  const vec4 blue = vec4(0.5, 0.7, 0.7, 1.0);
+vec4 colorObject(vec3 pos, vec3 rayDir) {
+  vec3 normal = estimateNormal(pos);
 
-  vec3 camera	= vec3(2.0);
+	float diffuse = max(0.0, dot(-rayDir, normal));
+	float specular = pow(diffuse, 128.0);
+  float lighting = toonIllunination(diffuse + specular);
+
+  return vec4(vec3(lighting), 1.0);
+}
+
+vec4 colorBG() {
+  return vec4(0.5, 0.7, 0.7, 1.0);
+}
+
+vec4 rayMarch(vec3 camera, vec3 rayDir) {
+  float totalDist = 0.0;
+  vec3 pos = camera;
+  float dist = EPSILON;
+
+  for (int i = 0; i < MAX_ITER; i++) {
+      if (dist < EPSILON) break;
+      dist = sceneSDF(pos);
+      pos += dist * rayDir;
+  }
+
+  if(dist < EPSILON) {
+    return colorObject(pos, rayDir);
+  } else {
+    return colorBG();
+  }
+}
+
+
+void main() {
+  vec3 camera	= vec3(1.0, 2.0, 2.0);
   vec3 target	= vec3(0.0);
   vec3 upDir		= vec3(0.0, 1.0, 0.0);
 
@@ -56,28 +93,7 @@ void main() {
 
   vec3 rayDir = normalize(camRight * uv.x + camUp * uv.y + camDir);
 
-  float totalDist = 0.0;
-  vec3 pos = camera;
-  float dist = EPSILON;
-
-  for (int i = 0; i < MAX_ITER; i++) {
-      if (dist < EPSILON) break;
-      dist = sceneSDF(pos);
-      pos += dist * rayDir;
-  }
-
-  if(dist > EPSILON) {
-    gl_FragColor = blue;
-    return;
-  }
-
-  vec3 normal = estimateNormal(pos);
-
-	float diffuse = max(0.0, dot(-rayDir, normal));
-	float specular = pow(diffuse, 128.0);
-  float lighting = toonIllunination(diffuse + specular);
-
-  vec3 color = vec3(lighting);
-  gl_FragColor = vec4(color, 1.0);
+  vec4 color = rayMarch(camera, rayDir);
+  gl_FragColor = color;
 
 }
