@@ -33,7 +33,7 @@ class Sketch {
   getSmallestDimmention() {
     return this.canvas.width > this.canvas.height ? this.canvas.width : this.canvas.height;
   }
-  setMouseMoveListener(e) {
+  setMouseMoveListener() {
     this.canvas.addEventListener('mousemove', e => {
       this.mouse = {
         x: e.clientX ? e.clientX : 0.0,
