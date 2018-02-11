@@ -2,6 +2,8 @@ import vert from './vertex.glsl'
 import frag from './fragment.glsl'
 import SketchManager from '../sketchManager.js'
 
+import { Images } from '../../themes/themes.js'
+
 class Sketch extends SketchManager {
   constructor(canvas) {
     super(canvas);
@@ -17,7 +19,7 @@ class Sketch extends SketchManager {
   draw() {
     this.getUTime('u_time');
     this.getUMouse('u_mouse');
-    
+
     this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
     requestAnimationFrame(() => this.draw());
   }
