@@ -10,18 +10,109 @@ class Sketch extends SketchManager {
     this.startTime = Date.now();
   }
   init() {
-    this.initFragPlayground(vert, frag);
-    this.getAPosition('a_position');
-    this.getUResolution('u_resolution');
+    const imageSources = [Images.T005a, Images.T005b];
+    this.loadImages(imageSources, () => this.renderImages());
+  }
+  renderImages() {
+    this.vertShader = this.compileShader(vert, this.gl.VERTEX_SHADER);
+    this.fragShader = this.compileShader(frag, this.gl.FRAGMENT_SHADER);
+    this.program = this.createProgram(this.vertShader, this.fragShader);
 
+    const positionBuffer = this.gl.createBuffer();
+    this.gl.bindBuffer(this.gl.ARRAY_BUFFER, positionBuffer);
+
+    this.setRectangle(0, 0, this.canvas.width, this.canvas.height);
+
+    this.getAPosition('a_position');
+    this.getATexCoord('a_texCoord');
+
+    this.getUResolution('u_resolution');
+    this.getUImages(['u_image0', 'u_image1']);
     this.setMouseMoveListener();
+    this.draw();
+  }
+  setRectangle(x, y, width, height) {
+    const x1 = x;
+    const x2 = x + width;
+    const y1 = y;
+    const y2 = y + height;
+    const rectVertices = [
+       x1, y1,  x2, y1,
+       x1, y2,  x1, y2,
+       x2, y1,  x2, y2,
+    ];
+    const vertData = new Float32Array(rectVertices);
+    this.gl.bufferData(this.gl.ARRAY_BUFFER, vertData, this.gl.STATIC_DRAW);
+  }
+  getATexCoord(name) {
+    const texcoordLocation = this.getAttribLocation(this.program, name);
+    const texcoordBuffer = this.gl.createBuffer();
+
+    this.gl.bindBuffer(this.gl.ARRAY_BUFFER, texcoordBuffer);
+    const textureVertices = [
+        0.0,  0.0,    1.0,  0.0,
+        0.0,  1.0,    0.0,  1.0,
+        1.0,  0.0,    1.0,  1.0,
+    ];
+    const textureData = new Float32Array(textureVertices);
+    this.gl.bufferData(this.gl.ARRAY_BUFFER, textureData, this.gl.STATIC_DRAW);
+
+    this.gl.enableVertexAttribArray(texcoordLocation);
+    this.gl.bindBuffer(this.gl.ARRAY_BUFFER, texcoordBuffer);
+
+
+    // Tell the position attribute how to get data out of positionBuffer (ARRAY_BUFFER)
+    const size = 2;          // 2 components per iteration
+    const type = this.gl.FLOAT;   // the data is 32bit floats
+    const normalize = false; // don't normalize the data
+    const stride = 0;        // 0 = move forward size * sizeof(type) each iteration to get the next position
+    const offset = 0;        // start at the beginning of the buffer
+    this.gl.vertexAttribPointer(texcoordLocation, size, type, normalize, stride, offset)
+  }
+  getUImages(names) {
+    let textures = [];
+
+    this.images.forEach( image => {
+      const texture = this.createTexture(image);
+      textures.push(texture);
+    })
+
+    var uImage0Location = this.getUniformLocation(this.program, names[0]);
+    var uImage1Location = this.getUniformLocation(this.program, names[1]);
+
+    //set texture units
+    this.gl.uniform1i(uImage0Location, 0);
+    this.gl.uniform1i(uImage1Location, 1);
+
+    // Set each texture unit to use a particular texture.
+    this.gl.activeTexture(this.gl.TEXTURE0);
+    this.gl.bindTexture(this.gl.TEXTURE_2D, textures[0]);
+
+    this.gl.activeTexture(this.gl.TEXTURE1);
+    this.gl.bindTexture(this.gl.TEXTURE_2D, textures[1]);
+  }
+  createTexture(image) {
+    const texture = this.gl.createTexture();
+    this.gl.bindTexture(this.gl.TEXTURE_2D, texture);
+    this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_WRAP_S, this.gl.CLAMP_TO_EDGE);
+    this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_WRAP_T, this.gl.CLAMP_TO_EDGE);
+    this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MIN_FILTER, this.gl.NEAREST);
+    this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MAG_FILTER, this.gl.NEAREST);
+    this.gl.texImage2D(this.gl.TEXTURE_2D, 0, this.gl.RGBA, this.gl.RGBA, this.gl.UNSIGNED_BYTE, image);
+    return texture;
   }
   draw() {
-    this.getUTime('u_time');
     this.getUMouse('u_mouse');
+    this.getUTime('u_time');
 
-    this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
+    this.gl.clearColor(0, 0, 0, 0);
+    this.gl.clear(this.gl.COLOR_BUFFER_BIT);
+    this.gl.drawArrays(this.gl.TRIANGLES, 0, 6);
+
     requestAnimationFrame(() => this.draw());
+  }
+  render() {
+    this.init();
   }
 }
 

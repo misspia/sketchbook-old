@@ -1,73 +1,42 @@
-// precision mediump float;
-//
-// uniform vec2 u_resolution;
-// uniform vec2 u_mouse;
-// uniform float u_time;
-//
-// vec2 random2( vec2 p ) {
-//     return fract(sin(vec2(dot(p,vec2(127.1,311.7)),dot(p,vec2(269.5,183.3))))*43758.5453);
-// }
-//
-// void main() {
-//     vec2 uv = gl_FragCoord.xy / u_resolution.xy;
-//     uv.x *= u_resolution.x / u_resolution.y;
-//     uv *= 5.0;
-//
-//     vec3 color = vec3(0.0);
-//
-//     // Tile the space
-//     vec2 i_uv = floor(uv);
-//     vec2 f_uv = fract(uv);
-//
-//     float m_dist = 10.0;  // minimun distance
-//     vec2 m_point;        // minimum point
-//
-//     for (int j = -1; j <= 1; j++ ) {
-//         for (int i = -1; i <= 1; i++ ) {
-//             vec2 neighbor = vec2(float(i),float(j));
-//             vec2 point = random2(i_uv + neighbor);
-//             point = 0.5 + 0.5 * sin(u_time + 6.0 * point);
-//             vec2 diff = neighbor + point - f_uv;
-//             float dist = length(diff);
-//
-//             if( dist < m_dist ) {
-//                 m_dist = dist;
-//                 m_point = point;
-//             }
-//         }
-//     }
-//
-//     // Assign a color using the closest point position
-//     color += dot(m_point,vec2(.3,.6));
-//
-//     gl_FragColor = vec4(color,1.0);
-// }
-
-
-// precision mediump float;
-//
-// uniform vec2 u_resolution;
-// uniform vec2 u_mouse;
-// uniform float u_time;
-//
-//
-// void main() {
-//   vec2 uv = gl_FragCoord.xy / u_resolution * 2.0 - 1.0;
-//   uv.y *= u_resolution.x / u_resolution.y;
-//
-//   gl_FragColor = vec4(uv.x, 0.8, 0.6, 1.0);
-// }
-
 precision mediump float;
 
 uniform vec2 u_resolution;
 uniform vec2 u_mouse;
 uniform float u_time;
 
+uniform sampler2D u_image0;
+uniform sampler2D u_image1;
+varying vec2 v_texCoord;
+
+vec2 pinch() {
+
+  return vec2(0.0);
+}
 
 void main() {
-  vec2 uv = gl_FragCoord.xy / u_resolution * 2.0 - 1.0;
-  uv.y *= u_resolution.x / u_resolution.y;
+  vec2 uv_mouse = u_mouse / u_resolution;
 
-  gl_FragColor = vec4(uv.x, 0.8, 0.6, 1.0);
+  vec4 bgTexture = texture2D(u_image0, v_texCoord);
+  vec4 fgTexture = texture2D(u_image1, v_texCoord);
+
+  vec4 color;
+
+  if(fgTexture.r < 0.5 && fgTexture.g < 0.5 && fgTexture.b < 0.5) {
+    vec2 uv_distorted = gl_FragCoord.xy / u_resolution;
+    uv_distorted.y = 1.0 - uv_distorted.y; // flip
+
+    vec2 direction = uv_distorted - vec2(sin(u_time) * 0.7, cos(u_time) * 0.5);
+    direction.x *= u_resolution.x / u_resolution.y;
+    uv_distorted *= length(direction);
+
+    bgTexture = texture2D(u_image0, uv_distorted);
+    fgTexture = texture2D(u_image1, uv_distorted);
+
+    // fgTexture = bgTexture - vec4(0.4, uv_mouse.x, 0.0, 0.0);
+    // color = bgTexture * fgTexture;
+    color = bgTexture;
+  } else {
+    color = bgTexture;
+  }
+  gl_FragColor = vec4(color.rgb, 1.0);
 }

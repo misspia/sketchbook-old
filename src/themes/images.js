@@ -5,7 +5,8 @@ const Images = {
   S003: require('./images/003.jpg'),
   S004: require('./images/004.jpg'),
 
-  T005: require('./images/005_texture.jpg'),
+  T005a: require('./images/T005a.jpg'),
+  T005b: require('./images/T005b.png'),
 }
 
 export default Images;
