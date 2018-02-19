@@ -1,9 +1,13 @@
 const Images = {
-  S000: require('./images/000_metaballs.jpg'),
-  S001: require('./images/001_ps_oscillators.jpg'),
-  S002: require('./images/002_gradient.jpg'),
-  S003: require('./images/003_raymarch.jpg'),
+  S000: require('./images/000.jpg'),
+  S001: require('./images/001.jpg'),
+  S002: require('./images/002.jpg'),
+  S003: require('./images/003.jpg'),
   S004: require('./images/004.jpg'),
+  S005: require('./images/005.jpg'),
+
+  T005a: require('./images/T005a.jpg'),
+  T005b: require('./images/T005b.png'),
 }
 
 export default Images;

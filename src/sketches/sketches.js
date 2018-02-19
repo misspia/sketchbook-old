@@ -5,6 +5,7 @@ import S001 from './S001/sketch.js'
 import S002 from './S002/sketch.js'
 import S003 from './S003/sketch.js'
 import S004 from './S004/sketch.js'
+import S005 from './S005/sketch.js'
 
 const Sketches = [
   {
@@ -28,9 +29,14 @@ const Sketches = [
     sketch: S003
   },
   {
-    title: 'Toon Shading',
+    title: 'Toon shading',
     image: Images.S004,
     sketch: S004
+  },
+  {
+    title: 'Basic texture mapping',
+    image: Images.S005,
+    sketch: S005
   },
 ];
 

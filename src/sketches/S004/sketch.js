@@ -2,7 +2,7 @@ import vert from './vertex.glsl'
 import frag from './fragment.glsl'
 import SketchManager from '../sketchManager.js'
 
-class Noise extends SketchManager {
+class Sketch extends SketchManager {
   constructor(canvas) {
     super(canvas);
     this.startTime = Date.now();
@@ -20,4 +20,4 @@ class Noise extends SketchManager {
   }
 }
 
-export default Noise;
+export default Sketch;

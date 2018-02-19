@@ -6,6 +6,7 @@ class Sketch {
     this.vertShader = {};
     this.fragShader = {};
     this.mouse = {};
+    this.images = [];
   }
   //minimum functions
   init() {}
@@ -33,7 +34,7 @@ class Sketch {
   getSmallestDimmention() {
     return this.canvas.width > this.canvas.height ? this.canvas.width : this.canvas.height;
   }
-  setMouseMoveListener(e) {
+  setMouseMoveListener() {
     this.canvas.addEventListener('mousemove', e => {
       this.mouse = {
         x: e.clientX ? e.clientX : 0.0,
@@ -115,6 +116,28 @@ class Sketch {
   getUMouse(name='u_mouse') { //   setMouseMoveListener
     const uMouse = this.getUniformLocation(this.program, 'u_mouse');
     this.gl.uniform2f(uMouse, this.mouse.x, this.mouse.y);
+  }
+
+  // textures
+  loadImage(imageSource, onLoadHandler) {
+    const image = new Image();
+    image.src = imageSource;
+    image.onload = onLoadHandler;
+    return image;
+  }
+  loadImages(imageSources, callback) {
+    let imagesToLoad = imageSources.length;
+
+    // Called each time an image finished
+    // If all the images are loaded call the callback.
+    const onImageLoad = () => {
+      --imagesToLoad;
+      if (imagesToLoad == 0) callback();
+    };
+    imageSources.forEach( imageSource => {
+      const image = this.loadImage(imageSource, onImageLoad);
+      this.images.push(image);
+    })
   }
 
 }
