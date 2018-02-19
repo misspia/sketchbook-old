@@ -29,13 +29,13 @@ const Sketches = [
     sketch: S003
   },
   {
-    title: 'Toon Shading',
+    title: 'Toon shading',
     image: Images.S004,
     sketch: S004
   },
   {
-    title: '???',
-    image: Images.S004,
+    title: 'Basic texture mapping',
+    image: Images.S005,
     sketch: S005
   },
 ];

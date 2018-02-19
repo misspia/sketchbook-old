@@ -60,14 +60,7 @@ class Sketch extends SketchManager {
     this.gl.enableVertexAttribArray(texcoordLocation);
     this.gl.bindBuffer(this.gl.ARRAY_BUFFER, texcoordBuffer);
 
-
-    // Tell the position attribute how to get data out of positionBuffer (ARRAY_BUFFER)
-    const size = 2;          // 2 components per iteration
-    const type = this.gl.FLOAT;   // the data is 32bit floats
-    const normalize = false; // don't normalize the data
-    const stride = 0;        // 0 = move forward size * sizeof(type) each iteration to get the next position
-    const offset = 0;        // start at the beginning of the buffer
-    this.gl.vertexAttribPointer(texcoordLocation, size, type, normalize, stride, offset)
+    this.gl.vertexAttribPointer(texcoordLocation, 2, this.gl.FLOAT, false, 0, 0)
   }
   getUImages(names) {
     let textures = [];
@@ -84,7 +77,6 @@ class Sketch extends SketchManager {
     this.gl.uniform1i(uImage0Location, 0);
     this.gl.uniform1i(uImage1Location, 1);
 
-    // Set each texture unit to use a particular texture.
     this.gl.activeTexture(this.gl.TEXTURE0);
     this.gl.bindTexture(this.gl.TEXTURE_2D, textures[0]);
 
@@ -103,7 +95,6 @@ class Sketch extends SketchManager {
   }
   draw() {
     this.getUMouse('u_mouse');
-    this.getUTime('u_time');
 
     this.gl.clearColor(0, 0, 0, 0);
     this.gl.clear(this.gl.COLOR_BUFFER_BIT);

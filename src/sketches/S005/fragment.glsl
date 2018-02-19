@@ -2,41 +2,67 @@ precision mediump float;
 
 uniform vec2 u_resolution;
 uniform vec2 u_mouse;
-uniform float u_time;
 
 uniform sampler2D u_image0;
 uniform sampler2D u_image1;
 varying vec2 v_texCoord;
 
-vec2 pinch() {
+const float fdelta = 2.0;
+const float fhalf = 1.0;
 
-  return vec2(0.0);
+vec4 toonShade(float lum) {
+  vec4 color = vec4(0.9, 0.9, 1.0, 1.0);
+  if(lum < 1.0) {
+    if(mod(gl_FragCoord.x + gl_FragCoord.y, fdelta) == 0.0) {
+      color = vec4(1.0, 0.7, 0.7, 1.0);
+    }
+  }
+  if(lum < 0.75) {
+    if(mod(gl_FragCoord.x - gl_FragCoord.y, fdelta) == 0.0) {
+      color = vec4(1.0, 0.5, 0.5, 1.0);
+    }
+  }
+  if(lum < 0.5) {
+    if(mod(gl_FragCoord.x + gl_FragCoord.y - fhalf, fdelta) == 0.0) {
+      color = vec4(1.0, 0.3, 0.3, 1.0);
+    }
+  }
+  if(lum < 0.25) {
+    if(mod(gl_FragCoord.x - gl_FragCoord.y - fhalf, fdelta) == 0.0) {
+      color = vec4(1.0, 0.0, 0.0, 1.0);
+    }
+
+  }
+  return color;
 }
 
 void main() {
+  vec2 uv = gl_FragCoord.xy / u_resolution;
   vec2 uv_mouse = u_mouse / u_resolution;
+  uv_mouse.y = 1.0 - uv_mouse.y; // flip axis
+
+  float radar = length(vec2(0.5) - 0.2);
 
   vec4 bgTexture = texture2D(u_image0, v_texCoord);
   vec4 fgTexture = texture2D(u_image1, v_texCoord);
 
-  vec4 color;
+  float lum = length(bgTexture.rgb);
+  vec4 color = toonShade(lum);
 
-  if(fgTexture.r < 0.5 && fgTexture.g < 0.5 && fgTexture.b < 0.5) {
-    vec2 uv_distorted = gl_FragCoord.xy / u_resolution;
-    uv_distorted.y = 1.0 - uv_distorted.y; // flip
-
-    vec2 direction = uv_distorted - vec2(sin(u_time) * 0.7, cos(u_time) * 0.5);
-    direction.x *= u_resolution.x / u_resolution.y;
-    uv_distorted *= length(direction);
-
-    bgTexture = texture2D(u_image0, uv_distorted);
-    fgTexture = texture2D(u_image1, uv_distorted);
-
-    // fgTexture = bgTexture - vec4(0.4, uv_mouse.x, 0.0, 0.0);
-    // color = bgTexture * fgTexture;
-    color = bgTexture;
-  } else {
-    color = bgTexture;
+  if(uv_mouse.x > uv.x) {
+    color = 1.0 - color;
   }
+  
+  // see batman symbol
+  // if(uv_mouse.x > uv.x) {
+  //   if(fgTexture.a < 0.5) {
+  //     color = 1.0 - color;
+  //   }
+  // } else {
+  //   if(fgTexture.a > 0.5) {
+  //     color = 1.0 - color;
+  //   }
+  // }
+
   gl_FragColor = vec4(color.rgb, 1.0);
 }
