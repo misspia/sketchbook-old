@@ -6,6 +6,7 @@ import S002 from './S002/sketch.js'
 import S003 from './S003/sketch.js'
 import S004 from './S004/sketch.js'
 import S005 from './S005/sketch.js'
+import S006 from './S006/sketch.js'
 
 const Sketches = [
   {
@@ -37,6 +38,11 @@ const Sketches = [
     title: 'Basic texture mapping',
     image: Images.S005,
     sketch: S005
+  },
+  {
+    title: '???',
+    image: Images.S005,
+    sketch: S006
   },
 ];
 
