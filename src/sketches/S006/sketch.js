@@ -1,21 +1,21 @@
+import * as THREE from 'three';
 import vert from './vertex.glsl'
 import frag from './fragment.glsl'
-import SketchManager from '../sketchManager.js'
+import SketchManagerThree from '../sketchManagerThree.js'
 
-class Sketch extends SketchManager {
+class Sketch extends SketchManagerThree {
   constructor(canvas) {
     super(canvas);
     this.startTime = Date.now();
   }
   init() {
-    this.initFragPlayground(vert, frag);
-    this.getAPosition('a_position');
-    this.getUResolution('u_resolution');
+    const geometry = new THREE.SphereGeometry(5, 32, 32);
+    const material = new THREE.MeshBasicMaterial({color: 0xffff00});
+    const sphere = new THREE.Mesh(geometry, material);
+    this.scene.add(sphere);
   }
   draw() {
-    this.getUTime('u_time');
-
-    this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
+    this.renderer.render(this.scene, this.camera);
     requestAnimationFrame(() => this.draw());
   }
 }
