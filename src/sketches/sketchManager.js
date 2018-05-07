@@ -31,7 +31,7 @@ class Sketch {
   getRandomRange(min, max) {
     return Math.random() * (max - min) + min;
   }
-  getSmallestDimmention() {
+  getSmallestDimmension() {
     return this.canvas.width > this.canvas.height ? this.canvas.width : this.canvas.height;
   }
   setMouseMoveListener() {

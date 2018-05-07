@@ -40,7 +40,7 @@ const Sketches = [
     sketch: S005
   },
   {
-    title: '???',
+    title: 'Mesh explosion',
     image: Images.S005,
     sketch: S006
   },
