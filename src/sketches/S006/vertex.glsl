@@ -1,10 +1,17 @@
-precision mediump float;
-
-attribute vec3 position;
+attribute vec4 position;
+attribute vec3 normal;
 
 uniform mat4 projectionMatrix;
 uniform mat4 modelViewMatrix;
 
+varying vec3  v_normal;
+
 void main () {
-  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+   v_normal = normal;
+
+   vec4 offset = position;
+   float dist = 0.25;
+   offset.xyz += normal * dist;
+
+  gl_Position = projectionMatrix * modelViewMatrix * offset;
 }
