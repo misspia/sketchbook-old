@@ -19,7 +19,7 @@ class SketchManagerThree {
       stencil: false
     });
     this.renderer.setSize(window.innerWidth, window.innerHeight);
-    // this.renderer.setClearColor();
+    this.renderer.setClearColor( 0x29233b );
     const dpr = Math.min(1.5, window.devicePixelRatio);
     this.renderer.setPixelRatio(dpr);
 
@@ -67,6 +67,9 @@ class SketchManagerThree {
   }
   lookAt(x, y, z) {
     this.camera.lookAt(x, y, z);
+  }
+  setClearColor(hex) {
+    this.renderer.setClearColor(hex);
   }
 }
 
