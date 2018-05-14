@@ -8,6 +8,9 @@ class SketchManagerThree {
   constructor(canvas) {
     this.frag = '';
     this.vert = '';
+
+    this.startTime = Date.now();
+
     this.canvas = canvas;
     this.gui = new dat.GUI();
     this.scene = {};
@@ -70,6 +73,10 @@ class SketchManagerThree {
   }
   setClearColor(hex) {
     this.renderer.setClearColor(hex);
+  }
+  getUTime() {
+    const deltaTime = (Date.now() - this.startTime) / 1000.0;
+    return deltaTime;
   }
 }
 
