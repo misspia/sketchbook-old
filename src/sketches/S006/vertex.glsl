@@ -8,10 +8,15 @@ uniform float u_time;
 
 varying vec3  v_normal;
 
+const float PI = 3.14159;
+
+float sineInOut(const float t) {
+  return -0.5 * (cos(PI * t) - 1.0);
+}
+
 void main () {
    v_normal = normal;
-
-   float dist = sin(u_time) * 0.7 + 0.7;
+   float dist = sineInOut(u_time);
 
    vec4 offset = position;
    offset.xyz += normal * dist;
