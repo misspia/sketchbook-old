@@ -8,11 +8,18 @@ class Sketch extends SketchManagerThree {
     super(canvas);
     this.geometry = {};
     this.material = {};
+    this.spotLight = {};
+    this.ambientLight = {};
   }
   init() {
+    this.setClearColor(0xf1ebeb);
+    this.setCameraPos(0, 2, -6);
+    this.createCenterPiece();
+
+  }
+  createCenterPiece() {
     this.geometry = new THREE.IcosahedronGeometry(1, 2);
     this.geometry.computeFlatVertexNormals();
-
     this.material = new THREE.RawShaderMaterial({
       vertexShader: vert,
       fragmentShader: frag,

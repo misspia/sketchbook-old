@@ -17,9 +17,10 @@ float sineInOut(const float t) {
 void main () {
    v_normal = normal;
    float dist = sineInOut(u_time);
+   float offsetFactor = 1.5;
 
    vec4 offset = position;
-   offset.xyz += normal * dist;
+   offset.xyz += normal * dist * offsetFactor;
 
   gl_Position = projectionMatrix * modelViewMatrix * offset;
 }
