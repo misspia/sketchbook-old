@@ -41,7 +41,7 @@ const Sketches = [
   },
   {
     title: 'Mesh explosion',
-    image: Images.S005,
+    image: Images.S006,
     sketch: S006
   },
 ];

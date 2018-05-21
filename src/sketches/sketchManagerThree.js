@@ -12,7 +12,7 @@ class SketchManagerThree {
     this.startTime = Date.now();
 
     this.canvas = canvas;
-    this.gui = new dat.GUI();
+    this.gui = {};
     this.scene = {};
     this.camaera = {};
     this.renderer = new THREE.WebGLRenderer({
@@ -49,7 +49,7 @@ class SketchManagerThree {
     this.draw();
   }
   createDatGUI() {
-
+    this.gui = new dat.GUI();
   }
   resize() {
     const width = window.innerWidth;
@@ -73,6 +73,9 @@ class SketchManagerThree {
   }
   setClearColor(hex) {
     this.renderer.setClearColor(hex);
+  }
+  disableOrbitControls() {
+    this.controls.enabled = false;
   }
   getUTime() {
     const deltaTime = (Date.now() - this.startTime) / 1000.0;

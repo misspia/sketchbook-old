@@ -15,6 +15,7 @@ class Sketch extends SketchManagerThree {
     this.setClearColor(0xf1ebeb);
     this.setCameraPos(0, 2, -6);
     this.createCenterPiece();
+    this.disableOrbitControls();
 
   }
   createCenterPiece() {
