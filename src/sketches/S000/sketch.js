@@ -16,7 +16,7 @@ class Metaballs extends SketchManager {
     this.generateMetaballs();
   }
   generateMetaballs()  {
-    const smallestDimmension = this.getSmallestDimmention();
+    const smallestDimmension = this.getSmallestDimmension();
     const maxRadius = smallestDimmension * 0.10;
     const minRadius = smallestDimmension * 0.02;
     for(let i = 0; i < this.numMetaballs; i ++) {
