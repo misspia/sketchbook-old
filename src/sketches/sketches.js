@@ -7,6 +7,7 @@ import S003 from './S003/sketch.js'
 import S004 from './S004/sketch.js'
 import S005 from './S005/sketch.js'
 import S006 from './S006/sketch.js'
+import S007 from './S007/sketch.js'
 
 const Sketches = [
   {
@@ -43,6 +44,11 @@ const Sketches = [
     title: 'Mesh explosion',
     image: Images.S006,
     sketch: S006
+  },
+  {
+    title: '??',
+    image: Images.S006,
+    sketch: S007
   },
 ];
 
