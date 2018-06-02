@@ -1,6 +1,6 @@
 const Metrics = {
-  previewSize: 16,
-  previewMargin: 1,
+  previewSize: 256,
+  previewMargin: 16,
 }
 
 export default Metrics;
