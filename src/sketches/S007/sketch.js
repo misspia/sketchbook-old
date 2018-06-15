@@ -20,6 +20,7 @@ class Sketch extends SketchManagerThree {
     this.setCameraPos(0, 0, 0.35);
     this.setClearColor(0xf1ebeb);
     this.createLight();
+    this.createFog();
     this.createCurve();
     this.createSpline();
     this.createTube();
@@ -30,6 +31,9 @@ class Sketch extends SketchManagerThree {
 
     const directional = new THREE.DirectionalLight(0xffffff, 0.8);
     this.scene.add(directional);
+  }
+  createFog() {
+    this.scene.fog = new THREE.Fog(0x222222, 0.6, 2.8);
   }
   createTube() {
     this.tubeGeometry = this.createTubeGeometry();
