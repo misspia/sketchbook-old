@@ -11,16 +11,18 @@ class Sketch extends SketchManagerThree {
     this.curve = {};
     this.spline = {};
     this.tunnel = {};
-    this.geometry = {};
-    this.material = {};
-    this.tunnelSpeed = 1;
+    this.tubeGeometry = {};
+    this.tubeGeometryOriginal = {};
+    this.tubeMaterial = {};
+    this.tubeSpeed = 0.02;
   }
   init() {
+    this.setCameraPos(0, 0, 0.35);
     this.setClearColor(0xf1ebeb);
     this.createLight();
     this.createCurve();
     this.createSpline();
-    this.createTunnel();
+    this.createTube();
   }
   createLight() {
     const hemi = new THREE.HemisphereLight(0xffffbb, 0x887979, 0.9);
@@ -29,50 +31,51 @@ class Sketch extends SketchManagerThree {
     const directional = new THREE.DirectionalLight(0xffffff, 0.8);
     this.scene.add(directional);
   }
-  createTunnel() {
-    this.geometry = this.createTunnelGeometry();
-    this.material = this.createTunnelMaterial();
+  createTube() {
+    this.tubeGeometry = this.createTubeGeometry();
+    this.tubeMaterial = this.createTubeMaterial();
+    this.wrapTubeMaterialMap();
 
-    this.material.map.wrapS = THREE.RepeatWrapping;
-    this.material.map.wrapT = THREE.RepeatWrapping;
-    this.material.map.repeat.set(30, 6);
-
-    const tube = new THREE.Mesh(this.geometry, this.material);
+    const tube = new THREE.Mesh(this.tubeGeometry, this.tubeMaterial);
     this.scene.add(tube);
+
+    this.tubeGeometryOriginal = this.tubeGeometry.clone();
   }
   createCurve() {
     let points = [];
     for (let i = 0; i < 5; i += 1) {
       points.push(new THREE.Vector3(0, 0, 2.5 * (i / 4)));
     }
+    // points[0].z = -3;
     points[4].y = -0.06;
     this.curve = new THREE.CatmullRomCurve3(points);
   }
-  createSplineMesh() {
+  createSpline() {
     const material = new THREE.LineBasicMaterial();
     const geometry = new THREE.Geometry();
-    geometry.vertices = curve.getPoints(70);
+    geometry.vertices = this.curve.getPoints(70);
     this.spline = new THREE.Line(geometry, material);
   }
-  createTunnelGeometry() {
-
-
-
-    // const spline = new THREE.SplineCurve3(points);
-    return new THREE.TubeGeometry(curve, 70, 0.02, 50, false);
+  createTubeGeometry() {
+    return new THREE.TubeGeometry(this.curve, 70, 0.02, 50, false);
   }
-  createTunnelMaterial() {
+  createTubeMaterial() {
     const texture = new THREE.TextureLoader().load(Images.T007);
     return new THREE.MeshBasicMaterial({
       side: THREE.BackSide,
       map: texture,
     });
   }
+  wrapTubeMaterialMap() {
+    this.tubeMaterial.map.wrapS = THREE.RepeatWrapping;
+    this.tubeMaterial.map.wrapT = THREE.RepeatWrapping;
+    this.tubeMaterial.map.repeat.set(30, 6);
+  }
   updateMaterialOffset() {
-    // this.material.map.offset.x += this.tunnelSpeed;
-    this.material.map.offset.y += 100;
-    this.material.map.offset.x += 100;
-    // console.log(this.material.map.offset);
+    this.tubeMaterial.map.offset.x += this.tubeSpeed;
+  }
+  updateCameraPosition() {
+    this.camera.rotation.z = this.mouse.position
   }
   draw() {
     this.updateMaterialOffset();
