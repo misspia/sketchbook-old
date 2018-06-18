@@ -14,7 +14,9 @@ class Sketch extends SketchManagerThree {
     this.tubeGeometry = {};
     this.tubeGeometryOriginal = {};
     this.tubeMaterial = {};
-    this.tubeSpeed = 0.02;
+    this.tubeSpeed = 0.01;
+
+    this.mouse = {};
   }
   init() {
     this.setCameraPos(0, 0, 0.35);
@@ -24,6 +26,12 @@ class Sketch extends SketchManagerThree {
     this.createCurve();
     this.createSpline();
     this.createTube();
+    window.addEventListener('mousemove', (e) => this.onMouseMove(e));
+  }
+  onMouseMove(e) {
+    this.mouse.x = e.clientX;
+    this.mouse.y = e.clientY;
+    console.log(this.mouse)
   }
   createLight() {
     const hemi = new THREE.HemisphereLight(0xffffbb, 0x887979, 0.9);

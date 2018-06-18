@@ -12,6 +12,7 @@ class SketchManagerThree {
     this.startTime = Date.now();
 
     this.canvas = canvas;
+    this.mouse = {};
     this.gui = {};
     this.scene = {};
     this.camaera = {};
@@ -64,6 +65,12 @@ class SketchManagerThree {
 
     this.camera.aspect = width / height;
     this.camera.updateProjectionMatrix();
+  }
+  createMousemoveListener() {
+    window.addEventListener('mousemove', (e) => {
+      this.mouse.x = e.clientX;
+      this.mouse.y = e.clientY;
+    });
   }
   setCameraPos(x, y, z) {
     this.camera.position.set(x, y, z);
