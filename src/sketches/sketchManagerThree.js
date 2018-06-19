@@ -12,6 +12,7 @@ class SketchManagerThree {
     this.startTime = Date.now();
 
     this.canvas = canvas;
+    this.mouse = {};
     this.gui = {};
     this.scene = {};
     this.camaera = {};

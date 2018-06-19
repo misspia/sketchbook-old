@@ -2,14 +2,14 @@ import styled from 'styled-components'
 import { Colors, Metrics, Styles } from '../../../themes/themes.js'
 
 export const Container = styled.div`
-  margin: ${Metrics.previewMargin}em;
+  margin: ${Metrics.previewMargin}px;
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  width: ${Metrics.previewSize}em;
-  height: ${Metrics.previewSize}em;
+  width: ${Metrics.previewSize}px;
+  height: ${Metrics.previewSize}px;
   overflow: hidden;
 
   a {

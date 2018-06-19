@@ -12,6 +12,7 @@ export const HeaderContainer = styled.header`
   display: flex;
   flex-direction: row;
   align-items: center;
+  text-align: center;
   padding: 1em 0;
   box-sizing: border-box;
 
