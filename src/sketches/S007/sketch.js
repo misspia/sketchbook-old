@@ -14,24 +14,17 @@ class Sketch extends SketchManagerThree {
     this.tubeGeometry = {};
     this.tubeGeometryOriginal = {};
     this.tubeMaterial = {};
-    this.tubeSpeed = 0.01;
-
-    this.mouse = {};
+    this.tubeSpeed = 0.02;
   }
   init() {
-    this.setCameraPos(0, 0, 0.35);
+    this.setCameraPos(0, 0, 0.3);
     this.setClearColor(0xf1ebeb);
     this.createLight();
     this.createFog();
     this.createCurve();
     this.createSpline();
     this.createTube();
-    window.addEventListener('mousemove', (e) => this.onMouseMove(e));
-  }
-  onMouseMove(e) {
-    this.mouse.x = e.clientX;
-    this.mouse.y = e.clientY;
-    console.log(this.mouse)
+    this.disableOrbitControls();
   }
   createLight() {
     const hemi = new THREE.HemisphereLight(0xffffbb, 0x887979, 0.9);
@@ -58,7 +51,6 @@ class Sketch extends SketchManagerThree {
     for (let i = 0; i < 5; i += 1) {
       points.push(new THREE.Vector3(0, 0, 2.5 * (i / 4)));
     }
-    // points[0].z = -3;
     points[4].y = -0.06;
     this.curve = new THREE.CatmullRomCurve3(points);
   }
@@ -81,13 +73,10 @@ class Sketch extends SketchManagerThree {
   wrapTubeMaterialMap() {
     this.tubeMaterial.map.wrapS = THREE.RepeatWrapping;
     this.tubeMaterial.map.wrapT = THREE.RepeatWrapping;
-    this.tubeMaterial.map.repeat.set(30, 6);
+    this.tubeMaterial.map.repeat.set(20, 1);
   }
   updateMaterialOffset() {
     this.tubeMaterial.map.offset.x += this.tubeSpeed;
-  }
-  updateCameraPosition() {
-    this.camera.rotation.z = this.mouse.position
   }
   draw() {
     this.updateMaterialOffset();
