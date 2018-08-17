@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import vert from './vertex.glsl';
 import frag from './fragment.glsl';
 import SketchManagerThree from '../sketchManagerThree.js';
+import '../spotify.js';
 
 class Sketch extends SketchManagerThree {
   constructor(canvas) {
