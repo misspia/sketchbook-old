@@ -2,12 +2,16 @@ import * as THREE from 'three';
 import dat from 'dat.gui';
 import OrbitControls from 'three-orbit-controls';
 
+import Audio, { BASE_URL } from './audio.js';
+
 const OrbitController = OrbitControls(THREE);
 
 class SketchManagerThree {
   constructor(canvas) {
     this.frag = '';
     this.vert = '';
+
+    this.audio = {};
 
     this.startTime = Date.now();
 
@@ -48,6 +52,15 @@ class SketchManagerThree {
   render() {
     this.init();
     this.draw();
+  }
+
+  // create audio context
+  initAudio(fileName) {
+    const config = {
+      audioFile: `${BASE_URL}${fileName}`,
+      camera: this.camera,
+    };
+    this.audio = new Audio(config);
   }
   createDatGUI() {
     this.gui = new dat.GUI();
