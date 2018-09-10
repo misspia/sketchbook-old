@@ -1,7 +1,5 @@
 import * as THREE from 'three';
 
-export const BASE_URL = 'https://raw.githubusercontent.com/misspia/assets/master/audio/';
-
 export default class Audio {
   constructor({ camera, audioFile, fftSize = 64 }) {
     this.file = audioFile;

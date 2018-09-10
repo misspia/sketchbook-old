@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import dat from 'dat.gui';
 import OrbitControls from 'three-orbit-controls';
 
-import Audio, { BASE_URL } from './audio.js';
+import Audio from './audio.js';
 
 const OrbitController = OrbitControls(THREE);
 
@@ -55,9 +55,9 @@ class SketchManagerThree {
   }
 
   // create audio context
-  initAudio(fileName) {
+  initAudio(audioFile) {
     const config = {
-      audioFile: `${BASE_URL}${fileName}`,
+      audioFile,
       camera: this.camera,
     };
     this.audio = new Audio(config);

@@ -2,13 +2,16 @@ import * as THREE from 'three';
 import vert from './vertex.glsl';
 import frag from './fragment.glsl';
 import SketchManagerThree from '../sketchManagerThree.js';
+import { Audio } from '../../themes/themes.js';
+import Node from './node.js';
 
 class Sketch extends SketchManagerThree {
   constructor(canvas) {
     super(canvas);
     this.geometry = {};
     this.material = {};
-    this.audioFileName = 'nurko-right-now.mp3';
+    this.audioFileName = Audio.tester;
+    this.nodes = [];
 
   }
   init() {
@@ -16,10 +19,18 @@ class Sketch extends SketchManagerThree {
     this.createCenterPiece();
     this.initAudio(this.audioFileName);
   }
-  updateNodes() {
+  // add to group and remove this.nodes
+  initNodes() {
     this.audio.data.forEach((node, index) => {
+      // this.nodes.push(new Node());
+      this.scene.add(new Node());
+    })
+  }
 
-    });
+  updateNodes() {
+    this.nodes.forEach((node, index) => {
+      const freq = this.audio.data[index];
+    })
   }
   createCenterPiece() {
     this.geometry = new THREE.SphereGeometry(1, 1);
