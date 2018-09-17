@@ -1,10 +1,17 @@
+import * as THREE from 'three';
+import vert from './vertex.glsl';
+import frag from './fragment.glsl';
+
 class Node {
-  constructor() {
+  constructor(pos) {
+    this.pos = pos;
     this.geometry = {};
     this.material = {};
     this.mesh = {};
 
     this.init();
+    return this.mesh;
+    console.log('NODES')
   }
   init() {
     this.geometry = new THREE.BufferGeometry();
@@ -16,7 +23,7 @@ class Node {
       }
     });
     this.mesh = new THREE.Mesh(this.geometry, this.material);
-    // this.scene.add(point)
+    console.log(this.mesh)
   }
   updatePos() {
 

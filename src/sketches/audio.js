@@ -26,7 +26,7 @@ export default class Audio {
     audioLoader.load(this.file, (buffer) => {
       this.sound.setBuffer(buffer);
       this.sound.setLoop(true);
-      this.sound.setVolume(0.5);
+      this.volume = 1;
       this.play();
     })
   }
@@ -49,5 +49,8 @@ export default class Audio {
   }
   get gainNode() {
     return this.sound.gain;
+  }
+  set volume(vol) {
+    this.sound.setVolume(vol);
   }
 };

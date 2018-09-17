@@ -3,7 +3,7 @@ import vert from './vertex.glsl';
 import frag from './fragment.glsl';
 import SketchManagerThree from '../sketchManagerThree.js';
 import { Audio } from '../../themes/themes.js';
-import Node from './node.js';
+import AudioNode from './node.js';
 
 class Sketch extends SketchManagerThree {
   constructor(canvas) {
@@ -11,30 +11,31 @@ class Sketch extends SketchManagerThree {
     this.geometry = {};
     this.material = {};
     this.audioFileName = Audio.tester;
-    this.nodes = [];
-
+    this.graph = {};
+    this.fftSize = 64;
   }
   init() {
     this.setClearColor(0xf1ebeb);
     this.createCenterPiece();
     this.initAudio(this.audioFileName);
+    this.initNodes();
   }
-  // add to group and remove this.nodes
   initNodes() {
-    this.audio.data.forEach((node, index) => {
-      // this.nodes.push(new Node());
-      this.scene.add(new Node());
-    })
+    const numNodes = Math.sqrt(this.fftSize);
+    this.graph = new THREE.Group();
+    for(let i = 0; i < numNodes; i ++) {
+      this.graph.add(new AudioNode());
+    }
+    this.scene.add(this.graph);
   }
-
   updateNodes() {
-    this.nodes.forEach((node, index) => {
-      const freq = this.audio.data[index];
-    })
+    // this.nodes.forEach((node, index) => {
+    //   const freq = this.audio.data[index];
+    //   this.scene.add(new AudioNode());
+    // })
   }
   createCenterPiece() {
     this.geometry = new THREE.SphereGeometry(1, 1);
-    console.log('num vertices ---', this.geometry.vertices.length)
     this.material = new THREE.RawShaderMaterial({
       vertexShader: vert,
       fragmentShader: frag,
@@ -43,7 +44,7 @@ class Sketch extends SketchManagerThree {
       }
     });
     const sphere = new THREE.Mesh(this.geometry, this.material);
-    this.scene.add(sphere);
+    // this.scene.add(sphere);
   }
   draw() {
     this.audio.getFrequencyData();
