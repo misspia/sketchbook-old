@@ -5,7 +5,7 @@ export default class Audio {
     this.file = audioFile;
     this.camera = camera;
     this.fftSize = fftSize;
-
+    console.log(fftSize)
     this.listener = {};
     this.sound = {};
     this.analyser = {};

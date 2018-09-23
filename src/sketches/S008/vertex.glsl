@@ -8,5 +8,6 @@ varying vec3 v_normal;
 
 void main () {
   v_normal = normal;
+  gl_PointSize = 0.5;
   gl_Position = projectionMatrix * modelViewMatrix * position;
 }

@@ -32,9 +32,9 @@ class SketchManagerThree {
     this.renderer.setPixelRatio(dpr);
 
     const aspectRatio = window.innerWidth / window.innerHeight;
-    this.camera = new THREE.PerspectiveCamera(75, aspectRatio, 0.01, 100);
-    this.target = new THREE.Vector3();
+    this.camera = new THREE.PerspectiveCamera(75, aspectRatio, 0.01, 200);
     this.camera.position.set(0, 1, -3);
+    this.camera.lookAt(new THREE.Vector3());
 
     this.scene = new THREE.Scene();
     window.scene = this.scene;
@@ -55,10 +55,11 @@ class SketchManagerThree {
   }
 
   // create audio context
-  initAudio(audioFile) {
+  initAudio(audioFile, additionalConfig) {
     const config = {
       audioFile,
       camera: this.camera,
+      ...additionalConfig
     };
     this.audio = new Audio(config);
   }
