@@ -55,9 +55,9 @@ class SketchManagerThree {
   }
 
   // create audio context
-  initAudio(audioFile, additionalConfig) {
+  initAudio(audioSrc, additionalConfig) {
     const config = {
-      audioFile,
+      audioSrc,
       camera: this.camera,
       ...additionalConfig
     };

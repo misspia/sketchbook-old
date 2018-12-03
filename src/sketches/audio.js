@@ -1,56 +1,36 @@
-import * as THREE from 'three';
-
 export default class Audio {
-  constructor({ camera, audioFile, fftSize = 64 }) {
-    this.file = audioFile;
-    this.camera = camera;
+  constructor({ audioSrc, fftSize = 64, dataLength = 110 }) {
     this.fftSize = fftSize;
-    console.log(fftSize)
-    this.listener = {};
-    this.sound = {};
-    this.analyser = {};
-    this.data = [];
 
-    this.init();
-  }
-  init() {
-    this.listener = new THREE.AudioListener();
-    this.camera.add(this.listener);
+    this.audioElement = this.createAudioElement(audioSrc);
+    this.context = new AudioContext();
+    this.source = this.context.createMediaElementSource(this.audioElement);
+    this.analyser = this.context.createAnalyser();
 
-    this.sound = new THREE.Audio(this.listener);
-    this.loadFile();
-    this.initAnalyser();
+    this.source.connect(this.analyser);
+    this.source.connect(this.context.destination);
+
+    this.frequencyData = new Uint8Array(dataLength);
+
+    this.play();
   }
-  loadFile() {
-    const audioLoader = new THREE.AudioLoader();
-    audioLoader.load(this.file, (buffer) => {
-      this.sound.setBuffer(buffer);
-      this.sound.setLoop(true);
-      this.volume = 1;
-      this.play();
-    })
-  }
-  initAnalyser() {
-    this.analyser = new THREE.AudioAnalyser(this.sound, this.fftSize);
-    this.getFrequencyData
+  createAudioElement(audioSrc) {
+    const elem = document.createElement('audio');
+    elem.src = audioSrc;
+    elem.loop = true;
+    elem.type = 'audio/mp3';
+    return elem;
   }
   play() {
-    this.sound.play();
+    this.audioElement.play();
   }
   pause() {
-    this.sound.pause();
+    this.audioElement.pause();
   }
-  getFrequencyData() {
-    this.data = this.analyser.getFrequencyData();
-    return this.data;
+  volume(vol = 1) {
+    this.audioElement.volume = vol
   }
-  get context() {
-    return this.sound.context;
+  getByteFrequencyData() {
+    this.analyser.getByteFrequencyData(this.frequencyData);
   }
-  get gainNode() {
-    return this.sound.gain;
-  }
-  set volume(vol) {
-    this.sound.setVolume(vol);
-  }
-};
+}

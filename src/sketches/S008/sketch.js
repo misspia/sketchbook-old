@@ -11,7 +11,7 @@ class Sketch extends SketchManagerThree {
     super(canvas);
     this.geometry = {};
     this.material = {};
-    this.audioFileName = Audio.tester;
+    this.audioSrc = Audio.tester;
     this.graph = [];
     this.fftSize = 512;
     this.nodeGap = 5;
@@ -21,7 +21,7 @@ class Sketch extends SketchManagerThree {
     this.setCameraPos(-20, 60, 20);
 
     const audioConfig = { fftSize: this.fftSize };
-    this.initAudio(this.audioFileName, audioConfig);
+    this.initAudio(this.audioSrc, audioConfig);
     this.initNodes();
   }
   initNodes() {
@@ -47,12 +47,12 @@ class Sketch extends SketchManagerThree {
   }
   updateNodes() {
     this.graph.forEach((node, index) => {
-      const freq = this.audio.data[index];
+      const freq = this.audio.frequencyData[index];
       node.update(freq);
     })
   }
   draw() {
-    this.audio.getFrequencyData();
+    this.audio.getByteFrequencyData();
     this.updateNodes();
 
     this.renderer.render(this.scene, this.camera);
