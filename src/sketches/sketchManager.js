@@ -9,6 +9,7 @@ class Sketch {
     this.images = [];
   }
   //minimum functions
+  unmount() {}
   init() {}
   draw() {}
   render() {

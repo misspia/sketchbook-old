@@ -1,11 +1,14 @@
 export default class Audio {
-  constructor({ audioSrc, fftSize = 64, dataLength = 110 }) {
+  constructor({ audioElement, audioSrc, fftSize = 64, dataLength = 110 }) {
     this.fftSize = fftSize;
 
-    this.audioElement = this.createAudioElement(audioSrc);
+    this.audioElement = audioElement;
+    this.configElement(audioSrc);
+    
     this.context = new AudioContext();
     this.source = this.context.createMediaElementSource(this.audioElement);
     this.analyser = this.context.createAnalyser();
+
 
     this.source.connect(this.analyser);
     this.source.connect(this.context.destination);
@@ -14,12 +17,11 @@ export default class Audio {
 
     this.play();
   }
-  createAudioElement(audioSrc) {
-    const elem = document.createElement('audio');
-    elem.src = audioSrc;
-    elem.loop = true;
-    elem.type = 'audio/mp3';
-    return elem;
+  configElement(audioSrc) {
+    const { audioElement } = this;
+    audioElement.crossOrigin = 'anonymous';
+    audioElement.type = 'audio/mp3';
+    audioElement.src = audioSrc;
   }
   play() {
     this.audioElement.play();
@@ -27,10 +29,20 @@ export default class Audio {
   pause() {
     this.audioElement.pause();
   }
+  stop() {
+    this.pause();
+    this.audioElement.currentTime = 0;
+  }
   volume(vol = 1) {
     this.audioElement.volume = vol
   }
   getByteFrequencyData() {
     this.analyser.getByteFrequencyData(this.frequencyData);
+  }
+  createGain() {
+    return this.context.createGain();
+  }
+  createBiquadFilter() {
+    return this.context.createBiquadFilter();
   }
 }

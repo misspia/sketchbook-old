@@ -1,33 +1,39 @@
 import * as THREE from 'three';
-import vert from './vertex.glsl';
-import frag from './fragment.glsl';
 import SketchManagerThree from '../sketchManagerThree.js';
 import { Audio } from '../../themes/themes.js';
 import AudioNode from './node.js';
 import utils from '../utils.js';
 
 class Sketch extends SketchManagerThree {
-  constructor(canvas) {
-    super(canvas);
+  constructor(canvas, audioElement) {
+    super(canvas, audioElement);
     this.geometry = {};
     this.material = {};
     this.audioSrc = Audio.tester;
+    // this.audioSrc = Audio.S008;
     this.graph = [];
     this.fftSize = 512;
     this.nodeGap = 5;
+    this.clock = new THREE.Clock();
+  }
+  unmount() {
+    this.audio.stop();
   }
   init() {
     this.setClearColor(0xf1ebeb);
     this.setCameraPos(-20, 60, 20);
 
+    const { audioElement, audioSrc } = this;
     const audioConfig = { fftSize: this.fftSize };
-    this.initAudio(this.audioSrc, audioConfig);
+    this.initAudio(audioElement, audioSrc, audioConfig);
+    
+
     this.initNodes();
   }
   initNodes() {
     let group = new THREE.Group();
 
-    const numNodes = this.fftSize / 2;
+    const numNodes = this.audio.frequencyData.length;
     const width = Math.floor(Math.sqrt(numNodes));
     let x, z = -70;
 
@@ -46,9 +52,10 @@ class Sketch extends SketchManagerThree {
     this.scene.add(group);
   }
   updateNodes() {
+    const time = this.clock.getElapsedTime();
     this.graph.forEach((node, index) => {
       const freq = this.audio.frequencyData[index];
-      node.update(freq);
+      node.update(freq, time);
     })
   }
   draw() {

@@ -7,10 +7,11 @@ import Audio from './audio.js';
 const OrbitController = OrbitControls(THREE);
 
 class SketchManagerThree {
-  constructor(canvas) {
+  constructor(canvas, audioElement) {
     this.frag = '';
     this.vert = '';
 
+    this.audioElement = audioElement;
     this.audio = {};
 
     this.startTime = Date.now();
@@ -47,16 +48,18 @@ class SketchManagerThree {
     // event listeners
     window.addEventListener('resize', () => this.resize());
   }
+  unmount() {}
   init() {}
   draw() {}
   render() {
     this.init();
     this.draw();
   }
-
+    
   // create audio context
-  initAudio(audioSrc, additionalConfig) {
+  initAudio(audioElement, audioSrc, additionalConfig) {
     const config = {
+      audioElement,
       audioSrc,
       camera: this.camera,
       ...additionalConfig

@@ -3,36 +3,24 @@ import vert from './vertex.glsl';
 import frag from './fragment.glsl';
 
 class Node {
-  constructor(coord, freq = 0) {
-    this.coord = coord;
-    this.freq = freq;
-    this.geometry = {};
-    this.material = {};
-    this.mesh = {};
-
-    this.init();
-    // return this.mesh;
-  }
-  init() {
-    this.geometry = new THREE.SphereGeometry(1, 6, 6);
+  constructor(coord, freq = 0, time) {
+    this.geometry = new THREE.BoxGeometry(2, 2, 2);
     this.material = new THREE.RawShaderMaterial({
       vertexShader: vert,
       fragmentShader: frag,
       uniforms: {
-        uTime: { type: 'f', value: 0.6},
-        uFreq: { type: 'f', value: this.freq }
+        uTime: { type: 'f', value: time },
+        uFreq: { type: 'f', value: freq }
       }
     });
     this.mesh = new THREE.Mesh(this.geometry, this.material);
-    const { x, y, z } = this.coord;
+
+    const { x, y, z } = coord;
     this.mesh.position.set(x, y, z);
   }
-  update(freq) {
-    this.freq = freq;
-    this.material.uniforms.uFreq.value = this.freq;
-    this.material.uniforms.uTime.value = Math.random();
-
-    // console.log(this.material.uniforms)
+  update(freq, time) {
+    this.material.uniforms.uFreq.value = freq;
+    this.material.uniforms.uTime.value = time;
   }
   updatePos() {
 
