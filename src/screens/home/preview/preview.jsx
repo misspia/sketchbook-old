@@ -16,7 +16,9 @@ class Preview extends Component {
   }
   renderHiddenContainer() {
     return <HiddenContainer>
-      <Title>{this.props.title}</Title>
+      <Title>
+      {/* {this.props.title} */}
+      </Title>
     </HiddenContainer>
   }
   render() {

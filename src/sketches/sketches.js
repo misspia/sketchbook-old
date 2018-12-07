@@ -1,13 +1,14 @@
-import { Images } from '../themes/themes.js'
+import { Images } from '../themes/themes.js';
 
-import S000 from './S000/sketch.js'
-import S001 from './S001/sketch.js'
-import S002 from './S002/sketch.js'
-import S003 from './S003/sketch.js'
-import S004 from './S004/sketch.js'
-import S005 from './S005/sketch.js'
-import S006 from './S006/sketch.js'
-import S007 from './S007/sketch.js'
+import S000 from './S000/sketch.js';
+import S001 from './S001/sketch.js';
+import S002 from './S002/sketch.js';
+import S003 from './S003/sketch.js';
+import S004 from './S004/sketch.js';
+import S005 from './S005/sketch.js';
+import S006 from './S006/sketch.js';
+import S007 from './S007/sketch.js';
+import S008 from './S008/sketch.js';
 
 const Sketches = [
   {
@@ -49,6 +50,11 @@ const Sketches = [
     title: 'Tunnel',
     image: Images.S007,
     sketch: S007
+  },
+  {
+    title: 'Audio',
+    image: Images.S008,
+    sketch: S008
   },
 ];
 

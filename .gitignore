@@ -1,4 +1,5 @@
 # Dev
+*.mp3
 .idea/
 .vscode/
 node_modules/

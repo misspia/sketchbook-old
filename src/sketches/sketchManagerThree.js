@@ -2,12 +2,17 @@ import * as THREE from 'three';
 import dat from 'dat.gui';
 import OrbitControls from 'three-orbit-controls';
 
+import Audio from './audio.js';
+
 const OrbitController = OrbitControls(THREE);
 
 class SketchManagerThree {
-  constructor(canvas) {
+  constructor(canvas, audioElement) {
     this.frag = '';
     this.vert = '';
+
+    this.audioElement = audioElement;
+    this.audio = {};
 
     this.startTime = Date.now();
 
@@ -28,9 +33,9 @@ class SketchManagerThree {
     this.renderer.setPixelRatio(dpr);
 
     const aspectRatio = window.innerWidth / window.innerHeight;
-    this.camera = new THREE.PerspectiveCamera(75, aspectRatio, 0.01, 100);
-    this.target = new THREE.Vector3();
+    this.camera = new THREE.PerspectiveCamera(75, aspectRatio, 0.01, 200);
     this.camera.position.set(0, 1, -3);
+    this.camera.lookAt(new THREE.Vector3());
 
     this.scene = new THREE.Scene();
     window.scene = this.scene;
@@ -43,11 +48,23 @@ class SketchManagerThree {
     // event listeners
     window.addEventListener('resize', () => this.resize());
   }
+  unmount() {}
   init() {}
   draw() {}
   render() {
     this.init();
     this.draw();
+  }
+    
+  // create audio context
+  initAudio(audioElement, audioSrc, additionalConfig) {
+    const config = {
+      audioElement,
+      audioSrc,
+      camera: this.camera,
+      ...additionalConfig
+    };
+    this.audio = new Audio(config);
   }
   createDatGUI() {
     this.gui = new dat.GUI();

@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 
 import Header from './header.jsx'
 
-import { Icons } from '../../themes/themes.js'
-import Icon from '../../shared/icon/icon.jsx'
+import { Audio } from '../../themes/themes.js'
 import { Container } from './entry.styles.js'
 
 import Sketches from '../../sketches/sketches.js'
@@ -26,6 +25,7 @@ class Entry extends Component {
   }
   componentWillUnmount() {
     this.removeResizeHandler();
+    this.state.sketch.unmount();
   }
   componentWillReceiveProps(nextProps) {
     if(!nextProps.match) return; // 404 handler
@@ -48,7 +48,7 @@ class Entry extends Component {
   setNewSketch(sketchIndex) {
     this.setState({
       title: Sketches[sketchIndex].title,
-      sketch: new Sketches[sketchIndex].sketch(this.canvas),
+      sketch: new Sketches[sketchIndex].sketch(this.canvas, this.audio),
     }, () => {
       this.state.sketch.render()
     })
@@ -78,10 +78,10 @@ class Entry extends Component {
 
   }
   render() {
-    return <Container innerRef={(ref) => this.container = ref }>
+    return <Container innerRef={ref => this.container = ref }>
         <Header title={this.state.title}/>
-        <canvas ref={(ref) => this.canvas = ref }></canvas>
-
+        <canvas ref={ref => this.canvas = ref }></canvas>
+        <audio ref={ref => this.audio = ref} loop />
     </Container>
   }
 }
