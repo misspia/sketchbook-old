@@ -4,7 +4,7 @@ import frag from './fragment.glsl';
 
 class Node {
   constructor(coord, freq = 0, time) {
-    this.geometry = new THREE.BoxGeometry(2, 2, 2);
+    this.geometry = new THREE.BoxGeometry(2.5, 3.5, 2.5);
     this.material = new THREE.RawShaderMaterial({
       vertexShader: vert,
       fragmentShader: frag,

@@ -52,8 +52,8 @@ const Sketches = [
     sketch: S007
   },
   {
-    title: '???',
-    image: Images.S007,
+    title: 'Audio',
+    image: Images.S008,
     sketch: S008
   },
 ];

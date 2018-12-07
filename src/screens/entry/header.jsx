@@ -21,7 +21,7 @@ class Header extends Component {
   }
   renderTitle() {
     return <Title>
-      {this.props.title}
+      {/* {this.props.title} */}
     </Title>
   }
   leading
