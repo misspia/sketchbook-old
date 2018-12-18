@@ -24,9 +24,7 @@ class Sketch extends SketchManagerThree {
     
     this.curve = new THREE.CatmullRomCurve3(this.getInitialCurvePoints());
     this.createLine();
-    this.createTube();
     this.createTunnelWalls()
-    
 
   }
   getInitialCurvePoints() {
@@ -44,17 +42,10 @@ class Sketch extends SketchManagerThree {
     const geometry = new THREE.BufferGeometry().setFromPoints(this.points);
     const material = new THREE.LineBasicMaterial({ color: 0xff0000 })
     this.line = new THREE.Line(geometry, material);
-    console.log(this.curve.getPoint)
     this.scene.add(this.line);
   }
-  createTube() {
-    // const tubeGeometry = new THREE.TubeGeometry(this.curve, 20, 2, 8, false);
-    // const tubeMaterial = new THREE.MeshBasicMaterial({ color: 0xbbaaee });
-    // this.tube = new THREE.Mesh(tubeGeometry, tubeMaterial);
-    // this.scene.add(this.tube)
-  }
   createTunnelWalls() {
-    const { vertices } = new THREE.TubeGeometry(this.curve, 50, 5, 10, false);
+    const { vertices } = new THREE.TubeGeometry(this.curve, 70, 5, 8, false);
     vertices.forEach(vertex => {
       const node = new Node(vertex);
       

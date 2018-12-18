@@ -10,6 +10,9 @@ const utils = {
   getCenter: (obj3d) => (
     new THREE.Box3().setFromObject(obj3d).getCenter()
   ),
+  randomFloatBetween: (min, max) => (
+    Math.random() * (max - min) + min
+  ),
 }
 
 export default utils;
