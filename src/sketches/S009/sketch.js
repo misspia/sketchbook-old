@@ -9,7 +9,11 @@ class Sketch extends SketchManagerThree {
     this.line = {};
     this.tube = {};
     this.points = [];
-    this.camPosIndex = 0;
+    /**
+     * Position on curve the camera should reference
+     */
+    this.cameraPosOnCurve = 0;
+    this.cameraIncrement = 0.0006;
 
   }
   unmount() {
@@ -22,7 +26,6 @@ class Sketch extends SketchManagerThree {
     this.createLine();
     this.createTube();
     this.createTunnelWalls()
-    // console.log(this.tube.geometry.vertices)
     
 
   }
@@ -41,6 +44,7 @@ class Sketch extends SketchManagerThree {
     const geometry = new THREE.BufferGeometry().setFromPoints(this.points);
     const material = new THREE.LineBasicMaterial({ color: 0xff0000 })
     this.line = new THREE.Line(geometry, material);
+    console.log(this.curve.getPoint)
     this.scene.add(this.line);
   }
   createTube() {
@@ -50,11 +54,8 @@ class Sketch extends SketchManagerThree {
     // this.scene.add(this.tube)
   }
   createTunnelWalls() {
-    const { vertices } = new THREE.TubeGeometry(this.curve, 20, 2, 8, false);
-    console.log(vertices);
-
+    const { vertices } = new THREE.TubeGeometry(this.curve, 50, 5, 10, false);
     vertices.forEach(vertex => {
-      console.log(vertex);
       const node = new Node(vertex);
       
       this.scene.add(node.mesh);
@@ -62,19 +63,19 @@ class Sketch extends SketchManagerThree {
   }
   // move camera along the line
   moveCamera() {
-    const { x, y, z } = this.getPoint(this.camPosIndex);
+    const { x, y, z } = this.getPoint(this.cameraPosOnCurve);
     this.setCameraPos(x, y, z);
 
-    this.camera.lookAt(this.getPoint(this.camPosIndex + 1));
-    this.camPosIndex++;
+    this.camera.lookAt(this.getPoint(this.cameraPosOnCurve + this.cameraIncrement))
+    this.cameraPosOnCurve += this.cameraIncrement;
   }
   // get value from points array
-  getPoint(index) {
-    return this.points[index % this.points.length] ;
+  getPoint(pos) {
+    return this.curve.getPoint(pos % 1);
   }
   draw() {
     this.renderer.render(this.scene, this.camera);
-    // this.moveCamera();
+    this.moveCamera();
     
     requestAnimationFrame(() => this.draw());
   }
@@ -83,4 +84,3 @@ class Sketch extends SketchManagerThree {
 export default Sketch;
 
 // https://medium.com/@Samsy/the-legend-of-icecoon-case-study-advanced-webgl-first-part-185742e82429
-// slinky
