@@ -4,7 +4,7 @@ import frag from './fragment.glsl';
 import vert from './vertex.glsl';
 
 export default class Node {
-  constructor(coord) {
+  constructor(coord, rgb = []) {
     // this.geometry = new THREE.BoxGeometry(2, 2, 2);
     this.geometry = new THREE.TetrahedronGeometry(4, 1);
     this.material = new THREE.RawShaderMaterial({
@@ -12,6 +12,7 @@ export default class Node {
       fragmentShader: frag,
       uniforms: {
         uTime: { type: 'f', value: 0.2 },
+        uColor: { type: 'v3', value:  rgb },
       }
     })
     this.mesh = new THREE.Mesh(this.geometry, this.material);
