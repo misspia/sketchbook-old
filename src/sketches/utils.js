@@ -13,6 +13,9 @@ const utils = {
   randomFloatBetween: (min, max) => (
     Math.random() * (max - min) + min
   ),
+  randomIntBetween: (min, max) => (
+    Math.round(utils.randomFloatBetween(min, max))
+  )
 }
 
 export default utils;
