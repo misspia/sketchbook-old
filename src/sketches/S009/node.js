@@ -10,12 +10,18 @@ export default class Node {
     this.material = new THREE.RawShaderMaterial({
       vertexShader: vert,
       fragmentShader: frag,
-      uniforms: {
-        uTime: { type: 'f', value: 0.2 },
-        uColor: { type: 'v3', value:  rgb },
-      }
+      uniforms: THREE.UniformsUtils.merge([
+        THREE.UniformsLib.shadowmap,
+        {
+          uTime: { type: 'f', value: 0.2 },
+          uColor: { type: 'v3', value:  rgb },
+          lightPosition: { type: 'v3', value: new THREE.Vector3(0, 50, -100) },
+        },
+      ])
     })
     this.mesh = new THREE.Mesh(this.geometry, this.material);
+    this.mesh.castShadow = true;
+    this.mesh.receiveShadow = true;
 
     const { x, y, z } = coord;
     this.mesh.position.set(x, y, z);
@@ -31,5 +37,11 @@ export default class Node {
       rZ: utils.randomFloatBetween(0, Math.PI * 2),
     };   
   }
-
+  shaderParse() {
+    const regex = /\/\/\s?chunk\(\s?(\w+)\s?\);/g;
+    return glsl.replace(regex, (a, b) => this.replaceThreeChunkFn(a, b));
+  }
+  replaceThreeChunkFn(a, b) {
+    return `${THREE.ShaderChunk[b]}\n`;
+  }
 }
