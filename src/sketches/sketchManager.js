@@ -1,7 +1,12 @@
 class Sketch {
   constructor(canvas) {
     this.canvas = canvas;
-    this.gl = canvas.getContext('webgl');
+    try {
+      this.gl = canvas.getContext('webgl');
+    } catch(err) {
+      alert('Sorry, WebGL has not been enabled on your browser :(');
+      throw err;
+    }
     this.program = {};
     this.vertShader = {};
     this.fragShader = {};

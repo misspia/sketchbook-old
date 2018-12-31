@@ -3,7 +3,6 @@ import SketchManagerThree from '../sketchManagerThree.js';
 import { Audio } from '../../themes/themes.js';
 import AudioNode from './node.js';
 import utils from '../utils.js';
-import { throws } from 'assert';
 
 class Sketch extends SketchManagerThree {
   constructor(canvas, audioElement) {
