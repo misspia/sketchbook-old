@@ -39,6 +39,7 @@
     "react-dom": "^16.0.0",
     "react-lazy-load": "^3.0.13",
     "react-router-dom": "^4.2.2",
+    "simplex-noise": "^2.4.0",
     "three": "^0.99.0",
     "three-orbit-controls": "^82.1.0"
   }
