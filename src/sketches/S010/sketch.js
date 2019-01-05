@@ -2,30 +2,65 @@ import * as THREE from 'three';
 import SketchManagerThree from '../sketchManagerThree';
 import SimplexNoise from 'simplex-noise';
 
+import fragmentShader from './fragment.glsl';
+import vertexShader from './vertex.glsl';
+import utils from '../utils';
+
 class Sketch extends SketchManagerThree {
   constructor(canvas) {
     super(canvas);
+    this.diamond = {};
     this.sphere = {};
     this.material = {};
     this.geometry = {};
-    this.amp = 1;
+
     this.noise = new SimplexNoise();
+    this.light = {};
+    this.startTime = new Date();
+
+    this.amp = 6;
+    this.ampIncrement = 0.1;
+    this.maxAmp = 12;
+    this.minAmp = -5;
   }
   unmount() {
 
   }
   init() {
-    this.setClearColor(0xddddff)
-    this.setCameraPos(0, 50, -100);
-
+    this.setClearColor(0x0f0f0f)
+    this.setCameraPos(0, 0, -100);
+    this.lookAt(0, 0, 0);
+    
+    this.createDiamond();
     this.createSphere();
+    
+    this.light = new THREE.SpotLight(0xffffff);
+    this.light.position.set(0, 30, -60);
+    this.light.target = this.sphere;
+    this.scene.add(this.light);
+  }
+  createDiamond() {
+    const geometry = new THREE.BoxGeometry(90, 90, 1);
+    const material = new THREE.MeshBasicMaterial({
+      color: 0xeedddd,
+      side: THREE.BackSide,
+    });
+    this.diamond = new THREE.Mesh(geometry, material);
+    this.diamond.receiveShadow = true;
+    this.diamond.position.set(0,0, 20);
+    this.diamond.rotateZ(utils.toRadians(45));
+    this.scene.add(this.diamond);
   }
   createSphere() {
-    this.geometry = new THREE.IcosahedronGeometry(10, 4);
-    this.material = new THREE.MeshBasicMaterial({
-      color: 0xffcccc,
-      wireframe: false,
-    })
+    this.geometry = new THREE.IcosahedronGeometry(12, 4);
+    this.material = new THREE.RawShaderMaterial({
+      vertexShader,
+      fragmentShader,
+      uniforms: {
+        uTime: { type: 'f', value: 0 },
+      },
+    });
+
     this.sphere = new THREE.Mesh(this.geometry, this.material);
     this.sphere.castShadow = true;
 
@@ -38,9 +73,9 @@ class Sketch extends SketchManagerThree {
       vertex.normalize();
 
       const distance = offset + this.noise.noise3D(
-        vertex.x + time * 0.007,
-        vertex.y + time * 0.008,
-        vertex.z + time * 0.009,
+        vertex.x + time * 0.0007,
+        vertex.y + time * 0.0008,
+        vertex.z + time * 0.0009,
       ) * this.amp;
 
       vertex.multiplyScalar(distance);
@@ -53,11 +88,16 @@ class Sketch extends SketchManagerThree {
   }
   draw() {
     this.renderer.render(this.scene, this.camera);
-    
+    this.material.uniforms.uTime.value = 0.0005 *  (Date.now() - this.startTime);
+
+    if(this.amp >= this.maxAmp || this.amp <= this.minAmp) {
+      this.ampIncrement = -this.ampIncrement;
+    }
+    this.amp += this.ampIncrement;
+
     this.disruptSphere();
     requestAnimationFrame(() => this.draw());
   }
 }
 
 export default Sketch;
-
