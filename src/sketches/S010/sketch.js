@@ -9,14 +9,16 @@ import utils from '../utils';
 class Sketch extends SketchManagerThree {
   constructor(canvas) {
     super(canvas);
+
+    this.composer = {};
+
     this.diamond = {};
     this.sphere = {};
     this.material = {};
     this.geometry = {};
 
     this.noise = new SimplexNoise();
-    this.light = {};
-    this.startTime = new Date();
+    this.clock = new THREE.Clock();
 
     this.amp = 6;
     this.ampIncrement = 0.1;
@@ -33,11 +35,6 @@ class Sketch extends SketchManagerThree {
     
     this.createDiamond();
     this.createSphere();
-    
-    this.light = new THREE.SpotLight(0xffffff);
-    this.light.position.set(0, 30, -60);
-    this.light.target = this.sphere;
-    this.scene.add(this.light);
   }
   createDiamond() {
     const geometry = new THREE.BoxGeometry(90, 90, 1);
@@ -88,7 +85,6 @@ class Sketch extends SketchManagerThree {
   }
   draw() {
     this.renderer.render(this.scene, this.camera);
-    this.material.uniforms.uTime.value = 0.0005 *  (Date.now() - this.startTime);
 
     if(this.amp >= this.maxAmp || this.amp <= this.minAmp) {
       this.ampIncrement = -this.ampIncrement;
@@ -101,3 +97,5 @@ class Sketch extends SketchManagerThree {
 }
 
 export default Sketch;
+
+
