@@ -9,7 +9,7 @@ import utils from '../utils';
 class Sketch extends SketchManagerThree {
   constructor(canvas) {
     super(canvas);
-
+    this.cubeCamera = {};
     this.composer = {};
 
     this.diamond = {};
@@ -29,24 +29,38 @@ class Sketch extends SketchManagerThree {
 
   }
   init() {
+    this.disableOrbitControls();
     this.setClearColor(0x0f0f0f)
     this.setCameraPos(0, 0, -100);
     this.lookAt(0, 0, 0);
     
     this.createDiamond();
+    this.createSquare();
     this.createSphere();
   }
   createDiamond() {
     const geometry = new THREE.BoxGeometry(90, 90, 1);
     const material = new THREE.MeshBasicMaterial({
-      color: 0xeedddd,
-      side: THREE.BackSide,
+      color: 0xffdadd,
     });
     this.diamond = new THREE.Mesh(geometry, material);
     this.diamond.receiveShadow = true;
     this.diamond.position.set(0,0, 20);
     this.diamond.rotateZ(utils.toRadians(45));
     this.scene.add(this.diamond);
+  }
+  createSquare() {
+    const geometry = new THREE.BoxGeometry(90, 90, 1);
+    this.cubeCamera = new THREE.CubeCamera(1, 1000, 90);
+    this.scene.add(this.cubeCamera);
+
+    const material = new THREE.MeshBasicMaterial({
+      envMap: this.cubeCamera.renderTarget,
+    });
+    const square = new THREE.Mesh(geometry, material);
+    square.receiveShadow = true;
+    square.position.set(0,0, 30);
+    this.scene.add(square);
   }
   createSphere() {
     this.geometry = new THREE.IcosahedronGeometry(12, 4);
@@ -84,6 +98,8 @@ class Sketch extends SketchManagerThree {
 
   }
   draw() {
+    this.cubeCamera.position.copy(this.diamond.position); // "skip" reflecting the diamond
+    this.cubeCamera.update(this.renderer, this.scene)
     this.renderer.render(this.scene, this.camera);
 
     if(this.amp >= this.maxAmp || this.amp <= this.minAmp) {
@@ -97,5 +113,3 @@ class Sketch extends SketchManagerThree {
 }
 
 export default Sketch;
-
-
