@@ -1,15 +1,15 @@
 import * as THREE from 'three';
 import SketchManagerThree from '../sketchManagerThree';
-import SimplexNoise from 'simplex-noise';
+import glsl from 'glslify';
 
-import fragmentShader from './fragment.glsl';
-import vertexShader from './vertex.glsl';
+import frag from './fragment.glsl';
+import vert from './vertex.glsl';
 import utils from '../utils';
 
 class Sketch extends SketchManagerThree {
   constructor(canvas) {
     super(canvas);
-
+    this.cubeCamera = {};
     this.composer = {};
 
     this.diamond = {};
@@ -17,30 +17,28 @@ class Sketch extends SketchManagerThree {
     this.material = {};
     this.geometry = {};
 
-    this.noise = new SimplexNoise();
-    this.clock = new THREE.Clock();
-
     this.amp = 6;
     this.ampIncrement = 0.1;
-    this.maxAmp = 12;
-    this.minAmp = -5;
+    this.maxAmp = 22;
+    this.minAmp = 0;
   }
   unmount() {
 
   }
   init() {
-    this.setClearColor(0x0f0f0f)
+    this.disableOrbitControls();
+    this.setClearColor(0x111111)
     this.setCameraPos(0, 0, -100);
     this.lookAt(0, 0, 0);
     
     this.createDiamond();
+    this.createSquare();
     this.createSphere();
   }
   createDiamond() {
     const geometry = new THREE.BoxGeometry(90, 90, 1);
     const material = new THREE.MeshBasicMaterial({
-      color: 0xeedddd,
-      side: THREE.BackSide,
+      color: 0xffdadd,
     });
     this.diamond = new THREE.Mesh(geometry, material);
     this.diamond.receiveShadow = true;
@@ -48,42 +46,37 @@ class Sketch extends SketchManagerThree {
     this.diamond.rotateZ(utils.toRadians(45));
     this.scene.add(this.diamond);
   }
+  createSquare() {
+    const geometry = new THREE.BoxGeometry(90, 90, 1);
+    this.cubeCamera = new THREE.CubeCamera(1, 1000, 90);
+    this.scene.add(this.cubeCamera);
+
+    const material = new THREE.MeshBasicMaterial({
+      envMap: this.cubeCamera.renderTarget,
+    });
+    const square = new THREE.Mesh(geometry, material);
+    square.receiveShadow = true;
+    square.position.set(0,0, 30);
+    this.scene.add(square);
+  }
   createSphere() {
-    this.geometry = new THREE.IcosahedronGeometry(12, 4);
+    this.geometry = new THREE.IcosahedronGeometry(13, 5);
     this.material = new THREE.RawShaderMaterial({
-      vertexShader,
-      fragmentShader,
+      vertexShader: glsl(vert),
+      fragmentShader: glsl(frag),
       uniforms: {
-        uTime: { type: 'f', value: 0 },
+        u_time: { type: 'f', value: 0 },
+        u_amp: { type: 'f', value: this.amp },
       },
     });
 
     this.sphere = new THREE.Mesh(this.geometry, this.material);
     this.sphere.castShadow = true;
-
     this.scene.add(this.sphere);
   }
-  disruptSphere() {
-    this.sphere.geometry.vertices.forEach((vertex, index) => {
-      const offset = this.sphere.geometry.parameters.radius;
-      const time = Date.now();
-      vertex.normalize();
-
-      const distance = offset + this.noise.noise3D(
-        vertex.x + time * 0.0007,
-        vertex.y + time * 0.0008,
-        vertex.z + time * 0.0009,
-      ) * this.amp;
-
-      vertex.multiplyScalar(distance);
-    });
-    this.sphere.geometry.verticesNeedUpdate = true;
-    this.sphere.geometry.normalsNeedUpdate = true;
-    this.sphere.geometry.computeVertexNormals();
-    this.sphere.geometry.computeFaceNormals();
-
-  }
   draw() {
+    this.cubeCamera.position.copy(this.diamond.position); // "skip" reflecting the diamond
+    this.cubeCamera.update(this.renderer, this.scene)
     this.renderer.render(this.scene, this.camera);
 
     if(this.amp >= this.maxAmp || this.amp <= this.minAmp) {
@@ -91,11 +84,14 @@ class Sketch extends SketchManagerThree {
     }
     this.amp += this.ampIncrement;
 
-    this.disruptSphere();
+    /**
+     * update uniforms
+     */
+    this.material.uniforms.u_time.value = this.getUTime();
+    this.material.uniforms.u_amp.value = this.amp;
+
     requestAnimationFrame(() => this.draw());
   }
 }
 
 export default Sketch;
-
-
