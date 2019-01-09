@@ -25,7 +25,10 @@ module.exports = {
 			},
       {
         test: /\.(glsl|vert|frag)$/,
-        loader: 'webpack-glsl-loader'
+				use: [
+					'raw-loader',
+					'glslify-loader'
+				],
       },
 			{
 				test: /\.(js|jsx)$/,
