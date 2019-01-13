@@ -2,9 +2,10 @@ import * as THREE from 'three';
 import SketchManagerThree from '../sketchManagerThree';
 import glsl from 'glslify';
 
-import frag from './fragment.glsl';
-import vert from './vertex.glsl';
+import frag from './outline.frag';
+import vert from './outline.vert';
 import utils from '../utils';
+import Petal from './petal';
 
 /**
  * Inspo: https://i.redd.it/5u2xbx7eo9721.jpg
@@ -18,6 +19,9 @@ class Sketch extends SketchManagerThree {
 
     this.pyramid = {};
     this.outlilneMaterial = {};
+
+    this.petals = [];
+    this.numPetals = 20;
   }
   unmount() {
 
@@ -25,11 +29,11 @@ class Sketch extends SketchManagerThree {
   init() {
     // this.disableOrbitControls();
     this.setClearColor(0x111111)
-    this.setCameraPos(0, 0, -50);
+    this.setCameraPos(0, 30, -70);
     this.lookAt(0, 0, 0);
 
     this.createPyramid();
-    this.createTest();
+    this.createPetals();
   }
   createPyramid() {
     this.cubeCamera = new THREE.CubeCamera(1, 1000, 90);
@@ -57,25 +61,29 @@ class Sketch extends SketchManagerThree {
 
     this.pyramid.rotation.x += utils.toRadians(180);
   }
-  /**
-   * to test reflection
-   */
-  createTest() {
-    const test = new THREE.Mesh(
-      new THREE.BoxGeometry(10, 2,2),
-      new THREE.MeshBasicMaterial({ color: 0xddddff })
-      );
-      test.position.set(1, -10, 20);
-      this.scene.add(test);
+  createPetals() {
+    for(let i = 0; i < this.numPetals; i++) {
+      const petal = new Petal({x: 0, y: 0, z: 0});
+      this.petals.push(petal);
+      this.scene.add(petal.mesh);
+    }
+    console.log(this.petals)
   }
-
+  updatePetals() {
+    this.petals.forEach(petal => {
+      petal.updatePosition();
+    })
+  }
   draw() {
     this.cubeCamera.position.copy(this.pyramid.position);
     this.cubeCamera.update(this.renderer, this.scene);
     this.renderer.render(this.scene, this.camera);
 
+    this.updatePetals();
     requestAnimationFrame(() => this.draw());
   }
 }
 
 export default Sketch;
+
+// https://github.com/yiwenl/Sketches/blob/51304376af420d37a2e843234a8c91ca74d0a501/experiments/Hannya/src/shaders/petals.vert
