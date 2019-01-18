@@ -41,6 +41,7 @@
     "glslify": "^7.0.0",
     "glsl-noise": "^0.0.0",
     "raw-loader": "^1.0.0",
-    "glslify-loader": "^2.0.0"
+    "glslify-loader": "^2.0.0",
+    "postprocessing": "^5.4.0"
   }
 }

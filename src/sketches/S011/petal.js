@@ -10,7 +10,8 @@ const minVelocity = 0.005;
 const maxVelocity = 0.02;
 
 export default class Petal {
-  constructor(pivotCoord) {
+  constructor(pivotCoord, composer) {
+    this.composer = composer
     this.minY = -30;
     this.maxY = 10;
 
@@ -24,14 +25,27 @@ export default class Petal {
     this.angle = utils.randomFloatBetween(0, 2 * Math.PI);
     this.yVelocity = utils.randomFloatBetween(minVelocity, maxVelocity);
     this.angleVelocity = utils.randomFloatBetween(minVelocity, maxVelocity);
+    this.rotateVelocity = utils.randomFloatBetween(minVelocity, maxVelocity);
 
-    this.geometry = new THREE.BoxGeometry(1, 1, 1);
+    this.geometry = this.createPetalGeometry();
     this.material = new THREE.RawShaderMaterial({
+      side: THREE.DoubleSide,
+      uniforms: {
+        viewVector: { type: 'v3', value: new THREE.Vector3() }
+      },
       fragmentShader: frag,
       vertexShader: vert,
     });
     this.mesh = new THREE.Mesh(this.geometry, this.material);
     this.setPosition(this.getInitialCoord())
+    this.mesh.doubleSide = true;
+    this.mesh.rotation.y = Math.PI / 2;
+
+
+  }
+  createPetalGeometry() {
+    const geometry = new THREE.PlaneGeometry(2, 2, 10, 10);
+    return geometry;
   }
   getInitialCoord() {
     const { x, y, z } = this.centerCoord;
@@ -40,6 +54,15 @@ export default class Petal {
       y,
       z: z + this.radius * Math.sin(this.angle),
     }
+  }
+  update(cameraPosition) {
+    this.updateRotation();
+    this.updatePosition();
+  }
+  updateRotation() {
+    this.mesh.rotation.x += this.rotateVelocity;
+    this.mesh.rotation.y += this.rotateVelocity;
+    this.mesh.rotation.z += this.rotateVelocity;
   }
   updatePosition() {
     this.incrementCenterY();
