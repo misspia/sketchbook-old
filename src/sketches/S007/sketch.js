@@ -5,9 +5,14 @@ import SketchManagerThree from '../sketchManagerThree.js';
 
 import { Images } from '../../themes/themes.js';
 
+const opts = {
+  cameraNear: 0.01,
+  cameraFar: 200,
+};
+
 class Sketch extends SketchManagerThree {
   constructor(canvas) {
-    super(canvas);
+    super(canvas, null, opts);
     this.curve = {};
     this.spline = {};
     this.tunnel = {};
@@ -17,7 +22,7 @@ class Sketch extends SketchManagerThree {
     this.tubeSpeed = 0.02;
   }
   init() {
-    this.setCameraPos(0, 0, 0.3);
+    this.setCameraPos(0, 0, 1.3);
     this.setClearColor(0xf1ebeb);
     this.createLight();
     this.createFog();

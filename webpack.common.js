@@ -18,24 +18,36 @@ module.exports = {
 	module: {
 		rules: [
 			{
-				test: /\.(png|jpg|jpeg|gif|ico|mp3)$/,
+				test: /\.(pdf|png|jpg|jpeg|gif|ico|mp3)$/,
 				use: [
-					'file-loader',
+					{
+						loader: 'file-loader',
+						options: {},
+					}
 				],
 			},
-      {
+			{
         test: /\.(glsl|vert|frag)$/,
 				use: [
-					'raw-loader',
-					'glslify-loader'
+					{
+						loader: 'raw-loader',
+						options: {},
+					},
+					{
+						loader: 'glslify-loader',
+						options: {},
+					},
 				],
       },
 			{
 				test: /\.(js|jsx)$/,
 				exclude: /node_modules/,
-				use: [
-					'babel-loader',
-				],
+				use: {
+					loader: 'babel-loader',
+					options: {
+						presets: ['@babel/preset-env'],
+					}
+				}
 			},
 		],
 	},
