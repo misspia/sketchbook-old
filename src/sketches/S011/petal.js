@@ -6,13 +6,12 @@ import vert from './petal.vert';
 
 const minRadius = 23;
 const maxRadius = 35;
-const minVelocity = 0.005;
+const minVelocity = 0.006;
 const maxVelocity = 0.02;
 
 export default class Petal {
-  constructor(pivotCoord, composer) {
-    this.composer = composer
-    this.minY = -30;
+  constructor(pivotCoord) {
+    this.minY = -35;
     this.maxY = 10;
 
     this.centerCoord = {
@@ -55,7 +54,7 @@ export default class Petal {
       z: z + this.radius * Math.sin(this.angle),
     }
   }
-  update(cameraPosition) {
+  update() {
     this.updateRotation();
     this.updatePosition();
   }

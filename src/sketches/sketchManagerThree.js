@@ -7,7 +7,12 @@ import Audio from './audio.js';
 const OrbitController = OrbitControls(THREE);
 
 class SketchManagerThree {
-  constructor(canvas, audioElement) {
+  constructor(canvas, audioElement, customOptions = {}) {
+    const options = {
+      cameraNear: 0.1,
+      cameraFar: 1000,
+      ...customOptions,
+    };
     this.frag = '';
     this.vert = '';
 
@@ -20,25 +25,29 @@ class SketchManagerThree {
     this.mouse = {};
     this.gui = {};
     this.scene = {};
-    this.camaera = {};
+    this.camera = {};
+    
+    this.scene = new THREE.Scene();
+    if(options.fog) {
+      this.scene.fog =  options.fog;
+    }
+    const aspectRatio = window.innerWidth / window.innerHeight;
+    this.camera = new THREE.PerspectiveCamera(75, aspectRatio, options.cameraNear, options.cameraFar);
+    this.camera.position.set(0, 1, -3);
+    this.camera.lookAt(new THREE.Vector3());
+
     this.renderer = new THREE.WebGLRenderer({
       canvas: this.canvas,
-      antialis: true,
+      antialias: true,
       alpha: false,
       stencil: false
     });
     this.renderer.setSize(window.innerWidth, window.innerHeight);
-    this.renderer.setClearColor( 0x29233b );
+    this.renderer.setClearColor( 0x00ff00 );
     const dpr = Math.min(1.5, window.devicePixelRatio);
     this.renderer.setPixelRatio(dpr);
 
-    const aspectRatio = window.innerWidth / window.innerHeight;
-    this.camera = new THREE.PerspectiveCamera(75, aspectRatio, 0.01, 200);
-    this.camera.position.set(0, 1, -3);
-    this.camera.lookAt(new THREE.Vector3());
-
-    this.scene = new THREE.Scene();
-    window.scene = this.scene;
+    // window.scene = this.scene;
 
     this.controls = new OrbitController(this.camera, this.renderer.domElement);
 

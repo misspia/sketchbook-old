@@ -1,7 +1,6 @@
 import * as THREE from 'three';
 import * as PP from 'postprocessing';
 import SketchManagerThree from '../sketchManagerThree';
-import glsl from 'glslify';
 
 import baseFrag from './pyramidBase.frag';
 import baseVert from './pyramidBase.vert';
@@ -14,27 +13,35 @@ import Petal from './petal';
  * Inspo: https://i.redd.it/5u2xbx7eo9721.jpg
  * https://twitter.com/mattdesl/status/1079879696978927616
  */
-class Sketch extends SketchManagerThree {
+
+const config = {
+  fog: new THREE.FogExp2(0x111111, 0.011),
+}
+
+ class Sketch extends SketchManagerThree {
   constructor(canvas) {
-    super(canvas);
+    super(canvas, null, config);
     this.clock = new THREE.Clock();
     this.composer = {};
     this.cubeCamera = {};
 
     this.pyramid = {};
     this.outlilneMaterial = {};
+    
+    this.water = {};
 
     this.petals = [];
-    this.numPetals = 10;
+    this.numPetals = 20;
   }
   unmount() {
 
   }
   init() {
-    // this.disableOrbitControls();
-    this.setClearColor(0x111111)
-    this.setCameraPos(0, 30, -70);
-    this.lookAt(0, 0, 0);
+    this.disableOrbitControls();
+    this.setClearColor(0x111111);
+    this.setCameraPos(-13, -40, -92);
+
+    this.lookAt(0, 0, 0, 0);
 
     this.createPyramid();
     this.createPetals();
@@ -54,16 +61,30 @@ class Sketch extends SketchManagerThree {
     this.createPyramidTip();
   }
   createPyramidBase() {
-    const height = 40;
-    const geometry = new THREE.CylinderGeometry( height + 5, 20, height, 4, 1 );
+    const height = 80;
+    const geometry = new THREE.CylinderGeometry( height + 10, 20, height, 4, 1 );
     const material = new THREE.RawShaderMaterial({
+      uniforms: {
+        uTime: { type: 'f', value: 0.0 },
+        fogColor: { type: 'c', value: this.scene.fog.color },
+        fogDensity: { type: 'f', value: this.scene.fog.density },
+      },
       vertexShader: baseVert,
       fragmentShader: baseFrag,
+      fog: true,
     });
+    const pyramidPositionY = height - 10;
     const pyramid = new THREE.Mesh(geometry, material);
-    pyramid.position.set(0, height + 5, 0);
+    pyramid.position.set(0, pyramidPositionY, 0);
     this.scene.add(pyramid);
-    
+
+    const outlineMaterial = new THREE.MeshBasicMaterial({
+      color: 0x020202,
+      wireframe: true,
+    });
+    const pyramidOutline = new THREE.Mesh(geometry, outlineMaterial);
+    pyramidOutline.position.set(0, pyramidPositionY, 0);
+    this.scene.add(pyramidOutline);
   }
   createPyramidTip() {
     this.cubeCamera = new THREE.CubeCamera(1, 1000, 90);
@@ -98,9 +119,7 @@ class Sketch extends SketchManagerThree {
     }
   }
   updatePetals() {
-    this.petals.forEach(petal => {
-      petal.update(this.camera.position);
-    })
+    this.petals.forEach(petal => petal.update());
   }
   draw() {
     this.composer.renderer.autoClear = true;
@@ -112,31 +131,9 @@ class Sketch extends SketchManagerThree {
     this.composer.renderer.autoClear = false;
 
     this.updatePetals();
+
     requestAnimationFrame(() => this.draw());
   }
 }
 
 export default Sketch;
-
-/**
- *  bloom
-
-https://github.com/yiwenl/Sketches/blob/51304376af420d37a2e843234a8c91ca74d0a501/experiments/Hannya/src/shaders/bloom.frag
-https://gist.github.com/mebens/4218802
-http://kadekeith.me/2017/09/12/three-glow.html
-
-http://bkcore.com/blog/3d/webgl-three-js-animated-selective-glow.html
-https://threejs.org/examples/?q=bloom#webgl_postprocessing_unreal_bloom
-
-
-
-pp-lib
-https://github.com/mattatz/THREE.BloomBlendPass/blob/master/BloomBlendPass.js
-
-smoke
-https://codepen.io/misspia/pen/ENzyzr?editors=0010
-
-merge geometry
-https://github.com/misspia/threejs-solar-system/blob/master/src/js/solarSystem/planets/planet.js 
- 
-*/

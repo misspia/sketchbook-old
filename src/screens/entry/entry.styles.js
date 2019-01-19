@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components'
 import { Colors, Styles } from '../../themes/themes.js'
 
-export const Container = Styles.SectionContainer.extend`
+export const Container = styled(Styles.SectionContainer)`
   display: flex;
   flex-direction: column;
 `;
