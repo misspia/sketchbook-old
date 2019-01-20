@@ -2,8 +2,8 @@ import * as THREE from 'three';
 import * as PP from 'postprocessing';
 import SketchManagerThree from '../sketchManagerThree';
 
-import baseFrag from './pyramidBase.frag';
-import baseVert from './pyramidBase.vert';
+import haloFrag from './halo.frag';
+import haloVert from './halo.vert';
 import outlineFrag from './outline.frag';
 import outlineVert from './outline.vert';
 import utils from '../utils';
@@ -28,10 +28,10 @@ const config = {
     this.pyramid = {};
     this.outlilneMaterial = {};
     
-    this.water = {};
+    this.halo = {};
 
     this.petals = [];
-    this.numPetals = 20;
+    this.numPetals = 25;
   }
   unmount() {
 
@@ -39,10 +39,11 @@ const config = {
   init() {
     this.disableOrbitControls();
     this.setClearColor(0x111111);
-    this.setCameraPos(-13, -40, -92);
+    this.setCameraPos(-9, -17, 94);
 
     this.lookAt(0, 0, 0, 0);
 
+    this.createHalo();
     this.createPyramid();
     this.createPetals();
     this.createEffects();
@@ -50,43 +51,33 @@ const config = {
   createEffects() {
     this.composer = new PP.EffectComposer(this.renderer);
     this.renderPass = new PP.RenderPass(this.scene, this.camera, 0x111111);    
+
     const bloomPass = new PP.EffectPass(this.camera, new PP.BloomEffect());
     bloomPass.renderToScreen = true;
 
     this.composer.addPass(this.renderPass);
     this.composer.addPass(bloomPass);
   }
-  createPyramid() {
-    this.createPyramidBase();
-    this.createPyramidTip();
-  }
-  createPyramidBase() {
-    const height = 80;
-    const geometry = new THREE.CylinderGeometry( height + 10, 20, height, 4, 1 );
-    const material = new THREE.RawShaderMaterial({
+  createHalo() {
+    const geometry = new THREE.TorusGeometry( 45, 0.6, 15, 90 );
+    geometry.computeFlatVertexNormals();
+    this.haloMaterial = new THREE.RawShaderMaterial({
       uniforms: {
         uTime: { type: 'f', value: 0.0 },
         fogColor: { type: 'c', value: this.scene.fog.color },
         fogDensity: { type: 'f', value: this.scene.fog.density },
       },
-      vertexShader: baseVert,
-      fragmentShader: baseFrag,
-      fog: true,
+      vertexShader: haloVert,
+      fragmentShader: haloFrag,
+      transparent: true,
     });
-    const pyramidPositionY = height - 10;
-    const pyramid = new THREE.Mesh(geometry, material);
-    pyramid.position.set(0, pyramidPositionY, 0);
-    this.scene.add(pyramid);
+    this.halo = new THREE.Mesh(geometry, this.haloMaterial);
+    this.halo.rotateX(utils.toRadians(90));
 
-    const outlineMaterial = new THREE.MeshBasicMaterial({
-      color: 0x020202,
-      wireframe: true,
-    });
-    const pyramidOutline = new THREE.Mesh(geometry, outlineMaterial);
-    pyramidOutline.position.set(0, pyramidPositionY, 0);
-    this.scene.add(pyramidOutline);
+    this.halo.position.set(0, -25, 0);
+    this.scene.add(this.halo);
   }
-  createPyramidTip() {
+  createPyramid() {
     this.cubeCamera = new THREE.CubeCamera(1, 1000, 90);
     this.scene.add(this.cubeCamera);
     const geometry = new THREE.ConeGeometry(20, 40, 4);
@@ -107,6 +98,8 @@ const config = {
     this.pyramid = new THREE.Group();
     this.pyramid.add(mirrorPyramid);
     this.pyramid.add(outlinePyramid);
+
+    this.pyramid.position.set(0, 5, 0);
     this.scene.add(this.pyramid)
 
     this.pyramid.rotation.x += utils.toRadians(180);
@@ -131,7 +124,9 @@ const config = {
     this.composer.renderer.autoClear = false;
 
     this.updatePetals();
-
+    this.haloMaterial.uniforms.uTime.value = this.clock.getElapsedTime();
+    this.pyramid.rotation.y += 0.001;
+    console.log(this.camera.position)
     requestAnimationFrame(() => this.draw());
   }
 }
