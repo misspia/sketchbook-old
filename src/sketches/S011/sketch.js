@@ -126,7 +126,6 @@ const config = {
     this.updatePetals();
     this.haloMaterial.uniforms.uTime.value = this.clock.getElapsedTime();
     this.pyramid.rotation.y += 0.001;
-    console.log(this.camera.position)
     requestAnimationFrame(() => this.draw());
   }
 }
