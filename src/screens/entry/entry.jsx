@@ -2,17 +2,18 @@ import React, { Component } from 'react'
 
 import Header from './header.jsx'
 
-import { Audio } from '../../themes/themes.js'
 import { Container } from './entry.styles.js'
 
 import Sketches from '../../sketches/sketches.js'
+import MediaActivator from './mediaActivator/mediaActivator.jsx';
 
 class Entry extends Component {
   constructor(props) {
     super(props);
     this.state = {
       title: '',
-      sketch: null
+      sketch: null,
+      activateMediaRequired: false, 
     }
     this.resizeHandler = this.resizeHandler.bind(this);
   }
@@ -50,7 +51,13 @@ class Entry extends Component {
       title: Sketches[sketchIndex].title,
       sketch: new Sketches[sketchIndex].sketch(this.canvas, this.audio),
     }, () => {
-      this.state.sketch.render()
+      if(this.state.sketch.audioElement) {
+        this.setState(prevState => ({
+          activateMediaRequired: true,
+        }));
+      } else {
+        this.state.sketch.render()
+      }
     })
   }
   initCanvas() {
@@ -77,12 +84,29 @@ class Entry extends Component {
   clearCanvas() {
 
   }
+  renderMediaActivator() {
+    if(!this.state.activateMediaRequired) return;
+    return (
+      <MediaActivator
+        onClick={e => {
+          this.setState( prevState => ({
+            activateMediaRequired: false,
+          }), () => {
+            this.state.sketch.render();
+          })
+        }}
+      />
+    )
+  }
   render() {
-    return <Container innerRef={ref => this.container = ref }>
-        <Header title={this.state.title}/>
-        <canvas ref={ref => this.canvas = ref }></canvas>
-        <audio ref={ref => this.audio = ref} loop />
-    </Container>
+    return (
+      <Container ref={ref => this.container = ref }>
+          {this.renderMediaActivator()}
+          <Header title={this.state.title}/>
+          <canvas ref={ref => this.canvas = ref }></canvas>
+          <audio ref={ref => this.audio = ref} loop />
+      </Container>
+    );
   }
 }
 

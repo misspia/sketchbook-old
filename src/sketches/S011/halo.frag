@@ -1,6 +1,5 @@
 precision highp float;
 
-varying vec3 vNormal;
 uniform float uTime;
 
 void main() {

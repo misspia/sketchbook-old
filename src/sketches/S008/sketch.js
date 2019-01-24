@@ -28,10 +28,8 @@ class Sketch extends SketchManagerThree {
     this.setClearColor(0xf1ebeb);
     this.setCameraPos(-20, 50, 10);
 
-    const { audioElement, audioSrc } = this;
     const audioConfig = { fftSize: this.fftSize };
-    this.initAudio(audioElement, audioSrc, audioConfig);
-    
+    this.initAudio(audioConfig);
 
     this.initNodes();
   }
