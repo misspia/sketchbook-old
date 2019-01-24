@@ -70,7 +70,7 @@ const Sketches = [
     sketch: S010,
   },
   {
-    title: '???',
+    title: 'Bloom',
     image: Images.S011,
     sketch: S011,
   },

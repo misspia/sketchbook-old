@@ -17,6 +17,7 @@ class SketchManagerThree {
     this.vert = '';
 
     this.audioElement = audioElement;
+    this.audioSrc = '';
     this.audio = {};
 
     this.startTime = Date.now();
@@ -66,7 +67,8 @@ class SketchManagerThree {
   }
     
   // create audio context
-  initAudio(audioElement, audioSrc, additionalConfig) {
+  initAudio(additionalConfig) {
+    const { audioElement, audioSrc } = this;
     const config = {
       audioElement,
       audioSrc,

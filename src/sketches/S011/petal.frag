@@ -1,6 +1,5 @@
 precision highp float;
 
-varying vec3 vNormal;
 varying float intensity;
 
 float gaussianPdf(float x, float sigma) {
