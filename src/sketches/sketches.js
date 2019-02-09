@@ -12,6 +12,7 @@ import S008 from './S008/sketch';
 import S009 from './S009/sketch';
 import S010 from './S010/sketch';
 import S011 from './S011/sketch';
+import S012 from './S012/sketch';
 
 const Sketches = [
   {
@@ -73,6 +74,11 @@ const Sketches = [
     title: 'Bloom',
     image: Images.S011,
     sketch: S011,
+  },
+  {
+    title: '',
+    image: Images.S012,
+    sketch: S012,
   },
 ];
 
