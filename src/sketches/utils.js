@@ -15,7 +15,10 @@ const utils = {
   ),
   randomIntBetween: (min, max) => (
     Math.round(utils.randomFloatBetween(min, max))
-  )
+  ),
+  lerp: (a, b, t) => (
+    a * (1 - t) + b * t
+  ),
 }
 
 export default utils;

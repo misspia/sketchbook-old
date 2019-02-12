@@ -17,6 +17,7 @@ const Images = {
   T005b: require('./images/T005b.png'),
   T007: require('./images/T007.jpg'),
   T009: require('./images/T009.jpg'),
+  T012: require('./images/T012.jpg'),
 }
 
 export default Images;
