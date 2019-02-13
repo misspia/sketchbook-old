@@ -3,57 +3,104 @@ import glsl from 'glslify';
 
 import SketchManagerThree from '../sketchManagerThree';
 import utils from '../utils';
-import { Images } from '../../themes';
+import { Images } from '../../themes/themes';
 
-import frag from './plane.frag';
-import vert from './plane.vert';
+import planeFrag from './plane.frag';
+import planeVert from './plane.vert';
+import coreFrag from './core.frag';
+import coreVert from './core.vert';
+import auraFrag from './aura.frag';
+import auraVert from './aura.vert';
 
 /**
  * https://codepen.io/ykob/pen/BzwQGb?editors=1010
+ * https://www.pinterest.ca/pin/516295544779370629/ 
  */
 
  class Sketch extends SketchManagerThree {
   constructor(canvas) {
     super(canvas);
-    this.amp = 0.5;
-    this.noiseX = 1;
-    this.noiseY = 1;
-    this.noiseZ = 1;
+    this.amp = 3;
+    this.coreNoise = new THREE.Vector3(1, 1, 1);
+    this.auraNoise = new THREE.Vector3(2, 6, 1);
 
     this.planeMaterial = {};
+    this.coreMaterial = {};
+    this.auraMaterial = {};
   }
   unmount() {
 
   }
   init() {
     this.setClearColor(0x555555);
+    this.setCameraPos(0, 0, -90);
+    this.lookAt(0, 0, 0);
+
     this.createPlane();
+    this.createCore();
+    this.createAura();
   }
   createPlane() {
-    const geometry = new THREE.PlaneGeometry(5, 3, 20, 12);
+    const geometry = new THREE.PlaneGeometry(70, 70, 90, 90);
 
-    const texture = new THREE.TectureLoader().load(Images.T12);
+    const texture = new THREE.TextureLoader().load(Images.T12);
     this.planeMaterial = new THREE.RawShaderMaterial({
       side: THREE.DoubleSide,
-      fragmentShader: glsl(frag),
-      vertexShader: glsl(vert),
+      fragmentShader: glsl(planeFrag),
+      vertexShader: glsl(planeVert),
       shading: THREE.FlatShading,
       uniforms: {
         u_time: { type: 'f', value: 0 },
         u_amp: { type: 'f', value: this.amp },
-        U_noise_x: { type: 'f', value: this.noiseX },
         u_texture: { type: 't', value: texture }
       }
     });
     const plane = new THREE.Mesh(geometry, this.planeMaterial);
+    plane.position.y = -40;
     plane.rotation.x += utils.toRadians(90);
+    console.log(plane);
     this.scene.add(plane);
+  }
+  createCore() {
+    const geometry = new THREE.IcosahedronGeometry(10, 5);
+    this.coreMaterial = new THREE.RawShaderMaterial({
+      vertexShader: glsl(coreVert),
+      fragmentShader: glsl(coreFrag),
+      uniforms: {
+        u_time: { type: 'f', value: 0, },
+        u_amp: { type: 'f', value: this.amp },
+        u_noise: { type: 'v3', value: this.coreNoise },
+      }
+    });
+    const core = new THREE.Mesh(geometry, this.coreMaterial);
+    this.scene.add(core);
+  }
+  createAura() {
+    const geometry = new THREE.IcosahedronGeometry(20, 5);
+    this.auraMaterial = new THREE.RawShaderMaterial({
+      transparent: true,
+      vertexShader: glsl(auraVert),
+      fragmentShader: glsl(auraFrag),
+      uniforms: {
+        u_time: { type: 'f', value: 0, },
+        u_amp: { type: 'f', value: this.amp },
+        u_noise: { type: 'v3', value: this.auraNoise },
+      }
+    });
+    const aura = new THREE.Mesh(geometry, this.auraMaterial);
+    this.scene.add(aura);
   }
   draw() {
     this.renderer.render(this.scene, this.camera);
 
     this.planeMaterial.uniforms.u_time.value = this.getUTime();
     this.planeMaterial.uniforms.u_amp.value = this.amp;
+
+    this.coreMaterial.uniforms.u_time.value = this.getUTime();
+    this.coreMaterial.uniforms.u_amp.value = this.amp;
+
+    this.auraMaterial.uniforms.u_time.value = this.getUTime();
+    this.auraMaterial.uniforms.u_amp.value = this.amp;
 
     requestAnimationFrame(() => this.draw());
   }
