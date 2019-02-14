@@ -15,12 +15,14 @@ import auraVert from './aura.vert';
 /**
  * https://codepen.io/ykob/pen/BzwQGb?editors=1010
  * https://www.pinterest.ca/pin/516295544779370629/ 
+ * http://yiwenl.github.io/Sketches/exps/44/
  */
 
  class Sketch extends SketchManagerThree {
   constructor(canvas) {
     super(canvas);
     this.amp = 3;
+    this.planeNoise = new THREE.Vector3(1, 2, 1);
     this.coreNoise = new THREE.Vector3(1, 1, 1);
     this.auraNoise = new THREE.Vector3(2, 6, 1);
 
@@ -33,32 +35,36 @@ import auraVert from './aura.vert';
   }
   init() {
     this.setClearColor(0x555555);
-    this.setCameraPos(0, 0, -90);
+    this.setCameraPos(0, 50, -70);
     this.lookAt(0, 0, 0);
 
     this.createPlane();
-    this.createCore();
-    this.createAura();
+    // this.createCore();
+    // this.createAura();
   }
   createPlane() {
-    const geometry = new THREE.PlaneGeometry(70, 70, 90, 90);
+    const width = 120;
+    const height = 80;
+    const segmentRatio = 1.2;
+    const geometry = new THREE.PlaneGeometry(width, height, width * segmentRatio, height * segmentRatio);
 
-    const texture = new THREE.TextureLoader().load(Images.T12);
+    const texture = THREE.ImageUtils.loadTexture(Images.T012);
     this.planeMaterial = new THREE.RawShaderMaterial({
+    // this.planeMaterial = new THREE.ShaderMaterial({
       side: THREE.DoubleSide,
       fragmentShader: glsl(planeFrag),
       vertexShader: glsl(planeVert),
       shading: THREE.FlatShading,
+      // wireframe: true,
       uniforms: {
         u_time: { type: 'f', value: 0 },
         u_amp: { type: 'f', value: this.amp },
+        u_noise: {type: 'v3', value: this.planeNoise },
         u_texture: { type: 't', value: texture }
       }
     });
     const plane = new THREE.Mesh(geometry, this.planeMaterial);
-    plane.position.y = -40;
     plane.rotation.x += utils.toRadians(90);
-    console.log(plane);
     this.scene.add(plane);
   }
   createCore() {
@@ -96,11 +102,10 @@ import auraVert from './aura.vert';
     this.planeMaterial.uniforms.u_time.value = this.getUTime();
     this.planeMaterial.uniforms.u_amp.value = this.amp;
 
-    this.coreMaterial.uniforms.u_time.value = this.getUTime();
-    this.coreMaterial.uniforms.u_amp.value = this.amp;
-
-    this.auraMaterial.uniforms.u_time.value = this.getUTime();
-    this.auraMaterial.uniforms.u_amp.value = this.amp;
+    // this.coreMaterial.uniforms.u_time.value = this.getUTime();
+    // this.coreMaterial.uniforms.u_amp.value = this.amp;
+    // this.auraMaterial.uniforms.u_time.value = this.getUTime();
+    // this.auraMaterial.uniforms.u_amp.value = this.amp;
 
     requestAnimationFrame(() => this.draw());
   }
