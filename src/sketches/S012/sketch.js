@@ -21,14 +21,17 @@ import auraVert from './aura.vert';
  class Sketch extends SketchManagerThree {
   constructor(canvas) {
     super(canvas);
+    this.interactRadius = 0.2;
     this.amp = 3;
-    this.planeNoise = new THREE.Vector3(1, 2, 1);
+    this.planeNoise = new THREE.Vector3(1, 1.5, 1);
     this.coreNoise = new THREE.Vector3(1, 1, 1);
     this.auraNoise = new THREE.Vector3(2, 6, 1);
 
     this.planeMaterial = {};
     this.coreMaterial = {};
     this.auraMaterial = {};
+
+    this.raycaster = {};
   }
   unmount() {
 
@@ -37,20 +40,35 @@ import auraVert from './aura.vert';
     this.setClearColor(0x555555);
     this.setCameraPos(0, 50, -70);
     this.lookAt(0, 0, 0);
+    this.raycaster = new THREE.Raycaster();
+    this.createMouseListener();
 
     this.createPlane();
     // this.createCore();
     // this.createAura();
   }
+  updateRaycaster() {
+    this.raycaster.setFromCamera(this.mouse, this.camera);
+    const intersection = this.raycaster.intersectObjects(this.scene.children)[0];
+    
+    if(intersection) {
+      this.planeMaterial.uniforms.u_mouse.value = intersection.uv;
+    }
+  }
   createPlane() {
-    const width = 120;
-    const height = 80;
+    const width = 100;
+    const height = 100;
     const segmentRatio = 1.2;
-    const geometry = new THREE.PlaneGeometry(width, height, width * segmentRatio, height * segmentRatio);
+    const geometry = new THREE.PlaneGeometry(
+      width,
+      height,
+      width * segmentRatio,
+      height * segmentRatio
+    );
 
-    const texture = THREE.ImageUtils.loadTexture(Images.T012);
+    const textureA = THREE.ImageUtils.loadTexture(Images.T012a);
+    const textureB = THREE.ImageUtils.loadTexture(Images.T012b);
     this.planeMaterial = new THREE.RawShaderMaterial({
-    // this.planeMaterial = new THREE.ShaderMaterial({
       side: THREE.DoubleSide,
       fragmentShader: glsl(planeFrag),
       vertexShader: glsl(planeVert),
@@ -60,7 +78,10 @@ import auraVert from './aura.vert';
         u_time: { type: 'f', value: 0 },
         u_amp: { type: 'f', value: this.amp },
         u_noise: {type: 'v3', value: this.planeNoise },
-        u_texture: { type: 't', value: texture }
+        u_texture_a: { type: 't', value: textureA },
+        u_texture_b: { type: 't', value: textureB },
+        u_mouse: { type: 'v2', value: new THREE.Vector2() },
+        u_interact_radius: { type: 'f', value: this.interactRadius },
       }
     });
     const plane = new THREE.Mesh(geometry, this.planeMaterial);
@@ -98,6 +119,7 @@ import auraVert from './aura.vert';
   }
   draw() {
     this.renderer.render(this.scene, this.camera);
+    this.updateRaycaster();
 
     this.planeMaterial.uniforms.u_time.value = this.getUTime();
     this.planeMaterial.uniforms.u_amp.value = this.amp;
