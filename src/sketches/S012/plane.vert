@@ -9,10 +9,7 @@ uniform mat4 modelViewMatrix;
 
 uniform float u_time;
 uniform float u_amp;
-uniform float u_interact_radius;
 uniform vec3 u_noise;
-uniform vec2 u_mouse;
-uniform float u_mix_value;
 
 varying vec3 vNormal;
 varying vec3 vPosition;

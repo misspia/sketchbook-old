@@ -76,7 +76,8 @@ const Sketches = [
     sketch: S011,
   },
   {
-    title: '',
+    title: 'Noisey plane & texture mixing',
+    instructions: 'Hold mouse to reach level 9000',
     image: Images.S012,
     sketch: S012,
   },

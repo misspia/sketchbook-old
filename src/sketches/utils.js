@@ -1,6 +1,9 @@
 import * as THREE from 'three';
 
 const utils = {
+  clamp: (min, max, value) => (
+    Math.min(Math.max(value, min), max)
+  ),
   toRadians: (degrees) => (
     degrees * Math.PI / 180
   ),

@@ -2,10 +2,7 @@ precision highp float;
 
 uniform sampler2D u_texture_a;
 uniform sampler2D u_texture_b;
-uniform vec2 u_mouse;
-uniform vec3 u_noise;
 uniform float u_time;
-uniform float u_interact_radius;
 uniform float u_mix_value;
 
 varying vec3 vNormal;
@@ -24,32 +21,16 @@ float rand(vec2 st) {
 
 void main() {
     float zDistance = 1.0 - vPosition.z;
-    // blue
-    vec3 blue = vec3(
-        remap(zDistance, -1.0, 1.0, 0.25, 0.3), 
-        remap(zDistance, -1.0, 1.0, 0.4, 0.5), 
-        remap(zDistance, -1.0, 1.0, 0.6, 1.0)
-    );
-    
-    // red
-    vec3 red = vec3(
-        remap(zDistance, -1.0, 1.0, 0.4, 1.0),
-        remap(zDistance, -1.0, 1.0, 0.3, 0.4), 
-        remap(zDistance, -1.0, 1.0, 0.3, 0.4) 
-    );
-
-    // white
     vec3 white = vec3(
         remap(zDistance, -1.0, 1.0, 0.7, 0.9), 
         remap(zDistance, -1.0, 1.0, 0.7, 0.9), 
         remap(zDistance, -1.0, 1.0, 0.7, 0.9)
     );
-
     vec4 color = vec4(white, 1.0);
     
     vec4 tA = texture2D(u_texture_a, vUv);
     vec4 tB = texture2D(u_texture_b, vUv);
-    vec4 texture = mix(tB, tA, u_mix_value);
+    vec4 texture = mix(tA, tB, u_mix_value);
     
     bool isWhite = texture.r > 0.95 && texture.g > 0.9 && texture.b > 0.9; 
 

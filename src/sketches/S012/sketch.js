@@ -1,38 +1,40 @@
 import * as THREE from 'three';
 import glsl from 'glslify';
+import utils from '../utils';
 
 import SketchManagerThree from '../sketchManagerThree';
-import utils from '../utils';
 import { Images } from '../../themes/themes';
 
-import planeFrag from './plane.frag';
-import planeVert from './plane.vert';
-
-/**
- * https://codepen.io/ykob/pen/BzwQGb?editors=1010
- * https://www.pinterest.ca/pin/516295544779370629/ 
- * http://yiwenl.github.io/Sketches/exps/44/
- */
+import frag from './plane.frag';
+import vert from './plane.vert';
 
  class Sketch extends SketchManagerThree {
   constructor(canvas) {
     super(canvas);
     this.interactRadius = 0.2;
-    this.amp = 3;
-    this.planeNoise = new THREE.Vector3(1, 1.5, 1);
+    this.amp = 3.5;
+    this.planeNoise = new THREE.Vector3(1, 2, 2);
     this.planeMaterial = {};
 
     this.raycaster = {};
     this.isMousedown = false;
     this.reveal = 0;
     this.revealIncrement = 0.01;
+
+    this.rotateionSensitivity = 70;
+    this.rotationRadius = 80;
+    this.rotationRange = {
+      minX: -70,
+      maxX: 70,
+    };
   }
   unmount() {
 
   }
   init() {
+    this.disableOrbitControls();
     this.setClearColor(0xbbbb55);
-    this.setCameraPos(0, 50, -70);
+    this.setCameraPos(0, 0, -this.rotationRadius);
     this.lookAt(0, 0, 0);
     this.raycaster = new THREE.Raycaster();
     this.createMouseListener();
@@ -45,14 +47,6 @@ import planeVert from './plane.vert';
     this.canvas.addEventListener('mouseup', (e) => {
       this.isMousedown = false;
     });
-  }
-  updateRaycaster() {
-    this.raycaster.setFromCamera(this.mouse, this.camera);
-    const intersection = this.raycaster.intersectObjects(this.scene.children)[0];
-    
-    if(intersection) {
-      this.planeMaterial.uniforms.u_mouse.value = intersection.uv;
-    }
   }
   createPlane() {
     const width = 100;
@@ -70,8 +64,8 @@ import planeVert from './plane.vert';
     this.planeMaterial = new THREE.RawShaderMaterial({
       side: THREE.DoubleSide,
       transparent: true,
-      fragmentShader: glsl(planeFrag),
-      vertexShader: glsl(planeVert),
+      fragmentShader: glsl(frag),
+      vertexShader: glsl(vert),
       shading: THREE.FlatShading,
       uniforms: {
         u_time: { type: 'f', value: 0 },
@@ -79,22 +73,34 @@ import planeVert from './plane.vert';
         u_noise: {type: 'v3', value: this.planeNoise },
         u_texture_a: { type: 't', value: textureA },
         u_texture_b: { type: 't', value: textureB },
-        u_mouse: { type: 'v2', value: new THREE.Vector2() },
-        u_interact_radius: { type: 'f', value: this.interactRadius },
         u_mix_value: { type: 'f', value: this.reveal },
       }
     });
     const plane = new THREE.Mesh(geometry, this.planeMaterial);
-    plane.rotation.x += utils.toRadians(40);
     this.scene.add(plane);
+  }
+  offsetCamera() {
+    const { minX, maxX } = this.rotationRange;
+    const centerCoord = { x: 0, y: 0, z: 0 };
+    const degrees = utils.clamp(minX, maxX, this.mouse.x * this.rotateionSensitivity);
+    const angle = utils.toRadians(degrees);
+    const { x, z } = this.getCircleCoord(centerCoord, this.rotationRadius, angle);
+    this.setCameraPos(x, 0, -z);
+    this.lookAt(0, 0, 0);
+  }
+  getCircleCoord(centerCoord, radius, angle) {
+    return {
+      x: centerCoord.x + radius * Math.sin(angle),
+      y: 0,
+      z: centerCoord.y + radius * Math.cos(angle),
+    }
   }
   draw() {
     this.renderer.render(this.scene, this.camera);
-    this.updateRaycaster();
+    this.offsetCamera();
 
     this.planeMaterial.uniforms.u_time.value = this.getUTime();
     this.planeMaterial.uniforms.u_amp.value = this.amp;
-
 
     if(this.isMousedown && this.reveal < 1) {
       this.reveal += this.revealIncrement;
@@ -103,7 +109,7 @@ import planeVert from './plane.vert';
       this.reveal -= this.revealIncrement;
     }
     this.planeMaterial.uniforms.u_mix_value.value = this.reveal;
-
+    
     requestAnimationFrame(() => this.draw());
   }
 }
