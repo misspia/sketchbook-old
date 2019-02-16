@@ -11,6 +11,7 @@ export const HeaderContainer = styled.header`
   position: fixed;
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   align-items: center;
   text-align: center;
   padding: 1em 0;
@@ -22,7 +23,7 @@ export const HeaderContainer = styled.header`
   & > * {
     margin: 0;
     padding: 0 0.5em;
-    color: ${Colors.grey};
+    color: ${Colors.greyDark};
   }
   a {
     ${Styles.anchorReset}
@@ -33,7 +34,11 @@ export const HeaderContainer = styled.header`
   }
 `;
 
-export const Title = styled.h1`
+export const Instructions = styled.div`
+  font-size: 0.9em;
+  margin-left: 0.5em;
+  padding: 0.1em 0.5em;
+  background-color: ${Colors.whiteTranslucent};
   letter-spacing: 0.1em;
-  text-transform: capitalize;
+
 `;

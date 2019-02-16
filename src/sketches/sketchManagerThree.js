@@ -80,6 +80,13 @@ class SketchManagerThree {
   createDatGUI() {
     this.gui = new dat.GUI();
   }
+  createMouseListener() {
+    this.mouse = new THREE.Vector2();
+    this.canvas.addEventListener('mousemove', e => {
+      this.mouse.x = (e.clientX / this.canvas.width) * 2 - 1;
+      this.mouse.y = - (e.clientY / this.canvas.height) * 2 + 1;
+    });
+  }
   resize() {
     const width = window.innerWidth;
     const height = window.innerHeight;

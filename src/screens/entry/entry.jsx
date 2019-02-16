@@ -47,9 +47,11 @@ class Entry extends Component {
     })
   }
   setNewSketch(sketchIndex) {
+    const Sketch = Sketches[sketchIndex];
     this.setState({
-      title: Sketches[sketchIndex].title,
-      sketch: new Sketches[sketchIndex].sketch(this.canvas, this.audio),
+      title: Sketch.title,
+      instructions: Sketch.instructions,
+      sketch: new Sketch.sketch(this.canvas, this.audio),
     }, () => {
       if(this.state.sketch.audioElement) {
         this.setState(prevState => ({
@@ -102,7 +104,10 @@ class Entry extends Component {
     return (
       <Container ref={ref => this.container = ref }>
           {this.renderMediaActivator()}
-          <Header title={this.state.title}/>
+          <Header 
+            title={this.state.title}
+            instructions={this.state.instructions}
+          />
           <canvas ref={ref => this.canvas = ref }></canvas>
           <audio ref={ref => this.audio = ref} loop />
       </Container>

@@ -5,31 +5,31 @@ import Routes from '../../router/routes.js'
 import { Icons } from '../../themes/themes.js'
 import Icon from '../../shared/icon/icon.jsx'
 
-import { HeaderContainer, Title } from './entry.styles.js'
+import * as S from './entry.styles.js'
 
 class Header extends Component {
   constructor(props) {
     super(props);
   }
   static defaultProps = {
-    title: ''
+    instructions: '',
   }
   renderBackButton() {
     return <NavLink exact to={Routes.home}>
       <Icon name={Icons.close}/>
     </NavLink>
   }
-  renderTitle() {
-    return <Title>
-      {/* {this.props.title} */}
-    </Title>
+  renderInstructions() {
+    if(!this.props.instructions) return;
+    return <S.Instructions>
+      {this.props.instructions}
+    </S.Instructions>
   }
-  leading
   render() {
-    return <HeaderContainer>
+    return <S.HeaderContainer>
       {this.renderBackButton()}
-      {this.renderTitle()}
-    </HeaderContainer>
+      {this.renderInstructions()}
+    </S.HeaderContainer>
   }
 }
 

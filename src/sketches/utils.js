@@ -1,6 +1,9 @@
 import * as THREE from 'three';
 
 const utils = {
+  clamp: (min, max, value) => (
+    Math.min(Math.max(value, min), max)
+  ),
   toRadians: (degrees) => (
     degrees * Math.PI / 180
   ),
@@ -15,7 +18,10 @@ const utils = {
   ),
   randomIntBetween: (min, max) => (
     Math.round(utils.randomFloatBetween(min, max))
-  )
+  ),
+  lerp: (a, b, t) => (
+    a * (1 - t) + b * t
+  ),
 }
 
 export default utils;
