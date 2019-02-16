@@ -17,7 +17,8 @@ const Images = {
   T005b: require('./images/T005b.png'),
   T007: require('./images/T007.jpg'),
   T009: require('./images/T009.jpg'),
-  T012a: require('./images/T012.jpg'),
+  // T012a: require('./images/T012.jpg'),
+  T012a: require('./images/T012a.jpg'),
   T012b: require('./images/T012b.jpg'),
 }
 

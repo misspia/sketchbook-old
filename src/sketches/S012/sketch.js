@@ -7,10 +7,6 @@ import { Images } from '../../themes/themes';
 
 import planeFrag from './plane.frag';
 import planeVert from './plane.vert';
-import coreFrag from './core.frag';
-import coreVert from './core.vert';
-import auraFrag from './aura.frag';
-import auraVert from './aura.vert';
 
 /**
  * https://codepen.io/ykob/pen/BzwQGb?editors=1010
@@ -24,28 +20,31 @@ import auraVert from './aura.vert';
     this.interactRadius = 0.2;
     this.amp = 3;
     this.planeNoise = new THREE.Vector3(1, 1.5, 1);
-    this.coreNoise = new THREE.Vector3(1, 1, 1);
-    this.auraNoise = new THREE.Vector3(2, 6, 1);
-
     this.planeMaterial = {};
-    this.coreMaterial = {};
-    this.auraMaterial = {};
 
     this.raycaster = {};
+    this.isMousedown = false;
+    this.reveal = 0;
+    this.revealIncrement = 0.01;
   }
   unmount() {
 
   }
   init() {
-    this.setClearColor(0x555555);
+    this.setClearColor(0xbbbb55);
     this.setCameraPos(0, 50, -70);
     this.lookAt(0, 0, 0);
     this.raycaster = new THREE.Raycaster();
     this.createMouseListener();
 
     this.createPlane();
-    // this.createCore();
-    // this.createAura();
+
+    this.canvas.addEventListener('mousedown', (e) => {
+      this.isMousedown = true;
+    });
+    this.canvas.addEventListener('mouseup', (e) => {
+      this.isMousedown = false;
+    });
   }
   updateRaycaster() {
     this.raycaster.setFromCamera(this.mouse, this.camera);
@@ -70,10 +69,10 @@ import auraVert from './aura.vert';
     const textureB = THREE.ImageUtils.loadTexture(Images.T012b);
     this.planeMaterial = new THREE.RawShaderMaterial({
       side: THREE.DoubleSide,
+      transparent: true,
       fragmentShader: glsl(planeFrag),
       vertexShader: glsl(planeVert),
       shading: THREE.FlatShading,
-      // wireframe: true,
       uniforms: {
         u_time: { type: 'f', value: 0 },
         u_amp: { type: 'f', value: this.amp },
@@ -82,40 +81,12 @@ import auraVert from './aura.vert';
         u_texture_b: { type: 't', value: textureB },
         u_mouse: { type: 'v2', value: new THREE.Vector2() },
         u_interact_radius: { type: 'f', value: this.interactRadius },
+        u_mix_value: { type: 'f', value: this.reveal },
       }
     });
     const plane = new THREE.Mesh(geometry, this.planeMaterial);
-    plane.rotation.x += utils.toRadians(90);
+    plane.rotation.x += utils.toRadians(40);
     this.scene.add(plane);
-  }
-  createCore() {
-    const geometry = new THREE.IcosahedronGeometry(10, 5);
-    this.coreMaterial = new THREE.RawShaderMaterial({
-      vertexShader: glsl(coreVert),
-      fragmentShader: glsl(coreFrag),
-      uniforms: {
-        u_time: { type: 'f', value: 0, },
-        u_amp: { type: 'f', value: this.amp },
-        u_noise: { type: 'v3', value: this.coreNoise },
-      }
-    });
-    const core = new THREE.Mesh(geometry, this.coreMaterial);
-    this.scene.add(core);
-  }
-  createAura() {
-    const geometry = new THREE.IcosahedronGeometry(20, 5);
-    this.auraMaterial = new THREE.RawShaderMaterial({
-      transparent: true,
-      vertexShader: glsl(auraVert),
-      fragmentShader: glsl(auraFrag),
-      uniforms: {
-        u_time: { type: 'f', value: 0, },
-        u_amp: { type: 'f', value: this.amp },
-        u_noise: { type: 'v3', value: this.auraNoise },
-      }
-    });
-    const aura = new THREE.Mesh(geometry, this.auraMaterial);
-    this.scene.add(aura);
   }
   draw() {
     this.renderer.render(this.scene, this.camera);
@@ -124,10 +95,14 @@ import auraVert from './aura.vert';
     this.planeMaterial.uniforms.u_time.value = this.getUTime();
     this.planeMaterial.uniforms.u_amp.value = this.amp;
 
-    // this.coreMaterial.uniforms.u_time.value = this.getUTime();
-    // this.coreMaterial.uniforms.u_amp.value = this.amp;
-    // this.auraMaterial.uniforms.u_time.value = this.getUTime();
-    // this.auraMaterial.uniforms.u_amp.value = this.amp;
+
+    if(this.isMousedown && this.reveal < 1) {
+      this.reveal += this.revealIncrement;
+    }
+    if(!this.isMousedown && this.reveal > 0) {
+      this.reveal -= this.revealIncrement;
+    }
+    this.planeMaterial.uniforms.u_mix_value.value = this.reveal;
 
     requestAnimationFrame(() => this.draw());
   }
