@@ -101,7 +101,6 @@ class Entry extends Component {
     )
   }
   render() {
-    console.log(this.state)
     return (
       <Container ref={ref => this.container = ref }>
           {this.renderMediaActivator()}

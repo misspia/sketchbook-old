@@ -21,11 +21,11 @@ import vert from './plane.vert';
     this.reveal = 0;
     this.revealIncrement = 0.01;
 
-    this.rotateionSensitivity = 70;
+    this.rotateionSensitivity = 60;
     this.rotationRadius = 80;
     this.rotationRange = {
-      minX: -70,
-      maxX: 70,
+      minX: -100,
+      maxX: 100,
     };
   }
   unmount() {
@@ -45,6 +45,16 @@ import vert from './plane.vert';
       this.isMousedown = true;
     });
     this.canvas.addEventListener('mouseup', (e) => {
+      this.isMousedown = false;
+    });
+
+    /**
+     * mobile
+     */
+    this.canvas.addEventListener('touchstart', (e) => {
+      this.isMousedown = true;
+    });
+    this.canvas.addEventListener('touchend', (e) => {
       this.isMousedown = false;
     });
   }
