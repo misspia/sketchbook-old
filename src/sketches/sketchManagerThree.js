@@ -44,7 +44,7 @@ class SketchManagerThree {
       stencil: false
     });
     this.renderer.setSize(window.innerWidth, window.innerHeight);
-    this.renderer.setClearColor( 0x00ff00 );
+    this.renderer.setClearColor( 0xffdddd );
     const dpr = Math.min(1.5, window.devicePixelRatio);
     this.renderer.setPixelRatio(dpr);
 
