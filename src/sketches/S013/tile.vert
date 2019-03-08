@@ -8,6 +8,8 @@ uniform mat4 projectionMatrix;
 uniform mat4 modelViewMatrix;
 
 uniform float u_time;
+uniform float u_amp;
+uniform vec3 u_noise;
 
 varying vec3 vNormal;
 varying vec3 vPosition;
