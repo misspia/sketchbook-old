@@ -1,18 +1,15 @@
 import * as THREE from 'three';
 import glsl from 'glslify';
-import utils from '../utils';
 
-import tileFrag from './tile.frag';
-import tileVert from './tile.vert';
-
+import Line from './line';
 
 // https://codepen.io/alexandrejosephdev/pen/yVvqWr
+// https://github.com/spite/ccapture.js
 // https://www.reddit.com/r/ImaginaryMindscapes/comments/aycnoj/reach_by_scott_uminga/
+// https://github.com/spite/polygon-shredder/blob/master/js/Simulation.js
 
 // https://codepen.io/noeldelgado/pen/QwWRwg?editors=0010
 
-// https://www.pinterest.ca/pin/46795283613549106/
-// https://www.pinterest.ca/pin/723390758873941202/
 
 import SketchManagerThree from '../sketchManagerThree';
 
@@ -23,39 +20,29 @@ import SketchManagerThree from '../sketchManagerThree';
     this.amp = 3;
     this.noise = new THREE.Vector3(1, 1, 1);
     this.tile = {};
+    this.lines = [];
   }
   unmount() {
 
   }
   init() {
-    this.setCameraPos(0, 20, -25);
+    this.setCameraPos(0, 20, -55);
     this.lookAt(0, 0, 0);
-    this.createTiles();
+    this.createLines();
   }
-  createTiles () {
-    this.tile = this.createTile();
-    this.scene.add(this.tile);
-  }
-  createTile () {
-    const geometry = new THREE.PlaneGeometry(10, 10);
-    const material = new THREE.RawShaderMaterial({
-      color: 0xddcccc,
-      side: THREE.DoubleSide,
-      fragmentShader: tileFrag,
-      vertexShader: tileVert,
-      uniforms: {
-        u_time: { type: 'f', value: 0 },
-        u_amp: { type: 'f', value: this.amp },
-        u_noise: { type: 'v3', value: this.noise },
-      }
-    });
-    const tile = new THREE.Mesh(geometry, material);
-    return tile;
+  createLines() {
+    for(let i = 0; i < 10; i ++) {
+      const line = new Line();
+
+      this.scene.add(line.mesh);
+      this.lines.push(line);
+
+    }
   }
   draw() {
     this.renderer.render(this.scene, this.camera);
     
-    this.tile.material.uniforms.u_time.value = this.getUTime();
+    this.lines.forEach(line => line.update());
 
     requestAnimationFrame(() => this.draw());
   }
