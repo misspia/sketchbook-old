@@ -1,17 +1,32 @@
 import  * as THREE from 'three';
 import utils from '../utils';
 
+import frag from './ray.frag';
+import vert from './ray.vert';
+
 export default class Line  {
-  constructor(cameraDistance, pivotCoord) {    
+  constructor(cameraDistance, pivotCoord) {  
+    const palette = [
+      0xff5555,
+      0xffcccc,
+      0xaaddaa,
+      0x55aa55,
+
+    ];  
     this.minY = -cameraDistance;
     this.maxY = cameraDistance;
     this.dimension = cameraDistance;
     this.velocity = utils.randomFloatBetween(0.1, 1);
     this.rotateVeocityY = 0.01;
     
-    const height = utils.randomFloatBetween(30, 50)
+    
+    const height = utils.randomFloatBetween(50, 70)
     this.geometry = new THREE.BoxGeometry(2, height, 2);
-    this.material = new THREE.MeshBasicMaterial({ color: 0xffffff });
+
+    const paletteIndex = utils.randomIntBetween(0, palette.length - 1);
+    this.material = new THREE.MeshBasicMaterial({
+      color: palette[paletteIndex]
+    });
     
     this.mesh = new THREE.Mesh(this.geometry, this.material);
     

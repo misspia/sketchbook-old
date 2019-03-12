@@ -1,8 +1,8 @@
 import * as THREE from 'three';
 import glsl from 'glslify';
 
-import Line from './line';
-import Feather from './feather';
+import Ray from './ray';
+import Petal from './petal';
 
 // https://codepen.io/alexandrejosephdev/pen/yVvqWr
 
@@ -13,11 +13,12 @@ import SketchManagerThree from '../sketchManagerThree';
     super(canvas);
 
     this.cameraDistance = 100;
+    this.sceneCenter = { x: 0, y: 0, z: 0 };
 
-    this.numLines = 10;
-    this.numFeathers = 15;
-    this.lines = [];
-    this.feathers = [];
+    this.numRays = 10;
+    this.numPetals = 20;
+    this.rays = [];
+    this.petals = [];
   }
   unmount() {
 
@@ -26,35 +27,35 @@ import SketchManagerThree from '../sketchManagerThree';
     // this.setCameraPos(0, -100, -this.cameraDistance);
     this.setClearColor(0xddeedd);
     this.setCameraPos(0, -this.cameraDistance, 0);
-    this.lookAt(0, 0, 0);
-    this.createLines();
-    this.createFeathers();
-    this.createCenterPiece();
-  }
-  createLines() {
-    const center = { x: 0, y: 0, z: 0 };
 
-    for(let i = 0; i < this.numLines; i ++) {
-      const line = new Line(this.cameraDistance, center);
-      this.scene.add(line.mesh);
-      this.lines.push(line);
+    const { x, y, z } = this.sceneCenter;
+    this.lookAt(x, y, z);
+    this.createRays();
+    this.createPetals();
+    this.createOrb();
+  }
+  createRays() {
+    for(let i = 0; i < this.numRays; i ++) {
+      const ray = new Ray(this.cameraDistance, this.sceneCenter);
+      this.scene.add(ray.mesh);
+      this.rays.push(ray);
     }
   }
-  createFeathers() {
-    for(let i = 0; i < this.numFeathers; i++) {
-      const feather = new Feather(this.cameraDistance);
-      this.scene.add(feather.mesh);
-      this.feathers.push(feather);
+  createPetals() {
+    for(let i = 0; i < this.numPetals; i++) {
+      const petal = new Petal(this.cameraDistance, this.sceneCenter);
+      this.scene.add(petal.mesh);
+      this.petals.push(petal);
     }
   }
-  createCenterPiece() {
+  createOrb() {
 
   }
   draw() {
     this.renderer.render(this.scene, this.camera);
     
-    this.lines.forEach(line => line.update());
-    this.feathers.forEach(feather => feather.update())
+    this.rays.forEach(ray => ray.update());
+    this.petals.forEach(petal => petal.update())
 
     requestAnimationFrame(() => this.draw());
   }
