@@ -2,14 +2,9 @@ import * as THREE from 'three';
 import glsl from 'glslify';
 
 import Line from './line';
+import Feather from './feather';
 
 // https://codepen.io/alexandrejosephdev/pen/yVvqWr
-// https://github.com/spite/ccapture.js
-// https://www.reddit.com/r/ImaginaryMindscapes/comments/aycnoj/reach_by_scott_uminga/
-// https://github.com/spite/polygon-shredder/blob/master/js/Simulation.js
-
-// https://codepen.io/noeldelgado/pen/QwWRwg?editors=0010
-
 
 import SketchManagerThree from '../sketchManagerThree';
 
@@ -17,32 +12,49 @@ import SketchManagerThree from '../sketchManagerThree';
   constructor(canvas) {
     super(canvas);
 
-    this.amp = 3;
-    this.noise = new THREE.Vector3(1, 1, 1);
-    this.tile = {};
+    this.cameraDistance = 100;
+
+    this.numLines = 10;
+    this.numFeathers = 15;
     this.lines = [];
+    this.feathers = [];
   }
   unmount() {
 
   }
   init() {
-    this.setCameraPos(0, 20, -55);
+    // this.setCameraPos(0, -100, -this.cameraDistance);
+    this.setClearColor(0xddeedd);
+    this.setCameraPos(0, -this.cameraDistance, 0);
     this.lookAt(0, 0, 0);
     this.createLines();
+    this.createFeathers();
+    this.createCenterPiece();
   }
   createLines() {
-    for(let i = 0; i < 10; i ++) {
-      const line = new Line();
+    const center = { x: 0, y: 0, z: 0 };
 
+    for(let i = 0; i < this.numLines; i ++) {
+      const line = new Line(this.cameraDistance, center);
       this.scene.add(line.mesh);
       this.lines.push(line);
-
     }
+  }
+  createFeathers() {
+    for(let i = 0; i < this.numFeathers; i++) {
+      const feather = new Feather(this.cameraDistance);
+      this.scene.add(feather.mesh);
+      this.feathers.push(feather);
+    }
+  }
+  createCenterPiece() {
+
   }
   draw() {
     this.renderer.render(this.scene, this.camera);
     
     this.lines.forEach(line => line.update());
+    this.feathers.forEach(feather => feather.update())
 
     requestAnimationFrame(() => this.draw());
   }
