@@ -10,7 +10,7 @@ export default class Petal {
       0xffbbbb,
       0xff5555,
       0xeeddaa,
-      0xbbee55,
+      // 0xbbee55,
     ];
     this.minY = -cameraDistance * 1.2;
     this.maxY = cameraDistance * 1.2;
@@ -38,6 +38,7 @@ export default class Petal {
     });
     
     this.mesh = new THREE.Mesh(this.geometry, this.material);
+    this.mesh.receiveShadow = true;
     this.updatePosition();
   }
   createpetalGeometry(size = 1) {

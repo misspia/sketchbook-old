@@ -6,12 +6,16 @@ import vert from './ray.vert';
 
 export default class Line  {
   constructor(cameraDistance, pivotCoord) {  
+    // const palette = [
+    //   0xff5555,
+    //   0xffcccc,
+    //   0xaaddaa,
+    //   0x55aa55,
+    // ];  
     const palette = [
-      0xff5555,
-      0xffcccc,
-      0xaaddaa,
-      0x55aa55,
-
+      0xffffff,
+      0xaaaaaa,
+      0x555555,
     ];  
     this.minY = -cameraDistance;
     this.maxY = cameraDistance;
@@ -29,6 +33,7 @@ export default class Line  {
     });
     
     this.mesh = new THREE.Mesh(this.geometry, this.material);
+    this.mesh.receiveShadow = true;
     
     this.centerCoord = {
       x: pivotCoord.x,
