@@ -13,18 +13,18 @@ export default class Line  {
     //   0x55aa55,
     // ];  
     const palette = [
-      0xffffff,
+      0xdddddd,
       0xaaaaaa,
       0x555555,
     ];  
-    this.minY = -cameraDistance;
-    this.maxY = cameraDistance;
-    this.dimension = cameraDistance;
     this.velocity = utils.randomFloatBetween(0.1, 1);
     this.rotateVeocityY = 0.01;
     
-    
     const height = utils.randomFloatBetween(50, 70)
+    this.dimension = cameraDistance;
+    this.minY = -this.dimension - height;
+    this.maxY = this.dimension + height;
+
     this.geometry = new THREE.BoxGeometry(2, height, 2);
 
     const paletteIndex = utils.randomIntBetween(0, palette.length - 1);

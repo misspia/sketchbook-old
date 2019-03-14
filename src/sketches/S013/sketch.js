@@ -4,7 +4,7 @@ import glsl from 'glslify';
 
 import Ray from './ray';
 import Petal from './petal';
-import Orb from './orb';
+import Butterfly from './butterfly';
 
 // https://codepen.io/alexandrejosephdev/pen/yVvqWr
 
@@ -19,8 +19,10 @@ import SketchManagerThree from '../sketchManagerThree';
 
     this.numRays = 10;
     this.numPetals = 20;
+    this.numButterflies = 5;
     this.rays = [];
     this.petals = [];
+    this.butterflies = [];
 
     this.clock = new THREE.Clock();
     this.composer = {};
@@ -39,7 +41,7 @@ import SketchManagerThree from '../sketchManagerThree';
     this.lookAt(x, y, z);
     this.createRays();
     this.createPetals();
-    // this.createOrb();
+    this.createButterflies();
     this.createEffects();
   }
   createEffects() {
@@ -50,10 +52,13 @@ import SketchManagerThree from '../sketchManagerThree';
     this.composer = new PP.EffectComposer(this.renderer);
     this.renderPass = new PP.RenderPass(this.scene, this.camera, 0x111111);   
   
+    /**
+     * https://vanruesc.github.io/postprocessing/public/docs/class/src/effects/GodRaysEffect.js~GodRaysEffect.html
+     */
     const options = { 
       density: 0.1,
       weight: 0.1,
-      exposure: 0.5,
+      exposure: 0.4,
       // blendFunction: PP.BlendFunction.OVERLAY,
     };
     
@@ -83,6 +88,13 @@ import SketchManagerThree from '../sketchManagerThree';
       this.petals.push(petal);
     }
   }
+  createButterflies() {
+    for(let i = 0; i < this.numButterflies; i++) {
+      const butterfly = new Butterfly(this.cameraDistance, this.sceneCenter);
+      this.scene.add(butterfly.group);
+      this.butterflies.push(butterfly);
+    }
+  }
   createOrb() {
     this.orb = new Orb();
 
@@ -94,7 +106,8 @@ import SketchManagerThree from '../sketchManagerThree';
     this.composer.renderer.autoClear = false;
 
     this.rays.forEach(ray => ray.update());
-    this.petals.forEach(petal => petal.update())
+    this.petals.forEach(petal => petal.update());
+    this.butterflies.forEach(butterfly => butterfly.update());
 
     requestAnimationFrame(() => this.draw());
   }

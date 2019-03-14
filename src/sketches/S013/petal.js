@@ -18,9 +18,12 @@ export default class Petal {
 
     this.centerCoord = {
       ...pivotCoord,
-      y: -this.maxY,
+      y: this.maxY,
     };
-    this.radius = utils.randomFloatBetween(this.dimension * 0.6, this.dimension);
+    this.radius = utils.randomFloatBetween(
+      this.dimension * 0.7,
+      this.dimension
+    );
     this.angle = utils.randomFloatBetween(0, 2 * Math.PI);
 
     this.angleVelocity = utils.randomFloatBetween(0.002, 0.01);
@@ -29,7 +32,7 @@ export default class Petal {
     this.rotateVelocityY = utils.randomFloatBetween(0.005, 0.05);
     this.rotateVelocityZ = utils.randomFloatBetween(0.002, 0.05);
 
-    this.geometry = this.createpetalGeometry(utils.randomFloatBetween(0.05, 0.08));
+    this.geometry = this.createPetalGeometry(utils.randomFloatBetween(0.05, 0.08));
     this.geometry.center();
 
     const paletteIndex = utils.randomIntBetween(0, palette.length - 1);
@@ -41,7 +44,7 @@ export default class Petal {
     this.mesh.receiveShadow = true;
     this.updatePosition();
   }
-  createpetalGeometry(size = 1) {
+  createPetalGeometry(size = 1) {
     var petalShape = new THREE.Shape();
     petalShape.moveTo(0, 0);
 
