@@ -13,6 +13,7 @@ import S009 from './S009/sketch';
 import S010 from './S010/sketch';
 import S011 from './S011/sketch';
 import S012 from './S012/sketch';
+import S013 from './S013/sketch';
 
 const Sketches = [
   {
@@ -80,6 +81,11 @@ const Sketches = [
     instructions: 'Press & hold to reach level 9000',
     image: Images.S012,
     sketch: S012,
+  },
+  {
+    title: '',
+    image: Images.S013,
+    sketch: S013,
   },
 ];
 

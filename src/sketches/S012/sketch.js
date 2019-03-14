@@ -59,8 +59,8 @@ import vert from './plane.vert';
     });
   }
   createPlane() {
-    const width = 100;
-    const height = 100;
+    const width = 90;
+    const height = 90;
     const segmentRatio = 1.2;
     const geometry = new THREE.PlaneGeometry(
       width,

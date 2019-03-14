@@ -1,5 +1,6 @@
-import * as THREE from 'three';
 import dat from 'dat.gui';
+import Stats from 'stats-js';
+import * as THREE from 'three';
 import OrbitControls from 'three-orbit-controls';
 
 import Audio from './audio.js';
@@ -25,6 +26,7 @@ class SketchManagerThree {
     this.canvas = canvas;
     this.mouse = {};
     this.gui = {};
+    this.stats = {};
     this.scene = {};
     this.camera = {};
     
@@ -44,7 +46,7 @@ class SketchManagerThree {
       stencil: false
     });
     this.renderer.setSize(window.innerWidth, window.innerHeight);
-    this.renderer.setClearColor( 0x00ff00 );
+    this.renderer.setClearColor( 0xffdddd );
     const dpr = Math.min(1.5, window.devicePixelRatio);
     this.renderer.setPixelRatio(dpr);
 
@@ -79,6 +81,11 @@ class SketchManagerThree {
   }
   createDatGUI() {
     this.gui = new dat.GUI();
+  }
+  createStatsFPS() {
+    this.stats = new Stats();
+    this.stats.showPanel(0);
+    document.body.appendChild(this.stats.dom);
   }
   createMouseListener() {
     this.mouse = new THREE.Vector2();
