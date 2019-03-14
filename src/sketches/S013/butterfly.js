@@ -1,15 +1,8 @@
 import * as THREE from 'three';
 import utils from '../utils';
 
-/**
- * https://threejs.org/examples/?q=gpu#webgl_gpgpu_birds
- */
 export default class Butterfly {
   constructor(cameraDistance, pivotCoord) {
-    const palette = [
-      // 0x000000,
-      0x0000ff,
-    ];
     this.dimension = cameraDistance;
     this.minY = -cameraDistance * 5;
     this.maxY = this.dimension * 1.5;
@@ -35,9 +28,8 @@ export default class Butterfly {
     
     const wingGeometry = this.createWingGeometry(utils.randomFloatBetween(0.1, 0.5));
     
-    const paletteIndex = utils.randomIntBetween(0, palette.length - 1);
     this.material = new THREE.MeshBasicMaterial({
-      color: palette[paletteIndex],
+      color:0x0000ff,
       side: THREE.DoubleSide,
     });
     

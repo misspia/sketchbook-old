@@ -5,9 +5,6 @@ import Ray from './ray';
 import Petal from './petal';
 import Butterfly from './butterfly';
 
-
-// https://codepen.io/alexandrejosephdev/pen/yVvqWr
-
 import SketchManagerThree from '../sketchManagerThree';
 
  class Sketch extends SketchManagerThree {
@@ -50,14 +47,10 @@ import SketchManagerThree from '../sketchManagerThree';
     this.composer = new PP.EffectComposer(this.renderer);
     this.renderPass = new PP.RenderPass(this.scene, this.camera, 0x111111);   
   
-    /**
-     * https://vanruesc.github.io/postprocessing/public/docs/class/src/effects/GodRaysEffect.js~GodRaysEffect.html
-     */
     const options = { 
       density: 0.1,
       weight: 0.1,
       exposure: 0.4,
-      // blendFunction: PP.BlendFunction.OVERLAY,
     };
     
     const godraysEffect = new PP.GodRaysEffect(

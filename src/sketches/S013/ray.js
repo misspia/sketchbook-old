@@ -65,6 +65,5 @@ export default class Line  {
       this.mesh.position.z = z;
       this.mesh.position.y = this.maxY;
     }
-
   }
 }

@@ -7,8 +7,6 @@ attribute vec2 uv;
 uniform mat4 projectionMatrix;
 uniform mat4 modelViewMatrix;
 
-uniform float u_time;
-
 varying vec3 vNormal;
 varying vec3 vPosition;
 varying vec2 vUv;
