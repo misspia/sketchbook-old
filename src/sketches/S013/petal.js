@@ -8,9 +8,8 @@ export default class Petal {
   constructor(cameraDistance, pivotCoord) {
     const palette = [
       0xffbbbb,
-      0xff5555,
+      0xff3333,
       0xeeddaa,
-      // 0xbbee55,
     ];
     this.minY = -cameraDistance * 1.2;
     this.maxY = cameraDistance * 1.2;
@@ -26,7 +25,7 @@ export default class Petal {
     );
     this.angle = utils.randomFloatBetween(0, 2 * Math.PI);
 
-    this.angleVelocity = utils.randomFloatBetween(0.002, 0.01);
+    this.angleVelocity = utils.randomFloatBetween(0.005, 0.015);
     this.velocity = utils.randomFloatBetween(0.5, 1.5);
     this.rotateVelocityX = utils.randomFloatBetween(0.002, 0.05);
     this.rotateVelocityY = utils.randomFloatBetween(0.005, 0.05);
@@ -36,8 +35,14 @@ export default class Petal {
     this.geometry.center();
 
     const paletteIndex = utils.randomIntBetween(0, palette.length - 1);
-    this.material = new THREE.MeshBasicMaterial({
-      color: palette[paletteIndex]
+    const color = palette[paletteIndex];
+    this.material = new THREE.RawShaderMaterial({
+      uniforms: {
+        u_color: { type: 'v3', value: new THREE.Color(color) },
+      },
+      fragmentShader: frag,
+      vertexShader: vert,
+      side: THREE.DoubleSide,
     });
     
     this.mesh = new THREE.Mesh(this.geometry, this.material);
@@ -45,17 +50,11 @@ export default class Petal {
     this.updatePosition();
   }
   createPetalGeometry(size = 1) {
-    var petalShape = new THREE.Shape();
+    const petalShape = new THREE.Shape();
     petalShape.moveTo(0, 0);
-
-    // // butterflies
-    // petalShape.bezierCurveTo(-50, 60, -10, 180, 0, 0);
-    // petalShape.bezierCurveTo(180, 35, 80, 0, 50, 0);
-
-    // petal/petal
     petalShape.bezierCurveTo(50, 100, -50, 100, 0, 0);
 
-    var extrudeSettings = {
+    const extrudeSettings = {
       amount: 1,
       bevelEnabled: true,
       bevelSegments: 2,
@@ -79,7 +78,7 @@ export default class Petal {
     this.mesh.rotation.x += this.rotateVelocityX;
     this.mesh.rotation.y += this.rotateVelocityY;
     this.mesh.rotation.z += this.rotateVelocityZ;
-    
+
     this.centerCoord.y -= this.velocity;
     if(this.centerCoord.y < this.minY) {
       this.centerCoord.y = this.maxY;

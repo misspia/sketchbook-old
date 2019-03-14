@@ -1,6 +1,9 @@
 import * as THREE from 'three';
 import utils from '../utils';
 
+/**
+ * https://threejs.org/examples/?q=gpu#webgl_gpgpu_birds
+ */
 export default class Butterfly {
   constructor(cameraDistance, pivotCoord) {
     const palette = [
@@ -22,7 +25,7 @@ export default class Butterfly {
 
     this.centerCoord = {
       ...pivotCoord,
-      y: this.minY,
+      y: this.minY / 2,
     };
     this.radius = utils.randomFloatBetween(
       this.dimension * 0.15,

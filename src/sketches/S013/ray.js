@@ -6,19 +6,13 @@ import vert from './ray.vert';
 
 export default class Line  {
   constructor(cameraDistance, pivotCoord) {  
-    // const palette = [
-    //   0xff5555,
-    //   0xffcccc,
-    //   0xaaddaa,
-    //   0x55aa55,
-    // ];  
     const palette = [
       0xdddddd,
       0xaaaaaa,
       0x555555,
     ];  
     this.velocity = utils.randomFloatBetween(0.1, 1);
-    this.rotateVeocityY = 0.01;
+    this.rotateVeocityY = 0.02;
     
     const height = utils.randomFloatBetween(50, 70)
     this.dimension = cameraDistance;
@@ -28,8 +22,13 @@ export default class Line  {
     this.geometry = new THREE.BoxGeometry(2, height, 2);
 
     const paletteIndex = utils.randomIntBetween(0, palette.length - 1);
-    this.material = new THREE.MeshBasicMaterial({
-      color: palette[paletteIndex]
+    const color = palette[paletteIndex];
+    this.material = new THREE.RawShaderMaterial({
+      uniforms: {
+        u_color: { type: 'v3', value: new THREE.Color(color) },
+      },
+      fragmentShader: frag,
+      vertexShader: vert,
     });
     
     this.mesh = new THREE.Mesh(this.geometry, this.material);

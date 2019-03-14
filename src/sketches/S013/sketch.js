@@ -1,10 +1,10 @@
 import * as THREE from 'three';
 import * as PP from 'postprocessing';
-import glsl from 'glslify';
 
 import Ray from './ray';
 import Petal from './petal';
 import Butterfly from './butterfly';
+
 
 // https://codepen.io/alexandrejosephdev/pen/yVvqWr
 
@@ -18,7 +18,7 @@ import SketchManagerThree from '../sketchManagerThree';
     this.sceneCenter = { x: 0, y: 0, z: 0 };
 
     this.numRays = 10;
-    this.numPetals = 20;
+    this.numPetals = 24;
     this.numButterflies = 5;
     this.rays = [];
     this.petals = [];
@@ -32,11 +32,9 @@ import SketchManagerThree from '../sketchManagerThree';
 
   }
   init() {
-    // this.setClearColor(0xddeedd);
+    this.disableOrbitControls();
     this.setClearColor(0xeeeeff);
-    this.setCameraPos(0, -100, -this.cameraDistance);
-    // this.setCameraPos(0, -this.cameraDistance, 0);
-
+    this.setCameraPos(0, -this.cameraDistance, -this.cameraDistance);
     const { x, y, z } = this.sceneCenter;
     this.lookAt(x, y, z);
     this.createRays();
@@ -94,11 +92,6 @@ import SketchManagerThree from '../sketchManagerThree';
       this.scene.add(butterfly.group);
       this.butterflies.push(butterfly);
     }
-  }
-  createOrb() {
-    this.orb = new Orb();
-
-    this.scene.add(this.orb.mesh)
   }
   draw() {
     this.composer.renderer.autoClear = true;
