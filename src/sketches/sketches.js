@@ -14,6 +14,7 @@ import S010 from './S010/sketch';
 import S011 from './S011/sketch';
 import S012 from './S012/sketch';
 import S013 from './S013/sketch';
+import S013 from './S014/sketch';
 
 const Sketches = [
   {
@@ -83,10 +84,15 @@ const Sketches = [
     sketch: S012,
   },
   {
-    title: '',
+    title: 'God rays',
     image: Images.S013,
     sketch: S013,
   },
+  {
+    title: '',
+    image: Images.S014,
+    sketch: S014,
+  }
 ];
 
 export default Sketches;
