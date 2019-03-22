@@ -14,7 +14,7 @@ import S010 from './S010/sketch';
 import S011 from './S011/sketch';
 import S012 from './S012/sketch';
 import S013 from './S013/sketch';
-import S013 from './S014/sketch';
+import S014 from './S014/sketch';
 
 const Sketches = [
   {

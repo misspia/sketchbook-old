@@ -82,9 +82,9 @@ class SketchManagerThree {
   createDatGUI() {
     this.gui = new dat.GUI();
   }
-  createStatsFPS() {
+  createStats() {
     this.stats = new Stats();
-    this.stats.showPanel(0);
+    this.stats.showPanel(0); // starts at FPS
     document.body.appendChild(this.stats.dom);
   }
   createMouseListener() {
