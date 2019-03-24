@@ -2,27 +2,33 @@ import * as THREE from 'three';
 import glsl from 'glslify';
 import SketchManagerThree from '../sketchManagerThree';
 import utils from '../utils';
+import { Audio } from '../../themes/themes' 
 
 import frag from './plane.frag';
 import vert from './plane.vert';
+import audioFrag from './audio.frag';
+import audioVert from './audio.vert';
+
+import Container from './container';
+import Boid from './boid';
 
 /**
- * https://twitter.com/vlucendo/status/1088163385827606528
- * https://github.com/mattdesl/codevember/blob/gh-pages/src/1.js
+ * https://twitter.com/motions_work/status/927346292283490305
+ * https://gamedevelopment.tutsplus.com/tutorials/3-simple-rules-of-flocking-behaviors-alignment-cohesion-and-separation--gamedev-3444
  */
- class Sketch extends SketchManagerThree {
+class Sketch extends SketchManagerThree {
   constructor(canvas) {
     super(canvas);
     this.raycaster = {};
+    this.audioSrc = Audio.tester;
 
-    this.noise = new THREE.Vector3(1.5, 1.5, 1.0);
+    this.noise = new THREE.Vector3(2.5, 2.5, 1.0);
     this.amp = 1.0;
     this.clock = new THREE.Clock();
 
-    this.bottomPlane = {};
-    this.topPlane = {};
-    this.bottomMaterial = {};
-    this.topMaterial = {};
+    this.skybox = {};
+    this.numBoids = 20;
+    this.boids = [];
   }
   unmount() {
 
@@ -34,50 +40,27 @@ import vert from './plane.vert';
     this.lookAt(0, 0, 0);
     this.setClearColor(0xeeeeff);
     this.createMouseListener();
+
+
     this.raycaster = new THREE.Raycaster();    
 
-    this.createPlanes();
-  }
-  createPlanes() {
-    const geometry = new THREE.PlaneGeometry(30, 30, 30, 30);
+    this.container = new Container();
+    this.scene.add(this.container.mesh);
 
-    this.bottomMaterial = this.createMaterial(0xaaaaee);
-    this.bottomPlane = new THREE.Mesh(geometry, this.bottomMaterial);
-    this.bottomPlane.rotation.x += utils.toRadians(90);
-    this.bottomPlane.position.y = -2;
-    
-    this.topMaterial = this.createMaterial(0xeeaaaa);
-    this.topPlane = new THREE.Mesh(geometry, this.topMaterial);
-    this.topPlane.rotation.x += utils.toRadians(90);
-  
-    this.scene.add(this.bottomPlane);
-    this.scene.add(this.topPlane);
+    this.initBoids();
   }
-  createMaterial(hex = 0xffaaff) {
-    return new THREE.RawShaderMaterial({
-      side: THREE.DoubleSide,
-      uniforms: {
-        u_color: { type: 'c', value: new THREE.Color(hex) },
-        u_mouse: { type: 'v2', value: new THREE.Vector2(0.5, 0.5) },
-        u_noise: { type: 'v3', value: this.noise },
-        u_amp: { type: 'f', value: this.amp },
-      },
-      vertexShader: glsl(vert),
-      fragmentShader: glsl(frag),
-      transparent: true,
-    });
+  initBoids() {
+    for(let i = 0; i < this.numBoids; i++) {
+      const boid = new Boid();
+      this.scene.add(boid.mesh);
+      this.boids.push(boid);
+    }
   }
   draw() {
     this.stats.begin();
 
     this.renderer.render(this.scene, this.camera);
     this.raycaster.setFromCamera(this.mouse, this.camera);
-    const firstIntersection = this.raycaster.intersectObjects(this.scene.children)[0];
-    if(firstIntersection && firstIntersection.object === this.topPlane) {
-      this.topMaterial.uniforms.u_mouse.value = firstIntersection.uv;
-      this.bottomMaterial.uniforms.u_mouse.value = firstIntersection.uv;
-    }
-
 
     this.stats.end();
     requestAnimationFrame(() => this.draw());
