@@ -17,7 +17,9 @@ export default class Boid {
 
   }
   computeAlignment() {
-
+    const point = {};
+    const neighbourCount = 0;
+    
   }
   computeCohesion() {
 
