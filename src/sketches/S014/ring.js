@@ -9,6 +9,7 @@ export default class Ring {
       radialSegments: 8,
       tubularSegments: 15,
       arc: Math.PI * 2,
+      color: 0x000000,
       ...customConfig
     }
     const geometry = new THREE.TorusGeometry(
@@ -24,14 +25,19 @@ export default class Ring {
     this.mesh = new THREE.Mesh(geometry, material);
     this.velocity = 0;
     this.direction = utils.randomBool() ? 1 : -1;
-    this.velocityMultiplier = utils.randomFloatBetween(0.8, 1.2);
+    this.minVelocity = 0;
+    this.maxVelocity = utils.randomFloatBetween(0.05, 0.15);
 
+  }
+  setPosition(x, y, z) {
+    this.mesh.position.set(x, y, z);
   }
   rotateZ(z) {
     this.mesh.rotation.z = z;
   }
-  update(velocity) {
-    this.velocity = velocity * this.direction * this.velocityMultiplier;
+  update(frequency) {
+    const velocity = utils.remap(0, 255, this.minVelocity, this.maxVelocity, frequency);
+    this.velocity = velocity * this.direction;
     this.mesh.rotation.z += this.velocity;
   }
 }

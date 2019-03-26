@@ -4,73 +4,10 @@ import SketchManagerThree from '../sketchManagerThree';
 import utils from '../utils';
 import { Audio } from '../../themes/themes' 
 
-import frag from './plane.frag';
-import vert from './plane.vert';
-import audioFrag from './audio.frag';
-import audioVert from './audio.vert';
-
-import Container from './container';
-import Boid from './boid';
-
-/**
- * https://twitter.com/motions_work/status/927346292283490305
- * https://gamedevelopment.tutsplus.com/tutorials/3-simple-rules-of-flocking-behaviors-alignment-cohesion-and-separation--gamedev-3444
- */
-// class Sketch extends SketchManagerThree {
-//   constructor(canvas) {
-//     super(canvas);
-//     this.raycaster = {};
-//     this.audioSrc = Audio.tester;
-
-//     this.noise = new THREE.Vector3(2.5, 2.5, 1.0);
-//     this.amp = 1.0;
-//     this.clock = new THREE.Clock();
-
-//     this.skybox = {};
-//     this.numBoids = 20;
-//     this.boids = [];
-//   }
-//   unmount() {
-
-//   }
-//   init() {
-//     this.createStats();
-
-//     this.setCameraPos(20, 15, -25);
-//     this.lookAt(0, 0, 0);
-//     this.setClearColor(0xeeeeff);
-//     this.createMouseListener();
-
-
-//     this.raycaster = new THREE.Raycaster();    
-
-//     this.container = new Container();
-//     this.scene.add(this.container.mesh);
-
-//     this.initBoids();
-//   }
-//   initBoids() {
-//     for(let i = 0; i < this.numBoids; i++) {
-//       const boid = new Boid();
-//       this.scene.add(boid.mesh);
-//       this.boids.push(boid);
-//     }
-//   }
-//   draw() {
-//     this.stats.begin();
-
-//     this.renderer.render(this.scene, this.camera);
-//     this.raycaster.setFromCamera(this.mouse, this.camera);
-
-//     this.stats.end();
-//     requestAnimationFrame(() => this.draw());
-//   }
-// }
-
-// export default Sketch;
-
-
+import * as PP from 'postprocessing';
 import Ring from './ring';
+import Shape from './shape';
+
 /**
  * https://youtu.be/K7cnJPrOzy4?t=236
  * https://threejs.org/examples/?q=bloom#webgl_postprocessing_unreal_bloom
@@ -86,17 +23,18 @@ class Sketch extends SketchManagerThree {
     this.raycaster = {};
     this.audioSrc = Audio.tester;
 
-    this.noise = new THREE.Vector3(2.5, 2.5, 1.0);
-    this.amp = 1.0;
+    this.composer = {};
+    this.renderPass = {};
     this.clock = new THREE.Clock();
 
-    this.skybox = {};
-
+    this.numFrequencyNodes = 15;
     this.fftSize = 512;
     this.vertices = [];
 
-    this.numRings = 5;
+    this.numRings = 10;
     this.rings = [];
+    this.shapes = [];
+    this.beatOrb = {};
 
   }
   unmount() {
@@ -107,12 +45,18 @@ class Sketch extends SketchManagerThree {
 
     this.setCameraPos(30, 30, -50);
     this.lookAt(0, 0, 0);
-    this.setClearColor(0xeeeeff);
+    this.setClearColor(0x100011);
 
-    const audioConfig = { fftSize: this.fftSize };
+    const audioConfig = {
+      fftSize: this.fftSize,
+      dataLength: this.numFrequencyNodes,
+    };
     this.initAudio(audioConfig);
 
+    this.createBeatOrb();
     this.createRings();
+    this.createShapes();
+    this.createEffects();
   }
   createSkybox() {
     const geometry = new THREE.BoxGeometry(200, 200, 200);
@@ -127,8 +71,30 @@ class Sketch extends SketchManagerThree {
 
     this.scene.add(this.skybox);
   }
+  createEffects() {
+    this.composer = new PP.EffectComposer(this.renderer);
+    this.renderPass = new PP.RenderPass(this.scene, this.camera, 0x111111);
+    
+    const bloomPass = new PP.EffectPass(this.camera, new PP.BloomEffect());
+    bloomPass.renderToScreen = true;
+
+    this.composer.addPass(this.renderPass);
+    this.composer.addPass(bloomPass);
+  }
+  createBeatOrb() {
+    const geometry = new THREE.IcosahedronGeometry(10, 0);
+    const material = new THREE.MeshBasicMaterial({
+      color: 0xff2222,
+      wireframe: true,
+    });
+    this.beatOrb = new THREE.Mesh(geometry, material);
+    const rotation = utils.toRadians(60);
+    this.beatOrb.rotation.set(rotation, rotation, rotation);
+    this.scene.add(this.beatOrb);
+  }
   createRings() {
     const color = 0x00bbff;
+    const z = 35;
     for(let i = 0; i < this.numRings; i ++) {
       const radius = utils.randomFloatBetween(5, 35);
       const arc = utils.randomFloatBetween(Math.PI * 0.3, Math.PI * 0.8);
@@ -140,24 +106,47 @@ class Sketch extends SketchManagerThree {
         radius,
       });
       ring.rotateZ(rotateZ);
+      const translateZ = i >= (this.numRings / 2) ? z : -z;
+      ring.setPosition(0, 0, translateZ);
       this.scene.add(ring.mesh);
       this.rings.push(ring);
     }
   }
-  updateRings() {
-    const averageFreq = this.audio.getAverageFrequency();
-    this.rings.forEach((ring) => {
-      const velocity = utils.remap(0, 255, 0, 0.1, averageFreq);
-      ring.update(velocity)
+  createShapes() {
+    const color = 0xffaa55;
+    const centerCoord = { x: 0, y: 0, z: 6 };
+
+    this.audio.frequencyData.forEach(node => {
+      const shape = new Shape({
+        radius: 2,
+        widthSegments: 5,
+        heightSegments: 5,
+        color,
+        centerCoord,
+      });
+      this.scene.add(shape.mesh);
+      this.shapes.push(shape);
     })
   }
   draw() {
     this.stats.begin();
 
-    this.audio.getByteFrequencyData();
+    this.composer.renderer.autoClear = true;
 
-    this.updateRings();
-    this.renderer.render(this.scene, this.camera);
+    this.audio.getByteFrequencyData();
+    const averageFreq = this.audio.getAverageFrequency();
+    this.rings.forEach((ring) => ring.update(averageFreq))
+
+    this.shapes.forEach((shape, index) => {
+      const frequency = this.audio.frequencyData[index];
+      shape.update(frequency);
+    })
+
+    const scale = utils.remap(0, 255, 0.3, 1.1, averageFreq);
+    this.beatOrb.scale.set(scale, scale, scale);
+
+    this.composer.render(this.clock.getDelta());
+    this.composer.renderer.autoClear = false;
 
     this.stats.end();
     requestAnimationFrame(() => this.draw());
