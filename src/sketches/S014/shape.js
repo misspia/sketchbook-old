@@ -33,7 +33,7 @@ export default class Shape {
 
     this.centerCoord = centerCoord;
     this.velocityX = utils.randomFloatBetween(-1, 1);
-    this.velocityY = utils.randomFloatBetween(-1, 1);
+    this.velocityY = utils.randomFloatBetween(0, 1);
     this.velocityZ = utils.randomFloatBetween(-1, 1);
   }
   /**
@@ -85,11 +85,7 @@ export default class Shape {
 
     return heart;
   }
-  createStar() {
-    const star = new THREE.Shape();
-
-    return star;
-  }
+  createRectangle
   getRandomRotation() {
     return {
       x: utils.randomFloatBetween(0, Math.PI * 2),

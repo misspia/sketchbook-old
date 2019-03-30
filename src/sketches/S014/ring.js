@@ -10,6 +10,7 @@ export default class Ring {
       tubularSegments: 15,
       arc: Math.PI * 2,
       color: 0x000000,
+      wireframe: false,
       ...customConfig
     }
     const geometry = new THREE.TorusGeometry(
@@ -21,8 +22,10 @@ export default class Ring {
     );
     const material = new THREE.MeshBasicMaterial({
       color: config.color,
+      wireframe: config.wireframe,
     });
     this.mesh = new THREE.Mesh(geometry, material);
+    this.mesh.rotation.x = utils.toRadians(90);
     this.velocity = 0;
     this.direction = utils.randomBool() ? 1 : -1;
     this.minVelocity = 0;
