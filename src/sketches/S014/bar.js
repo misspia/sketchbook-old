@@ -17,6 +17,7 @@ export default class Bar {
     });
     this.mesh = new THREE.Mesh(this.geometry, this.material);
     this.bbox = new THREE.Box3().setFromObject(this.mesh);
+    this.size = new THREE.Vector3();
   }
   setPosition(x, y, z) {
     this.mesh.position.set(x, y, z);
@@ -26,8 +27,8 @@ export default class Bar {
     this.mesh.scale.y = scaleY;
     
     this.bbox.setFromObject(this.mesh);
-    const size = this.bbox.getSize();
-    this.mesh.position.y = size.y / 2;
+    this.bbox.getSize(this.size);
+    this.mesh.position.y = this.size.y / 2;
     
     const normalizedFreq = utils.remap(0, 255, 0, 1, frequency);
     this.material.uniforms.u_freq.value = normalizedFreq;
