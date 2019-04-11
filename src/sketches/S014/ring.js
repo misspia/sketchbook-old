@@ -32,6 +32,9 @@ export default class Ring {
     this.maxVelocity = utils.randomFloatBetween(0.05, 0.15);
 
   }
+  getRadius() {
+    console.log(this.mesh.geometry.boundingSphere.radius)
+  }
   setPosition(x, y, z) {
     this.mesh.position.set(x, y, z);
   }

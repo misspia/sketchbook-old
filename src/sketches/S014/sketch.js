@@ -5,6 +5,7 @@ import { Audio } from '../../themes/themes'
 
 import * as PP from 'postprocessing';
 import Ring from './ring';
+import OuterRing from './outerRing';
 import Shape from './shape';
 import Bar from './bar';
 
@@ -31,7 +32,9 @@ class Sketch extends SketchManagerThree {
     this.vertices = [];
 
     this.numRings = 10;
-    this.Rings = [];
+    this.lastRingRadius = 12;
+    this.rings = [];
+    this.outerRing = {};
     this.shapes = [];
     this.bars = [];
     this.beatOrb = {};
@@ -43,7 +46,8 @@ class Sketch extends SketchManagerThree {
   init() {
     this.createStats();
 
-    this.setCameraPos(40, 70, -50);
+    // this.setCameraPos(40, 70, -50);
+    this.setCameraPos(60, 90, -70);
     this.lookAt(0, 0, 0);
     this.setClearColor(0x100011);
 
@@ -56,6 +60,7 @@ class Sketch extends SketchManagerThree {
     this.createBeatOrb();
     
     this.createRings(0, this.numRings);
+    this.createOuterRing();
     this.createBars();
 
     // this.createShapes();
@@ -85,19 +90,28 @@ class Sketch extends SketchManagerThree {
   createRings(z, length) {
     const color = 0x00bbff;
     const tube = 0.7;
-    let radius = 12;
     for(let i = 0; i < length; i ++) {
       const arc = utils.randomFloatBetween(Math.PI * 0.3, Math.PI * 0.8);
       const rotateZ = utils.toRadians(utils.randomFloatBetween(0, 360));
+      const radius = this.lastRingRadius;
       const ring = new Ring({ color, tube, arc, radius });
       ring.rotateZ(rotateZ);
       ring.setPosition(0, 0, z);
       this.scene.add(ring.mesh);
-      this.Rings.push(ring);
+      this.rings.push(ring);
 
       const radiusIncrement = utils.randomFloatBetween(3, 8);
-      radius += radiusIncrement;
+      this.lastRingRadius += radiusIncrement;
     }
+  }
+  createOuterRing() {
+    const radius = this.lastRingRadius * 1.1;
+    const config = {
+      radius,
+      numDivisions: this.numRings,
+    };
+    this.outerRing = new OuterRing(config);
+    this.scene.add(this.outerRing.group);
   }
   createBars() {
     const circleCoord = { x: 0, y: 0, z: 0 };
@@ -140,8 +154,8 @@ class Sketch extends SketchManagerThree {
 
     this.audio.getByteFrequencyData();
     const averageFreq = this.audio.getAverageFrequency();
-    this.Rings.forEach((ring) => ring.update(averageFreq));
-
+    this.rings.forEach((ring) => ring.update(averageFreq));
+    this.outerRing.update(this.audio.frequencyData)
     this.bars.forEach((bar, index) => {
       const frequency = this.audio.frequencyData[index];
       bar.update(frequency);

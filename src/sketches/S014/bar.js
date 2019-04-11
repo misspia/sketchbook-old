@@ -30,8 +30,7 @@ export default class Bar {
     this.bbox.getSize(this.size);
     this.mesh.position.y = this.size.y / 2;
     
-    const normalizedFreq = utils.remap(0, 255, 0, 1, frequency);
-    this.material.uniforms.u_freq.value = normalizedFreq;
+    this.material.uniforms.u_freq.value = frequency;
 
   }
 }
