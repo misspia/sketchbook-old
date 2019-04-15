@@ -1,5 +1,7 @@
 import * as THREE from 'three';
 import utils from '../utils';
+import frag from './ring.frag';
+import vert from './ring.vert';
 
 export default class Ring {
   constructor(customConfig) {
@@ -20,20 +22,20 @@ export default class Ring {
       config.tubularSegments,
       config.arc
     );
-    const material = new THREE.MeshBasicMaterial({
-      color: config.color,
-      wireframe: config.wireframe,
+    this.material = new THREE.RawShaderMaterial({
+      uniforms: {
+        u_freq: { type: 'f', value: 1.0 },
+      },
+      fragmentShader: frag,
+      vertexShader: vert,
     });
-    this.mesh = new THREE.Mesh(geometry, material);
+    this.mesh = new THREE.Mesh(geometry, this.material);
     this.mesh.rotation.x = utils.toRadians(90);
     this.velocity = 0;
     this.direction = utils.randomBool() ? 1 : -1;
     this.minVelocity = 0;
     this.maxVelocity = utils.randomFloatBetween(0.05, 0.15);
 
-  }
-  getRadius() {
-    console.log(this.mesh.geometry.boundingSphere.radius)
   }
   setPosition(x, y, z) {
     this.mesh.position.set(x, y, z);
@@ -45,5 +47,7 @@ export default class Ring {
     const velocity = utils.remap(0, 255, this.minVelocity, this.maxVelocity, frequency);
     this.velocity = velocity * this.direction;
     this.mesh.rotation.z += this.velocity;
+
+    this.material.uniforms.u_freq.value = frequency;
   }
 }

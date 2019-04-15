@@ -31,7 +31,8 @@ class Sketch extends SketchManagerThree {
     this.fftSize = 512;
     this.vertices = [];
 
-    this.numRings = 10;
+    // this.numRings = 10;
+    this.numRings = 15;
     this.lastRingRadius = 12;
     this.rings = [];
     this.outerRing = {};
@@ -153,21 +154,13 @@ class Sketch extends SketchManagerThree {
     this.composer.renderer.autoClear = true;
 
     this.audio.getByteFrequencyData();
-    const averageFreq = this.audio.getAverageFrequency();
-    this.rings.forEach((ring) => ring.update(averageFreq));
-    this.outerRing.update(this.audio.frequencyData)
-    this.bars.forEach((bar, index) => {
-      const frequency = this.audio.frequencyData[index];
-      bar.update(frequency);
+    this.audio.frequencyData.forEach((frequency, index) => {
+      this.rings[index].update(frequency);
+      this.bars[index].update(frequency);
+      // this.shapes[index].update(frequency);
     })
-
-    // this.shapes.forEach((shape, index) => {
-    //   const frequency = this.audio.frequencyData[index];
-    //   shape.update(frequency);
-    // })
-
-    const scale = utils.remap(0, 255, 0.3, 1.1, averageFreq);
-    this.beatOrb.scale.set(scale, scale, scale);
+ 
+    this.outerRing.update(this.audio.frequencyData)
 
     this.composer.render(this.clock.getDelta());
     this.composer.renderer.autoClear = false;
