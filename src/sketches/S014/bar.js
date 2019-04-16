@@ -6,7 +6,9 @@ import frag from './bar.frag';
 export default class Bar {
   constructor() {
     this.velocity = 0;
-    this.geometry = new THREE.CylinderGeometry(1, 1, 8, 8);
+    
+    const radius = 1.2;
+    this.geometry = new THREE.CylinderGeometry(radius, radius, 8, 8);
     this.material = new THREE.RawShaderMaterial({
       color: 0xeeaaee,
       uniforms: {
@@ -23,7 +25,7 @@ export default class Bar {
     this.mesh.position.set(x, y, z);
   }
   update(frequency) {
-    const scaleY = utils.remap(0, 255, 0, 2, frequency);
+    const scaleY = utils.remap(0, 255, 0, 2.5, frequency);
     this.mesh.scale.y = scaleY;
     
     this.bbox.setFromObject(this.mesh);

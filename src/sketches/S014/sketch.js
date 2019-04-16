@@ -106,7 +106,7 @@ class Sketch extends SketchManagerThree {
     }
   }
   createOuterRing() {
-    const radius = this.lastRingRadius * 1.1;
+    const radius = this.lastRingRadius + 1.0;
     const config = {
       radius,
       numDivisions: this.numRings,
@@ -159,8 +159,9 @@ class Sketch extends SketchManagerThree {
       this.bars[index].update(frequency);
       // this.shapes[index].update(frequency);
     })
- 
-    this.outerRing.update(this.audio.frequencyData)
+    
+    const uTime = this.getUTime();    
+    this.outerRing.update(this.audio.frequencyData, uTime)
 
     this.composer.render(this.clock.getDelta());
     this.composer.renderer.autoClear = false;

@@ -26,11 +26,7 @@ export default class OuterRing {
     const padding = utils.toRadians(2);
     const arcLength = utils.toRadians(360 / numDivisions) - padding * 2;
 
-    /**
-     * https://threejs.org/docs/#api/en/geometries/RingGeometry
-     */
-    // const geometry =  new THREE.TorusGeometry(radius, tube, radialSegments, tubularSegments, arcLength);
-    const geometry =  new THREE.RingGeometry(radius, radius * 1.2, 20, 20, 0, arcLength);
+    const geometry =  new THREE.TorusGeometry(radius, tube, radialSegments, tubularSegments, arcLength);
     
     let rotateZ = 0;
     const radianIncrement = utils.toRadians(360 / numDivisions);
@@ -39,6 +35,7 @@ export default class OuterRing {
         color: 0xeeaaee,
         uniforms: {
           u_freq: { type: 'f', value: 1.0 },
+          u_time: { type: 'f', value: 0.0 },
         },
         fragmentShader: frag,
         vertexShader: vert,
@@ -56,11 +53,11 @@ export default class OuterRing {
   rotateZ(z) {
     this.mesh.rotation.z = z;
   }
-  update(frequencyData) {
+  update(frequencyData, uTime) {
     this.arcs.forEach((arc, index) => {
       const frequency = frequencyData[index];
       arc.material.uniforms.u_freq.value = frequency;
-    })
-
+      arc.material.uniforms.u_time.value = uTime;
+    });
   }
 }
