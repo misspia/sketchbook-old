@@ -39,6 +39,13 @@ export default class Audio {
   getByteFrequencyData() {
     this.analyser.getByteFrequencyData(this.frequencyData);
   }
+  getAverageFrequency() {
+    const sum = this.frequencyData.reduce((acc, node) => {
+      acc += node;
+      return acc;
+    }, 0);
+    return sum / (this.frequencyData.length - 1);
+  }
   createGain() {
     return this.context.createGain();
   }

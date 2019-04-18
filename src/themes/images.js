@@ -13,6 +13,7 @@ const Images = {
   S011: require('./images/011.jpg'),
   S012: require('./images/012.jpg'),
   S013: require('./images/013.jpg'),
+  S014: require('./images/014.jpg'),
 
   T005a: require('./images/T005a.jpg'),
   T005b: require('./images/T005b.png'),

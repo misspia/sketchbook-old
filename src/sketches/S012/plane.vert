@@ -15,10 +15,9 @@ varying vec3 vNormal;
 varying vec3 vPosition;
 varying vec2 vUv;
 
-#pragma glslify: noise = require('glsl-noise/classic/3d')
+#pragma glslify: noise = require('glsl-noise/simplex/3d')
 
 void main () {
-  
   float displacement = u_amp * noise(vec3(position * u_noise * 0.06) + u_time );
   vec3 newPosition = position + normal * displacement;
 
