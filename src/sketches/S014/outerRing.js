@@ -32,7 +32,6 @@ export default class OuterRing {
     const radianIncrement = utils.toRadians(360 / numDivisions);
     for(let i = 0; i < numDivisions; i++) {
       const material = new THREE.RawShaderMaterial({
-        color: 0xeeaaee,
         uniforms: {
           u_freq: { type: 'f', value: 1.0 },
           u_time: { type: 'f', value: 0.0 },

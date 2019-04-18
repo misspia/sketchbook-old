@@ -10,7 +10,6 @@ export default class Bar {
     const radius = 1.2;
     this.geometry = new THREE.CylinderGeometry(radius, radius, 8, 8);
     this.material = new THREE.RawShaderMaterial({
-      color: 0xeeaaee,
       uniforms: {
         u_freq: { type: 'f', value: 0.0 },
       },
