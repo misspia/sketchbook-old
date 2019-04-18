@@ -6,22 +6,14 @@ import { Audio } from '../../themes/themes'
 import * as PP from 'postprocessing';
 import Ring from './ring';
 import OuterRing from './outerRing';
-import Shape from './shape';
 import Bar from './bar';
 
-/**
- * https://youtu.be/K7cnJPrOzy4?t=236
- * https://www.shutterstock.com/blog/who-or-what-is-hatsune-miku-the-making-of-a-virtual-pop-star
- * https://developer.mozilla.org/en-US/docs/Web/API/AnalyserNode/smoothingTimeConstant
- * https://youtu.be/w6vzMDKSVvo?t=1528
- * https://www.pinterest.ca/pin/364017582376235649/
- * https://www.pinterest.ca/pin/603623156275608508/
- */
 class Sketch extends SketchManagerThree {
   constructor(canvas, audioElement) {
     super(canvas, audioElement);
     this.raycaster = {};
     this.audioSrc = Audio.tester;
+    // this.audioSrc = Audio.S014;
 
     this.composer = {};
     this.renderPass = {};
@@ -31,24 +23,18 @@ class Sketch extends SketchManagerThree {
     this.fftSize = 512;
     this.vertices = [];
 
-    // this.numRings = 10;
     this.numRings = 15;
     this.lastRingRadius = 12;
     this.rings = [];
     this.outerRing = {};
-    this.shapes = [];
     this.bars = [];
-    this.beatOrb = {};
 
   }
   unmount() {
     this.audio.stop();
   }
   init() {
-    this.createStats();
-
-    // this.setCameraPos(40, 70, -50);
-    this.setCameraPos(60, 90, -70);
+    this.setCameraPos(85, 115, -95);
     this.lookAt(0, 0, 0);
     this.setClearColor(0x100011);
 
@@ -58,13 +44,10 @@ class Sketch extends SketchManagerThree {
     };
     this.initAudio(audioConfig);
 
-    this.createBeatOrb();
-    
     this.createRings(0, this.numRings);
     this.createOuterRing();
     this.createBars();
 
-    // this.createShapes();
     this.createEffects();
   }
   createEffects() {
@@ -76,17 +59,6 @@ class Sketch extends SketchManagerThree {
 
     this.composer.addPass(this.renderPass);
     this.composer.addPass(bloomPass);
-  }
-  createBeatOrb() {
-    const geometry = new THREE.IcosahedronGeometry(10, 0);
-    const material = new THREE.MeshBasicMaterial({
-      color: 0xff2222,
-      wireframe: true,
-    });
-    this.beatOrb = new THREE.Mesh(geometry, material);
-    const rotation = utils.toRadians(60);
-    this.beatOrb.rotation.set(rotation, rotation, rotation);
-    // this.scene.add(this.beatOrb);
   }
   createRings(z, length) {
     const color = 0x00bbff;
@@ -135,29 +107,13 @@ class Sketch extends SketchManagerThree {
       z: circleCoord.z + radius * Math.sin(angle)
     }
   }
-  createShapes() {
-    this.audio.frequencyData.forEach(node => {
-      const shape = new Shape({
-        radius: 2,
-        widthSegments: 5,
-        heightSegments: 5,
-        color: 0xffaa55,
-        centerCoord: { x: 0, y: 0, z: 6 },
-      });
-      this.scene.add(shape.mesh);
-      this.shapes.push(shape);
-    })
-  }
   draw() {
-    this.stats.begin();
-
     this.composer.renderer.autoClear = true;
 
     this.audio.getByteFrequencyData();
     this.audio.frequencyData.forEach((frequency, index) => {
       this.rings[index].update(frequency);
       this.bars[index].update(frequency);
-      // this.shapes[index].update(frequency);
     })
     
     const uTime = this.getUTime();    
@@ -166,7 +122,6 @@ class Sketch extends SketchManagerThree {
     this.composer.render(this.clock.getDelta());
     this.composer.renderer.autoClear = false;
 
-    this.stats.end();
     requestAnimationFrame(() => this.draw());
   }
 }
