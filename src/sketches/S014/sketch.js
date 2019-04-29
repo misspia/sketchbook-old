@@ -12,8 +12,8 @@ class Sketch extends SketchManagerThree {
   constructor(canvas, audioElement) {
     super(canvas, audioElement);
     this.raycaster = {};
-    // this.audioSrc = Audio.tester;
-    this.audioSrc = Audio.S014;
+    this.audioSrc = Audio.tester;
+    // this.audioSrc = Audio.S014;
 
     this.composer = {};
     this.renderPass = {};
@@ -23,8 +23,10 @@ class Sketch extends SketchManagerThree {
     this.fftSize = 512;
     this.vertices = [];
 
+    this.light = {};
     this.numRings = 15;
     this.lastRingRadius = 12;
+    this.floor = {};
     this.rings = [];
     this.outerRing = {};
     this.bars = [];
@@ -34,6 +36,10 @@ class Sketch extends SketchManagerThree {
     this.audio.stop();
   }
   init() {
+    this.renderer.shadowMap.enabled = true;
+    this.renderer.shadowMap.soft = true;
+    // this.renderer.shadowMap.type = THREE.PCFShadowMap; 
+
     this.setCameraPos(85, 115, -95);
     this.lookAt(0, 0, 0);
     this.setClearColor(0x100011);
@@ -43,12 +49,30 @@ class Sketch extends SketchManagerThree {
       dataLength: this.numFrequencyNodes,
     };
     this.initAudio(audioConfig);
-
+    
+    this.createLight();
+    this.createFloor();
     this.createRings(0, this.numRings);
     this.createOuterRing();
     this.createBars();
 
     this.createEffects();
+  }
+  createLight() {
+    this.light = new THREE.DirectionalLight(0xffffff, 0.5);
+    this.light.position.set(0, 70, 0);
+    this.light.castShadow = true;
+
+    const lightCameraSize = 120
+    this.light.shadow.camera.right = lightCameraSize;
+    this.light.shadow.camera.left = -lightCameraSize;
+    this.light.shadow.camera.top = lightCameraSize;
+    this.light.shadow.camera.bottom = -lightCameraSize;
+
+    console.log(this.light.shadow.camera.right);
+
+    this.scene.add(new THREE.CameraHelper(this.light.shadow.camera));
+    this.scene.add(this.light);
   }
   createEffects() {
     this.composer = new PP.EffectComposer(this.renderer);
@@ -59,6 +83,18 @@ class Sketch extends SketchManagerThree {
 
     this.composer.addPass(this.renderPass);
     this.composer.addPass(bloomPass);
+  }
+  createFloor() {
+    const geometry = new THREE.PlaneGeometry(300, 300);
+    const material = new THREE.MeshBasicMaterial({
+      color: 0xffffff,
+      side: THREE.DoubleSide,
+    });
+    this.floor = new THREE.Mesh(geometry, material);
+    this.floor.receiveShadow = true;
+    this.floor.rotation.x = utils.toRadians(90);
+    this.floor.position.y = -8;
+    this.scene.add(this.floor);
   }
   createRings(z, length) {
     const color = 0x00bbff;
@@ -108,7 +144,7 @@ class Sketch extends SketchManagerThree {
     }
   }
   draw() {
-    this.composer.renderer.autoClear = true;
+    // this.composer.renderer.autoClear = true;
 
     this.audio.getByteFrequencyData();
     this.audio.frequencyData.forEach((frequency, index) => {
@@ -119,8 +155,9 @@ class Sketch extends SketchManagerThree {
     const uTime = this.getUTime();    
     this.outerRing.update(this.audio.frequencyData, uTime)
 
-    this.composer.render(this.clock.getDelta());
-    this.composer.renderer.autoClear = false;
+    // this.composer.render(this.clock.getDelta());
+    // this.composer.renderer.autoClear = false;
+    this.renderer.render(this.scene, this.camera);
 
     requestAnimationFrame(() => this.draw());
   }

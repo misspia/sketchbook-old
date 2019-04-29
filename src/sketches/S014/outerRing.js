@@ -39,9 +39,11 @@ export default class OuterRing {
         fragmentShader: frag,
         vertexShader: vert,
         side: THREE.DoubleSide,
-        transparent: true,
+        // transparent: true,
       });
       const mesh = new THREE.Mesh(geometry, material);
+      mesh.castShadow = true;
+
       mesh.rotation.z += rotateZ;
       this.arcs.push(mesh);
       this.group.add(mesh);
