@@ -24,7 +24,7 @@ export default class Bar {
     this.mesh.position.set(x, y, z);
   }
   update(frequency) {
-    const scaleY = utils.remap(0, 255, 0, 2.5, frequency);
+    const scaleY = utils.remap(0, 255, 0.01, 2.5, frequency);
     this.mesh.scale.y = scaleY;
     
     this.bbox.setFromObject(this.mesh);
