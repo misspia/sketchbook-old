@@ -60,19 +60,6 @@ class Sketch extends SketchManagerThree {
     this.createEffects();
   }
   createLight() {
-    // this.light = new THREE.DirectionalLight(0xffffff, 0.5);
-    // this.light.position.set(0, 70, 0);
-    // this.light.castShadow = true;
-
-    // const lightCameraSize = 120
-    // this.light.shadow.camera.right = lightCameraSize;
-    // this.light.shadow.camera.left = -lightCameraSize;
-    // this.light.shadow.camera.top = lightCameraSize;
-    // this.light.shadow.camera.bottom = -lightCameraSize;
-
-    // this.scene.add(new THREE.CameraHelper(this.light.shadow.camera));
-    // this.scene.add(this.light);
-
     this.light = new THREE.SpotLight(0xffffff, 1, 200);
     this.light.position.set(0, 70, 0);
     this.light.castShadow = true;
@@ -81,17 +68,7 @@ class Sketch extends SketchManagerThree {
     const helper = new THREE.SpotLightHelper(this.light, 0xff0000);
     this.scene.add(helper);
 
-    const ambient = new THREE.AmbientLight(0xffffff, 0.5);
-    this.scene.add(ambient);
-
-    const g = new THREE.BoxGeometry(20, 20, 50);
-    const m = new THREE.MeshBasicMaterial({color: 0xff0000});
-    const mesh = new THREE.Mesh(g, m);
-    mesh.position.y = 30
-    mesh.castShadow = true;
-    mesh.receiveShadow = true;
-    this.scene.add(mesh)
-
+    this.scene.add(new THREE.AmbientLight(0xffffff, 0.5));
   }
   createEffects() {
     this.composer = new PP.EffectComposer(this.renderer);
@@ -105,7 +82,7 @@ class Sketch extends SketchManagerThree {
   }
   createFloor() {
     const geometry = new THREE.PlaneGeometry(300, 300);
-    const material = new THREE.MeshBasicMaterial({
+    const material = new THREE.MeshPhongMaterial({
       color: 0xffffff,
       side: THREE.DoubleSide,
     });
