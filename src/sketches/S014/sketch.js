@@ -8,6 +8,10 @@ import Ring from './ring';
 import OuterRing from './outerRing';
 import Bar from './bar';
 
+/**
+ * https://stackoverflow.com/questions/17536903/threejs-shadow-not-rendering
+ * http://jsfiddle.net/4Txgp/13/
+ */
 class Sketch extends SketchManagerThree {
   constructor(canvas, audioElement) {
     super(canvas, audioElement);
@@ -26,7 +30,7 @@ class Sketch extends SketchManagerThree {
     this.light = {};
     this.numRings = 15;
     this.lastRingRadius = 12;
-    this.floor = {};
+    this.skybox = {};
     this.rings = [];
     this.outerRing = {};
     this.bars = [];
@@ -38,11 +42,10 @@ class Sketch extends SketchManagerThree {
   init() {
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.soft = true;
-    // this.renderer.shadowMap.type = THREE.PCFShadowMap; 
 
     this.setCameraPos(85, 115, -95);
     this.lookAt(0, 0, 0);
-    this.setClearColor(0x100011);
+    this.setClearColor(0xffffff);
 
     const audioConfig = {
       fftSize: this.fftSize,
@@ -52,7 +55,7 @@ class Sketch extends SketchManagerThree {
     this.audio.volume(0.1);
     
     this.createLight();
-    this.createFloor();
+    this.createSkybox();
     this.createRings(0, this.numRings);
     this.createOuterRing();
     this.createBars();
@@ -60,19 +63,18 @@ class Sketch extends SketchManagerThree {
     this.createEffects();
   }
   createLight() {
-    this.light = new THREE.SpotLight(0xffffff, 1, 200);
-    this.light.position.set(0, 70, 0);
+    this.light = new THREE.SpotLight(0xffffff, 0.5, 1000, 1.05, 0.1, 1);
+    this.light.position.set(0, 150, 0);
     this.light.castShadow = true;
     this.scene.add(this.light);
 
     const helper = new THREE.SpotLightHelper(this.light, 0xff0000);
     this.scene.add(helper);
-
     this.scene.add(new THREE.AmbientLight(0xffffff, 0.5));
   }
   createEffects() {
     this.composer = new PP.EffectComposer(this.renderer);
-    this.renderPass = new PP.RenderPass(this.scene, this.camera, 0x111111);
+    this.renderPass = new PP.RenderPass(this.scene, this.camera,  0x111111);
     
     const bloomPass = new PP.EffectPass(this.camera, new PP.BloomEffect());
     bloomPass.renderToScreen = true;
@@ -80,17 +82,17 @@ class Sketch extends SketchManagerThree {
     this.composer.addPass(this.renderPass);
     this.composer.addPass(bloomPass);
   }
-  createFloor() {
-    const geometry = new THREE.PlaneGeometry(300, 300);
+  createSkybox() {
+    const size = 1000;
+    const geometry = new THREE.BoxGeometry(size, size, size);
     const material = new THREE.MeshPhongMaterial({
       color: 0xffffff,
       side: THREE.DoubleSide,
     });
-    this.floor = new THREE.Mesh(geometry, material);
-    this.floor.receiveShadow = true;
-    this.floor.rotation.x = utils.toRadians(90);
-    this.floor.position.y = -8;
-    this.scene.add(this.floor);
+    this.skybox = new THREE.Mesh(geometry, material);
+    this.skybox.receiveShadow = true;
+    this.skybox.position.y = size / 2 - 3;
+    this.scene.add(this.skybox);
   }
   createRings(z, length) {
     const color = 0x00bbff;
@@ -140,7 +142,7 @@ class Sketch extends SketchManagerThree {
     }
   }
   draw() {
-    // this.composer.renderer.autoClear = true;
+    this.composer.renderer.autoClear = true;
 
     this.audio.getByteFrequencyData();
     this.audio.frequencyData.forEach((frequency, index) => {
@@ -151,9 +153,8 @@ class Sketch extends SketchManagerThree {
     const uTime = this.getUTime();    
     this.outerRing.update(this.audio.frequencyData, uTime)
 
-    // this.composer.render(this.clock.getDelta());
-    // this.composer.renderer.autoClear = false;
-    this.renderer.render(this.scene, this.camera);
+    this.composer.render(this.clock.getDelta());
+    this.composer.renderer.autoClear = false;
 
     requestAnimationFrame(() => this.draw());
   }
