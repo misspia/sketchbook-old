@@ -23,8 +23,10 @@ class Sketch extends SketchManagerThree {
     this.fftSize = 512;
     this.vertices = [];
 
+    this.light = {};
     this.numRings = 15;
     this.lastRingRadius = 12;
+    this.skybox = {};
     this.rings = [];
     this.outerRing = {};
     this.bars = [];
@@ -34,31 +36,58 @@ class Sketch extends SketchManagerThree {
     this.audio.stop();
   }
   init() {
-    this.setCameraPos(85, 115, -95);
+    this.disableOrbitControls();
+    this.renderer.shadowMap.enabled = true;
+    this.renderer.shadowMap.soft = true;
+
+    this.setCameraPos(110, 105, -110);
     this.lookAt(0, 0, 0);
-    this.setClearColor(0x100011);
+    this.setClearColor(0xffffff);
 
     const audioConfig = {
       fftSize: this.fftSize,
       dataLength: this.numFrequencyNodes,
     };
     this.initAudio(audioConfig);
-
+    this.audio.volume(1);
+    
+    this.createLight();
+    this.createSkybox();
     this.createRings(0, this.numRings);
     this.createOuterRing();
     this.createBars();
 
     this.createEffects();
   }
+  createLight() {
+    this.light = new THREE.SpotLight(0xffffff, 0.5, 1000, 1.05, 0.3, 2);
+    this.light.position.set(0, 150, 0);
+    this.light.castShadow = true;
+    this.scene.add(this.light);
+
+    this.scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+  }
   createEffects() {
     this.composer = new PP.EffectComposer(this.renderer);
-    this.renderPass = new PP.RenderPass(this.scene, this.camera, 0x111111);
+    this.renderPass = new PP.RenderPass(this.scene, this.camera,  0x111111);
     
     const bloomPass = new PP.EffectPass(this.camera, new PP.BloomEffect());
     bloomPass.renderToScreen = true;
 
     this.composer.addPass(this.renderPass);
     this.composer.addPass(bloomPass);
+  }
+  createSkybox() {
+    const size = 1000;
+    const geometry = new THREE.BoxGeometry(size, size, size);
+    const material = new THREE.MeshPhongMaterial({
+      color: 0xffffff,
+      side: THREE.DoubleSide,
+    });
+    this.skybox = new THREE.Mesh(geometry, material);
+    this.skybox.receiveShadow = true;
+    this.skybox.position.y = size / 2 - 3;
+    this.scene.add(this.skybox);
   }
   createRings(z, length) {
     const color = 0x00bbff;

@@ -17,6 +17,7 @@ export default class Bar {
       vertexShader: vert,
     });
     this.mesh = new THREE.Mesh(this.geometry, this.material);
+    this.mesh.castShadow = true;
     this.bbox = new THREE.Box3().setFromObject(this.mesh);
     this.size = new THREE.Vector3();
   }
@@ -24,7 +25,7 @@ export default class Bar {
     this.mesh.position.set(x, y, z);
   }
   update(frequency) {
-    const scaleY = utils.remap(0, 255, 0, 2.5, frequency);
+    const scaleY = utils.remap(0, 255, 0.01, 2.5, frequency);
     this.mesh.scale.y = scaleY;
     
     this.bbox.setFromObject(this.mesh);

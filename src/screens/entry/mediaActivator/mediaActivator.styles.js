@@ -17,6 +17,7 @@ export const Container = styled.div`
 `;
 
 export const Button = styled.div`
+    font-size: 1.4em;
     padding: 0.2em 0.6em;
     color: ${Colors.cream};
     border: solid 0.1em ${Colors.cream};

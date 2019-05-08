@@ -39,9 +39,15 @@ export default class OuterRing {
         fragmentShader: frag,
         vertexShader: vert,
         side: THREE.DoubleSide,
-        transparent: true,
+        // transparent: true,
       });
       const mesh = new THREE.Mesh(geometry, material);
+      /**
+       * https://threejs.org/docs/#manual/en/introduction/How-to-update-things
+       */
+      mesh.matrixAutoUpdate = false; //////////
+      mesh.castShadow = true;
+
       mesh.rotation.z += rotateZ;
       this.arcs.push(mesh);
       this.group.add(mesh);
@@ -57,6 +63,7 @@ export default class OuterRing {
       const frequency = frequencyData[index];
       arc.material.uniforms.u_freq.value = frequency;
       arc.material.uniforms.u_time.value = uTime;
+      arc.updateMatrix(); ////
     });
   }
 }
