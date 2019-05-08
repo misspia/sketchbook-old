@@ -30,6 +30,7 @@ export default class Ring {
       vertexShader: vert,
     });
     this.mesh = new THREE.Mesh(geometry, this.material);
+    this.mesh.castShadow = true;
     this.mesh.rotation.x = utils.toRadians(90);
     this.velocity = 0;
     this.direction = utils.randomBool() ? 1 : -1;

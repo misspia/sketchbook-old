@@ -17,6 +17,7 @@ export default class Bar {
       vertexShader: vert,
     });
     this.mesh = new THREE.Mesh(this.geometry, this.material);
+    this.mesh.castShadow = true;
     this.bbox = new THREE.Box3().setFromObject(this.mesh);
     this.size = new THREE.Vector3();
   }

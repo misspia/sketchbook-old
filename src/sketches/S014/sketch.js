@@ -8,16 +8,12 @@ import Ring from './ring';
 import OuterRing from './outerRing';
 import Bar from './bar';
 
-/**
- * https://stackoverflow.com/questions/17536903/threejs-shadow-not-rendering
- * http://jsfiddle.net/4Txgp/13/
- */
 class Sketch extends SketchManagerThree {
   constructor(canvas, audioElement) {
     super(canvas, audioElement);
     this.raycaster = {};
-    this.audioSrc = Audio.tester;
-    // this.audioSrc = Audio.S014;
+    // this.audioSrc = Audio.tester;
+    this.audioSrc = Audio.S014;
 
     this.composer = {};
     this.renderPass = {};
@@ -40,10 +36,11 @@ class Sketch extends SketchManagerThree {
     this.audio.stop();
   }
   init() {
+    this.disableOrbitControls();
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.soft = true;
 
-    this.setCameraPos(85, 115, -95);
+    this.setCameraPos(110, 105, -110);
     this.lookAt(0, 0, 0);
     this.setClearColor(0xffffff);
 
@@ -52,7 +49,7 @@ class Sketch extends SketchManagerThree {
       dataLength: this.numFrequencyNodes,
     };
     this.initAudio(audioConfig);
-    this.audio.volume(0.1);
+    this.audio.volume(1);
     
     this.createLight();
     this.createSkybox();
@@ -63,13 +60,11 @@ class Sketch extends SketchManagerThree {
     this.createEffects();
   }
   createLight() {
-    this.light = new THREE.SpotLight(0xffffff, 0.5, 1000, 1.05, 0.1, 1);
+    this.light = new THREE.SpotLight(0xffffff, 0.5, 1000, 1.05, 0.3, 2);
     this.light.position.set(0, 150, 0);
     this.light.castShadow = true;
     this.scene.add(this.light);
 
-    const helper = new THREE.SpotLightHelper(this.light, 0xff0000);
-    this.scene.add(helper);
     this.scene.add(new THREE.AmbientLight(0xffffff, 0.5));
   }
   createEffects() {
