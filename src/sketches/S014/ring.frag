@@ -11,10 +11,10 @@ float remapFreq(float min, float max) {
 }
 
 void main() {
-    vec3 color = vec3(0.4, 0.9, 0.6); 
+    vec3 color = vec3(0.9, 0.5, 0.5); 
     color.r = remapFreq(0.2, 0.9);
-    color.g = remapFreq(0.2, 0.6);
-    color.b = remapFreq(0.4, 0.4);
+    color.g = remapFreq(0.3, 0.7);
+    color.b = remapFreq(0.55, 0.55);
 
     float alpha = remapFreq(0.6, 1.0);
 
