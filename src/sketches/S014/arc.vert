@@ -29,7 +29,7 @@ void main () {
   vec3 fnoise = vec3(1.0, 1.0, 1.0);
   fnoise.x = remapFreq(0.0, 1.0);
   fnoise.y = remapFreq(0.0, 2.0);
-  fnoise.z = remapFreq(0.0, 2.0);
+  fnoise.z = remapFreq(-1.0, 3.0);
 
   float displacement = amp * noise(vec3(position * fnoise * 0.06) + u_time );
   vec3 newPosition = position + normal * displacement;
