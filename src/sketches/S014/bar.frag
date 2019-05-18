@@ -10,11 +10,16 @@ float remapFreq(float min, float max) {
     return remap(0.0, 255.0, min, max, u_freq);
 }
 
+float reverseRemapFreq(float min, float max) {
+    return remap(0.0, 255.0, min, max, 255.0 - u_freq);
+}
+
 void main() {
-    vec3 color = vec3(0.9, 0.6, 0.9);
-    color.r = remapFreq(0.3, 0.5);
-    color.g = remapFreq(0.1, 0.4);
-    color.b = remapFreq(0.1, 0.9);
-    
+    // vec3 color = vec3(0.2, 0.5, 0.9); 
+    vec3 color = vec3(1.0, 0.6, 0.2); 
+    color.r = remapFreq(0.5, 0.6);
+    color.g = remapFreq(0.1, 0.6);
+    color.b = remapFreq(0.2, 1.0);
+
     gl_FragColor = vec4(color, 1.0);
 }

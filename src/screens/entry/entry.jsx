@@ -91,7 +91,7 @@ class Entry extends Component {
     return (
       <MediaActivator
         onClick={e => {
-          this.setState( prevState => ({
+          this.setState( () => ({
             activateMediaRequired: false,
           }), () => {
             this.state.sketch.render();
