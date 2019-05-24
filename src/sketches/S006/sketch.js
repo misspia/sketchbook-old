@@ -1,7 +1,8 @@
 import * as THREE from 'three';
 import vert from './vertex.glsl'
 import frag from './fragment.glsl'
-import SketchManagerThree from '../sketchManagerThree.js'
+import SketchManagerThree from '../sketchManagerThree.js';
+import utils from '../utils';
 
 class Sketch extends SketchManagerThree {
   constructor(canvas) {
@@ -10,6 +11,9 @@ class Sketch extends SketchManagerThree {
     this.material = {};
     this.spotLight = {};
     this.ambientLight = {};
+    this.isMouseDown = false;
+    this.displacement = 0;
+    this.displacementInc = 0.02;
   }
   init() {
     this.disableOrbitControls();
@@ -17,8 +21,14 @@ class Sketch extends SketchManagerThree {
     this.setCameraPos(0, 2, -6);
     this.createCenterPiece();
 
-    const geometry = this.createSpehereGeometry();
-    console.log(geometry)
+    this.createMouseListener();
+
+    this.canvas.addEventListener('mousedown', (e) => {
+      this.isMouseDown = true;
+    });
+    this.canvas.addEventListener('mouseup', (e) => {
+      this.isMouseDown = false;
+    });
   }
   createCenterPiece() {
     this.geometry = new THREE.IcosahedronGeometry(1, 2);
@@ -27,7 +37,7 @@ class Sketch extends SketchManagerThree {
       vertexShader: vert,
       fragmentShader: frag,
       uniforms: {
-        u_time: { type: 'f', value: 0 },
+        u_displacement: { type: 'f', value: 0 },
       }
     });
     const sphere = new THREE.Mesh(this.geometry, this.material);
@@ -38,14 +48,20 @@ class Sketch extends SketchManagerThree {
    * https://stackoverflow.com/a/969880
    */
   createSpehereGeometry() {
+    const radius = 5;
+    let angleZ = 0;
+    let angleXY = 0;
+    const angleIncrement = utils.toRadians(360 / 200);
     const geometry = new THREE.BufferGeometry();
     let vertices = []; 
     for(let i = 0; i < 200; i ++) {
       vertices.push(
-        new THREE.Vector3(),
-        new THREE.Vector3(),
-        new THREE.Vector3()
+        radius * Math.cos(angleZ) * Math.sin(angleXY),
+        radius * Math.sin(angleZ) * Math.sin(angleXY),
+        radius * Math.cos(angleXY)
       );
+      angleZ += angleIncrement;
+      angleXY += angleIncrement;
     }
     const positionAttribute = new THREE.BufferAttribute(
       new Float32Array(vertices), 3
@@ -54,7 +70,12 @@ class Sketch extends SketchManagerThree {
     return geometry;
   }
   draw() {
-    this.material.uniforms.u_time.value = this.getUTime();
+    if(this.isMouseDown) {
+      this.displacement = Math.min(1.0, this.displacement + this.displacementInc);
+    } else {
+      this.displacement = Math.max(0.0, this.displacement - this.displacementInc);
+    }
+    this.material.uniforms.u_displacement.value = this.displacement;
 
     this.renderer.render(this.scene, this.camera);
     requestAnimationFrame(() => this.draw());
