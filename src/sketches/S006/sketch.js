@@ -29,6 +29,16 @@ class Sketch extends SketchManagerThree {
     this.canvas.addEventListener('mouseup', (e) => {
       this.isMouseDown = false;
     });
+
+    /**
+     * mobile
+     */
+    this.canvas.addEventListener('touchstart', (e) => {
+      this.isMouseDown = true;
+    });
+    this.canvas.addEventListener('touchend', (e) => {
+      this.isMouseDown = false;
+    });
   }
   createCenterPiece() {
     this.geometry = new THREE.IcosahedronGeometry(1, 2);
@@ -38,6 +48,7 @@ class Sketch extends SketchManagerThree {
       fragmentShader: frag,
       uniforms: {
         u_displacement: { type: 'f', value: 0 },
+        u_should_explode: { type: 'bool', value: true },
       }
     });
     const sphere = new THREE.Mesh(this.geometry, this.material);
@@ -71,10 +82,11 @@ class Sketch extends SketchManagerThree {
   }
   draw() {
     if(this.isMouseDown) {
-      this.displacement = Math.min(1.0, this.displacement + this.displacementInc);
+      this.displacement = Math.min(1.5, this.displacement + this.displacementInc);
     } else {
       this.displacement = Math.max(0.0, this.displacement - this.displacementInc);
     }
+
     this.material.uniforms.u_displacement.value = this.displacement;
 
     this.renderer.render(this.scene, this.camera);
