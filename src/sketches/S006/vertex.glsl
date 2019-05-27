@@ -24,7 +24,7 @@ float sineInOut(const float t) {
 void main () {
    v_normal = normal;
    float dist = u_displacement;
-   float offsetFactor = 1.6;
+   float offsetFactor = 1.2;
 
    vec4 offset = position;
    offset.xyz += normal * dist * offsetFactor;

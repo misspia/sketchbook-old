@@ -82,7 +82,7 @@ class Sketch extends SketchManagerThree {
   }
   draw() {
     if(this.isMouseDown) {
-      this.displacement = Math.min(1.5, this.displacement + this.displacementInc);
+      this.displacement = Math.min(1.0, this.displacement + this.displacementInc);
     } else {
       this.displacement = Math.max(0.0, this.displacement - this.displacementInc);
     }

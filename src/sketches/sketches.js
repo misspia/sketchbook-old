@@ -49,7 +49,7 @@ const Sketches = [
   },
   {
     title: 'Mesh explosion',
-    instructions: 'Press and hold for an explosion',
+    instructions: 'Press & hold to make the sphere explode',
     image: Images.S006,
     sketch: S006
   },
