@@ -4,7 +4,8 @@ attribute vec3 normal;
 uniform mat4 projectionMatrix;
 uniform mat4 modelViewMatrix;
 
-uniform float u_time;
+uniform float u_displacement;
+uniform bool u_should_explode;
 
 varying vec3  v_normal;
 
@@ -22,11 +23,14 @@ float sineInOut(const float t) {
 
 void main () {
    v_normal = normal;
-   float dist = sineInOut(u_time);
-   float offsetFactor = 1.6;
+   float dist = u_displacement;
+   float offsetFactor = 1.2;
 
    vec4 offset = position;
    offset.xyz += normal * dist * offsetFactor;
 
+  if(u_should_explode) {
+    offset.xyz += normal * dist * offsetFactor;
+  }
   gl_Position = projectionMatrix * modelViewMatrix * offset;
 }
