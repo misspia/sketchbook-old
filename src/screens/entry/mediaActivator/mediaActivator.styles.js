@@ -12,8 +12,10 @@ export const Container = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 999;
 
-    background-color: rgba(0, 0, 0, 0.5);
+
+    background-color: rgba(0, 0, 0, 1.0);
 `;
 
 export const Button = styled.div`
