@@ -14,7 +14,6 @@ export const Container = styled.div`
     align-items: center;
     z-index: 999;
 
-
     background-color: rgba(0, 0, 0, 1.0);
 `;
 

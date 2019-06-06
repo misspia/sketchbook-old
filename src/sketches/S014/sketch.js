@@ -33,7 +33,7 @@ class Sketch extends SketchManagerThree {
 
   }
   unmount() {
-    this.audio.stop();
+
   }
   init() {
     this.disableOrbitControls();
