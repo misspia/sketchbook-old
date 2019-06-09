@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import SketchManagerThree from '../sketchManagerThree';
 import utils from '../utils';
 import { Audio } from '../../themes/themes';
+import Sphere from './sphere';
 
 /**
  * https://twitter.com/motions_work/status/927346292283490305
@@ -19,7 +20,7 @@ class Sketch extends SketchManagerThree {
 
   }
   init() {
-    this.setCameraPos(110, 105, -110);
+    this.setCameraPos(0, 0, -110);
     this.lookAt(0, 0, 0);
     this.setClearColor(0xddddff);
 
@@ -29,24 +30,24 @@ class Sketch extends SketchManagerThree {
     };
     this.initAudio(audioConfig);
     
-    this.initNodes();
+    this.createNodes();
 
   }
-  initNodes() {
-    this.spheres = this.audio.frequencyData.map((node, index) => {
-      const geometry = new THREE.SphereGeometry(5, 32, 32);
-      const material = new THREE.MeshBasicMaterial({
-        color: 0xffffff,
-      });
-      const mesh = new THREE.Mesh(geometry, material);
-      mesh.position.z += index;
-      this.scene.add(mesh);
-      return mesh;
-    });
+  createNodes() {
+    this.audio.frequencyData.map((node, index) => {
+      const sphere = new Sphere();
+      
+      sphere.mesh.position.x += index - this.numFrequencyNodes / 2;
+      this.scene.add(sphere.mesh);
+      this.spheres.push(sphere);
+    }); // why doesnt map work (returns array of 0's)
   }
   draw() {
     this.renderer.render(this.scene, this.camera);
     this.audio.getByteFrequencyData();
+    this.audio.frequencyData.forEach(frequency => {
+      this.spheres[index].update(frequency);
+    })
    
 
     requestAnimationFrame(() => this.draw());
