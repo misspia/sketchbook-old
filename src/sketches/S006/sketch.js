@@ -4,6 +4,9 @@ import frag from './fragment.glsl'
 import SketchManagerThree from '../sketchManagerThree.js';
 import utils from '../utils';
 
+/**
+ * https://twitter.com/motions_work/status/927551410853396486
+ */
 class Sketch extends SketchManagerThree {
   constructor(canvas) {
     super(canvas);

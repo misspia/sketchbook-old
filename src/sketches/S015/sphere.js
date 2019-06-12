@@ -12,7 +12,7 @@ export default class Sphere {
     this.mesh = new THREE.Mesh(geometry, material);
   }
   update(frequency) {
-    const scale = utils.remap(0, 255, 1, 3, frequency);
+    const scale = utils.remap(0, 255, 1, 5, frequency);
     this.mesh.scale.set(scale, scale, scale);
   }
 }
