@@ -17,7 +17,5 @@ float remap(float min1, float max1, float min2, float max2, float value) {
 }
 
 void main () {
-  float freq = remapFreq(0.5, 2.0);
-  
   gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
 }

@@ -5,8 +5,7 @@ import Sphere from './sphere';
 import Leaf from './leaf';
 
 /**
- * https://twitter.com/motions_work/status/927346292283490305
- * https://twitter.com/felixfaire/status/979094649653612544 r
+ * https://twitter.com/felixfaire/status/979094649653612544
  */
 class Sketch extends SketchManagerThree {
   constructor(canvas) {
@@ -15,8 +14,6 @@ class Sketch extends SketchManagerThree {
 
     this.numLeaves = 100;
     this.leaves = [];
-
-    
   }
   unmount() {
 
