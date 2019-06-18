@@ -12,7 +12,8 @@ class Sketch extends SketchManagerThree {
     super(canvas);
     this.spheres = [];
 
-    this.numLeaves = 100;
+    this.clock = new THREE.Clock();
+    this.numLeaves = 1;
     this.leaves = [];
   }
   unmount() {
@@ -35,6 +36,9 @@ class Sketch extends SketchManagerThree {
   }
   draw() {
     this.renderer.render(this.scene, this.camera);
+
+    const time = this.clock.getElapsedTime();
+    this.leaves.forEach(leaf => leaf.update(time));
    
 
     requestAnimationFrame(() => this.draw());

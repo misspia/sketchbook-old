@@ -8,7 +8,9 @@ export default class Leaf {
     this.material = new THREE.RawShaderMaterial({
       vertexShader: vert,
       fragmentShader: frag,
-      
+      uniforms: {
+        u_time: { type: 'f', value: 0 },
+      }
     });
     this.mesh = new THREE.Mesh(geometry, this.material);
   }
@@ -18,7 +20,7 @@ export default class Leaf {
     petalShape.bezierCurveTo(50, 100, -50, 100, 0, 0);
 
     const extrudeSettings = {
-      amount: 1,
+      depth: 1,
       bevelEnabled: true,
       bevelSegments: 2,
       steps: 2,
@@ -30,7 +32,8 @@ export default class Leaf {
 
     return geometry;
   }
-  update() {
-
+  update(uTime) {
+    // console.log(uTime)
+    this.material.uniforms.u_time.value = uTime;
   }
 }

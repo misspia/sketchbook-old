@@ -38,11 +38,6 @@ vec3 distort(vec3 p) {
     return q;
 }
 
-vec2 rotate(vec2 p, float angle) {
-    float c = cos(angle), s = sin(angle);
-    return vec2(p.x * c - p.y * s, p.x * s + p.y * c);
-}
-
 float sceneSDF(vec3 p) {
   float timeFactor = 1.5;
   vec3 pt = p, ps1 = p, ps2 = p;
