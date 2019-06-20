@@ -1,16 +1,30 @@
 import * as THREE from 'three';
+import utils from '../utils';
 import frag from './leaf.frag'; 
 import vert from './leaf.vert'; 
 
 export default class Leaf {
   constructor() {
+    const rotateSpeed = new THREE.Vector3(
+      utils.randomSign() * utils.randomFloatBetween(20, 80),
+      utils.randomSign() * utils.randomFloatBetween(20, 80),
+      utils.randomSign() * utils.randomFloatBetween(20, 80)
+    );
+    const translateSpeed = new THREE.Vector3(
+      utils.randomSign() * utils.randomFloatBetween(20, 80),
+      utils.randomSign() * utils.randomFloatBetween(20, 80),
+      utils.randomSign() * utils.randomFloatBetween(20, 80)
+    );
     const geometry = this.createGeometry(0.1);
     this.material = new THREE.RawShaderMaterial({
       vertexShader: vert,
       fragmentShader: frag,
       uniforms: {
         u_time: { type: 'f', value: 0 },
-      }
+        u_rotate_speed: { type: 'v3', value: rotateSpeed },
+        u_translate_speed: { type: 'v3', value: translateSpeed },
+      },
+      side: THREE.DoubleSide,
     });
     this.mesh = new THREE.Mesh(geometry, this.material);
   }

@@ -25,6 +25,9 @@ const utils = {
   randomBool: () => (
     Math.random() >= 0.5
   ),
+  randomSign: () => (
+    Math.random() >= 0.5 ? 1 : -1
+  ),
   lerp: (a, b, t) => (
     a * (1 - t) + b * t
   ),

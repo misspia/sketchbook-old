@@ -13,13 +13,15 @@ class Sketch extends SketchManagerThree {
     this.spheres = [];
 
     this.clock = new THREE.Clock();
-    this.numLeaves = 1;
+    this.numLeaves = 100;
     this.leaves = [];
   }
   unmount() {
 
   }
   init() {
+    this.createStats();
+
     this.setCameraPos(-32, 74, -77);
     this.lookAt(0, 0, 0);
     this.setClearColor(0xddddff);
@@ -35,11 +37,14 @@ class Sketch extends SketchManagerThree {
     }
   }
   draw() {
+    this.stats.begin();
+
     this.renderer.render(this.scene, this.camera);
 
     const time = this.clock.getElapsedTime();
     this.leaves.forEach(leaf => leaf.update(time));
    
+    this.stats.end();
 
     requestAnimationFrame(() => this.draw());
   }
