@@ -1,7 +1,6 @@
 import * as THREE from 'three';
 import SketchManagerThree from '../sketchManagerThree';
 import utils from '../utils';
-import Sphere from './sphere';
 import Leaf from './leaf';
 
 /**
@@ -10,8 +9,6 @@ import Leaf from './leaf';
 class Sketch extends SketchManagerThree {
   constructor(canvas) {
     super(canvas);
-    this.spheres = [];
-
     this.clock = new THREE.Clock();
     this.numLeaves = 100;
     this.leaves = [];
@@ -24,7 +21,7 @@ class Sketch extends SketchManagerThree {
 
     this.setCameraPos(-32, 74, -77);
     this.lookAt(0, 0, 0);
-    this.setClearColor(0xddddff);
+    this.setClearColor(0xeefaee);
 
     this.createLeaves();
 
