@@ -16,6 +16,7 @@ import S012 from './S012/sketch';
 import S013 from './S013/sketch';
 import S014 from './S014/sketch';
 import S015 from './S015/sketch';
+import S016 from './S016/sketch';
 
 const Sketches = [
   {
@@ -105,6 +106,12 @@ const Sketches = [
     isAudio: true,
     image: Images.S015,
     sketch: S015,
+  },
+  {
+    title: '',
+    instructions: ``,
+    image: Images.S015,
+    sketch: S016,
   },
 ];
 
