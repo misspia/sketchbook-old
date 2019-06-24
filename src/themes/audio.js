@@ -3,7 +3,7 @@ export const BASE_URL = 'https://raw.githubusercontent.com/misspia/assets/master
 
 const Audio = {
   elemId: 'audio',
-  tester: require('./misc/sexy4ever.mp3'),
+  tester: require('./misc/senorita.mp3'),
 
   S008: `${BASE_URL}nurko-right-now.mp3`,
   S014: `${BASE_URL}kda-popstars.mp3`,

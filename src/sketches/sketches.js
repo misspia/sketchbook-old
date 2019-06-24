@@ -97,12 +97,12 @@ const Sketches = [
     image: Images.S014,
     sketch: S014,
   },
-  {
-    title: '',
-    instructions: ``,
-    image: Images.S014,
-    sketch: S015,
-  },
+  // {
+  //   title: '',
+  //   instructions: ``,
+  //   image: Images.S014,
+  //   sketch: S015,
+  // },
 ];
 
 export default Sketches;
