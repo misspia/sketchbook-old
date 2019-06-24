@@ -21,7 +21,7 @@ class Sketch extends SketchManagerThree {
     this.clock = new THREE.Clock();
   }
   unmount() {
-    this.audio.stop();
+
   }
   init() {
     this.disableOrbitControls()
