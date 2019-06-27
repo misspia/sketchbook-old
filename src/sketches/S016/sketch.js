@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import SketchManagerThree from '../sketchManagerThree';
 import { Audio } from '../../themes/themes';
 import Triangle from './triangle';
+import Bar from './bar';
 import utils from '../utils';
 
 /**
@@ -11,6 +12,8 @@ import utils from '../utils';
  * 
  * beat
  * https://codepen.io/mnmxmx/pen/mmZbPK?editors=1010
+ * 
+ * https://twitter.com/mattdesl/status/1096078717779169280
  */
 class Sketch extends SketchManagerThree {
   constructor(canvas, audioElement) {
@@ -30,9 +33,13 @@ class Sketch extends SketchManagerThree {
 
     const audioConfig = { fftSize: this.fftSize };
     this.initAudio(audioConfig);
+    this.audio.volume(0.1);
 
     const triangle = new Triangle();
     this.scene.add(triangle.mesh);
+
+    const bar = new Bar();
+    this.scene.add(bar.mesh);
 
   }
   
