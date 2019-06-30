@@ -20,6 +20,7 @@ class Sketch extends SketchManagerThree {
     super(canvas, audioElement);
     this.audioSrc = Audio.tester;
     this.fftSize = 512;
+    this.bars = [];
   }
   unmount() {
 
@@ -27,22 +28,37 @@ class Sketch extends SketchManagerThree {
   init() {
     this.createStats();
 
-    this.setCameraPos(-32, 74, -77);
+    this.setCameraPos(-10, 20, 10);
     this.lookAt(0, 0, 0);
     this.setClearColor(0xffffaa);
 
-    const audioConfig = { fftSize: this.fftSize };
+    const audioConfig = { fftSize: this.fftSize, dataLength: 25 };
     this.initAudio(audioConfig);
     this.audio.volume(0.1);
 
-    const triangle = new Triangle();
-    this.scene.add(triangle.mesh);
+    this.initNodes();
+  }
+  initNodes() {
+    const margin = 5;
+    const { length } = this.audio.frequencyData;
+    const width = Math.sqrt(length);
+    let x = -20, y = 0, z = -20;
 
-    const bar = new Bar();
-    this.scene.add(bar.mesh);
+    for(let i = 0; i < length; i++) {
+      if(i % width == 0) {
+        x = 0;
+        z += margin;
+      }
+      const coord = { x, y, z };
+      const bar = new Bar(coord);
+      this.scene.add(bar.mesh);
+      this.bars.push(bar);
+
+      x += margin;
+
+    }
 
   }
-  
   draw() {
     this.stats.begin();
 

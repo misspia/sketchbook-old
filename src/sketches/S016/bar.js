@@ -3,8 +3,8 @@ import fragmentShader from './bar.frag';
 import vertexShader from './bar.vert';
 
 export default class Bar {
-  constructor() {
-    const geometry = new THREE.BoxGeometry(1, 2, 1);
+  constructor(coord) {
+    const geometry = new THREE.BoxGeometry(2, 2, 2);
     this.material = new THREE.RawShaderMaterial({
       uniforms: {
 
@@ -13,6 +13,10 @@ export default class Bar {
       vertexShader,
     });
     this.mesh = new THREE.Mesh(geometry, this.material);
+    this.setPosition(coord.x, coord.y, coord.z);
+  }
+  setPosition(x, y, z) {
+    this.mesh.position.set(x, y, z);
   }
   update() {
 
