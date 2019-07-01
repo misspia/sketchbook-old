@@ -7,7 +7,7 @@ export default class Bar {
     const geometry = new THREE.BoxGeometry(2, 2, 2);
     this.material = new THREE.RawShaderMaterial({
       uniforms: {
-
+        u_freq: { type: 'f', value: 0.0, },
       },
       fragmentShader,
       vertexShader,
@@ -18,7 +18,7 @@ export default class Bar {
   setPosition(x, y, z) {
     this.mesh.position.set(x, y, z);
   }
-  update() {
-
+  update(freq) {
+    this.material.uniforms.u_freq.value = freq;
   }
 }

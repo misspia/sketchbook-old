@@ -55,14 +55,13 @@ class Sketch extends SketchManagerThree {
       this.bars.push(bar);
 
       x += margin;
-
     }
-
   }
   draw() {
     this.stats.begin();
 
     this.audio.getByteFrequencyData();
+    this.audio.frequencyData.forEach((freq, index) => this.bars[index].update(freq));
     this.renderer.render(this.scene, this.camera);
 
     this.stats.end();
