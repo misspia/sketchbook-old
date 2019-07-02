@@ -1,7 +1,6 @@
 import * as THREE from 'three';
 import SketchManagerThree from '../sketchManagerThree';
 import { Audio } from '../../themes/themes';
-import Triangle from './triangle';
 import Bar from './bar';
 import utils from '../utils';
 
@@ -28,21 +27,24 @@ class Sketch extends SketchManagerThree {
   init() {
     this.createStats();
 
-    this.setCameraPos(-10, 20, 10);
-    this.lookAt(0, 0, 0);
+    this.setCameraPos(-10, 23, 5);
     this.setClearColor(0xffffaa);
 
     const audioConfig = { fftSize: this.fftSize, dataLength: 25 };
     this.initAudio(audioConfig);
-    this.audio.volume(0.1);
+    this.audio.volume(0.8);
 
     this.initNodes();
+
+    const centerIndex = Math.floor(this.bars.length / 2);
+    const { x, y, z } = this.bars[centerIndex].mesh.position;
+    this.lookAt(x, y, z);
   }
   initNodes() {
-    const margin = 5;
+    const margin = 3;
     const { length } = this.audio.frequencyData;
     const width = Math.sqrt(length);
-    let x = -20, y = 0, z = -20;
+    let x = 50, y = 0, z = -10;
 
     for(let i = 0; i < length; i++) {
       if(i % width == 0) {
