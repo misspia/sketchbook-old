@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import * as PP from 'postprocessing';
 import SketchManagerThree from '../sketchManagerThree';
 import { Audio } from '../../themes/themes';
 import Bar from './bar';
@@ -20,6 +21,10 @@ class Sketch extends SketchManagerThree {
     this.audioSrc = Audio.tester;
     this.fftSize = 512;
     this.bars = [];
+
+    this.clock = new THREE.Clock();
+    this.composer = {};
+    this.effect = {};
   }
   unmount() {
 
@@ -39,6 +44,34 @@ class Sketch extends SketchManagerThree {
     const centerIndex = Math.floor(this.bars.length / 2);
     const { x, y, z } = this.bars[centerIndex].mesh.position;
     this.lookAt(x, y, z);
+
+    this.createEffects();
+  }
+  createEffects() {
+    this.composer = new PP.EffectComposer(this.renderer);
+    this.renderPass = new PP.RenderPass(this.scene, this.camera, 0xffffaa);
+
+    const options = {
+      blendFunction: PP.BlendFunction.SCREEN,
+			edgeStrength: 2.5,
+			pulseSpeed: 0.0,
+			visibleEdgeColor: 0xffffff,
+			hiddenEdgeColor: 0x22090a,
+			blur: false,
+			xRay: true
+    };
+    const outlineEffect = new PP.OutlineEffect(
+      this.scene,
+      this.camera,
+      options,
+    );
+    const outlinePass = new PP.EffectPass(this.camera, outlineEffect);
+    outlinePass.renderToScreen = true;
+
+    outlineEffect.setSelection(this.scene.children);
+
+    this.composer.addPass(this.renderPass);
+    this.composer.addPass(outlinePass);
   }
   initNodes() {
     const margin = 3;
@@ -62,9 +95,13 @@ class Sketch extends SketchManagerThree {
   draw() {
     this.stats.begin();
 
+    this.composer.renderer.autoClear = true;
+    this.composer.render(this.clock.getDelta());
+    this.composer.renderer.autoClear = false;
+
     this.audio.getByteFrequencyData();
     this.audio.frequencyData.forEach((freq, index) => this.bars[index].update(freq));
-    this.renderer.render(this.scene, this.camera);
+    // this.renderer.render(this.scene, this.camera);
 
     this.stats.end();
 
