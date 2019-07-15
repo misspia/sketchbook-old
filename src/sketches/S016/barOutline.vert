@@ -30,28 +30,11 @@ mat4 scaleY(float scale) {
   );
 }
 
-mat4 translateY(float translate) {
-  return mat4(
-    vec4(1.0, 0.0, 0.0, 0.0),
-    vec4(0.0, 1.0, 0.0, 0.0),
-    vec4(0.0, 0.0, 1.0, 0.0),
-    vec4(0.0, translate, 0.0, 1.0)
-  );
-}
-
-vec3 translate() {
-    return vec3(
-        0.0,
-        remapFreq(0.0, 1.0),
-        0.0
-    );
-}
-
 void main () {
   float freq = remapFreq(0.5, 5.0);
   vec3 pos = position;
   pos.y *= freq;
-  pos.y += freq ;
+  pos.y += freq;
 
-  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+  gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
 }

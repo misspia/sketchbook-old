@@ -50,6 +50,7 @@ class Sketch extends SketchManagerThree {
       const coord = { x, y, z };
       const bar = new Bar(coord);
       this.scene.add(bar.mesh);
+      this.scene.add(bar.outline.mesh);
       this.bars.push(bar);
 
       x += margin;
