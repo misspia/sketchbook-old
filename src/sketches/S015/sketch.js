@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import SketchManagerThree from '../sketchManagerThree';
-import utils from '../utils';
 import Leaf from './leaf';
+import Node from './node';
 import { Audio } from '../../themes/themes';
 
 /**
@@ -16,6 +16,10 @@ class Sketch extends SketchManagerThree {
 
     this.numLeaves = 100;
     this.leaves = [];
+
+    this.sphereRadius = 80;
+    this.numNodes = 100;
+    this.nodes = [];
     this.audioSrc = Audio.tester;
   }
   unmount() {
@@ -36,6 +40,7 @@ class Sketch extends SketchManagerThree {
     this.setClearColor(0xeefaee);
 
     this.createLeaves();
+    this.createNodes();
 
   }
   createLeaves() {
@@ -44,6 +49,17 @@ class Sketch extends SketchManagerThree {
       this.leaves.push(leaf);
       this.scene.add(leaf.mesh);
     }
+  }
+  createNodes() {
+      for(let i = 0; i < this.numNodes; i++) {
+        const node = new Node({
+          nodeIndex: i,
+          totalNodes: this.numNodes,
+          radius: this.sphereRadius,
+        });
+        this.nodes.push(node);
+        this.scene.add(node.mesh);
+      }
   }
   draw() {
     this.stats.begin();
