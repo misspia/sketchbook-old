@@ -7,9 +7,7 @@ float remap(float min1, float max1, float min2, float max2, float value) {
 }
 
 void main() {
-    vec3 color = vec3(1.0, 1.0, 1.0);
-    color.r = remap(-1.0, 1.0, 0.2, 0.6, cos(u_time));
-    color.g = remap(-1.0, 1.0, 0.2, 0.6, cos(u_time));
+    vec3 color = vec3(0.0, 0.0, 1.0);
     color.b = remap(-1.0, 1.0, 0.2, 0.6, cos(u_time));
     gl_FragColor = vec4(color, 1.0);
 }

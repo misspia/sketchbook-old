@@ -2,24 +2,20 @@ import * as THREE from 'three';
 import utils from '../utils';
 
 export default class Node {
-  constructor({
-    nodeIndex = 0,
-    totalNodes = 0, 
-    radius = 0,
-
-  }) {
+  constructor() {
     this.geometry = new THREE.BoxGeometry(10, 10, 10);
     this.material = new THREE.MeshBasicMaterial({
-      color: 0xff0000,
+      color: 0x000000,
     });
     this.mesh = new THREE.Mesh(this.geometry, this.material);
-    const { x, y, z } = this.getSphereCoord(nodeIndex, totalNodes, radius);
-    console.debug(x, y, z)
-    this.setPosition(x, y, z);
   }
   setPosition(x, y, z) {
     this.mesh.position.set(x, y, z);
   }
+
+  /**
+   * https://stackoverflow.com/questions/969798/plotting-a-point-on-the-edge-of-a-sphere
+   */
   getSphereCoord(nodeIndex, totalNodes, radius) {
     console.group('SPHERE COORD');
     const angleIncrement = totalNodes / 360;

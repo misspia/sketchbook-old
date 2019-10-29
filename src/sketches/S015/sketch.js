@@ -1,11 +1,12 @@
 import * as THREE from 'three';
 import SketchManagerThree from '../sketchManagerThree';
 import Leaf from './leaf';
-import Node from './node';
+import PillarNode from './pillarNode';
 import { Audio } from '../../themes/themes';
 
 /**
  * https://twitter.com/felixfaire/status/979094649653612544
+ * 
  */
 class Sketch extends SketchManagerThree {
   constructor(canvas, audioElement) {
@@ -19,7 +20,7 @@ class Sketch extends SketchManagerThree {
 
     this.sphereRadius = 80;
     this.numNodes = 100;
-    this.nodes = [];
+    this.pillarNodes = [];
     this.audioSrc = Audio.tester;
   }
   unmount() {
@@ -37,10 +38,10 @@ class Sketch extends SketchManagerThree {
 
     this.setCameraPos(-32, 74, -77);
     this.lookAt(0, 0, 0);
-    this.setClearColor(0xeefaee);
+    this.setClearColor(0x222222);
 
     this.createLeaves();
-    this.createNodes();
+    this.createPillar();
 
   }
   createLeaves() {
@@ -50,16 +51,17 @@ class Sketch extends SketchManagerThree {
       this.scene.add(leaf.mesh);
     }
   }
-  createNodes() {
-      for(let i = 0; i < this.numNodes; i++) {
-        const node = new Node({
-          nodeIndex: i,
-          totalNodes: this.numNodes,
-          radius: this.sphereRadius,
-        });
-        this.nodes.push(node);
-        this.scene.add(node.mesh);
-      }
+  createPillar() {
+    const cylinderGeometry = new THREE.CylinderGeometry(18, 25, 80, 10, 5);
+    cylinderGeometry.vertices.forEach(vertex => {
+      const node = new PillarNode();
+
+      const { x, y, z } = vertex;
+      node.setPosition(x, y, z);
+      
+      this.scene.add(node.mesh);
+      this.pillarNodes.push(node);
+    })
   }
   draw() {
     this.stats.begin();
