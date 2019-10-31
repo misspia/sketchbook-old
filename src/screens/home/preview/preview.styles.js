@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Colors, Metrics, Styles } from '../../../themes/themes.js'
+import { Colors, Metrics, Styles } from '../../../themes'
 
 export const Container = styled.div`
   margin: ${Metrics.previewMargin}px;
@@ -64,4 +64,8 @@ export const Title = styled.h2`
   letter-spacing: 0.1em;
   text-align: center;
   color: ${Colors.greyDark};
+`;
+
+export const IconWrapper = styled.div`
+  font-size: 1.5em;
 `;

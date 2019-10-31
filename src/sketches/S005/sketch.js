@@ -2,7 +2,7 @@ import vert from './vertex.glsl'
 import frag from './fragment.glsl'
 import SketchManager from '../sketchManager.js'
 
-import { Images } from '../../themes/themes.js'
+import { Images } from '../../themes'
 
 class Sketch extends SketchManager {
   constructor(canvas) {

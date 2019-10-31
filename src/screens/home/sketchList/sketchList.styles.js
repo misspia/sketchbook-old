@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Metrics } from '../../../themes/themes.js'
+import { Metrics } from '../../../themes'
 
 const previewGridWidth = Metrics.previewSize + Metrics.previewMargin * 2;
 const outerPadding = Metrics.previewMargin;

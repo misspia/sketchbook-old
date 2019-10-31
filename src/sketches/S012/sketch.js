@@ -3,7 +3,7 @@ import glsl from 'glslify';
 import utils from '../utils';
 
 import SketchManagerThree from '../sketchManagerThree';
-import { Images } from '../../themes/themes';
+import { Images } from '../../themes';
 
 import frag from './plane.frag';
 import vert from './plane.vert';

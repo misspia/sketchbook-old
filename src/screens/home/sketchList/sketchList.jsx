@@ -22,11 +22,15 @@ class SketchList extends Component {
   renderPreview(sketch, index) {
     const path = Routes.toSketch(index);
 
-    return <Preview
-      key={index}
-      to={path}
-      title={sketch.title}
-      image={sketch.image}/>
+    return (
+      <Preview
+        key={index}
+        to={path}
+        title={sketch.title}
+        image={sketch.image}
+        isAudio={sketch.isAudio}
+      />
+    );
   }
   render() {
     return <Container>

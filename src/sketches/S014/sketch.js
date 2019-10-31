@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import SketchManagerThree from '../sketchManagerThree';
 import utils from '../utils';
-import { Audio } from '../../themes/themes' 
+import { Audio } from '../../themes' 
 
 import * as PP from 'postprocessing';
 import Ring from './ring';

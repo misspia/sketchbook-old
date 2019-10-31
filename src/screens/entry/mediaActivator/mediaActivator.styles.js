@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Colors } from '../../../themes/themes';
+import { Colors } from '../../../themes';
 
 export const Container = styled.div`
     position: fixed;

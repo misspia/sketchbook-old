@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import SketchManagerThree from '../sketchManagerThree.js';
-import { Audio } from '../../themes/themes.js';
+import { Audio } from '../../themes';
 import AudioNode from './node.js';
 import utils from '../utils.js';
 

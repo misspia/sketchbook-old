@@ -1,4 +1,4 @@
-import { Images } from '../themes/themes.js';
+import { Images } from '../themes';
 
 import S000 from './S000/sketch';
 import S001 from './S001/sketch';
@@ -96,6 +96,7 @@ const Sketches = [
     instructions: `Popstars - K/DA`,
     image: Images.S014,
     sketch: S014,
+    isAudio: true,
   },
   // {
   //   title: '',
