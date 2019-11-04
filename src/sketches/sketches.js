@@ -1,4 +1,4 @@
-import { Images } from '../themes/themes.js';
+import { Images } from '../themes';
 
 import S000 from './S000/sketch';
 import S001 from './S001/sketch';
@@ -60,8 +60,9 @@ const Sketches = [
     sketch: S007
   },
   {
-    title: 'Audio',
+    title: '',
     instructions: `Right Now - Nurko & Misdom`,
+    isAudio: true,
     image: Images.S008,
     sketch: S008
   },
@@ -94,6 +95,7 @@ const Sketches = [
   {
     title: '',
     instructions: `Popstars - K/DA`,
+    isAudio: true,
     image: Images.S014,
     sketch: S014,
   },

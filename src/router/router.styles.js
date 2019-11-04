@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Fonts } from '../themes/themes.js'
+import { Fonts } from '../themes'
 
 export const Container = styled.main`
   font-family: ${Fonts.familyBody};

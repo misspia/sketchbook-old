@@ -1,9 +1,9 @@
 import * as THREE from 'three';
 import vert from './vertex.glsl';
 import frag from './fragment.glsl';
-import SketchManagerThree from '../sketchManagerThree.js';
+import SketchManagerThree from '../sketchManagerThree';
 
-import { Images } from '../../themes/themes.js';
+import { Images } from '../../themes';
 
 const opts = {
   cameraNear: 0.01,

@@ -1,4 +1,4 @@
-import { Icons } from '../../themes/themes.js'
+import { Icons } from '../../themes'
 
 const Metadata = {
   title: 'sketchbook',

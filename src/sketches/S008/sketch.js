@@ -1,8 +1,8 @@
 import * as THREE from 'three';
-import SketchManagerThree from '../sketchManagerThree.js';
-import { Audio } from '../../themes/themes.js';
-import AudioNode from './node.js';
-import utils from '../utils.js';
+import SketchManagerThree from '../sketchManagerThree';
+import { Audio } from '../../themes';
+import AudioNode from './node';
+import utils from '../utils';
 
 class Sketch extends SketchManagerThree {
   constructor(canvas, audioElement) {

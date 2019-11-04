@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import SketchManagerThree from '../sketchManagerThree';
-import { Images } from '../../themes/themes';
+import { Images } from '../../themes';
 
 const palette = [
   0x44FFAA, // #44FFAA

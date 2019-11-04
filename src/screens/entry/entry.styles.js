@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components'
-import { Colors, Styles } from '../../themes/themes.js'
+import { Colors, Styles } from '../../themes'
 
 export const Container = styled(Styles.SectionContainer)`
   display: flex;

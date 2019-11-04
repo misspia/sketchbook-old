@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { HashRouter as Router, Route, Switch, NavLink } from 'react-router-dom'
 
-import { Container, Nav } from './router.styles.js'
-import Routes from './routes.js'
+import { Container } from './router.styles'
+import Routes from './routes'
 
-import Home from '../screens/home/home.jsx'
-import Entry from '../screens/entry/entry.jsx'
+import Home from '../screens/home/home'
+import Entry from '../screens/entry/entry'
 
 class AppRouter extends Component {
   render() {
