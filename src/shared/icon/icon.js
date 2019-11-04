@@ -1,22 +1,22 @@
-import React, { Component } from 'react'
-import { IconElement } from './icon.styles'
+import React from 'react'
+import * as S from './icon.styles'
 
-class Icon extends Component {
-	static defaultProps = {
-		name: '',
-		size: '1em',
-		color: '',
-		customStyle: '', // ex. 'margin:1em; opacity: 0.5;',
-		hover: '' // hover styles --> ex. color: red;
-	}
-	render() {
-		return <IconElement
-  		className={`icon ${this.props.name}`}
-  		size={this.props.size}
-  		color={this.props.color}
-  		customStyle={this.props.customStyle}
-  		hover={this.props.hover} />
-	}
+export default function Icon({
+	name = '',
+	size = '1em',
+	color = '',
+	customStyle = '', // ex. 'margin:1em; opacity: 0.5;',
+	hover = '' // hover styles --> ex. color: red;
+}) {
+	
+	return (
+		<S.Wrapper
+			size={size}
+			color={color}
+			customStyles={customStyle}
+			hover={hover}
+		>
+			<ion-icon name={name}/>
+		</S.Wrapper>
+	)
 }
-
-export default Icon;

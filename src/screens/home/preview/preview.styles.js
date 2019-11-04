@@ -67,5 +67,14 @@ export const Title = styled.h2`
 `;
 
 export const IconWrapper = styled.div`
-  font-size: 1.5em;
+
+  margin: 0.5em;
+  padding: 0.2em;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+
+  background-color: ${Colors.thistle};
+  border-radius: 0.2em;
+  box-sizing: border-box;
 `;

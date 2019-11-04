@@ -7,7 +7,10 @@ const Colors = {
   grey: '#6C7A89',
   greyDark: '#343a39',
   cream: '#eeeeee',
-  pink: '#f16156',
+  pink: '#fe9bba',
+  jasmine: '#eacbf7',
+  blue: '#a1bce7',
+  thistle: '#c9bbc8',
 
 }
 

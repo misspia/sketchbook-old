@@ -1,27 +1,33 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { NavLink } from 'react-router-dom'
-import { Container, Image, HiddenContainer } from './preview.styles'
+import * as S from './preview.styles'
 import Icon from '../../../shared/icon/icon';
-import { Icons } from '../../../themes';
+import { Icons, Colors } from '../../../themes';
 
-class Preview extends Component {
-  static defaultProps = {
-    to: '',
-    title: '',
-    image: '',
-    isAudio: false,
-  }
-  render() {
+export default function Preview({
+  to = '',
+  title = '',
+  image = '',
+  isAudio = false,
+
+}) {
     return (
-      <Container>
-        <Image src={this.props.image} />
-        <NavLink to={this.props.to} />
-        <HiddenContainer>
-          <Icon name={Icons.audio}/>
-        </HiddenContainer>
-      </Container>
-    );
-  }
-}
+      <S.Container>
+        <S.Image src={image} />
+        <NavLink to={to} />
+        <S.HiddenContainer>
 
-export default Preview;
+        </S.HiddenContainer>
+        {
+          isAudio && 
+          <S.IconWrapper>
+            <Icon
+              size='1.5em'
+              color={Colors.grey}
+              name={Icons.audio}/> 
+          </S.IconWrapper>          
+        }
+        
+      </S.Container>
+    );
+}

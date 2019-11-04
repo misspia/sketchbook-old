@@ -1,10 +1,9 @@
-// http://ionicons.com/
+// https://ionicons.com/
 
 const Icons = {
-  back: 'ion-arrow-left-c',
-  close: 'ion-close-round',
-  github: 'ion-social-octocat',
-  audio: 'ion-musical-note',
+  close: 'close',
+  github: 'logo-github',
+  audio: 'musical-note',
 }
 
 export default Icons;

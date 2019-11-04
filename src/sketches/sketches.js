@@ -60,8 +60,9 @@ const Sketches = [
     sketch: S007
   },
   {
-    title: 'Audio',
+    title: '',
     instructions: `Right Now - Nurko & Misdom`,
+    isAudio: true,
     image: Images.S008,
     sketch: S008
   },
@@ -94,9 +95,9 @@ const Sketches = [
   {
     title: '',
     instructions: `Popstars - K/DA`,
+    isAudio: true,
     image: Images.S014,
     sketch: S014,
-    isAudio: true,
   },
   // {
   //   title: '',
