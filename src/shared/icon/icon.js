@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { IconElement } from './icon.styles.js'
+import { IconElement } from './icon.styles'
 
 class Icon extends Component {
 	static defaultProps = {

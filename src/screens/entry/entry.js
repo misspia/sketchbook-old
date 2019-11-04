@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 
-import Header from './header.jsx'
+import Header from './header'
 
-import { Container } from './entry.styles.js'
+import { Container } from './entry.styles'
 
-import Sketches from '../../sketches/sketches.js'
-import MediaActivator from './mediaActivator/mediaActivator.jsx';
+import Sketches from '../../sketches/sketches'
+import MediaActivator from './mediaActivator/mediaActivator';
 
 class Entry extends Component {
   constructor(props) {
@@ -53,8 +53,7 @@ class Entry extends Component {
       instructions: Sketch.instructions,
       sketch: new Sketch.sketch(this.canvas, this.audio),
     }, () => {
-      // if(this.state.sketch.audioElement) {
-      if(false) {
+      if(this.state.sketch.audioElement) {
         this.setState(() => ({
           activateMediaRequired: true,
         }));

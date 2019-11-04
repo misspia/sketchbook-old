@@ -1,6 +1,6 @@
 import vert from './vertex.glsl'
 import frag from './fragment.glsl'
-import SketchManager from '../sketchManager.js'
+import SketchManager from '../sketchManager'
 
 class RayMarch extends SketchManager {
   constructor(canvas) {

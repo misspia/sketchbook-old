@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
-import { NavLink } from 'react-router-dom'
-import Routes from '../../../router/routes.js'
-import Preview from '../preview/preview.jsx'
+import Routes from '../../../router/routes'
+import Preview from '../preview/preview'
 
-import { Container } from './SketchList.styles.js'
+import { Container } from './SketchList.styles'
 
-import Sketches from '../../../sketches/sketches.js'
+import Sketches from '../../../sketches/sketches'
 
 class SketchList extends Component {
   constructor(props) {

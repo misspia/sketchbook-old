@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
-import Routes from '../../router/routes.js'
+import Routes from '../../router/routes'
 
 import { Icons } from '../../themes'
-import Icon from '../../shared/icon/icon.jsx'
+import Icon from '../../shared/icon/icon'
 
-import * as S from './entry.styles.js'
+import * as S from './entry.styles'
 
 class Header extends Component {
   constructor(props) {

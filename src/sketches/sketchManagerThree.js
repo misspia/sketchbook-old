@@ -3,7 +3,7 @@ import Stats from 'stats-js';
 import * as THREE from 'three';
 import OrbitControls from 'three-orbit-controls';
 
-import Audio from './audio.js';
+import Audio from './audio';
 
 const OrbitController = OrbitControls(THREE);
 

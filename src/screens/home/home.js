@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
 
-import { NavLink } from 'react-router-dom'
 import {
   Container, Header, Title, Subtitle,
   SocialContainer, SocialLink
-} from './home.styles.js'
-import Icon from '../../shared/icon/icon.jsx'
-import SketchList from './sketchList/sketchList.jsx'
+} from './home.styles'
+import Icon from '../../shared/icon/icon'
+import SketchList from './sketchList/sketchList'
 
-import Routes from '../../router/routes.js'
-import Sketches from '../../sketches/sketches.js'
-import Metadata from './home.metadata.js'
+import Metadata from './home.metadata'
 
 class Home extends Component {
   constructor(props) {

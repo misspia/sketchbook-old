@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import vert from './vertex.glsl';
 import frag from './fragment.glsl';
-import SketchManagerThree from '../sketchManagerThree.js';
+import SketchManagerThree from '../sketchManagerThree';
 
 import { Images } from '../../themes';
 

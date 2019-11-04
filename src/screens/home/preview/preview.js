@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
-import { Container, Image, HiddenContainer, Title } from './preview.styles.js'
+import { Container, Image, HiddenContainer } from './preview.styles'
 import Icon from '../../../shared/icon/icon';
 import { Icons } from '../../../themes';
 

@@ -1,10 +1,10 @@
-import Audio from './Audio.js';
-import Colors from './colors.js'
-import Fonts from './fonts.js'
-import Icons from './icons.js'
-import Images from './images.js'
-import Metrics from './metrics.js'
-import Styles from './styles.js'
+import Audio from './audio';
+import Colors from './colors'
+import Fonts from './fonts'
+import Icons from './icons'
+import Images from './images'
+import Metrics from './metrics'
+import Styles from './styles'
 
 export {
   Audio, Colors, Fonts,
