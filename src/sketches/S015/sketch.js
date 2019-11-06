@@ -2,10 +2,15 @@ import * as THREE from 'three';
 import SketchManagerThree from '../sketchManagerThree';
 import Leaf from './leaf';
 import PillarNode from './pillarNode';
+import Tile from './tile';
+
 import { Audio } from '../../themes';
 
 /**
  * https://www.pinterest.ca/misspialeung/abstract-3d/
+ * https://www.pinterest.ca/pin/663858801302520810/?nic=1a&sender=516295682189999701
+ * https://www.pinterest.ca/pin/516295544779692812/?nic=1a&sender=516295682189999701
+ * https://www.pinterest.ca/pin/516295544781803742/?nic=1a&sender=516295682189999701
  * 
  */
 class Sketch extends SketchManagerThree {
@@ -19,6 +24,9 @@ class Sketch extends SketchManagerThree {
     this.sphereRadius = 80;
     this.numNodes = 100;
     this.pillarNodes = [];
+
+    this.numTiles = 16;
+    this.tiles = [];
   }
   unmount() {
 
@@ -30,8 +38,9 @@ class Sketch extends SketchManagerThree {
     this.lookAt(0, 0, 0);
     this.setClearColor(0x222222);
 
+    this.createTiles();
     // this.createLeaves();
-    this.createPillar();
+    // this.createPillar();
 
   }
   createLeaves() {
@@ -53,21 +62,36 @@ class Sketch extends SketchManagerThree {
       this.pillarNodes.push(node);
     })
   }
-  createSphere() {
+  createTiles() {
+    let x = 0;
+    let y = 0;
+    let z = 0;
 
+    const width = 4;
+    const incrementX = 20;
+    const incrementZ = 20;
+
+    for(let i = 0; i < this.numTiles; i++) {
+      if(i % width === 0) {
+        x = 0;
+        z += incrementZ;
+      }
+      const tile = new Tile();
+      tile.setPosition(x, y, z);
+
+      this.tiles.push(tile);
+      this.scene.add(tile.mesh);
+
+      x += incrementX;
+    }
   }
   draw() {
     this.stats.begin();
 
-    // const time = this.clock.getElapsedTime();
-
-    // this.audio.getByteFrequencyData();
-    // this.audio.frequencyData.forEach((frequency, index) => {
-    //   this.leaves[index].update(time, frequency);
-    // });
-
+    
     this.renderer.render(this.scene, this.camera);
-
+    
+    // const time = this.clock.getElapsedTime();
     // this.leaves.forEach(leaf => leaf.update(time));
 
     this.stats.end();
