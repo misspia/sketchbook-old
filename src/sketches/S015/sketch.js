@@ -14,18 +14,23 @@ import { Audio } from '../../themes';
  * 
  */
 class Sketch extends SketchManagerThree {
-  constructor(canvas) {
-    super(canvas);
+  constructor(canvas, audioElement) {
+    super(canvas, audioElement);
+    
+    this.audioSrc = Audio.tester;
+    this.numFrequencyNodes = 25;
+    this.fftSize = 512;
+
     this.clock = new THREE.Clock();
 
-    this.numLeaves = 100;
+    this.numLeaves = this.numFrequencyNodes;
     this.leaves = [];
 
     this.sphereRadius = 80;
     this.numNodes = 100;
     this.pillarNodes = [];
 
-    this.numTiles = 16;
+    this.numTiles = this.numFrequencyNodes;
     this.tiles = [];
   }
   unmount() {
@@ -34,12 +39,18 @@ class Sketch extends SketchManagerThree {
   init() {
     this.createStats();
 
-    this.setCameraPos(-32, 74, -77);
+    this.setCameraPos(-40, 80, -70);
     this.lookAt(0, 0, 0);
     this.setClearColor(0x222222);
 
+    const audioConfig = {
+      fftSize: this.fftSize,
+      dataLength: this.numFrequencyNodes,
+    };
+    this.initAudio(audioConfig);
+
     this.createTiles();
-    // this.createLeaves();
+    this.createLeaves();
     // this.createPillar();
 
   }
@@ -63,20 +74,23 @@ class Sketch extends SketchManagerThree {
     })
   }
   createTiles() {
-    let x = 0;
+    const width = 30;
+    const tilesPerRow = Math.sqrt(this.numTiles);
+    const incrementX = width;
+    const incrementZ = width;
+    
+    const coordReset = -width * (tilesPerRow - 1) / 2; 
+    let x = coordReset;
     let y = 0;
-    let z = 0;
-
-    const width = 4;
-    const incrementX = 20;
-    const incrementZ = 20;
+    let z = coordReset;
+    
 
     for(let i = 0; i < this.numTiles; i++) {
-      if(i % width === 0) {
-        x = 0;
+      if(i % tilesPerRow === 0) {
+        x = coordReset;
         z += incrementZ;
       }
-      const tile = new Tile();
+      const tile = new Tile({ width });
       tile.setPosition(x, y, z);
 
       this.tiles.push(tile);
@@ -88,11 +102,15 @@ class Sketch extends SketchManagerThree {
   draw() {
     this.stats.begin();
 
+    const time = this.clock.getElapsedTime();
+    this.audio.getByteFrequencyData();
+    this.audio.frequencyData.forEach((freq, index) => {
+      this.tiles[index].update(freq);
+      this.leaves[index].update(freq, time);
+    });
     
     this.renderer.render(this.scene, this.camera);
     
-    // const time = this.clock.getElapsedTime();
-    // this.leaves.forEach(leaf => leaf.update(time));
 
     this.stats.end();
 

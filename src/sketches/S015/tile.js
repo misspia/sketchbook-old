@@ -3,12 +3,18 @@ import fragmentShader from './tile.frag';
 import vertexShader from './tile.vert';
 
 export default class Tile {
-  constructor() {
-    this.geometry = new THREE.PlaneGeometry(20, 20, 2, 2);
-    this.material = new THREE.MeshBasicMaterial({
-      color: 0xffffff,
+  constructor({
+    width = 10,
+  }) {
+    this.geometry = new THREE.PlaneGeometry(width, width, 2, 2);
+    this.material = new THREE.RawShaderMaterial({
+      fragmentShader,
+      vertexShader,
       side: THREE.DoubleSide,
-    });
+      uniforms: {
+        u_freq: { type: 'f', value: 0.0 },
+      }
+    })
 
     this.mesh = new THREE.Mesh(this.geometry, this.material);
     this.mesh.rotation.x += Math.PI / 2;
@@ -16,7 +22,7 @@ export default class Tile {
   setPosition(x, y, z) {
     this.mesh.position.set(x, y, z);
   }
-  update() {
-
+  update(freq) {
+    this.material.uniforms.u_freq.value = freq;
   }
 }

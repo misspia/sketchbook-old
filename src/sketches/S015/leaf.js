@@ -20,6 +20,7 @@ export default class Leaf {
       vertexShader: vert,
       fragmentShader: frag,
       uniforms: {
+        u_freq: { type: 'f', value: 0 },
         u_time: { type: 'f', value: 0 },
         u_rotate_speed: { type: 'v3', value: rotateSpeed },
         u_translate_speed: { type: 'v3', value: translateSpeed },
@@ -46,8 +47,8 @@ export default class Leaf {
 
     return geometry;
   }
-  update(uTime) {
-    // console.log(uTime)
+  update(uFreq, uTime) {
     this.material.uniforms.u_time.value = uTime;
+    this.material.uniforms.u_freq.value = uFreq;
   }
 }
