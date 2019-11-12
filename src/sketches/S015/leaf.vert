@@ -14,6 +14,8 @@ varying vec2 vUv;
 uniform float u_time;
 uniform vec3 u_rotate_speed;
 uniform vec3 u_translate_speed;
+uniform float u_angle;
+uniform float u_radius;
 
 const float DEG_TO_RAD = 3.141592653589793 / 180.0;
 
@@ -57,21 +59,25 @@ mat3 rotate() {
             rotateZ(rad * u_rotate_speed.z);
 }
 
+// vec3 translate() {
+//     return vec3(
+//         sin(u_time) * u_translate_speed.x,
+//         max(sin(u_time) * u_translate_speed.y, 0.0),
+//         sin(u_time) * u_translate_speed.z
+//     );
+// }
+
 vec3 translate() {
+    vec3 centerCoord = vec3(0.0, 50.0, 0.0);
+    float radius = 20.0;
     return vec3(
-        sin(u_time) * u_translate_speed.x,
-        max(sin(u_time) * u_translate_speed.y, 0.0),
-        sin(u_time) * u_translate_speed.z
+        centerCoord.x + u_radius * sin(u_angle),
+        centerCoord.y,
+        centerCoord.z + u_radius * cos(u_angle)
+
     );
 }
 
-// vec3 translate() {
-//     return vec3(
-//         u_time * u_translate_speed.x,
-//         max(u_time * u_translate_speed.y, 0.0),
-//         u_time * u_translate_speed.z
-//     );
-// }
 
 float remap(float min1, float max1, float min2, float max2, float value) {
     return min2 + (max2 - min2) * (value - min1) / (max1 - min1);
