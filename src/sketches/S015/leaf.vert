@@ -19,9 +19,6 @@ uniform float u_radius;
 
 const float DEG_TO_RAD = 3.141592653589793 / 180.0;
 
-
-
-
 mat3 rotateX(float rad) {
     float c = cos(rad);
     float s = sin(rad);
@@ -68,12 +65,11 @@ mat3 rotate() {
 // }
 
 vec3 translate() {
-    vec3 centerCoord = vec3(0.0, 50.0, 0.0);
-    float radius = 20.0;
+    vec3 centerCoord = vec3(0.0, 0.0, 0.0);
     return vec3(
         centerCoord.x + u_radius * sin(u_angle),
-        centerCoord.y,
-        centerCoord.z + u_radius * cos(u_angle)
+        centerCoord.y + u_radius * cos(u_angle),
+        centerCoord.z
 
     );
 }
@@ -91,8 +87,6 @@ bool isInBounds(vec3 pos) {
 }
 
 void main () {
-    vec3 origin = vec3(0.0, 0.0, 0.0);
-
     vec3 pos = position;
     pos *= rotate();
     pos += translate();

@@ -1,8 +1,8 @@
 import * as THREE from 'three';
 import SketchManagerThree from '../sketchManagerThree';
 import Leaf from './leaf';
-import PillarNode from './pillarNode';
 import Tile from './tile';
+import Orb from './orb';
 
 import { Audio } from '../../themes';
 
@@ -32,6 +32,9 @@ class Sketch extends SketchManagerThree {
 
     this.numTiles = this.numFrequencyNodes;
     this.tiles = [];
+
+    this.orb = {};
+    this.numOrbShards = this.numFrequencyNodes;
   }
   unmount() {
 
@@ -39,7 +42,7 @@ class Sketch extends SketchManagerThree {
   init() {
     this.createStats();
 
-    this.setCameraPos(-40, 80, -70);
+    this.setCameraPos(0, 0, -200);
     this.lookAt(0, 0, 0);
     this.setClearColor(0x222222);
 
@@ -51,53 +54,46 @@ class Sketch extends SketchManagerThree {
 
     this.createTiles();
     this.createLeaves();
-    // this.createPillar();
-
+    this.createOrb();
   }
   createLeaves() {
+    const radius = 50;
+    let angle = 0;
+    const angleIncrement = 2 * Math.PI / this.numLeaves;
     for (let i = 0; i < this.numLeaves; i++) {
-      const leaf = new Leaf();
+      const leaf = new Leaf({ 
+        radius,
+        angle,
+      });
       this.leaves.push(leaf);
       this.scene.add(leaf.mesh);
+
+      angle += angleIncrement;
     }
-  }
-  createPillar() {
-    const cylinderGeometry = new THREE.CylinderGeometry(18, 25, 80, 10, 5);
-    cylinderGeometry.vertices.forEach(vertex => {
-      const node = new PillarNode();
-
-      const { x, y, z } = vertex;
-      node.setPosition(x, y, z);
-
-      this.scene.add(node.mesh);
-      this.pillarNodes.push(node);
-    })
   }
   createTiles() {
     const width = 30;
-    const tilesPerRow = Math.sqrt(this.numTiles);
-    const incrementX = width;
-    const incrementZ = width;
-    
-    const coordReset = -width * (tilesPerRow - 1) / 2; 
-    let x = coordReset;
-    let y = 0;
-    let z = coordReset;
-    
-
+    const radius = 80;
+    let angle = 0;
+    const angleIncrement = 2* Math.PI / this.numTiles;
     for(let i = 0; i < this.numTiles; i++) {
-      if(i % tilesPerRow === 0) {
-        x = coordReset;
-        z += incrementZ;
-      }
-      const tile = new Tile({ width });
-      tile.setPosition(x, y, z);
-
+      const tile = new Tile({
+        width,
+        radius,
+        angle,
+      });
       this.tiles.push(tile);
       this.scene.add(tile.mesh);
 
-      x += incrementX;
+      angle += angleIncrement;
     }
+  }
+  createOrb() {
+    this.orb = new Orb({
+      radius: 30,
+      numShards: this.numOrbShards,
+    });
+    this.scene.add(this.orb.mesh);
   }
   draw() {
     this.stats.begin();
@@ -110,7 +106,6 @@ class Sketch extends SketchManagerThree {
     });
     
     this.renderer.render(this.scene, this.camera);
-    
 
     this.stats.end();
 

@@ -4,7 +4,9 @@ import vertexShader from './tile.vert';
 
 export default class Tile {
   constructor({
-    width = 10,
+    width = 0,
+    radius = 0,
+    angle = 0,
   }) {
     this.geometry = new THREE.PlaneGeometry(width, width, 2, 2);
     this.material = new THREE.RawShaderMaterial({
@@ -13,6 +15,8 @@ export default class Tile {
       side: THREE.DoubleSide,
       uniforms: {
         u_freq: { type: 'f', value: 0.0 },
+        u_angle: { type: 'f', value: angle },
+        u_radius: { type: 'f', value: radius },
       }
     })
 
@@ -21,6 +25,9 @@ export default class Tile {
   }
   setPosition(x, y, z) {
     this.mesh.position.set(x, y, z);
+  }
+  setRotation(x, y, z) {
+    this.mesh.rotation.set(x, y, z);
   }
   update(freq) {
     this.material.uniforms.u_freq.value = freq;

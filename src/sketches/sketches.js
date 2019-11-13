@@ -102,6 +102,7 @@ const Sketches = [
   {
     title: '',
     instructions: ``,
+    isAudio: true,
     image: Images.S014,
     sketch: S015,
   },

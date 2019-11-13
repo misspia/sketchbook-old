@@ -1,18 +1,24 @@
 import * as THREE from 'three';
-import fragmentShader from './orb.frag';
-import vertexShader from './orb.vert';
+import Shard from './shard';
 
 export default class Orb {
   constructor({
-
+    radius = 0,
+    numShards = 0,
   }) {
-    this.geometry = new THREE.SphereGeometry(5, 5, 5);
-    this.material = new THREE.MeshBasicMaterial({
-      color: 0xffdddd,
-    });
-    this.mesh = new THREE.Mesh(this.geometry, this.material);
+    this.radius = radius;
+    this.numShards = numShards;
+
+    this.shards = [];
+    this.mesh = new THREE.Group();
+    
+    this.createShards();
   }
-  setPosition(x, y, z) {
-    this.mesh.position.set(x, y, z);
+  createShards() {
+    for(let i = 0; i < this.numShards; i++) {
+      const shard = new Shard({});
+      this.shards.push(shard);
+      this.mesh.add(shard.mesh);
+    }
   }
 }
