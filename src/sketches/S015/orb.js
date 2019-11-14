@@ -21,4 +21,9 @@ export default class Orb {
       this.mesh.add(shard.mesh);
     }
   }
+  update(frequencies) {
+    this.shards.forEach((shard, index) => {
+      shard.update(frequencies[index]);
+    })
+  }
 }

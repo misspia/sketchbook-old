@@ -42,7 +42,7 @@ class Sketch extends SketchManagerThree {
   init() {
     this.createStats();
 
-    this.setCameraPos(0, 0, -200);
+    this.setCameraPos(0, 0, -150);
     this.lookAt(0, 0, 0);
     this.setClearColor(0x222222);
 
@@ -104,6 +104,7 @@ class Sketch extends SketchManagerThree {
       this.tiles[index].update(freq);
       this.leaves[index].update(freq, time);
     });
+    this.orb.update(this.audio.frequencyData);
     
     this.renderer.render(this.scene, this.camera);
 

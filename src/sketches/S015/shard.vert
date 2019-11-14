@@ -11,9 +11,47 @@ varying vec3 vNormal;
 varying vec3 vPosition;
 varying vec2 vUv;
 
-uniform float u_time;
+uniform float u_freq;
+uniform vec3 u_rotation;
 
+mat3 rotateX(float rad) {
+    float c = cos(rad);
+    float s = sin(rad);
+    return mat3(
+        1.0, 0.0, 0.0,
+        0.0, c, s,
+        0.0, -s, c
+    );
+}
+
+mat3 rotateY(float rad) {
+    float c = cos(rad);
+    float s = sin(rad);
+    return mat3(
+        c, 0.0, -s,
+        0.0, 1.0, 0.0,
+        s, 0.0, c
+    );
+}
+
+mat3 rotateZ(float rad) {
+    float c = cos(rad);
+    float s = sin(rad);
+    return mat3(
+        c, s, 0.0,
+        -s, c, 0.0,
+        0.0, 0.0, 1.0
+    );
+}
+
+mat3 rotate() {
+  return rotateX(u_rotation.x) *
+         rotateY(u_rotation.y) * 
+         rotateZ(u_rotation.z);
+}
 
 void main () {
-  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+  vec3 pos = position;
+  pos *= rotate();
+  gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
 }
