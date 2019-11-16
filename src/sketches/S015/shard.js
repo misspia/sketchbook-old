@@ -22,6 +22,7 @@ export default class Shard {
       vertexShader,
       uniforms: {
         u_freq: { type: 'f', value: 0 },
+        u_time: { type: 'f', value: 0 },
         u_rotation: { type: 'v3', value: rotation },
       }
     });
@@ -44,7 +45,8 @@ export default class Shard {
   setPosition(x, y, z) {
     this.mesh.position.set(x, y, z);
   }
-  update(freq) {
+  update(freq, time) {
     this.material.uniforms.u_freq.value = freq;
+    this.material.uniforms.u_time.value = time;
   }
 }

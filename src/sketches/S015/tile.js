@@ -12,6 +12,7 @@ export default class Tile {
     this.material = new THREE.RawShaderMaterial({
       fragmentShader,
       vertexShader,
+      transparent: true,
       side: THREE.DoubleSide,
       uniforms: {
         u_freq: { type: 'f', value: 0.0 },

@@ -8,9 +8,8 @@ import { Audio } from '../../themes';
 
 /**
  * https://www.pinterest.ca/misspialeung/abstract-3d/
- * https://www.pinterest.ca/pin/663858801302520810/?nic=1a&sender=516295682189999701
- * https://www.pinterest.ca/pin/516295544779692812/?nic=1a&sender=516295682189999701
- * https://www.pinterest.ca/pin/516295544781803742/?nic=1a&sender=516295682189999701
+ * 
+ * https://codepen.io/ykob/pen/QjxBmq
  * 
  */
 class Sketch extends SketchManagerThree {
@@ -26,7 +25,7 @@ class Sketch extends SketchManagerThree {
     this.numLeaves = this.numFrequencyNodes;
     this.leaves = [];
 
-    this.sphereRadius = 80;
+    this.sphereRadius = 5;
     this.numNodes = 100;
     this.pillarNodes = [];
 
@@ -90,8 +89,9 @@ class Sketch extends SketchManagerThree {
   }
   createOrb() {
     this.orb = new Orb({
-      radius: 30,
-      numShards: this.numOrbShards,
+      radius: 5,
+      widthSegments: 5,
+      heightSegments: 5,
     });
     this.scene.add(this.orb.mesh);
   }
@@ -104,7 +104,7 @@ class Sketch extends SketchManagerThree {
       this.tiles[index].update(freq);
       this.leaves[index].update(freq, time);
     });
-    this.orb.update(this.audio.frequencyData);
+    this.orb.update(this.audio.getAverageFrequency(), time);
     
     this.renderer.render(this.scene, this.camera);
 
@@ -115,3 +115,14 @@ class Sketch extends SketchManagerThree {
 }
 
 export default Sketch;
+
+
+
+// float remap(float min1, float max1, float min2, float max2, float value) {
+//   return min2 + (max2 - min2) * (value - min1) / (max1 - min1);
+// }
+
+// float remapAmp(float min, float max) {
+//   return remap(0.0, 255.0, min, max, u_amp);
+// }
+

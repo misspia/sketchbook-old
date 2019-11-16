@@ -17,7 +17,6 @@ export default class Leaf {
       utils.toRadians(3),
     );
 
-
     const rotateSpeed = new THREE.Vector3(
       utils.randomSign() * utils.randomFloatBetween(20, 80),
       utils.randomSign() * utils.randomFloatBetween(20, 80),
