@@ -3,6 +3,7 @@ import SketchManagerThree from '../sketchManagerThree';
 import Leaf from './leaf';
 import Tile from './tile';
 import Orb from './orb';
+import Shards from './shards';
 
 import { Audio } from '../../themes';
 
@@ -115,14 +116,3 @@ class Sketch extends SketchManagerThree {
 }
 
 export default Sketch;
-
-
-
-// float remap(float min1, float max1, float min2, float max2, float value) {
-//   return min2 + (max2 - min2) * (value - min1) / (max1 - min1);
-// }
-
-// float remapAmp(float min, float max) {
-//   return remap(0.0, 255.0, min, max, u_amp);
-// }
-
