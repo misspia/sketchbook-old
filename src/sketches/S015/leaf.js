@@ -10,7 +10,7 @@ export default class Leaf {
   }) {
     this.minAngleIncrement = utils.randomFloatBetween(
       utils.toRadians(0.0),
-      utils.toRadians(0.1),
+      utils.toRadians(0.0),
     );
     this.maxAngleIncrement = utils.randomFloatBetween(
       utils.toRadians(0.5),
@@ -29,6 +29,7 @@ export default class Leaf {
     );
     const geometry = this.createGeometry(0.1);
     this.material = new THREE.RawShaderMaterial({
+      transparent: true,
       vertexShader: vert,
       fragmentShader: frag,
       uniforms: {

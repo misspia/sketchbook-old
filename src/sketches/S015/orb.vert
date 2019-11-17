@@ -1,6 +1,6 @@
 precision highp float;
 
-attribute vec3 position;
+attribute vec4 position;
 attribute vec3 normal;
 attribute vec2 uv;
 
@@ -45,14 +45,23 @@ float remapAmp(float min, float max) {
     return remap(0.0, 255.0, min, max, u_amp);
 }
 
+// void main () {
+//     float update_time = u_time / 1000.0;
+//     float noise = snoise(vec3(position + update_time * 2.0));
+//     float amp = remapAmp(0.0, 10.0);
+
+//     float displacement = amp * snoise(vec3(position * 0.06) + u_time);
+//     vec3 pos = position + normal * displacement;
+//     // gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+//     gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+
+//     vColor = hsv2rgb(vec3(noise * 0.6 + update_time, 0.5, 1.0));
+// }
+
+
 void main () {
-    float update_time = u_time / 1000.0;
-    float noise = snoise(vec3(position + update_time * 2.0));
-    float amp = remapAmp(0.0, 10.0);
-
-    float displacement = amp * snoise(vec3(position * 0.06) + u_time);
-    vec3 pos = position + normal * displacement;
-    gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
-
-    vColor = hsv2rgb(vec3(noise * 0.6 + update_time, 0.5, 1.0));
+    vec4 offset = position;
+    float dist = sin(u_time) * 0.5 + 0.5;
+    offset.xyz += normal * dist;
+    gl_Position = projectionMatrix * modelViewMatrix * offset;
 }

@@ -11,6 +11,8 @@ import { Audio } from '../../themes';
  * https://www.pinterest.ca/misspialeung/abstract-3d/
  * 
  * https://codepen.io/ykob/pen/QjxBmq
+ * https://www.pinterest.ca/pin/516295544779434530/
+ * https://codepen.io/ykob/pen/qbwLaY?editors=1010
  * 
  */
 class Sketch extends SketchManagerThree {
@@ -44,7 +46,7 @@ class Sketch extends SketchManagerThree {
 
     this.setCameraPos(0, 0, -150);
     this.lookAt(0, 0, 0);
-    this.setClearColor(0x222222);
+    this.setClearColor(0xffffff);
 
     const audioConfig = {
       fftSize: this.fftSize,

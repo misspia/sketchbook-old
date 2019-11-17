@@ -17,9 +17,10 @@ float reverseRemapFreq(float min, float max) {
 void main() {
     float colorFactor = 0.7;
     vec3 color = vec3(0.0, 0.0, 1.0);
-    color.r = remapFreq(0.3, 0.9) ;
-    color.g = remapFreq(0.3, 0.9) ;
-    color.b = remapFreq(0.3, 0.9);
+
+    color.r = reverseRemapFreq(0.4, 1.0) ;
+    color.g = reverseRemapFreq(0.4, 1.0) ;
+    color.b = reverseRemapFreq(0.4, 1.0);
 
     float alpha = remapFreq(0.1, 1.0);
     gl_FragColor = vec4(color, alpha);
