@@ -36,7 +36,7 @@ class Sketch extends SketchManagerThree {
     this.tiles = [];
 
     this.orb = {};
-    this.numOrbShards = this.numFrequencyNodes;
+    this.numShards = this.numFrequencyNodes * 1.2;
   }
   unmount() {
 
@@ -92,9 +92,8 @@ class Sketch extends SketchManagerThree {
   }
   createOrb() {
     this.orb = new Orb({
-      radius: 5,
-      widthSegments: 5,
-      heightSegments: 5,
+      numShards: this.numShards,
+      numFrequencyNodes: this.numFrequencyNodes,
     });
     this.scene.add(this.orb.mesh);
   }
@@ -107,7 +106,7 @@ class Sketch extends SketchManagerThree {
       this.tiles[index].update(freq);
       this.leaves[index].update(freq, time);
     });
-    this.orb.update(this.audio.getAverageFrequency(), time);
+    this.orb.update(this.audio.frequencyData, time);
     
     this.renderer.render(this.scene, this.camera);
 

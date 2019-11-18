@@ -39,9 +39,11 @@ import Shard from './shard';
 
 export default class Orb {
   constructor({
-
+    numShards = 0,
+    numFrequencyNodes = 0,
   }) {
-    this.numShards = 100;
+    this.numShards = numShards;
+    this.numFrequencyNodes = numFrequencyNodes;
     this.shards = [];
     this.mesh = new THREE.Group();
 
@@ -56,6 +58,11 @@ export default class Orb {
     }
   }
   update(frequencies, time) {
-
+    this.shards.forEach((shard, index) => (
+      shard.update(
+        frequencies[index % this.numFrequencyNodes],
+        time
+      )
+    ));
   }
 }
