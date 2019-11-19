@@ -1,8 +1,8 @@
 import * as THREE from 'three';
 import utils from '../utils';
 
-import fragmentShader from './orb.frag';
-import vertexShader from './orb.vert';
+// import fragmentShader from './orb.frag';
+// import vertexShader from './orb.vert';
 
 // export default class Orb {
 //   constructor({
@@ -35,34 +35,89 @@ import vertexShader from './orb.vert';
 //   }
 // }
 
-import Shard from './shard';
+// import Shard from './shard';
+
+// export default class Orb {
+//   constructor({
+//     numShards = 0,
+//     numFrequencyNodes = 0,
+//   }) {
+//     this.numShards = numShards;
+//     this.numFrequencyNodes = numFrequencyNodes;
+//     this.shards = [];
+//     this.mesh = new THREE.Group();
+
+//     this.createShards();
+
+//   }
+//   createShards() {
+//     for(let i = 0; i < this.numShards; i++) {
+//       const shard = new Shard({});
+//       this.shards.push(shard);
+//       this.mesh.add(shard.mesh);
+//     }
+//   }
+//   update(frequencies, time) {
+//     this.shards.forEach((shard, index) => (
+//       shard.update(
+//         frequencies[index % this.numFrequencyNodes],
+//         time
+//       )
+//     ));
+//   }
+// }
+
+import { Images } from '../../themes';
+import fragmentShader from './particle.frag';
+import vertexShader from './particle.vert';
+
+// https://codepen.io/ykob/pen/QjxBmq?editors=1010
 
 export default class Orb {
   constructor({
     numShards = 0,
     numFrequencyNodes = 0,
   }) {
-    this.numShards = numShards;
-    this.numFrequencyNodes = numFrequencyNodes;
-    this.shards = [];
-    this.mesh = new THREE.Group();
-
-    this.createShards();
-
+    this.particles = [];
+    this.geometry = new THREE.Geometry();
+    this.createParticles();
+    // this.material = new THREE.PointsMaterial({
+    //   color: 0x000000,
+    //   size: 5,
+    // });
+    this.material = new THREE.RawShaderMaterial({
+      fragmentShader,
+      vertexShader,
+      uniforms: {
+        u_freq: { type: 'f', value: 0.0 },
+      },
+      transparent: true,
+      dewWrite: false,
+      blending: THREE.AdditiveBlending,
+    })
+    this.mesh = new THREE.Points(this.geometry, this.material);
   }
-  createShards() {
-    for(let i = 0; i < this.numShards; i++) {
-      const shard = new Shard({});
-      this.shards.push(shard);
-      this.mesh.add(shard.mesh);
+  createParticles() {
+    for(let i = 0; i < 100; i++) {
+      const particle = {
+        position: new THREE.Vector3(
+          utils.randomFloatBetween(-10, 10),
+          utils.randomFloatBetween(-10, 10),
+          utils.randomFloatBetween(-10, 10),
+        ),
+        velocity: new THREE.Vector3(
+          utils.randomFloatBetween(-0.1, 0.1),
+          0.6,
+          utils.randomFloatBetween(-0.1, 0.1),
+        ),
+        acceleration: new THREE.Vector3(0, -0.001, 0),
+      };
+      this.particles.push(particle);
+      this.geometry.vertices.push(particle.position);
     }
   }
   update(frequencies, time) {
-    this.shards.forEach((shard, index) => (
-      shard.update(
-        frequencies[index % this.numFrequencyNodes],
-        time
-      )
-    ));
+
   }
 }
+
