@@ -72,7 +72,10 @@ import fragmentShader from './particle.frag';
 import vertexShader from './particle.vert';
 
 // https://codepen.io/ykob/pen/QjxBmq?editors=1010
+// line 371
 
+// https://medium.com/@joshmarinacci/threejs-particles-556b37b20c41
+// https://html5gamedevelopment.com/how-to-create-a-particle-system-in-three-js/
 export default class Orb {
   constructor({
     numShards = 0,
@@ -81,20 +84,24 @@ export default class Orb {
     this.particles = [];
     this.geometry = new THREE.Geometry();
     this.createParticles();
-    // this.material = new THREE.PointsMaterial({
-    //   color: 0x000000,
-    //   size: 5,
-    // });
+
+    const texture = new THREE.TextureLoader().load(Images.T015);
     this.material = new THREE.RawShaderMaterial({
       fragmentShader,
       vertexShader,
       uniforms: {
         u_freq: { type: 'f', value: 0.0 },
+        u_texture: { type: 't', value: texture },
       },
       transparent: true,
       dewWrite: false,
       blending: THREE.AdditiveBlending,
+      // blending: THREE.SubtractiveBlending,
+      // blending: THREE.MultiplyBlending,
+      // blending: THREE.CustomBlending,
+      // blending: THREE.NormalBlending,
     })
+
     this.mesh = new THREE.Points(this.geometry, this.material);
   }
   createParticles() {
