@@ -99,12 +99,13 @@ const Sketches = [
     image: Images.S014,
     sketch: S014,
   },
-  // {
-  //   title: '',
-  //   instructions: ``,
-  //   image: Images.S014,
-  //   sketch: S015,
-  // },
+  {
+    title: '',
+    instructions: ``,
+    isAudio: true,
+    image: Images.S014,
+    sketch: S015,
+  },
 ];
 
 export default Sketches;
