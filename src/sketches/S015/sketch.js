@@ -36,7 +36,7 @@ class Sketch extends SketchManagerThree {
     this.tiles = [];
 
     this.orb = {};
-    this.numPoints = this.numFrequencyNodes / 2;
+    this.numPoints = this.numFrequencyNodes;
   }
   unmount() {
 

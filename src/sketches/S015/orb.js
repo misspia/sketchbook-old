@@ -13,7 +13,6 @@ import vertexShader from './particle.vert';
 export default class Orb {
   constructor({
     numPoints = 0,
-    numFrequencyNodes = 0,
   }) {
     this.numPoints = numPoints;
     this.particles = [];
@@ -43,6 +42,7 @@ export default class Orb {
 
     this.mesh = new THREE.Points(this.geometry, this.material);
   }
+
   createParticles() {
     for(let i = 0; i < this.numPoints; i++) {
       const particle = {
@@ -65,6 +65,10 @@ export default class Orb {
   update(avgFreq, time) {
     this.material.uniforms.u_freq.value = avgFreq; 
     this.material.uniforms.u_time.value = time; 
+
+    // this.mesh.geometry.elementNeedsUpdate = true;
+    this.mesh.rotation.x += 0.001;
+    this.mesh.rotation.y += 0.002;
   }
 }
 
