@@ -34,22 +34,12 @@ export default class Shard {
         u_freq: { type: 'f', value: 0 },
         u_time: { type: 'f', value: 0 },
         u_rotation: { type: 'v3', value: rotation },
-      }
+      },
+      side: THREE.DoubleSide,
+      transparent: true,
     });
     this.mesh = new THREE.Mesh(this.geometry, this.material);
   }
-  // createGeometry(size = 1) {
-  //   const triangle = new THREE.Geometry();
-  //   triangle.vertices.push(
-  //     new THREE.Vector3(0, 0, 0),
-  //     new THREE.Vector3(10 * size, 0, 0),
-  //     new THREE.Vector3(10 * size, 10 * size, 0),
-  //   );
-  //   triangle.faces.push(new THREE.Face3(0, 1, 2));
-  //   triangle.computeFaceNormals();
-  //   return triangle;
-  // }
-
   createGeometry(size = 1) {
     const petalShape = new THREE.Shape();
     petalShape.moveTo(0, 0);
@@ -61,7 +51,7 @@ export default class Shard {
       bevelSegments: 2,
       steps: 2,
       bevelSize: 15,
-      bevelThickness: 0.5
+      bevelThickness: 0
     };
     const geometry = new THREE.ExtrudeGeometry(petalShape, extrudeSettings);
     geometry.scale(size, size, size);
@@ -84,7 +74,6 @@ export default class Shard {
   update(freq, time) {
     this.material.uniforms.u_freq.value = freq;
     this.material.uniforms.u_time.value = time;
-    // this.material.uniforms.u_rotation.value.x += this.frequencyToAngleIncrement(freq);
     this.material.uniforms.u_rotation.value.y += this.incrementSign * this.frequencyToAngleIncrement(freq);
     this.material.uniforms.u_rotation.value.z += this.incrementSign * this.frequencyToAngleIncrement(freq);
   }

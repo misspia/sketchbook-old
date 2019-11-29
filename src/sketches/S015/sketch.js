@@ -7,14 +7,6 @@ import Shards from './shards';
 
 import { Audio } from '../../themes';
 
-/**
- * https://www.pinterest.ca/misspialeung/abstract-3d/
- * 
- * https://codepen.io/ykob/pen/QjxBmq
- * https://www.pinterest.ca/pin/516295544779434530/
- * https://codepen.io/ykob/pen/qbwLaY?editors=1010
- * 
- */
 class Sketch extends SketchManagerThree {
   constructor(canvas, audioElement) {
     super(canvas, audioElement);
@@ -37,6 +29,9 @@ class Sketch extends SketchManagerThree {
 
     this.orb = {};
     this.numPoints = this.numFrequencyNodes;
+
+    this.shards = {};
+    this.numShards = this.numFrequencyNodes;
   }
   unmount() {
 
@@ -57,6 +52,8 @@ class Sketch extends SketchManagerThree {
     this.createTiles();
     this.createLeaves();
     this.createOrb();
+    this.createShards();
+
   }
   createLeaves() {
     const radius = 50;
@@ -97,6 +94,12 @@ class Sketch extends SketchManagerThree {
     });
     this.scene.add(this.orb.mesh);
   }
+  createShards() {
+    this.shards = new Shards({
+      numShards: this.numShards,
+    });
+    this.scene.add(this.shards.mesh);
+  }
   draw() {
     this.stats.begin();
 
@@ -106,9 +109,10 @@ class Sketch extends SketchManagerThree {
       this.tiles[index].update(freq);
       this.leaves[index].update(freq, time);
     });
-    // this.orb.update(this.audio.frequencyData, time);
+    this.orb.update(this.audio.frequencyData, time);
     this.orb.update(this.audio.getAverageFrequency(), time);
-    
+    this.shards.update(this.audio.frequencyData, time);
+
     this.renderer.render(this.scene, this.camera);
 
     this.stats.end();

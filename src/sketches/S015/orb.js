@@ -10,6 +10,7 @@ import vertexShader from './particle.vert';
 
 // https://medium.com/@joshmarinacci/threejs-particles-556b37b20c41
 // https://html5gamedevelopment.com/how-to-create-a-particle-system-in-three-js/
+// https://github.com/mrdoob/three.js/blob/master/examples/webgl_custom_attributes_points3.html
 export default class Orb {
   constructor({
     numPoints = 0,
@@ -34,22 +35,26 @@ export default class Orb {
         u_time: { type: 'f', value: 0.0 },
         u_texture: { type: 't', value: texture },
         u_translate_speed: { type: 'v3', value: translateSpeed },
+        u_max_screen_dimension: {
+          type: 'f',
+          value: window.innerHeight < window.innerWidth ? window.innerHeight : window.innerWidth,
+        },
       },
       transparent: true,
       depthWrite: false,
       blending: THREE.SubtractiveBlending,
-    })
+    });
 
     this.mesh = new THREE.Points(this.geometry, this.material);
   }
 
   createParticles() {
-    for(let i = 0; i < this.numPoints; i++) {
+    for (let i = 0; i < this.numPoints; i++) {
       const particle = {
         position: new THREE.Vector3(
-          utils.randomFloatBetween(-10, 10),
-          utils.randomFloatBetween(-10, 10),
-          utils.randomFloatBetween(-10, 10),
+          utils.randomFloatBetween(-5, 5),
+          utils.randomFloatBetween(-5, 5),
+          utils.randomFloatBetween(-5, 5),
         ),
         velocity: new THREE.Vector3(
           utils.randomFloatBetween(-0.1, 0.1),
@@ -63,10 +68,12 @@ export default class Orb {
     }
   }
   update(avgFreq, time) {
-    this.material.uniforms.u_freq.value = avgFreq; 
-    this.material.uniforms.u_time.value = time; 
+    this.material.uniforms.u_freq.value = avgFreq;
+    this.material.uniforms.u_time.value = time;
 
     // this.mesh.geometry.elementNeedsUpdate = true;
+    this.mesh.geometry.verticesNeedUpdate = true;
+
     this.mesh.rotation.x += 0.001;
     this.mesh.rotation.y += 0.002;
   }

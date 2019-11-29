@@ -14,6 +14,7 @@ varying vec2 vUv;
 uniform float u_time;
 uniform float u_freq;
 uniform vec3 u_translate_speed;
+uniform float u_max_screen_dimension;
 
 const float DEG_TO_RAD = 3.141592653589793 / 180.0;
 
@@ -81,7 +82,10 @@ void main () {
   pos += translate();
 
   vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-  float size = remapFreq(5.0, 30.0);
+  float size = remapFreq(
+    u_max_screen_dimension * 0.02,
+    u_max_screen_dimension * 0.07
+);
   gl_PointSize = size * (300.0 / -mvPosition.z);
   gl_Position = projectionMatrix * mvPosition;
 }
