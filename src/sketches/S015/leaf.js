@@ -1,13 +1,18 @@
 import * as THREE from 'three';
 import utils from '../utils';
-import frag from './leaf.frag';
-import vert from './leaf.vert';
+import fragmentShader from './leaf.frag';
+import coloredFragmentShader from './coloredLeaf.frag';
+import vertexShader from './leaf.vert';
 
 export default class Leaf {
   constructor({
     radius = 0,
     angle = 0,
+    isColored = false,
   }) {
+    this.radius = radius;
+    this.angle = angle;
+
     this.minAngleIncrement = utils.randomFloatBetween(
       utils.toRadians(0.0),
       utils.toRadians(0.0),
@@ -17,6 +22,22 @@ export default class Leaf {
       utils.toRadians(3),
     );
 
+    const geometry = this.createGeometry(0.1);
+    const materialConfig = isColored ?
+      this.createColoredMaterialConfig() :
+      this.createMaterialConfig();
+
+    this.material = new THREE.RawShaderMaterial(materialConfig);
+    this.mesh = new THREE.Mesh(geometry, this.material);
+  }
+  createColoredMaterialConfig() {
+    const baseMaterial = this.createMaterialConfig();
+    return {
+      ...baseMaterial,
+      fragmentShader: coloredFragmentShader,
+    }
+  }
+  createMaterialConfig() {
     const rotateSpeed = new THREE.Vector3(
       utils.randomSign() * utils.randomFloatBetween(20, 80),
       utils.randomSign() * utils.randomFloatBetween(20, 80),
@@ -27,22 +48,21 @@ export default class Leaf {
       utils.randomSign() * utils.randomFloatBetween(20, 80),
       utils.randomSign() * utils.randomFloatBetween(20, 80)
     );
-    const geometry = this.createGeometry(0.1);
-    this.material = new THREE.RawShaderMaterial({
+
+    return {
       transparent: true,
-      vertexShader: vert,
-      fragmentShader: frag,
+      vertexShader,
+      fragmentShader,
       uniforms: {
         u_freq: { type: 'f', value: 0 },
         u_time: { type: 'f', value: 0 },
         u_rotate_speed: { type: 'v3', value: rotateSpeed },
         u_translate_speed: { type: 'v3', value: translateSpeed },
-        u_angle: { type: 'f', value: angle },
-        u_radius: { type: 'f', value: radius },
+        u_angle: { type: 'f', value: this.angle },
+        u_radius: { type: 'f', value: this.radius },
       },
       side: THREE.DoubleSide,
-    });
-    this.mesh = new THREE.Mesh(geometry, this.material);
+    };
   }
   createGeometry(size = 1) {
     const petalShape = new THREE.Shape();

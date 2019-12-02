@@ -3,7 +3,7 @@ import SketchManagerThree from '../sketchManagerThree';
 import Leaf from './leaf';
 import Tile from './tile';
 import Orb from './orb';
-import Shards from './shards';
+import Shard from './shard';
 
 import { Audio } from '../../themes';
 
@@ -30,7 +30,7 @@ class Sketch extends SketchManagerThree {
     this.orb = {};
     this.numPoints = this.numFrequencyNodes;
 
-    this.shards = {};
+    this.shards = [];
     this.numShards = this.numFrequencyNodes;
   }
   unmount() {
@@ -56,13 +56,16 @@ class Sketch extends SketchManagerThree {
 
   }
   createLeaves() {
+    const getIsColored = (index) => index % 12 === 0;
     const radius = 50;
     let angle = 0;
     const angleIncrement = 2 * Math.PI / this.numLeaves;
     for (let i = 0; i < this.numLeaves; i++) {
+      const isColored = getIsColored(i);
       const leaf = new Leaf({ 
         radius,
         angle,
+        isColored,
       });
       this.leaves.push(leaf);
       this.scene.add(leaf.mesh);
@@ -95,10 +98,11 @@ class Sketch extends SketchManagerThree {
     this.scene.add(this.orb.mesh);
   }
   createShards() {
-    this.shards = new Shards({
-      numShards: this.numShards,
-    });
-    this.scene.add(this.shards.mesh);
+    for(let i = 0; i < this.numShards; i++) {
+      const shard = new Shard({});
+      this.scene.add(shard.mesh);
+      this.shards.push(shard);
+    }
   }
   draw() {
     this.stats.begin();
@@ -108,10 +112,10 @@ class Sketch extends SketchManagerThree {
     this.audio.frequencyData.forEach((freq, index) => {
       this.tiles[index].update(freq);
       this.leaves[index].update(freq, time);
+      this.shards[index].update(freq, time);
     });
     this.orb.update(this.audio.frequencyData, time);
     this.orb.update(this.audio.getAverageFrequency(), time);
-    this.shards.update(this.audio.frequencyData, time);
 
     this.renderer.render(this.scene, this.camera);
 
