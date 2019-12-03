@@ -5,12 +5,6 @@ import { Images } from '../../themes';
 import fragmentShader from './particle.frag';
 import vertexShader from './particle.vert';
 
-// https://codepen.io/ykob/pen/QjxBmq?editors=1010
-// line 371
-
-// https://medium.com/@joshmarinacci/threejs-particles-556b37b20c41
-// https://html5gamedevelopment.com/how-to-create-a-particle-system-in-three-js/
-// https://github.com/mrdoob/three.js/blob/master/examples/webgl_custom_attributes_points3.html
 export default class Orb {
   constructor({
     numPoints = 0,
@@ -71,7 +65,6 @@ export default class Orb {
     this.material.uniforms.u_freq.value = avgFreq;
     this.material.uniforms.u_time.value = time;
 
-    // this.mesh.geometry.elementNeedsUpdate = true;
     this.mesh.geometry.verticesNeedUpdate = true;
 
     this.mesh.rotation.x += 0.001;
