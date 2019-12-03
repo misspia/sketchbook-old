@@ -26,7 +26,6 @@ void main() {
     color.b = remapFreq(0.0, 0.7);
     color.a = 0.0;
     
-    // gl_FragColor = color * texture;
     gl_FragColor = vec4(color.rgb * texture.rgb, color.a);
     if(texture.a < 0.1) discard;
 }

@@ -5,8 +5,8 @@ const Audio = {
   elemId: 'audio',
   // tester: require('./misc/phoenix.mp3'),
   // tester: require('./misc/true-damage.mp3'),
-  // tester: require('./misc/give-it-up.mp3'),
-  tester: require('./misc/nobody.mp3'),
+  tester: require('./misc/give-it-up.mp3'),
+  // tester: require('./misc/nobody.mp3'),
 
   S008: `${BASE_URL}nurko-right-now.mp3`,
   S014: `${BASE_URL}kda-popstars.mp3`,
