@@ -83,8 +83,8 @@ void main () {
 
   vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
   float size = remapFreq(
-    u_max_screen_dimension * 0.02,
-    u_max_screen_dimension * 0.07
+    u_max_screen_dimension * 0.05,
+    u_max_screen_dimension * 0.11
 );
   gl_PointSize = size * (300.0 / -mvPosition.z);
   gl_Position = projectionMatrix * mvPosition;

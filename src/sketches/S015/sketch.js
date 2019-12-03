@@ -11,7 +11,7 @@ class Sketch extends SketchManagerThree {
   constructor(canvas, audioElement) {
     super(canvas, audioElement);
     
-    this.audioSrc = Audio.tester;
+    this.audioSrc = Audio.S015;
     this.numFrequencyNodes = 25;
     this.fftSize = 512;
 
@@ -37,9 +37,8 @@ class Sketch extends SketchManagerThree {
 
   }
   init() {
-    this.createStats();
-
-    this.setCameraPos(0, 0, -150);
+    this.disableOrbitControls();
+    this.setCameraPos(0, 0, -200);
     this.lookAt(0, 0, 0);
     this.setClearColor(0xffffff);
 
@@ -105,8 +104,6 @@ class Sketch extends SketchManagerThree {
     }
   }
   draw() {
-    this.stats.begin();
-
     const time = this.clock.getElapsedTime();
     this.audio.getByteFrequencyData();
     this.audio.frequencyData.forEach((freq, index) => {
@@ -118,8 +115,6 @@ class Sketch extends SketchManagerThree {
     this.orb.update(this.audio.getAverageFrequency(), time);
 
     this.renderer.render(this.scene, this.camera);
-
-    this.stats.end();
 
     requestAnimationFrame(() => this.draw());
   }

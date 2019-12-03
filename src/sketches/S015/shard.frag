@@ -18,7 +18,7 @@ void main() {
     vec3 color = vec3(0.0, 0.0, 1.0);
     color.b = remapFreq(0.5, 1.0);
 
-    float alpha = remapFreq(0.0, 0.3);
+    float alpha = remapFreq(0.0, 0.2);
 
     gl_FragColor = vec4(color, alpha);
 }

@@ -72,7 +72,7 @@ mat3 scale() {
 
 void main () {
     vec3 pos = position;
-    pos *= 1.0 + rotate();
+    pos *= rotate();
     pos *= scale();
 
     gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
