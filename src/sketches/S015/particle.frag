@@ -18,22 +18,14 @@ float reverseRemapFreq(float min, float max) {
     return remap(0.0, 255.0, min, max, 255.0 - u_freq);
 }
 
-// void main() {
-//     vec3 color = vec3(0.0, 0.0, 1.0);
-//     color.b = remapFreq(0.5, 1.0);
-
-//     float alpha = remapFreq(0.2, 1.0);
-
-//     gl_FragColor = vec4(color, alpha);
-// }
-
 void main() {
     vec4 texture = texture2D(u_texture, gl_PointCoord);
-    vec4 color = vec4(1.0, 0.0, 0.0, 1.0);
-    // float alpha = 1.0;
-    // if(texture.r < 0.3 && texture.g < 0.3 && texture.b < 0.3) {
-    //     alpha = 0.0;
-    // }
-
-    gl_FragColor = color * texture;
+    vec4 color = vec4(0.0, 1.0, 1.0, 1.0);
+    color.r = reverseRemapFreq(0.0, 0.7);
+    color.g = remapFreq(0.0, 0.7);
+    color.b = remapFreq(0.0, 0.7);
+    color.a = 0.0;
+    
+    gl_FragColor = vec4(color.rgb * texture.rgb, color.a);
+    if(texture.a < 0.1) discard;
 }

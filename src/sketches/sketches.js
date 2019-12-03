@@ -101,9 +101,9 @@ const Sketches = [
   },
   {
     title: '',
-    instructions: ``,
+    instructions: `Give it up - Shaker`,
     isAudio: true,
-    image: Images.S014,
+    image: Images.S015,
     sketch: S015,
   },
 ];

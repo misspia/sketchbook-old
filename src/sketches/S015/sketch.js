@@ -3,23 +3,15 @@ import SketchManagerThree from '../sketchManagerThree';
 import Leaf from './leaf';
 import Tile from './tile';
 import Orb from './orb';
-import Shards from './shards';
+import Shard from './shard';
 
 import { Audio } from '../../themes';
 
-/**
- * https://www.pinterest.ca/misspialeung/abstract-3d/
- * 
- * https://codepen.io/ykob/pen/QjxBmq
- * https://www.pinterest.ca/pin/516295544779434530/
- * https://codepen.io/ykob/pen/qbwLaY?editors=1010
- * 
- */
 class Sketch extends SketchManagerThree {
   constructor(canvas, audioElement) {
     super(canvas, audioElement);
     
-    this.audioSrc = Audio.tester;
+    this.audioSrc = Audio.S015;
     this.numFrequencyNodes = 25;
     this.fftSize = 512;
 
@@ -36,15 +28,17 @@ class Sketch extends SketchManagerThree {
     this.tiles = [];
 
     this.orb = {};
-    this.numShards = this.numFrequencyNodes * 1.2;
+    this.numPoints = this.numFrequencyNodes;
+
+    this.shards = [];
+    this.numShards = this.numFrequencyNodes;
   }
   unmount() {
 
   }
   init() {
-    this.createStats();
-
-    this.setCameraPos(0, 0, -150);
+    this.disableOrbitControls();
+    this.setCameraPos(0, 0, -200);
     this.lookAt(0, 0, 0);
     this.setClearColor(0xffffff);
 
@@ -57,15 +51,20 @@ class Sketch extends SketchManagerThree {
     this.createTiles();
     this.createLeaves();
     this.createOrb();
+    this.createShards();
+
   }
   createLeaves() {
+    const getIsColored = (index) => index % 12 === 0;
     const radius = 50;
     let angle = 0;
     const angleIncrement = 2 * Math.PI / this.numLeaves;
     for (let i = 0; i < this.numLeaves; i++) {
+      const isColored = getIsColored(i);
       const leaf = new Leaf({ 
         radius,
         angle,
+        isColored,
       });
       this.leaves.push(leaf);
       this.scene.add(leaf.mesh);
@@ -92,25 +91,30 @@ class Sketch extends SketchManagerThree {
   }
   createOrb() {
     this.orb = new Orb({
-      numShards: this.numShards,
+      numPoints: this.numPoints,
       numFrequencyNodes: this.numFrequencyNodes,
     });
     this.scene.add(this.orb.mesh);
   }
+  createShards() {
+    for(let i = 0; i < this.numShards; i++) {
+      const shard = new Shard({});
+      this.scene.add(shard.mesh);
+      this.shards.push(shard);
+    }
+  }
   draw() {
-    this.stats.begin();
-
     const time = this.clock.getElapsedTime();
     this.audio.getByteFrequencyData();
     this.audio.frequencyData.forEach((freq, index) => {
       this.tiles[index].update(freq);
       this.leaves[index].update(freq, time);
+      this.shards[index].update(freq, time);
     });
     this.orb.update(this.audio.frequencyData, time);
-    
-    this.renderer.render(this.scene, this.camera);
+    this.orb.update(this.audio.getAverageFrequency(), time);
 
-    this.stats.end();
+    this.renderer.render(this.scene, this.camera);
 
     requestAnimationFrame(() => this.draw());
   }

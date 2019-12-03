@@ -9,6 +9,8 @@ export default class Shards {
     this.shards = [];
 
     this.mesh = new THREE.Group();
+    
+    this.createShards();
   }
   createShards() {
     for(let i = 0; i < this.numShards; i++) {
@@ -16,5 +18,8 @@ export default class Shards {
       this.mesh.add(shard.mesh);
       this.shards.push(shard);
     }
+  }
+  update(frequencies, time) {
+
   }
 }
