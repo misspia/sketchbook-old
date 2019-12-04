@@ -14,6 +14,10 @@ varying vec3 vColor;
 
 uniform float u_freq;
 uniform float u_time;
+uniform float u_radius;
+uniform float u_angle;
+uniform vec3 u_rotate_speed;
+uniform vec3 u_translate_speed;
 uniform vec3 u_rotation;
 
 
@@ -70,10 +74,21 @@ mat3 scale() {
     );
 }
 
+vec3 translate() {
+    vec3 centerCoord = vec3(0.0, 0.0, 0.0);
+    return vec3(
+        centerCoord.x + u_radius * sin(u_angle),
+        centerCoord.y + u_radius * cos(u_angle),
+        centerCoord.z
+
+    );
+}
+
 void main () {
     vec3 pos = position;
     pos *= rotate();
     pos *= scale();
+    pos += translate();
 
     gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
 }

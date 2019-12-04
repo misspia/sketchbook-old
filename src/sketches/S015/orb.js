@@ -61,6 +61,11 @@ export default class Orb {
       this.geometry.vertices.push(particle.position);
     }
   }
+  getInitialPositions() {
+    let vertex = [];
+    console.debug(this.geometry);
+    // for(let i = 0; i < )
+  }
   update(avgFreq, time) {
     this.material.uniforms.u_freq.value = avgFreq;
     this.material.uniforms.u_time.value = time;

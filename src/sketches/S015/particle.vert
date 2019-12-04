@@ -32,11 +32,20 @@ float reverseRemapFreq(float min, float max) {
 
 vec3 translate() {
   return vec3(
-    sin(u_time) * u_translate_speed.x,
-    sin(u_time) * u_translate_speed.y,
-    sin(u_time) * u_translate_speed.z
+    position.x + sin(u_time) * u_translate_speed.x,
+    position.y + sin(u_time) * u_translate_speed.y,
+    position.z + sin(u_time) * u_translate_speed.z
   );
 }
+// vec3 translate() {
+//     vec3 centerCoord = vec3(0.0, 0.0, 0.0);
+//     return vec3(
+//         centerCoord.x + u_radius * sin(u_angle),
+//         centerCoord.y + u_radius * cos(u_angle),
+//         centerCoord.z
+
+//     );
+// }
 
 mat3 rotateX(float rad) {
     float c = cos(rad);

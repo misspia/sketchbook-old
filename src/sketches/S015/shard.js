@@ -5,8 +5,23 @@ import vertexShader from './shard.vert';
 
 export default class Shard {
   constructor({
-
+    radius = 0, 
+    angle = 0,
   }) {
+    this.radius = radius;
+    this.angle = angle;
+    const rotateSpeed = new THREE.Vector3(
+      utils.randomSign() * utils.randomFloatBetween(20, 80),
+      utils.randomSign() * utils.randomFloatBetween(20, 80),
+      utils.randomSign() * utils.randomFloatBetween(20, 80)
+    );
+    const translateSpeed = new THREE.Vector3(
+      utils.randomSign() * utils.randomFloatBetween(20, 80),
+      utils.randomSign() * utils.randomFloatBetween(20, 80),
+      utils.randomSign() * utils.randomFloatBetween(20, 80)
+    );
+
+
     this.incrementSign = utils.randomSign();
     this.minAngleIncrement = utils.randomFloatBetween(
       utils.toRadians(0.0),
@@ -25,6 +40,7 @@ export default class Shard {
       this.getRandomAngle(),
       this.getRandomAngle(),
     );
+
     this.material = new THREE.RawShaderMaterial({
       side: THREE.DoubleSide,
       transparent: true,
@@ -37,11 +53,23 @@ export default class Shard {
         u_min_angle_increment: { type: 'f', value: this.minAngleIncrement },
         u_max_angle_increment: { type: 'f', value: this.maxAngleIncrement },
         u_increment_sign: { type: 'f', value: this.incrementSign },
+
+        u_rotate_speed: { type: 'v3', value: rotateSpeed },
+        u_translate_speed: { type: 'v3', value: translateSpeed },
+        u_angle: { type: 'f', value: this.angle },
+        u_radius: { type: 'f', value: this.radius },
       },
       side: THREE.DoubleSide,
       transparent: true,
     });
+
     this.mesh = new THREE.Mesh(this.geometry, this.material);
+    
+    this.setPosition(
+      utils.randomFloatBetween(-100, 100),
+      utils.randomFloatBetween(-100, 100),
+      utils.randomFloatBetween(-100, 100),
+    )
   }
   createGeometry(size = 1) {
     const petalShape = new THREE.Shape();
@@ -61,7 +89,7 @@ export default class Shard {
 
     return geometry;
   }
-  
+
   getRandomAngle() {
     return utils.randomFloatBetween(0, 2 * Math.PI);
   }
@@ -77,7 +105,7 @@ export default class Shard {
   update(freq, time) {
     this.material.uniforms.u_freq.value = freq;
     this.material.uniforms.u_time.value = time;
-    this.material.uniforms.u_rotation.value.y += this.incrementSign * this.frequencyToAngleIncrement(freq);
-    this.material.uniforms.u_rotation.value.z += this.incrementSign * this.frequencyToAngleIncrement(freq);
+    // this.material.uniforms.u_rotation.value.y += this.incrementSign * this.frequencyToAngleIncrement(freq);
+    // this.material.uniforms.u_rotation.value.z += this.incrementSign * this.frequencyToAngleIncrement(freq);
   }
 }
