@@ -19,6 +19,7 @@ uniform float u_angle;
 uniform vec3 u_rotate_speed;
 uniform vec3 u_translate_speed;
 uniform vec3 u_rotation;
+uniform float u_position_z;
 
 
 float remap(float min1, float max1, float min2, float max2, float value) {
@@ -79,8 +80,7 @@ vec3 translate() {
     return vec3(
         centerCoord.x + u_radius * sin(u_angle),
         centerCoord.y + u_radius * cos(u_angle),
-        centerCoord.z
-
+        u_position_z
     );
 }
 

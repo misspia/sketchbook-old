@@ -11,12 +11,13 @@ class Sketch extends SketchManagerThree {
   constructor(canvas, audioElement) {
     super(canvas, audioElement);
     
-    // this.audioSrc = Audio.S015;
-    this.audioSrc = Audio.tester;
+    this.audioSrc = Audio.S015;
+    // this.audioSrc = Audio.tester;
     this.numFrequencyNodes = 25;
     this.fftSize = 512;
 
     this.clock = new THREE.Clock();
+    this.cameraPositionZ = -200;
 
     this.numLeaves = this.numFrequencyNodes;
     this.leaves = [];
@@ -39,8 +40,8 @@ class Sketch extends SketchManagerThree {
   }
   init() {
     // this.disableOrbitControls();
-    // this.setCameraPos(0, 0, -200);
-    this.setCameraPos(0, 0, -150);
+    this.setCameraPos(0, 0, this.cameraPositionZ);
+    // this.setCameraPos(0, 0, -150);
     this.lookAt(0, 0, 0);
     this.setClearColor(0xffffff);
 
@@ -57,16 +58,13 @@ class Sketch extends SketchManagerThree {
 
   }
   createLeaves() {
-    const getIsColored = (index) => index % 12 === 0;
     const radius = 50;
     let angle = 0;
     const angleIncrement = 2 * Math.PI / this.numLeaves;
     for (let i = 0; i < this.numLeaves; i++) {
-      const isColored = getIsColored(i);
       const leaf = new Leaf({ 
         radius,
         angle,
-        isColored,
       });
       this.leaves.push(leaf);
       this.scene.add(leaf.mesh);
@@ -100,7 +98,10 @@ class Sketch extends SketchManagerThree {
   }
   createShards() {
     for(let i = 0; i < this.numShards; i++) {
-      const shard = new Shard({});
+      const shard = new Shard({
+        minZ: this.cameraPositionZ * 1.2,
+        maxZ: -this.cameraPositionZ * 1.2,
+      });
       this.scene.add(shard.mesh);
       this.shards.push(shard);
     }
@@ -115,8 +116,6 @@ class Sketch extends SketchManagerThree {
     });
     this.orb.update(this.audio.frequencyData, time);
     this.orb.update(this.audio.getAverageFrequency(), time);
-
-    // this.camera.rotation.z += 0.001;
 
     this.renderer.render(this.scene, this.camera);
 
