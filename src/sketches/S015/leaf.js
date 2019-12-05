@@ -1,14 +1,12 @@
 import * as THREE from 'three';
 import utils from '../utils';
 import fragmentShader from './leaf.frag';
-import coloredFragmentShader from './coloredLeaf.frag';
 import vertexShader from './leaf.vert';
 
 export default class Leaf {
   constructor({
     radius = 0,
     angle = 0,
-    isColored = false,
   }) {
     this.radius = radius;
     this.angle = angle;
@@ -23,19 +21,10 @@ export default class Leaf {
     );
 
     const geometry = this.createGeometry(0.1);
-    const materialConfig = isColored ?
-      this.createColoredMaterialConfig() :
-      this.createMaterialConfig();
+    const materialConfig = this.createMaterialConfig();
 
     this.material = new THREE.RawShaderMaterial(materialConfig);
     this.mesh = new THREE.Mesh(geometry, this.material);
-  }
-  createColoredMaterialConfig() {
-    const baseMaterial = this.createMaterialConfig();
-    return {
-      ...baseMaterial,
-      fragmentShader: coloredFragmentShader,
-    }
   }
   createMaterialConfig() {
     const rotateSpeed = new THREE.Vector3(
