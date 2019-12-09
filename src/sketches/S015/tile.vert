@@ -14,8 +14,39 @@ varying vec2 vUv;
 uniform float u_freq;
 uniform float u_radius;
 uniform float u_angle;
+uniform float u_time;
 
+const float DEG_TO_RAD = 3.141592653589793 / 180.0;
 
+mat3 rotateX(float rad) {
+    float c = cos(rad);
+    float s = sin(rad);
+    return mat3(
+        1.0, 0.0, 0.0,
+        0.0, c, s,
+        0.0, -s, c
+    );
+}
+
+mat3 rotateY(float rad) {
+    float c = cos(rad);
+    float s = sin(rad);
+    return mat3(
+        c, 0.0, -s,
+        0.0, 1.0, 0.0,
+        s, 0.0, c
+    );
+}
+
+mat3 rotateZ(float rad) {
+    float c = cos(rad);
+    float s = sin(rad);
+    return mat3(
+        c, s, 0.0,
+        -s, c, 0.0,
+        0.0, 0.0, 1.0
+    );
+}
 
 vec3 translate() {
     vec3 centerCoord = vec3(0.0, 0.0, 0.0);
@@ -29,7 +60,7 @@ vec3 translate() {
 void main () {
 
   vec3 pos = position;
-  // pos *= rotate();
+
   pos += translate();
 
   

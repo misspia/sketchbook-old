@@ -20,6 +20,9 @@ export default class Orb {
       utils.randomFloatBetween(0.01, 0.1),
       utils.randomFloatBetween(0.01, 0.1),
     );
+    const maxScreenDimmension = window.innerHeight < window.innerWidth ? window.innerHeight : window.innerWidth;
+    const minSize = utils.randomFloatBetween(0.01, 0.05) * maxScreenDimmension;
+    const maxSize = utils.randomFloatBetween(0.1, 0.15) * maxScreenDimmension;
 
     this.material = new THREE.RawShaderMaterial({
       fragmentShader,
@@ -31,8 +34,11 @@ export default class Orb {
         u_translate_speed: { type: 'v3', value: translateSpeed },
         u_max_screen_dimension: {
           type: 'f',
-          value: window.innerHeight < window.innerWidth ? window.innerHeight : window.innerWidth,
+          value: maxScreenDimmension,
         },
+        u_min_size: { type: 'f', value: minSize },
+        u_max_size: { type: 'f', value: maxSize },
+
       },
       transparent: true,
       depthWrite: false,
@@ -60,11 +66,6 @@ export default class Orb {
       this.particles.push(particle);
       this.geometry.vertices.push(particle.position);
     }
-  }
-  getInitialPositions() {
-    let vertex = [];
-    console.debug(this.geometry);
-    // for(let i = 0; i < )
   }
   update(avgFreq, time) {
     this.material.uniforms.u_freq.value = avgFreq;

@@ -15,6 +15,8 @@ uniform float u_time;
 uniform float u_freq;
 uniform vec3 u_translate_speed;
 uniform float u_max_screen_dimension;
+uniform float u_min_size;
+uniform float u_max_size;
 
 const float DEG_TO_RAD = 3.141592653589793 / 180.0;
 
@@ -37,15 +39,6 @@ vec3 translate() {
     position.z + sin(u_time) * u_translate_speed.z
   );
 }
-// vec3 translate() {
-//     vec3 centerCoord = vec3(0.0, 0.0, 0.0);
-//     return vec3(
-//         centerCoord.x + u_radius * sin(u_angle),
-//         centerCoord.y + u_radius * cos(u_angle),
-//         centerCoord.z
-
-//     );
-// }
 
 mat3 rotateX(float rad) {
     float c = cos(rad);
@@ -91,10 +84,7 @@ void main () {
   pos += translate();
 
   vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-  float size = remapFreq(
-    u_max_screen_dimension * 0.05,
-    u_max_screen_dimension * 0.11
-);
+  float size = remapFreq(u_min_size, u_max_size);
   gl_PointSize = size * (300.0 / -mvPosition.z);
   gl_Position = projectionMatrix * mvPosition;
 }
