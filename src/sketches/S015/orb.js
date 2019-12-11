@@ -2,8 +2,8 @@ import * as THREE from 'three';
 import utils from '../utils';
 
 import { Images } from '../../themes';
-import fragmentShader from './particle.frag';
-import vertexShader from './particle.vert';
+import fragmentShader from './orb.frag';
+import vertexShader from './orb.vert';
 
 export default class Orb {
   constructor({
