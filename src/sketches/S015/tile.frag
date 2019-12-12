@@ -20,17 +20,17 @@ void main() {
 
     float alpha = 1.0;
 
-    if(u_freq > 230.0) {
-        color.r = remapFreq(0.4, 0.8);
-        color.g = remapFreq(0.4, 0.8);
-        color.b = remapFreq(0.5, 1.0);
-        alpha = reverseRemapFreq(0.4, 1.0);
+    if(u_freq > 240.0) {
+        color.r = reverseRemapFreq(0.4, 0.8);
+        color.g = reverseRemapFreq(0.4, 0.8);
+        color.b = reverseRemapFreq(0.6, 1.0);
+        alpha = remapFreq(0.1, 0.6);
 
-    } else if(u_freq > 190.0) {
-        color.r = remapFreq(0.4, 0.9);
-        color.g = remapFreq(0.4, 0.9);
-        color.b = remapFreq(0.5, 1.0);
-        alpha = reverseRemapFreq(0.3, 0.8);
+    } else if(u_freq > 200.0) {
+        color.r = reverseRemapFreq(0.4, 1.0);
+        color.g = reverseRemapFreq(0.4, 1.0);
+        color.b = reverseRemapFreq(0.6, 1.0);
+        alpha = remapFreq(0.1, 0.8);
     } else {
         color.r = reverseRemapFreq(0.4, 1.0) ;
         color.g = reverseRemapFreq(0.4, 1.0) ;
