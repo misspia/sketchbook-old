@@ -18,10 +18,25 @@ void main() {
     float colorFactor = 0.7;
     vec3 color = vec3(0.0, 0.0, 1.0);
 
-    color.r = reverseRemapFreq(0.4, 1.0) ;
-    color.g = reverseRemapFreq(0.4, 1.0) ;
-    color.b = reverseRemapFreq(0.4, 1.0);
+    float alpha = 1.0;
 
-    float alpha = remapFreq(0.1, 1.0);
+    if(u_freq > 240.0) {
+        color.r = reverseRemapFreq(0.4, 0.8);
+        color.g = reverseRemapFreq(0.4, 0.8);
+        color.b = reverseRemapFreq(0.6, 1.0);
+        alpha = remapFreq(0.1, 0.6);
+
+    } else if(u_freq > 200.0) {
+        color.r = reverseRemapFreq(0.4, 1.0);
+        color.g = reverseRemapFreq(0.4, 1.0);
+        color.b = reverseRemapFreq(0.6, 1.0);
+        alpha = remapFreq(0.1, 0.8);
+    } else {
+        color.r = reverseRemapFreq(0.4, 1.0) ;
+        color.g = reverseRemapFreq(0.4, 1.0) ;
+        color.b = reverseRemapFreq(0.4, 1.0);
+        alpha = remapFreq(0.1, 1.0);
+    }
+
     gl_FragColor = vec4(color, alpha);
 }

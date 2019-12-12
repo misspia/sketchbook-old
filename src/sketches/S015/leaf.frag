@@ -19,7 +19,6 @@ void main() {
     vec3 color = vec3(0.0, 0.0, 0.0);
 
     if(u_freq > 200.0) {
-        // color = vec3(0.7, 0.7, 1.0);
         color.r = remapFreq(0.5, 0.7);
         color.g = remapFreq(0.5, 0.7);
         color.b = remapFreq(0.5, 1.0);
