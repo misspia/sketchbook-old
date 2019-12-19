@@ -12,8 +12,8 @@ class Sketch extends SketchManagerThree {
   constructor(canvas, audioElement) {
     super(canvas, audioElement);
     this.raycaster = {};
-    // this.audioSrc = Audio.tester;
-    this.audioSrc = Audio.S014;
+    this.audioSrc = Audio.tester;
+    // this.audioSrc = Audio.S014;
 
     this.composer = {};
     this.renderPass = {};

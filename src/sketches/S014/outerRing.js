@@ -3,6 +3,10 @@ import utils from '../utils';
 import frag from './arc.frag';
 import vert from './arc.vert';
 
+/**
+ * http://blog.edankwan.com/post/three-js-advanced-tips-shadow
+ * https://threejs.org/docs/#api/en/core/Object3D
+ */
 export default class OuterRing {
   constructor(customConfig) {
     this.config = {
@@ -41,11 +45,14 @@ export default class OuterRing {
         side: THREE.DoubleSide,
         // transparent: true,
       });
+      material.customDepthMaterial  = new THREE.MeshDepthMaterial({
+
+      });
       const mesh = new THREE.Mesh(geometry, material);
       /**
        * https://threejs.org/docs/#manual/en/introduction/How-to-update-things
        */
-      mesh.matrixAutoUpdate = false; //////////
+      mesh.matrixAutoUpdate = false; 
       mesh.castShadow = true;
 
       mesh.rotation.z += rotateZ;
@@ -63,7 +70,7 @@ export default class OuterRing {
       const frequency = frequencyData[index];
       arc.material.uniforms.u_freq.value = frequency;
       arc.material.uniforms.u_time.value = uTime;
-      arc.updateMatrix(); ////
+      arc.updateMatrix();
     });
   }
 }
