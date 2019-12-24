@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import SketchManagerThree from '../sketchManagerThree';
 import utils from '../utils';
-import { Audio } from '../../themes' 
+import { Audio } from '../../themes'
 
 import * as PP from 'postprocessing';
 import Ring from './ring';
@@ -49,8 +49,8 @@ class Sketch extends SketchManagerThree {
       dataLength: this.numFrequencyNodes,
     };
     this.initAudio(audioConfig);
-    this.audio.volume(1);
-    
+    this.audio.volume(0.3);
+
     this.createLight();
     this.createSkybox();
     this.createRings(0, this.numRings);
@@ -70,7 +70,7 @@ class Sketch extends SketchManagerThree {
   createEffects() {
     this.composer = new PP.EffectComposer(this.renderer);
     this.renderPass = new PP.RenderPass(this.scene, this.camera,  0x111111);
-    
+
     const bloomPass = new PP.EffectPass(this.camera, new PP.BloomEffect());
     bloomPass.renderToScreen = true;
 
@@ -144,8 +144,8 @@ class Sketch extends SketchManagerThree {
       this.rings[index].update(frequency);
       this.bars[index].update(frequency);
     })
-    
-    const uTime = this.getUTime();    
+
+    const uTime = this.getUTime();
     this.outerRing.update(this.audio.frequencyData, uTime)
 
     this.composer.render(this.clock.getDelta());

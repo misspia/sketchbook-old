@@ -1,5 +1,6 @@
 precision highp float;
 
+varying vec3 vPosition;
 uniform float u_freq;
 
 float remap(float min1, float max1, float min2, float max2, float value) {
@@ -15,8 +16,8 @@ float reverseRemapFreq(float min, float max) {
 }
 
 void main() {
-    // vec3 color = vec3(0.2, 0.5, 0.9); 
-    vec3 color = vec3(1.0, 0.6, 0.2); 
+    // vec3 color = vec3(0.2, 0.5, 0.9);
+    vec3 color = vec3(1.0, 0.6, 0.2);
     color.r = remapFreq(0.5, 0.6);
     color.g = remapFreq(0.1, 0.6);
     color.b = remapFreq(0.2, 1.0);
