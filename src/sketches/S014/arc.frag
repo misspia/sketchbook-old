@@ -15,12 +15,16 @@ float reverseRemapFreq(float min, float max) {
     return remap(0.0, 255.0, min, max, 255.0 - u_freq);
 }
 
+// chunk(shadowmap_pars_fragment);
+
 void main() {
     // vec3 color = vec3(0.2, 0.5, 0.9);
     vec3 color = vec3(1.0, 0.6, 0.2);
     color.r = remapFreq(0.5, 0.6);
     color.g = remapFreq(0.1, 0.6);
     color.b = remapFreq(0.2, 1.0);
+
+    // chunk(shadowmap_fragment);
 
     gl_FragColor = vec4(color, 1.0);
 }

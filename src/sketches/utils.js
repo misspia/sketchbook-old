@@ -31,6 +31,14 @@ const utils = {
   lerp: (a, b, t) => (
     a * (1 - t) + b * t
   ),
+
+
+  replaceThreeChunkFn(a, b) {
+    return THREE.ShaderChunk[b] + '\n';
+  },
+  shaderParse(glsl) {
+    return glsl.replace(/\/\/\s?chunk\(\s?(\w+)\s?\);/g, replaceThreeChunkFn);
+  }
 }
 
 export default utils;

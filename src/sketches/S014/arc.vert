@@ -25,8 +25,7 @@ float remapFreq(float min, float max) {
 }
 
 
-// THREE.ShaderChunk[ 'fog_pars_vertex' ]
-// THREE.ShaderChunk[ 'shadowmap_pars_vertex' ]
+// chunk(shadowmap_pars_vertex);
 
 void main () {
   float amp = remapFreq(1.0, 3.5);
@@ -38,9 +37,10 @@ void main () {
   float displacement = amp * noise(vec3(position * fnoise * 0.06) + u_time );
   vec3 newPosition = position + normal * displacement;
 
+   // chunk(shadowmap_vertex);
+
   vPosition = newPosition;
   gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);
 
-  // THREE.ShaderChunk[ 'fog_vertex' ]
-	// THREE.ShaderChunk[ 'shadowmap_vertex' ]
+
 }
