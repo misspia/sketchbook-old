@@ -7,6 +7,8 @@ import noiseShader from './noise';
 
 /**
  * http://blog.edankwan.com/post/three-js-advanced-tips-shadow
+ * https://stackoverflow.com/questions/35873776/shadow-wont-update-when-geometry-is-changed-using-vertexshader
+ * https://stackoverflow.com/a/57094763
  */
 export default class OuterRing {
   constructor(customConfig) {

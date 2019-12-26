@@ -33,12 +33,11 @@ const utils = {
   ),
 
 
-  replaceThreeChunkFn(a, b) {
-    return THREE.ShaderChunk[b] + '\n';
-  },
   shaderParse(glsl) {
-    return glsl.replace(/\/\/\s?chunk\(\s?(\w+)\s?\);/g, replaceThreeChunkFn);
-  }
+    return glsl.replace(/\/\/\s?chunk\(\s?(\w+)\s?\);/g, (a, b) => (
+      THREE.ShaderChunk[b] + '\n'
+    ));
+  },
 }
 
 export default utils;
