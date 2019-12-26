@@ -2,8 +2,6 @@ import * as THREE from 'three';
 import utils from '../utils';
 import frag from './arc.frag';
 import vert from './arc.vert';
-import { vertexShader, fragmentShader } from './arc.shader';
-import noiseShader from './noise';
 
 /**
  * http://blog.edankwan.com/post/three-js-advanced-tips-shadow
