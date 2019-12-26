@@ -31,6 +31,13 @@ const utils = {
   lerp: (a, b, t) => (
     a * (1 - t) + b * t
   ),
+
+
+  shaderParse(glsl) {
+    return glsl.replace(/\/\/\s?chunk\(\s?(\w+)\s?\);/g, (a, b) => (
+      THREE.ShaderChunk[b] + '\n'
+    ));
+  },
 }
 
 export default utils;

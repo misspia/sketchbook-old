@@ -10,7 +10,7 @@ import { Audio } from '../../themes';
 class Sketch extends SketchManagerThree {
   constructor(canvas, audioElement) {
     super(canvas, audioElement);
-    
+
     this.audioSrc = Audio.S015;
     // this.audioSrc = Audio.tester;
     this.numFrequencyNodes = 25;
@@ -62,7 +62,7 @@ class Sketch extends SketchManagerThree {
     let angle = 0;
     const angleIncrement = 2 * Math.PI / this.numLeaves;
     for (let i = 0; i < this.numLeaves; i++) {
-      const leaf = new Leaf({ 
+      const leaf = new Leaf({
         radius,
         angle,
       });

@@ -24,6 +24,9 @@ float remapFreq(float min, float max) {
     return remap(0.0, 255.0, min, max, u_freq);
 }
 
+
+// chunk(shadowmap_pars_vertex);
+
 void main () {
   float amp = remapFreq(1.0, 3.5);
   vec3 fnoise = vec3(1.0, 1.0, 1.0);
@@ -34,5 +37,10 @@ void main () {
   float displacement = amp * noise(vec3(position * fnoise * 0.06) + u_time );
   vec3 newPosition = position + normal * displacement;
 
+   // chunk(shadowmap_vertex);
+
+  vPosition = newPosition;
   gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);
+
+
 }
