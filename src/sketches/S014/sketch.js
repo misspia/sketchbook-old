@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import SketchManagerThree from '../sketchManagerThree';
 import utils from '../utils';
-import { Audio } from '../../themes'
+import { Audio } from '../../themes';
 
 import * as PP from 'postprocessing';
 import Ring from './ring';
@@ -69,7 +69,7 @@ class Sketch extends SketchManagerThree {
   }
   createEffects() {
     this.composer = new PP.EffectComposer(this.renderer);
-    this.renderPass = new PP.RenderPass(this.scene, this.camera,  0x111111);
+    this.renderPass = new PP.RenderPass(this.scene, this.camera, 0x111111);
 
     const bloomPass = new PP.EffectPass(this.camera, new PP.BloomEffect());
     bloomPass.renderToScreen = true;
@@ -92,7 +92,7 @@ class Sketch extends SketchManagerThree {
   createRings(z, length) {
     const color = 0x00bbff;
     const tube = 0.7;
-    for(let i = 0; i < length; i ++) {
+    for (let i = 0; i < length; i++) {
       const arc = utils.randomFloatBetween(Math.PI * 0.3, Math.PI * 0.8);
       const rotateZ = utils.toRadians(utils.randomFloatBetween(0, 360));
       const radius = this.lastRingRadius;
