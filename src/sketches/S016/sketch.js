@@ -7,7 +7,6 @@ class Sketch extends SketchManagerThree {
     super(canvas, audioElement);
     this.audioSrc = Audio.tester;
     this.fftSize = 512;
-    this.bars = [];
   }
   unmount() {
 
@@ -29,7 +28,8 @@ class Sketch extends SketchManagerThree {
     this.stats.begin();
 
     this.audio.getByteFrequencyData();
-    this.audio.frequencyData.forEach((freq, index) => { });
+    this.audio.frequencyData.forEach((freq, index) => {
+    });
     this.renderer.render(this.scene, this.camera);
 
     this.stats.end();
