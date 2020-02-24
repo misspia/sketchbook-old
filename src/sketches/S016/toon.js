@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 
+// https://medium.com/@markus.neuy/postprocessing-shader-mit-shadertoy-und-threejs-8164600c6c76
 export default class Toon {
   constructor() {
     // this.material = new THREE.RawShaderMaterial({

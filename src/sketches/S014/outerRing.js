@@ -31,18 +31,6 @@ export default class OuterRing {
     const padding = utils.toRadians(2);
     const arcLength = utils.toRadians(360 / numDivisions) - padding * 2;
 
-
-    // const material = new THREE.RawShaderMaterial({
-    //   uniforms: {
-    //     u_freq: { type: 'f', value: 1.0 },
-    //     u_time: { type: 'f', value: 0.0 },
-    //   },
-    //   fragmentShader: frag,
-    //   vertexShader: vert,
-    //   side: THREE.DoubleSide,
-    //   // transparent: true,
-    // });
-    // console.debug(THREE.ShaderChunk.shadowmap_vertex)
     const material = new THREE.RawShaderMaterial({
       uniforms: THREE.UniformsUtils.merge([
         THREE.UniformsLib.shadowmap,

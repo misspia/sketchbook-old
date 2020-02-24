@@ -1,21 +1,26 @@
 import * as THREE from 'three';
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass';
+import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
+import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader';
+import PostProcessor from '../postProcessor';
 import SketchManagerThree from '../sketchManagerThree';
 import utils from '../utils';
 import { Audio } from '../../themes';
 
-import * as PP from 'postprocessing';
 import Ring from './ring';
 import OuterRing from './outerRing';
 import Bar from './bar';
+
 
 class Sketch extends SketchManagerThree {
   constructor(canvas, audioElement) {
     super(canvas, audioElement);
     this.raycaster = {};
-    this.audioSrc = Audio.tester;
-    // this.audioSrc = Audio.S014;
+    // this.audioSrc = Audio.tester;
+    this.audioSrc = Audio.S014;
 
     this.composer = {};
+    this.pp = new PostProcessor(this);
     this.renderPass = {};
     this.clock = new THREE.Clock();
 
@@ -49,7 +54,7 @@ class Sketch extends SketchManagerThree {
       dataLength: this.numFrequencyNodes,
     };
     this.initAudio(audioConfig);
-    this.audio.volume(0.3);
+    this.audio.volume(1);
 
     this.createLight();
     this.createSkybox();
@@ -68,14 +73,23 @@ class Sketch extends SketchManagerThree {
     this.scene.add(new THREE.AmbientLight(0xffffff, 0.5));
   }
   createEffects() {
-    this.composer = new PP.EffectComposer(this.renderer);
-    this.renderPass = new PP.RenderPass(this.scene, this.camera, 0x111111);
+    const fxaa = new ShaderPass(FXAAShader);
+    fxaa.uniforms.resolution.value.set(
+      1 / this.canvas.width,
+      1 / this.canvas.height,
+    );
+    fxaa.renderToScreen = false;
 
-    const bloomPass = new PP.EffectPass(this.camera, new PP.BloomEffect());
-    bloomPass.renderToScreen = true;
+    const dimensions = new THREE.Vector2(
+      this.canvas.width,
+      this.canvas.height,
+    );
 
-    this.composer.addPass(this.renderPass);
-    this.composer.addPass(bloomPass);
+    const bloom = new UnrealBloomPass(dimensions, 0.15, 0.2, 0.05);
+    bloom.renderToScreen = true;
+
+    this.pp.addPass(fxaa);
+    this.pp.addPass(bloom);
   }
   createSkybox() {
     const size = 1000;
@@ -137,8 +151,6 @@ class Sketch extends SketchManagerThree {
     }
   }
   draw() {
-    this.composer.renderer.autoClear = true;
-
     this.audio.getByteFrequencyData();
     this.audio.frequencyData.forEach((frequency, index) => {
       this.rings[index].update(frequency);
@@ -148,8 +160,10 @@ class Sketch extends SketchManagerThree {
     const uTime = this.getUTime();
     this.outerRing.update(this.audio.frequencyData, uTime)
 
-    this.composer.render(this.clock.getDelta());
-    this.composer.renderer.autoClear = false;
+    this.renderer.autoClear = false;
+    this.renderer.clear();
+
+    this.pp.render();
 
     requestAnimationFrame(() => this.draw());
   }
