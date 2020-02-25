@@ -4,6 +4,7 @@ import * as THREE from 'three';
 import OrbitControls from 'three-orbit-controls';
 
 import Audio from './audio';
+import PostProcessor from './postProcessor';
 
 const OrbitController = OrbitControls(THREE);
 
@@ -29,10 +30,10 @@ class SketchManagerThree {
     this.stats = {};
     this.scene = {};
     this.camera = {};
-    
+
     this.scene = new THREE.Scene();
-    if(options.fog) {
-      this.scene.fog =  options.fog;
+    if (options.fog) {
+      this.scene.fog = options.fog;
     }
     const aspectRatio = window.innerWidth / window.innerHeight;
     this.camera = new THREE.PerspectiveCamera(75, aspectRatio, options.cameraNear, options.cameraFar);
@@ -46,13 +47,14 @@ class SketchManagerThree {
       stencil: false
     });
     this.renderer.setSize(window.innerWidth, window.innerHeight);
-    this.renderer.setClearColor( 0xffdddd );
+    this.renderer.setClearColor(0xffdddd);
     const dpr = Math.min(1.5, window.devicePixelRatio);
     this.renderer.setPixelRatio(dpr);
 
     // window.scene = this.scene;
 
     this.controls = new OrbitController(this.camera, this.renderer.domElement);
+    this.pp = new PostProcessor(this);
 
     // initial resize
     this.resize();
@@ -60,14 +62,14 @@ class SketchManagerThree {
     // event listeners
     window.addEventListener('resize', () => this.resize());
   }
-  unmount() {}
-  init() {}
-  draw() {}
+  unmount() { }
+  init() { }
+  draw() { }
   render() {
     this.init();
     this.draw();
   }
-    
+
   // create audio context
   initAudio(additionalConfig) {
     const { audioElement, audioSrc } = this;
@@ -79,6 +81,8 @@ class SketchManagerThree {
     };
     this.audio = new Audio(config);
   }
+
+
   createDatGUI() {
     this.gui = new dat.GUI();
   }
@@ -95,12 +99,21 @@ class SketchManagerThree {
     });
   }
   resize() {
+    this.updateProjectionMatrix();
+
     const width = window.innerWidth;
     const height = window.innerHeight;
 
+    this.camera.aspect = width / height;
     this.renderer.setSize(width, height);
-    this.updateProjectionMatrix();
+    this.pp.resize(width, height);
+    this.customResize();
   }
+  /**
+   * Sketch specific resize operations
+   */
+  customResize() { }
+
   updateProjectionMatrix() {
     const width = window.innerWidth;
     const height = window.innerHeight;
