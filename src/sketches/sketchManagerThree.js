@@ -107,12 +107,12 @@ class SketchManagerThree {
     this.camera.aspect = width / height;
     this.renderer.setSize(width, height);
     this.pp.resize(width, height);
-    this.customResize();
+    this.customResize(width, height);
   }
   /**
    * Sketch specific resize operations
    */
-  customResize() { }
+  customResize(width, height) { }
 
   updateProjectionMatrix() {
     const width = window.innerWidth;
