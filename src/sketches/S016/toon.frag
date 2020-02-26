@@ -18,6 +18,7 @@ float checkSame (vec4 center, vec4 samplef)
     bool isSameDepth = diffDepth <0.1;
     return (isSameNormal && isSameDepth)? 1.0: 0.0;
 }
+
 void main () {
     vec4 sample0 = texture2D(tDiffuse, vUv);
     vec4 sample1 = texture2D(tDiffuse, vUv + ( vec2 ( 1.0 , 1.0 ) / iResolution.xy));
@@ -25,7 +26,9 @@ void main () {
     vec4 sample3 = texture2D(tDiffuse, vUv + ( vec2 ( - 1.0 , 1.0 ) / iResolution.xy));
     vec4 sample4 = texture2D(tDiffuse, vUv + ( vec2 ( 1.0 , - 1.0 ) / iResolution.xy));
 
+    vec4 shadowMap = texture2D(tShadow, vUv);
     float shadow = texture2D(tShadow, vUv).x;
     float edge = checkSame(sample1, sample2) * checkSame (sample3, sample4);
-    gl_FragColor = vec4 (edge, shadow, 1.0, 1.0);
+    gl_FragColor = vec4 (edge, shadow, 0.0, 1.0);
+    // gl_FragColor = vec4(shadowMap);
 }
