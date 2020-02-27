@@ -59,8 +59,8 @@ class Sketch extends SketchManagerThree {
   init() {
     this.createStats();
 
-    const audioConfig = { fftSize: this.fftSize, dataLength: 25 };
-    this.initAudio(audioConfig);
+    // const audioConfig = { fftSize: this.fftSize, dataLength: 25 };
+    // this.initAudio(audioConfig);
 
     this.camera.fov = 45;
     this.camera.near = 0.1;
@@ -121,10 +121,10 @@ class Sketch extends SketchManagerThree {
   draw() {
     this.stats.begin();
 
-    this.audio.getByteFrequencyData();
-    this.morph.update(
-      this.audio.frequencyData[0]
-    )
+    // this.audio.getByteFrequencyData();
+    // this.morph.update(
+    //   this.audio.frequencyData[0]
+    // )
 
     this.floor.material = this.shadowMaterial;
     this.sphere.material = this.shadowMaterial;
