@@ -1,17 +1,21 @@
 import * as THREE from 'three';
 import utils from '../utils';
 
-// https://threejs.org/examples/?q=morp#webgl_buffergeometry_morphtargets
-export default class Flame {
+const MorphIndex = {
+  SPHERE: 0,
+  TWIST: 1,
+  TORUS: 2,
+};
+
+export default class Morph {
   constructor() {
-    this.spherePositions = [];
     this.cubePositions = [];
+    this.spherePositions = [];
     this.twistPositions = [];
+    this.torusPositions = [];
 
     const geometry = this.createGeometry();
-
     const material = new THREE.MeshNormalMaterial({
-      color: 0xff0000,
       flatShading: true,
       morphTargets: true
     });
@@ -23,6 +27,7 @@ export default class Flame {
   createGeometry() {
 
     const geometry = new THREE.BoxBufferGeometry(2, 2, 2, 32, 32, 32);
+    const torusGeometry = new THREE.TorusBufferGeometry(2, 2, 80, 80);
 
     geometry.morphAttributes.position = [];
     const positions = geometry.attributes.position.array;
@@ -35,10 +40,12 @@ export default class Flame {
 
       this.pushSpherePosition(x, y, z);
       this.pushTwistPosition(x, y, z);
+      this.pushTorusPosition(torusGeometry.attributes.position.array, i, i + 1, i + 2);
 
     }
-    geometry.morphAttributes.position[0] = new THREE.Float32BufferAttribute(this.spherePositions, 3);
-    geometry.morphAttributes.position[1] = new THREE.Float32BufferAttribute(this.twistPositions, 3);
+    geometry.morphAttributes.position[MorphIndex.SPHERE] = new THREE.Float32BufferAttribute(this.spherePositions, 3);
+    geometry.morphAttributes.position[MorphIndex.TWIST] = new THREE.Float32BufferAttribute(this.twistPositions, 3);
+    geometry.morphAttributes.position[MorphIndex.TORUS] = new THREE.Float32BufferAttribute(this.torusPositions, 3);
 
     return geometry;
   }
@@ -56,12 +63,19 @@ export default class Flame {
       z * Math.sqrt(1 - (x * x / 2) - (y * y / 2) + (x * x * y * y / 3))
     );
   }
+  pushTorusPosition(positions, x, y, z) {
+    this.torusPositions.push(
+      positions[x],
+      positions[y],
+      positions[z],
+    );
+  }
   remapFreq(min, max, freq) {
     return utils.remap(0, 255, min, max, freq);
   }
 
   update(freq) {
-    this.mesh.morphTargetInfluences[1] = this.remapFreq(0, 1, freq);
-    this.mesh.morphTargetInfluences[0] = 1 - this.remapFreq(0, 0.5, freq);
+    this.mesh.morphTargetInfluences[MorphIndex.SPHERE] = 1 - this.remapFreq(0, 0.2, freq);
+    this.mesh.morphTargetInfluences[MorphIndex.TWIST] = this.remapFreq(0, 1, freq);
   }
 }

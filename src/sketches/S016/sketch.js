@@ -3,7 +3,7 @@ import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
 import SketchManagerThree from '../sketchManagerThree';
 import { Audio } from '../../themes';
 import createToonShader from './toonShader';
-import Flame from './flame';
+import Morph from './morph';
 
 // https://medium.com/@markus.neuy/postprocessing-shader-mit-shadertoy-und-threejs-8164600c6c76
 // https://stackoverflow.com/questions/44710958/plane-geometry-mesh-is-not-receiving-shadows-in-threejs-r86
@@ -15,7 +15,7 @@ class Sketch extends SketchManagerThree {
     this.sphere = {};
     this.floor = {};
     this.directionalLight = {};
-    this.flame = {};
+    this.morph = {};
 
     this.toonShader = null;
     this.normalMaterial = new THREE.MeshNormalMaterial({
@@ -86,12 +86,12 @@ class Sketch extends SketchManagerThree {
     this.sphere.castShadow = true;
     this.sphere.receiveShadow = true;
 
-    this.flame = new Flame();
+    this.morph = new Morph();
 
 
     // this.scene.add(this.sphere);
     // this.scene.add(this.floor);
-    this.scene.add(this.flame.mesh);
+    this.scene.add(this.morph.mesh);
 
     const SHADOW_MAP_SIZE = 2048;
     this.directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
@@ -121,7 +121,7 @@ class Sketch extends SketchManagerThree {
     this.stats.begin();
 
     this.audio.getByteFrequencyData();
-    this.flame.update(
+    this.morph.update(
       this.audio.frequencyData[0]
     )
 
