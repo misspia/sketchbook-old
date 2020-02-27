@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
 import SketchManagerThree from '../sketchManagerThree';
 import { Audio } from '../../themes';
-import createToonShader from './toonShader';
+import ToonShader from './toonShader';
 import Morph from './morph';
 
 // https://medium.com/@markus.neuy/postprocessing-shader-mit-shadertoy-und-threejs-8164600c6c76
@@ -89,9 +89,9 @@ class Sketch extends SketchManagerThree {
     this.morph = new Morph();
 
 
-    // this.scene.add(this.sphere);
-    // this.scene.add(this.floor);
-    this.scene.add(this.morph.mesh);
+    this.scene.add(this.sphere);
+    this.scene.add(this.floor);
+    // this.scene.add(this.morph.mesh);
 
     const SHADOW_MAP_SIZE = 2048;
     this.directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
@@ -109,7 +109,8 @@ class Sketch extends SketchManagerThree {
 
   createEffects() {
     const resolution = this.getResolution();
-    this.toonShader = createToonShader(resolution);
+    this.toonShader = ToonShader;
+    this.toonShader.uniforms.iResolution.value = resolution;
     const toonPass = new ShaderPass(this.toonShader);
     toonPass.renderToScreen = true;
 
