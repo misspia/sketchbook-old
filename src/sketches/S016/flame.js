@@ -8,53 +8,60 @@ export default class Flame {
     this.cubePositions = [];
     this.twistPositions = [];
 
-    // const geometry = new THREE.SphereGeometry(0.5, 32, 32);
     const geometry = this.createGeometry();
-    // const material = new THREE.MeshNormalMaterial({
-    const material = new THREE.MeshPhongMaterial({
-      morphTargets: true,
+
+    const material = new THREE.MeshNormalMaterial({
+      color: 0xff0000,
       flatShading: true,
+      morphTargets: true
     });
+
     this.mesh = new THREE.Mesh(geometry, material);
-    this.mesh.morphTargetInfluences[0] = 0.3;
+    this.mesh.scale.set(0.5, 0.5, 0.5);
   }
 
   createGeometry() {
-    const boxGeometry = new THREE.BoxBufferGeometry(2, 2, 2, 32, 32, 32);
-    boxGeometry.morphAttributes.positions = [];
-    this.cubePositions = boxGeometry.attributes.position.array;
 
-    const direction = new THREE.Vector3(1, 0, 0).normalize();
+    const geometry = new THREE.BoxBufferGeometry(2, 2, 2, 32, 32, 32);
+
+    geometry.morphAttributes.position = [];
+    const positions = geometry.attributes.position.array;
+
+    for (let i = 0; i < positions.length; i += 3) {
+
+      const x = positions[i];
+      const y = positions[i + 1];
+      const z = positions[i + 2];
+
+      this.pushSpherePosition(x, y, z);
+      this.pushTwistPosition(x, y, z);
+
+    }
+    geometry.morphAttributes.position[0] = new THREE.Float32BufferAttribute(this.spherePositions, 3);
+    geometry.morphAttributes.position[1] = new THREE.Float32BufferAttribute(this.twistPositions, 3);
+
+    return geometry;
+  }
+  pushTwistPosition(x, y, z) {
+    const direction = new THREE.Vector3(0, 0, 1).normalize();
     const vertex = new THREE.Vector3();
 
-    for (let i = 0; i < this.cubePositions.length; i += 3) {
-      const x = this.cubePositions[i];
-      const y = this.cubePositions[i + 1];
-      const z = this.cubePositions[i + 2];
-
-      this.spherePositions.push(
-        x * Math.sqrt(1 - (y * y / 2) - (z * z / 2) + (y * y * z * z / 2)),
-        y * Math.sqrt(1 - (z * z / 2) - (x * x / 2) + (x * x * z * z / 2)),
-        z * Math.sqrt(1 - (x * x / 2) - (y * y / 2) + (x * x * y * y / 2)),
-      );
-
-      vertex.set(x * 2, y, z);
-      vertex
-        .applyAxisAngle(direction, Math.PI * x / 2)
-        .toArray(this.twistPositions, this.twistPositions.length);
-    }
-    boxGeometry.morphAttributes.positions[0] = new THREE.Float32BufferAttribute(this.spherePositions, 3);
-    boxGeometry.morphAttributes.positions[1] = new THREE.Float32BufferAttribute(this.twistPositions, 3);
-
-    return boxGeometry;
+    vertex.set(x, y, z * 2);
+    vertex.applyAxisAngle(direction, Math.PI * z / 2).toArray(this.twistPositions, this.twistPositions.length);
   }
-  scale(multiplier) {
-    this.mesh.scale.set(multiplier, multiplier, multiplier);
+  pushSpherePosition(x, y, z) {
+    this.spherePositions.push(
+      x * Math.sqrt(1 - (y * y / 2) - (z * z / 2) + (y * y * z * z / 3)),
+      y * Math.sqrt(1 - (z * z / 2) - (x * x / 2) + (z * z * x * x / 3)) * 0.7,
+      z * Math.sqrt(1 - (x * x / 2) - (y * y / 2) + (x * x * y * y / 3))
+    );
   }
+  remapFreq(min, max, freq) {
+    return utils.remap(0, 255, min, max, freq);
+  }
+
   update(freq) {
-    const multiplier = utils.remap(0, 255, 0.5, 1, freq);
-    const morph = utils.remap(0, 255, 0, 1, freq);
-    // this.scale(multiplier);
-    this.mesh.morphTargetInfluences[1] = morph;
+    this.mesh.morphTargetInfluences[1] = this.remapFreq(0, 1, freq);
+    this.mesh.morphTargetInfluences[0] = 1 - this.remapFreq(0, 0.5, freq);
   }
 }
