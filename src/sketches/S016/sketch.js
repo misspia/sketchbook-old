@@ -3,7 +3,7 @@ import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
 import SketchManagerThree from '../sketchManagerThree';
 import { Audio } from '../../themes';
 import ToonShader from './toonShader';
-import Morph from './morph';
+import Morph from './SphereMorph';
 
 // https://medium.com/@markus.neuy/postprocessing-shader-mit-shadertoy-und-threejs-8164600c6c76
 // https://stackoverflow.com/questions/44710958/plane-geometry-mesh-is-not-receiving-shadows-in-threejs-r86
@@ -59,8 +59,8 @@ class Sketch extends SketchManagerThree {
   init() {
     this.createStats();
 
-    // const audioConfig = { fftSize: this.fftSize, dataLength: 25 };
-    // this.initAudio(audioConfig);
+    const audioConfig = { fftSize: this.fftSize, dataLength: 25 };
+    this.initAudio(audioConfig);
 
     this.camera.fov = 45;
     this.camera.near = 0.1;
@@ -87,11 +87,13 @@ class Sketch extends SketchManagerThree {
     this.sphere.receiveShadow = true;
 
     this.morph = new Morph();
+    // this.morph2 = new Morph();
+    // this.morph2.setRotation(0, Math.PI / 2, 0);
 
 
-    this.scene.add(this.sphere);
-    this.scene.add(this.floor);
-    // this.scene.add(this.morph.mesh);
+    // this.scene.add(this.sphere);
+    // this.scene.add(this.floor);
+    this.scene.add(this.morph.mesh);
 
     const SHADOW_MAP_SIZE = 2048;
     this.directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
@@ -121,10 +123,11 @@ class Sketch extends SketchManagerThree {
   draw() {
     this.stats.begin();
 
-    // this.audio.getByteFrequencyData();
-    // this.morph.update(
-    //   this.audio.frequencyData[0]
-    // )
+    this.audio.getByteFrequencyData();
+    this.morph.update(
+      this.audio.frequencyData[0],
+      this.audio.frequencyData,
+    );
 
     this.floor.material = this.shadowMaterial;
     this.sphere.material = this.shadowMaterial;

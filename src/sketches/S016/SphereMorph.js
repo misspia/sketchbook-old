@@ -7,7 +7,7 @@ const MorphIndex = {
   TORUS: 2,
 };
 
-export default class Morph {
+export default class SphereMorph {
   constructor() {
     this.cubePositions = [];
     this.spherePositions = [];
@@ -21,9 +21,11 @@ export default class Morph {
     });
 
     this.mesh = new THREE.Mesh(geometry, material);
-    this.mesh.scale.set(0.5, 0.5, 0.5);
   }
 
+  setRotation(x, y, z) {
+    this.mesh.rotation.set(x, y, z);
+  }
   createGeometry() {
 
     const geometry = new THREE.BoxBufferGeometry(2, 2, 2, 32, 32, 32);
@@ -53,7 +55,7 @@ export default class Morph {
     const direction = new THREE.Vector3(0, 0, 1).normalize();
     const vertex = new THREE.Vector3();
 
-    vertex.set(x, y, z * 2);
+    vertex.set(x, y, z * 4);
     vertex.applyAxisAngle(direction, Math.PI * z / 2).toArray(this.twistPositions, this.twistPositions.length);
   }
   pushSpherePosition(x, y, z) {
@@ -74,8 +76,8 @@ export default class Morph {
     return utils.remap(0, 255, min, max, freq);
   }
 
-  update(freq) {
-    this.mesh.morphTargetInfluences[MorphIndex.SPHERE] = 1 - this.remapFreq(0, 0.2, freq);
-    this.mesh.morphTargetInfluences[MorphIndex.TWIST] = this.remapFreq(0, 1, freq);
+  update(beat, freqs) {
+    this.mesh.morphTargetInfluences[MorphIndex.SPHERE] = 1 - this.remapFreq(0, 0.2, beat);
+    this.mesh.morphTargetInfluences[MorphIndex.TWIST] = this.remapFreq(0, 1, beat);
   }
 }
