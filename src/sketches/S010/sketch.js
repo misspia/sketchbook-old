@@ -30,7 +30,7 @@ class Sketch extends SketchManagerThree {
     this.setClearColor(0x111111)
     this.setCameraPos(0, 0, -100);
     this.lookAt(0, 0, 0);
-    
+
     this.createDiamond();
     this.createSquare();
     this.createSphere();
@@ -42,7 +42,7 @@ class Sketch extends SketchManagerThree {
     });
     this.diamond = new THREE.Mesh(geometry, material);
     this.diamond.receiveShadow = true;
-    this.diamond.position.set(0,0, 20);
+    this.diamond.position.set(0, 0, 20);
     this.diamond.rotateZ(utils.toRadians(45));
     this.scene.add(this.diamond);
   }
@@ -56,7 +56,7 @@ class Sketch extends SketchManagerThree {
     });
     const square = new THREE.Mesh(geometry, material);
     square.receiveShadow = true;
-    square.position.set(0,0, 30);
+    square.position.set(0, 0, 30);
     this.scene.add(square);
   }
   createSphere() {
@@ -79,7 +79,7 @@ class Sketch extends SketchManagerThree {
     this.cubeCamera.update(this.renderer, this.scene)
     this.renderer.render(this.scene, this.camera);
 
-    if(this.amp >= this.maxAmp || this.amp <= this.minAmp) {
+    if (this.amp >= this.maxAmp || this.amp <= this.minAmp) {
       this.ampIncrement = -this.ampIncrement;
     }
     this.amp += this.ampIncrement;
