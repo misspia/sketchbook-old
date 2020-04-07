@@ -42,12 +42,10 @@ export default class SphereMorph {
 
       this.pushSpherePosition(x, y, z);
       this.pushTwistPosition(x, y, z);
-      this.pushTorusPosition(torusGeometry.attributes.position.array, i, i + 1, i + 2);
 
     }
     geometry.morphAttributes.position[MorphIndex.SPHERE] = new THREE.Float32BufferAttribute(this.spherePositions, 3);
     geometry.morphAttributes.position[MorphIndex.TWIST] = new THREE.Float32BufferAttribute(this.twistPositions, 3);
-    geometry.morphAttributes.position[MorphIndex.TORUS] = new THREE.Float32BufferAttribute(this.torusPositions, 3);
 
     return geometry;
   }
@@ -55,21 +53,14 @@ export default class SphereMorph {
     const direction = new THREE.Vector3(0, 0, 1).normalize();
     const vertex = new THREE.Vector3();
 
-    vertex.set(x, y, z * 4);
+    vertex.set(x, y, z * 3);
     vertex.applyAxisAngle(direction, Math.PI * z / 2).toArray(this.twistPositions, this.twistPositions.length);
   }
   pushSpherePosition(x, y, z) {
     this.spherePositions.push(
-      x * Math.sqrt(1 - (y * y / 2) - (z * z / 2) + (y * y * z * z / 3)),
-      y * Math.sqrt(1 - (z * z / 2) - (x * x / 2) + (z * z * x * x / 3)) * 0.7,
-      z * Math.sqrt(1 - (x * x / 2) - (y * y / 2) + (x * x * y * y / 3))
-    );
-  }
-  pushTorusPosition(positions, x, y, z) {
-    this.torusPositions.push(
-      positions[x],
-      positions[y],
-      positions[z],
+      x * Math.sqrt(1 - (y * y / 2) - (z * z / 2) + (y * y * z * z / 3)) * 0.3,
+      y * Math.sqrt(1 - (z * z / 2) - (x * x / 2) + (z * z * x * x / 3)) * 0.3,
+      z * Math.sqrt(1 - (x * x / 2) - (y * y / 2) + (x * x * y * y / 3)) * 0.3
     );
   }
   remapFreq(min, max, freq) {
