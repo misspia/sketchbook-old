@@ -2,13 +2,15 @@ import * as THREE from 'three';
 // import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
 import SketchManagerThree from '../sketchManagerThree';
 
+import Environment from './environment';
 import Shard from './shard';
 
 class Sketch extends SketchManagerThree {
   constructor(canvas) {
     super(canvas);
     this.directionalLight = {};
-    this.shard = new Shard();
+    const environment = new Environment(this.renderer);
+    this.shard = new Shard(environment);
 
   }
   unmount() {
