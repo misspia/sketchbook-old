@@ -1,11 +1,14 @@
 import * as THREE from 'three';
-import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
+// import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
 import SketchManagerThree from '../sketchManagerThree';
+
+import Shard from './shard';
 
 class Sketch extends SketchManagerThree {
   constructor(canvas) {
     super(canvas);
     this.directionalLight = {};
+    this.shard = new Shard();
 
   }
   unmount() {
@@ -15,11 +18,12 @@ class Sketch extends SketchManagerThree {
 
   init() {
     this.createStats();
-
     this.setCameraPos(0, 0, 10);
-    this.setClearColor(0xaaaaaa);
+    this.setClearColor(0xf1ebeb);
     this.lookAt(0, 0, 0);
     this.camera.updateProjectionMatrix();
+
+    this.scene.add(this.shard.pivot);
 
     this.createEffects();
   }
@@ -38,6 +42,7 @@ class Sketch extends SketchManagerThree {
 
     this.stats.end();
 
+    this.renderer.render(this.scene, this.camera);
     requestAnimationFrame(() => this.draw());
   }
 }
