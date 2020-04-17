@@ -4,6 +4,7 @@ import SketchManagerThree from '../sketchManagerThree';
 
 import Environment from './environment';
 import Shard from './shard';
+import Feather from './feather';
 
 class Sketch extends SketchManagerThree {
   constructor(canvas) {
@@ -21,23 +22,17 @@ class Sketch extends SketchManagerThree {
   init() {
     this.createStats();
     this.setCameraPos(0, 0, 10);
-    this.setClearColor(0xf1ebeb);
+    this.setClearColor(0x111111);
     this.lookAt(0, 0, 0);
     this.camera.updateProjectionMatrix();
 
     this.scene.add(this.shard.pivot);
 
-    this.createEffects();
-  }
-
-  setupLights() {
-
-  }
-
-  createEffects() {
+    const feather = new Feather({ color: 0xececbb });
+    this.scene.add(feather.pivot);
+    feather.position.set(2, 0, 0);
 
   }
-
 
   draw() {
     this.stats.begin();

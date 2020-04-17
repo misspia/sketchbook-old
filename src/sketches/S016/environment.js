@@ -22,7 +22,8 @@ export default class Environment {
     room.scale.setScalar(10);
     envScene.add(room);
 
-    const ambient = new THREE.AmbientLight(new THREE.Color(0x12161f).convertGammaToLinear(2.2), 1);
+    // const ambient = new THREE.AmbientLight(new THREE.Color(0x12161f).convertGammaToLinear(2.2), 1);
+    const ambient = new THREE.AmbientLight(new THREE.Color(0xb3b1a6).convertGammaToLinear(2.2), 1);
     envScene.add(ambient);
 
     const lightMaterial = new THREE.MeshLambertMaterial({
