@@ -1,10 +1,8 @@
-import * as THREE from 'three';
-// import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
 import SketchManagerThree from '../sketchManagerThree';
 
 import Environment from './environment';
 import Shard from './shard';
-import Feather from './feather';
+import Wing from './wing';
 
 class Sketch extends SketchManagerThree {
   constructor(canvas) {
@@ -12,12 +10,12 @@ class Sketch extends SketchManagerThree {
     this.directionalLight = {};
     const environment = new Environment(this.renderer);
     this.shard = new Shard(environment);
+    this.wing = new Wing();
 
   }
   unmount() {
 
   }
-
 
   init() {
     this.createStats();
@@ -27,11 +25,9 @@ class Sketch extends SketchManagerThree {
     this.camera.updateProjectionMatrix();
 
     this.scene.add(this.shard.pivot);
+    this.scene.add(this.wing.pivot);
 
-    const feather = new Feather({ color: 0xececbb });
-    this.scene.add(feather.pivot);
-    feather.position.set(2, 0, 0);
-
+    this.wing.position.set(1.8, -2, 0);
   }
 
   draw() {
