@@ -10,7 +10,7 @@ class Sketch extends SketchManagerThree {
     this.directionalLight = {};
     const environment = new Environment(this.renderer);
     this.shard = new Shard(environment);
-    this.wing = new Wing();
+    this.wing = new Wing(environment);
 
   }
   unmount() {

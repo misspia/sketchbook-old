@@ -22,7 +22,7 @@ export default class Feather {
     petalShape.bezierCurveTo(20, 100, -20, 100);
 
     const extrudeSettings = {
-      amount: 1,
+      depth: 1,
       bevelEnabled: true,
       bevelSegments: 2,
       steps: 2,

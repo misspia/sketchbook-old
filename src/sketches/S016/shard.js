@@ -37,8 +37,8 @@ export default class Shard {
       premultipliedAlpha: true,
       envMap: this.environment.envMap,
       side: THREE.DoubleSide,
-      sheen: new THREE.Color(0xffffff).convertGammaToLinear(2.2),
-      color: new THREE.Color(0xffffff).convertGammaToLinear(2.2),
+      sheen: new THREE.Color(0xb3b1a6).convertGammaToLinear(2.2),
+      color: new THREE.Color(0xb3b1a6).convertGammaToLinear(2.2),
       refractionRatio: 1.0 / 1.6,
     };
     this.material = new THREE.MeshPhysicalMaterial(glassParams);

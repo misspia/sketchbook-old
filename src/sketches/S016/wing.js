@@ -1,37 +1,40 @@
 import * as THREE from 'three';
 import utils from '../utils';
-import { RGBAIntegerFormat } from 'three';
+import Feather from './feather';
+import WingBase from './wingBase';
 
 export default class Wing {
-  constructor() {
+  constructor(environment) {
+    this.environment = environment;
     this.pivot = new THREE.Group();
 
-    this.base = {};
+    this.base = new WingBase(this.environment, {
+      metalness: 0.1,
+      roughness: 1,
+      opacity: 1.0,
+      sheen: 0xb5b5b5,
+      color: 0xb5b5b5,
+    });
 
+    this.numFeathers = 15;
+    this.feathers = [];
+    this.feathersPivot = new THREE.Group();
 
-    this.createBase();
+    this.createFeathers();
 
-    this.pivot.add(this.base);
+    this.pivot.add(this.base.pivot);
+    this.pivot.add(this.feathersPivot);
   }
 
   get position() {
     return this.pivot.position;
   }
 
-  createBase() {
-    const points = new Array(10).fill(0).map((_el, index) => (
-      new THREE.Vector2(Math.sin(index * 0.2) * 10 + 5, (index - 5) * 2)
-    ));
-    const geometry = new THREE.LatheGeometry(points, 2, 0, 3.7);
-    const material = new THREE.MeshBasicMaterial({
-      color: 0xffffff,
-      side: THREE.DoubleSide,
-    });
-    this.base = new THREE.Mesh(geometry, material);
-
-    const scale = 0.08;
-    this.base.scale.set(scale, scale, scale)
-    this.base.rotation.y += utils.toRadians(180);
-    this.base.rotation.z += utils.toRadians(90);
+  createFeathers() {
+    for (let i = 0; i < this.numFeathers; i++) {
+      const feather = new Feather({ color: 0xffffff });
+      this.feathers.push(feather);
+      this.feathersPivot.add(feather.pivot);
+    }
   }
 }
