@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import utils from '../utils';
 import Feather from './feather';
+import FeatherSystem from './featherSystem';
 import WingBase from './wingBase';
 
 export default class Wing {
@@ -15,26 +16,17 @@ export default class Wing {
       sheen: 0xb5b5b5,
       color: 0xb5b5b5,
     });
-
-    this.numFeathers = 15;
-    this.feathers = [];
-    this.feathersPivot = new THREE.Group();
-
-    this.createFeathers();
+    this.featherSystem = new FeatherSystem({});
 
     this.pivot.add(this.base.pivot);
-    this.pivot.add(this.feathersPivot);
+    this.pivot.add(this.featherSystem.pivot);
   }
 
   get position() {
     return this.pivot.position;
   }
 
-  createFeathers() {
-    for (let i = 0; i < this.numFeathers; i++) {
-      const feather = new Feather({ color: 0xffffff });
-      this.feathers.push(feather);
-      this.feathersPivot.add(feather.pivot);
-    }
+  update() {
+    this.featherSystem.update();
   }
 }

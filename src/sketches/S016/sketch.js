@@ -33,6 +33,7 @@ class Sketch extends SketchManagerThree {
   draw() {
     this.stats.begin();
 
+    this.wing.update();
     this.stats.end();
 
     this.renderer.render(this.scene, this.camera);

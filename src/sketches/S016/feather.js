@@ -2,18 +2,54 @@ import * as THREE from 'three';
 
 export default class Feather {
   constructor({
-    color
+    color,
+    velocityRotateX,
+    velocityRotateY,
+    velocityRotateZ,
+    velocityTranslateX,
+    velocityTranslateY,
+    velocityTranslateZ,
+    minX,
+    minY,
+    minZ,
+    maxX,
+    maxY,
+    maxZ,
   }) {
+    this.color = color || 0xffffff;
+    this.velocityRotateX = velocityRotateX || 0.1;
+    this.velocityRotateY = velocityRotateY || 0.1;
+    this.velocityRotateZ = velocityRotateZ || 0.1;
+    this.velocityTranslateX = velocityTranslateX || 0.1;
+    this.velocityTranslateY = velocityTranslateY || 0.1;
+    this.velocityTranslateZ = velocityTranslateZ || 0.1;
+    this.minX = minX || 0;
+    this.minY = minY || 0;
+    this.minZ = minZ || 0;
+    this.maxX = maxX || 1;
+    this.maxY = maxY || 1;
+    this.maxZ = maxZ || 1;
+
     const geometry = this.createFeatherGeometry(0.01);
     this.material = new THREE.MeshBasicMaterial({
-      color
+      color: this.color,
     });
 
-    this.pivot = new THREE.Mesh(geometry, this.material);
+    this.mesh = new THREE.Mesh(geometry, this.material);
+    this.pivot = new THREE.Group();
+
+    this.pivot.add(this.mesh);
+
+    const bbox = new THREE.Box3().setFromObject(this.mesh);
+    this.mesh.position.y -= (bbox.max.y + bbox.min.y) / 2;
   }
 
   get position() {
     return this.pivot.position;
+  }
+
+  get rotation() {
+    return this.pivot.rotation;
   }
 
   createFeatherGeometry(size = 1) {
@@ -33,5 +69,9 @@ export default class Feather {
     geometry.scale(size, size, size);
 
     return geometry;
+  }
+
+  update() {
+
   }
 }
