@@ -30,9 +30,10 @@ export default class Feather {
     this.maxY = maxY || 1;
     this.maxZ = maxZ || 1;
 
-    const geometry = this.createFeatherGeometry(0.01);
+    const geometry = this.createFeatherGeometry(0.005);
     this.material = new THREE.MeshBasicMaterial({
       color: this.color,
+      transparent: true,
     });
 
     this.mesh = new THREE.Mesh(geometry, this.material);
@@ -50,6 +51,15 @@ export default class Feather {
 
   get rotation() {
     return this.pivot.rotation;
+  }
+
+  get opacity() {
+    return this.material.opacity;
+  }
+
+  set opacity(value) {
+    this.material.opacity = value;
+    // console.debug(this.material.opacity)
   }
 
   createFeatherGeometry(size = 1) {

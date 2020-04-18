@@ -5,7 +5,7 @@ import utils from '../utils';
 export default class FeatherSystem {
   constructor(params = {}) {
     this.params = {
-      numFeathers: 15,
+      numFeathers: 1,
 
       ...params,
     };
@@ -47,21 +47,30 @@ export default class FeatherSystem {
       feather.rotation.y += feather.velocityRotateY;
       feather.rotation.z += feather.velocityRotateZ;
 
+      const opacityThreeshold = (feather.maxX - feather.minX) * 0.8;
+      const velocityOpacity = utils.remap(feather.maxX, feather.minX, 0, 1, feather.maxX - feather.minX);
+
+      if (feather.position.x < opacityThreeshold) {
+        feather.opacity = 1;
+      } else {
+        feather.opacity = feather.opacity - velocityOpacity;
+      }
     });
   }
 
   createFeathers() {
     for (let i = 0; i < this.params.numFeathers; i++) {
+      const translateVelocity = utils.randomFloatBetween(0.01, 0.06)
       const feather = new Feather({
         color: 0xffffff,
         velocityRotateX: utils.randomFloatBetween(0.001, 0.1),
-        velocityRotateY: utils.randomFloatBetween(0.001, 0.1),
+        velocityRotateY: utils.randomFloatBetween(0.05, 0.1),
         velocityRotateZ: utils.randomFloatBetween(0.001, 0.1),
-        velocityTranslateX: utils.randomFloatBetween(0.01, 0.06),
-        velocityTranslateY: utils.randomFloatBetween(0.001, 0.05),
-        velocityTranslateZ: utils.randomFloatBetween(0.001, 0.1),
-        minX: 0.5,
-        minY: 0,
+        velocityTranslateX: translateVelocity,
+        velocityTranslateY: translateVelocity,
+        velocityTranslateZ: translateVelocity,
+        minX: 0.25,
+        minY: 0.25,
         minZ: 0,
         maxX: utils.randomFloatBetween(4, 5),
         maxY: utils.randomFloatBetween(4, 5),
