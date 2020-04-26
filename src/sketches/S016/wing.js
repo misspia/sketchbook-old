@@ -18,7 +18,7 @@ export default class Wing {
     });
     this.featherSystem = new FeatherSystem({});
 
-    this.pivot.add(this.base.pivot);
+    // this.pivot.add(this.base.pivot);
     this.pivot.add(this.featherSystem.pivot);
   }
 

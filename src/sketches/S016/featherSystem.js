@@ -5,7 +5,7 @@ import utils from '../utils';
 export default class FeatherSystem {
   constructor(params = {}) {
     this.params = {
-      numFeathers: 1,
+      numFeathers: 15,
 
       ...params,
     };
@@ -60,7 +60,9 @@ export default class FeatherSystem {
 
   createFeathers() {
     for (let i = 0; i < this.params.numFeathers; i++) {
-      const translateVelocity = utils.randomFloatBetween(0.01, 0.06)
+      const translateVelocity = utils.randomFloatBetween(0.01, 0.06);
+      const maxPos = utils.randomFloatBetween(4, 5);
+      const minPos = utils.randomFloatBetween(0, 1);
       const feather = new Feather({
         color: 0xffffff,
         velocityRotateX: utils.randomFloatBetween(0.001, 0.1),
@@ -69,13 +71,15 @@ export default class FeatherSystem {
         velocityTranslateX: translateVelocity,
         velocityTranslateY: translateVelocity,
         velocityTranslateZ: translateVelocity,
-        minX: 0.25,
-        minY: 0.25,
+        minX: minPos,
+        minY: minPos,
         minZ: 0,
-        maxX: utils.randomFloatBetween(4, 5),
-        maxY: utils.randomFloatBetween(4, 5),
-        maxZ: utils.randomFloatBetween(4, 5),
+        maxX: maxPos,
+        maxY: maxPos,
+        maxZ: maxPos,
       });
+      feather.position.set(minPos, minPos, 0);
+
       this.feathers.push(feather);
       this.pivot.add(feather.pivot);
     }
