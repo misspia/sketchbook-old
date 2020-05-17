@@ -18,6 +18,18 @@ import S014 from './S014/sketch';
 import S015 from './S015/sketch';
 import S016 from './S016/sketch';
 
+
+/**
+ * Sketch fields
+ * title: string
+ * image: Image Object
+ * sketch: Sketch
+ * instructions: string (optional)
+ * isAudio: bool (optional)
+ * isWebcam: bool (optional)
+ */
+
+
 const Sketches = [
   {
     title: 'Metaballs',
@@ -110,9 +122,19 @@ const Sketches = [
   {
     title: '',
     instructions: ``,
+    isWebcam: true,
     image: Images.S015,
     sketch: S016,
   },
+
+  // {
+  //   title: '',
+  //   image: Images.S,
+  //   sketch: S,
+  //   instructions: ``,
+  //   isAudio: false,
+  //   isWebcam: false,
+  // },
 ];
 
 export default Sketches;
