@@ -4,11 +4,10 @@ export default class Audio {
 
     this.audioElement = audioElement;
     this.configElement(audioSrc);
-    
+
     this.context = new AudioContext();
     this.source = this.context.createMediaElementSource(this.audioElement);
     this.analyser = this.context.createAnalyser();
-
 
     this.source.connect(this.analyser);
     this.source.connect(this.context.destination);
