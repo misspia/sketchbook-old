@@ -41,7 +41,7 @@ class Sketch extends SketchManagerThree {
     const audioConfig = { fftSize: this.fftSize };
     this.initAudio(audioConfig);
     this.audio.setSommothingTimeConstant(0.85);
-    this.audio.volume(0.1);
+    this.audio.volume(0.01);
 
     this.scene.add(this.debris.pivot)
     // this.scene.add(this.shard.pivot);

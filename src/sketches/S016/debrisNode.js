@@ -8,13 +8,18 @@ const palette = [
 
 export default class DebrisNode {
   constructor() {
-    this.centerCoord = new THREE.Vector3();
-    this.radius = utils.randomFloatBetween(0.1, 5);
+    this.minY = 0;
+    this.maxY = 5;
+    this.centerCoord = new THREE.Vector3(
+      0,
+      utils.randomFloatBetween(this.minY, this.maxY),
+      0,
+    );
+    this.radius = utils.randomFloatBetween(0.1, 6);
     this.angle = utils.randomFloatBetween(0, 2 * Math.PI);
     this.rotation = new THREE.Vector3();
+    this.scale = 1;
 
-    this.minY = 1;
-    this.maxY = 3;
     this.yVelocity = utils.randomFloatBetween(0.001, 0.01);
     this.angleVelocity = utils.randomFloatBetween(0.001, 0.01);
     this.rotationVelocity = new THREE.Vector3(
@@ -35,6 +40,7 @@ export default class DebrisNode {
     });
     this.pivot = new THREE.Mesh(this.geometry, this.material);
     this.updatePosition();
+    this.updateScale();
   }
 
   get position() {
@@ -50,6 +56,21 @@ export default class DebrisNode {
     this.position.set(pos.x, pos.y, pos.z);
   }
 
+  updateScale() {
+    if(this.position.y >= 4) {
+      const distanceToMax = this.maxY - this.position.y;
+      this.scale = utils.remap(0, 1, 0.01, 1, distanceToMax);
+    } else {
+      const distanceToMin = Math.min(1, this.position.y - this.minY);
+      this.scale = utils.remap(0, 1, 0.01, 1, distanceToMin);
+    }
+    this.pivot.scale.set(
+      this.scale,
+      this.scale,
+      this.scale,
+    );
+  }
+
   update() {
     if(this.centerCoord.y >= this.maxY) {
       this.centerCoord.y = this.minY;
@@ -63,5 +84,6 @@ export default class DebrisNode {
     this.pivot.rotation.z += this.rotationVelocity.z;
 
     this.updatePosition();
+    this.updateScale();
   }
 }
