@@ -16,6 +16,11 @@ export default class Audio {
 
     this.play();
   }
+
+  setSommothingTimeConstant(val) {
+    this.analyser.smoothingTimeConstant = val;
+  }
+
   configElement(audioSrc) {
     const { audioElement } = this;
     audioElement.crossOrigin = 'anonymous';

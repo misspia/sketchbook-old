@@ -122,7 +122,7 @@ const Sketches = [
   {
     title: '',
     instructions: ``,
-    isWebcam: true,
+    isAudio: true,
     image: Images.S015,
     sketch: S016,
   },
