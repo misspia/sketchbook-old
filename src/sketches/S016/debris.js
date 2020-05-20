@@ -25,6 +25,6 @@ export default class Debris {
   }
 
   update() {
-
+    this.debris.forEach((node) => node.update());
   }
 }

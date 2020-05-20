@@ -32,7 +32,8 @@ class Sketch extends SketchManagerThree {
 
   init() {
     this.createStats();
-    this.setCameraPos(0, 0, 110);
+    // this.setCameraPos(0, 0, 110);
+    this.setCameraPos(0, 5, 10);
     this.setClearColor(0x111111);
     this.lookAt(0, 0, 0);
     this.camera.updateProjectionMatrix();
@@ -40,6 +41,7 @@ class Sketch extends SketchManagerThree {
     const audioConfig = { fftSize: this.fftSize };
     this.initAudio(audioConfig);
     this.audio.setSommothingTimeConstant(0.85);
+    this.audio.volume(0.1);
 
     this.scene.add(this.debris.pivot)
     // this.scene.add(this.shard.pivot);
@@ -89,6 +91,8 @@ class Sketch extends SketchManagerThree {
     this.audio.getByteFrequencyData();
 
     this.stats.end();
+
+    this.debris.update();
 
     this.renderer.render(this.scene, this.camera);
     requestAnimationFrame(() => this.draw());
