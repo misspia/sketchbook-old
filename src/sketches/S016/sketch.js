@@ -4,9 +4,9 @@ import { Audio } from '../../themes';
 
 import Environment from './environment';
 import Shard from './shard';
-import Wing from './wing';
 import utils from '../utils';
 import Debris from './debris';
+import Floor from './floor';
 
 class Sketch extends SketchManagerThree {
   constructor(canvas, audioElement) {
@@ -26,6 +26,10 @@ class Sketch extends SketchManagerThree {
 
     this.bars = [];
     this.debris = new Debris();
+    this.floor = new Floor({
+      size: 10,
+      divisions: 10,
+    });
 
   }
   unmount() {}
@@ -33,7 +37,8 @@ class Sketch extends SketchManagerThree {
   init() {
     this.createStats();
     // this.setCameraPos(0, 0, 110);
-    this.setCameraPos(0, 5, 10);
+    // this.setCameraPos(0, 5, 10);
+    this.setCameraPos(0, 10, 0);
     this.setClearColor(0x111111);
     this.lookAt(0, 0, 0);
     this.camera.updateProjectionMatrix();
@@ -43,7 +48,8 @@ class Sketch extends SketchManagerThree {
     this.audio.setSommothingTimeConstant(0.85);
     this.audio.volume(0.01);
 
-    this.scene.add(this.debris.pivot)
+    this.scene.add(this.debris.pivot);
+    this.scene.add(this.floor.pivot);
     // this.scene.add(this.shard.pivot);
     // this.createBars();
 
