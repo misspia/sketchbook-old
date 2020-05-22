@@ -25,10 +25,15 @@ class Sketch extends SketchManagerThree {
     this.shard = new Shard(environment);
 
     this.bars = [];
-    this.debris = new Debris();
+
+    const size = 25;
+    this.debris = new Debris({
+      radius: size / 2,
+      numNodes: 20,
+    });
     this.floor = new Floor({
-      size: 18,
-      divisions: 18,
+      size,
+      divisions: 30,
     });
 
   }
@@ -37,8 +42,9 @@ class Sketch extends SketchManagerThree {
   init() {
     this.createStats();
     // this.setCameraPos(0, 0, 110);
-    this.setCameraPos(8, 10, 8);
-    this.setClearColor(0xffffff);
+    // this.setCameraPos(8, 15, 5);
+    this.setCameraPos(12, 8, 12);
+    this.setClearColor(0xd5d5d5);
     this.lookAt(0, 0, 0);
     this.camera.updateProjectionMatrix();
 

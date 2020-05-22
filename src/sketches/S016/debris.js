@@ -2,8 +2,9 @@ import * as THREE from 'three';
 import DebrisNode from './debrisNode';
 
 export default class Debris {
-  constructor() {
-    this.numNodes = 10;
+  constructor({ radius, numNodes = 10 }) {
+    this.radius = radius;
+    this.numNodes = numNodes;
 
     this.debris = [];
 
@@ -17,7 +18,12 @@ export default class Debris {
 
   init() {
     for(let i = 0; i < this.numNodes; i ++) {
-      const node = new DebrisNode();
+      const node = new DebrisNode({
+        minRadius: 0.1,
+        maxRadius: this.radius,
+        minY: 0.5,
+        maxY: 5,
+      });
 
       this.debris.push(node);
       this.pivot.add(node.pivot);

@@ -1,7 +1,6 @@
 import * as THREE from 'three';
 import Tile from './tile';
 import FloorBack from './floorBack';
-import utils from '../utils';
 
 export default class Floor {
   constructor({ size = 1, divisions = 1 }) {
@@ -56,5 +55,4 @@ export default class Floor {
   update() {
     this.tiles.forEach(tile => tile.update());
   }
-
 }

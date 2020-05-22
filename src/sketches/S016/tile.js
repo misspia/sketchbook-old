@@ -4,7 +4,7 @@ export default class Tile {
   constructor(size) {
     this.geometry = new THREE.BoxGeometry(size, 0.01, size);
     this.material = new THREE.MeshBasicMaterial({
-      color: 0xffffff,
+      color: 0xd5d5d5,
     });
 
     this.pivot = new THREE.Mesh(this.geometry, this.material);

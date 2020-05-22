@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import utils from '../utils';
 
 const palette = [
+  0x4c4c4e,
   0xaaaaaf,
   0xf1ebeb,
   0x111111,
@@ -9,15 +10,20 @@ const palette = [
 ];
 
 export default class DebrisNode {
-  constructor() {
-    this.minY = 0;
-    this.maxY = 5;
+  constructor({
+    minRadius = 1,
+    maxRadius = 10,
+    minY = 0,
+    maxY = 5,
+  }) {
+    this.minY = minY;
+    this.maxY = maxY;
     this.centerCoord = new THREE.Vector3(
       0,
       utils.randomFloatBetween(this.minY, this.maxY),
       0,
     );
-    this.radius = utils.randomFloatBetween(0.1, 6);
+    this.radius = utils.randomFloatBetween(minRadius, maxRadius);
     this.angle = utils.randomFloatBetween(0, 2 * Math.PI);
     this.rotation = new THREE.Vector3();
     this.scale = 1;
@@ -31,9 +37,9 @@ export default class DebrisNode {
     );
 
     this.geometry = new THREE.BoxGeometry(
-      utils.randomFloatBetween(0.1, 1),
-      utils.randomFloatBetween(0.1, 1),
-      utils.randomFloatBetween(0.1, 1),
+      utils.randomFloatBetween(0.05, 0.5),
+      utils.randomFloatBetween(0.05, 0.5),
+      utils.randomFloatBetween(0.05, 0.5),
     );
 
     const paletteIndex = utils.randomIntBetween(0, palette.length - 1);
