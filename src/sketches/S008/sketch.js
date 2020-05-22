@@ -72,7 +72,7 @@ class Sketch extends SketchManagerThree {
       this.layer1.nodes[index].update(freq, time);
       this.layer2.nodes[index].update(freq, time);
     })
-  
+
   }
   draw() {
     this.audio.getByteFrequencyData();

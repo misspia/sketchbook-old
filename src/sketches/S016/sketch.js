@@ -27,8 +27,8 @@ class Sketch extends SketchManagerThree {
     this.bars = [];
     this.debris = new Debris();
     this.floor = new Floor({
-      size: 10,
-      divisions: 10,
+      size: 18,
+      divisions: 18,
     });
 
   }
@@ -37,9 +37,8 @@ class Sketch extends SketchManagerThree {
   init() {
     this.createStats();
     // this.setCameraPos(0, 0, 110);
-    // this.setCameraPos(0, 5, 10);
-    this.setCameraPos(0, 10, 0);
-    this.setClearColor(0x111111);
+    this.setCameraPos(8, 10, 8);
+    this.setClearColor(0xffffff);
     this.lookAt(0, 0, 0);
     this.camera.updateProjectionMatrix();
 

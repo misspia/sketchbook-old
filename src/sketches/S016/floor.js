@@ -1,17 +1,19 @@
 import * as THREE from 'three';
 import Tile from './tile';
+import FloorBack from './floorBack';
 import utils from '../utils';
 
 export default class Floor {
   constructor({ size = 1, divisions = 1 }) {
+    this.tileBorderWidth = 0.05;
     this.size = size;
     this.divisions = divisions;
     this.tiles = [];
 
-    this.floor = {};
+    this.floorBack = new FloorBack(size);
 
     this.pivot = new THREE.Group();
-    this.createFloor();
+    this.pivot.add(this.floorBack.pivot)
     this.createTiles();
   }
 
@@ -19,34 +21,15 @@ export default class Floor {
     return this.pivot.position;
   }
 
-  createFloor() {
-    const geometry = new THREE.PlaneGeometry(
-      this.size,
-      this.size,
-      this.divisions,
-      this.divisions
-    );
-    const material = new THREE.MeshBasicMaterial({
-      color: 0x000000,
-      side: THREE.DoubleSide,
-    });
-    this.floor = new THREE.Mesh(geometry, material);
-    this.floor.rotation.x += utils.toRadians(90);
-    this.pivot.add(this.floor);
-  }
-
   createTiles() {
     const tilesPerRow = this.divisions;
     const numTiles = Math.pow(this.divisions, 2);
-    const borderWidth = 0.1;
-    const totalTilesWidth = this.size - borderWidth * 2;
-    const tileSize = totalTilesWidth / this.divisions - borderWidth;
+    const borderWidth = 0.02;
+    const tileSize = this.size / this.divisions - borderWidth;
 
-    const floorBbox = new THREE.Box3().setFromObject(this.floor);
-    const xStart = floorBbox.min.x + tileSize / 2 + borderWidth;
-    const zStart = floorBbox.min.z + tileSize / 2 + borderWidth;
+    const xStart = this.floorBack.min.x + tileSize / 2;
+    const zStart = this.floorBack.min.z + tileSize / 2;
     let x = xStart;
-    let y = 0.1;
     let z = zStart;
 
     const xIncrement = tileSize + borderWidth;
@@ -55,7 +38,8 @@ export default class Floor {
     for(let i = 1; i <= numTiles; i++) {
       const tile = new Tile(tileSize);
 
-      tile.position.set(x, y, z);
+      tile.position.set(x, 0, z);
+      tile.realignY();
 
       this.tiles.push(tile);
       this.pivot.add(tile.pivot);
