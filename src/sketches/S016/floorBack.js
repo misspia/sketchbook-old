@@ -1,6 +1,6 @@
 import * as THREE from 'three';
-import fragmentShader from './shaders/plane.frag';
-import vertexShader from './shaders/plane.vert';
+import fragmentShader from './shaders/floorTint.frag';
+import vertexShader from './shaders/floorTint.vert';
 import utils from '../utils';
 
 export default class FloorBack {
