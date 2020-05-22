@@ -3,6 +3,8 @@ import utils from '../utils';
 
 const palette = [
   0xaaaaaf,
+  0xf1ebeb,
+  0x111111,
   0x000000,
 ];
 
