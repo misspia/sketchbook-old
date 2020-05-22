@@ -14,6 +14,5 @@ varying vec2 vUv;
 void main () {
   vUv = uv;
   dist = length(position.xyz);
-  // dist = distance(uv.xy, vec2(0.0));
   gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
 }

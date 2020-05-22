@@ -13,7 +13,7 @@ void main() {
   const vec3 color = vec3(0.0, 0.0, 0.0);
   float opacity = 1.0;
 
-  float threshold = uRadius * 0.84;
+  float threshold = uRadius * 0.8;
   if(dist >= threshold) {
     float offsetDist = remap(dist, threshold, uRadius, 0.0, 1.0);
     opacity = 1.0 - offsetDist;
