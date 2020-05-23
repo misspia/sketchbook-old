@@ -20,7 +20,7 @@ class Sketch extends SketchManagerThree {
     this.spectrumStart = {
       bass: 0,
       midrange: 13,
-      high: 75,
+      highrange: 75,
     }
     this.lights = new Lights();
     this.beatManager = new BeatManager(this);
@@ -49,7 +49,6 @@ class Sketch extends SketchManagerThree {
   init() {
     this.createStats();
     // this.setCameraPos(0, 0, 110);
-    // this.setCameraPos(8, 15, 5);
     this.setCameraPos(12, 8, 12);
     this.setClearColor(0xd5d5d5);
     this.lookAt(0, 0, 0);
@@ -122,6 +121,7 @@ class Sketch extends SketchManagerThree {
 
     this.beatManager.update();
     this.effectManager.update();
+    this.floor.update();
     this.effectManager.render();
 
     requestAnimationFrame(() => this.draw());

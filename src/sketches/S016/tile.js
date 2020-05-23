@@ -2,23 +2,20 @@ import * as THREE from 'three';
 import utils from '../utils';
 
 export default class Tile {
-  constructor(size) {
-    const height = utils.randomFloatBetween(0.01, 1);
-
-    // this.geometry = new THREE.BoxGeometry(size, 0.01, size);
-    this.geometry = new THREE.BoxGeometry(size, height, size);
+  constructor(size, freqIndex) {
+    this.freqIndex = freqIndex;
+    this.geometry = new THREE.BoxGeometry(size, 2, size);
     this.material = new THREE.MeshLambertMaterial({
       color: 0xd5d5d5,
-      // color: 0xff0000,
     });
 
     this.pivot = new THREE.Mesh(this.geometry, this.material);
     this.pivot.receiveShadow = true;
 
     this.bbox = new THREE.Box3().setFromObject(this.pivot);
+    this.size = new THREE.Vector3();
 
-    // this.pivot.scale.y = 0.01;
-    // this.realignY();
+    this.height = 0.001;
   }
 
   get position() {
@@ -37,17 +34,30 @@ export default class Tile {
     return this.max.y - this.min.y;
   }
 
+  set height(scale) {
+    this.pivot.scale.y = scale;
+    this.realignY();
+  }
+
+  updateSize() {
+    this.bbox.setFromObject(this.pivot);
+    this.bbox.getSize(this.size);
+  }
+
   getCenter(target) {
     this.bbox.getCenter(target)
   }
 
   realignY() {
-    const yOffset = this.height / 2;
-    console.debug(yOffset)
-    this.position.y += yOffset;
+    this.updateSize();
+    this.position.y = this.size.y / 2;
   }
 
-  update() {
+  remapFreq() {
 
+  }
+
+  update(freq) {
+    this.height = utils.remap(0, 255, 0.001, 1, freq);
   }
 }

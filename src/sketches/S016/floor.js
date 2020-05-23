@@ -1,10 +1,13 @@
 import * as THREE from 'three';
 import Tile from './tile';
 import FloorBack from './floorBack';
+import utils from '../utils';
 
 export default class Floor {
   constructor(context, { size = 1, divisions = 1 }) {
     this.context = context;
+    this.spectrumStart = context.spectrumStart;
+
     this.tileBorderWidth = 0.05;
     this.size = size;
     this.divisions = divisions;
@@ -22,6 +25,7 @@ export default class Floor {
   }
 
   createTiles() {
+    const { bass, midrange, highrange } = this.spectrumStart;
     const tilesPerRow = this.divisions;
     const numTiles = Math.pow(this.divisions, 2);
     const borderWidth = 0.02;
@@ -36,7 +40,9 @@ export default class Floor {
     const zIncrement = tileSize + borderWidth;
 
     for(let i = 1; i <= numTiles; i++) {
-      const tile = new Tile(tileSize);
+      let isActive = utils.weightedRandomBool(0.1);
+      const freqIndex = isActive ? utils.randomIntBetween(midrange, highrange) : -1;
+      const tile = new Tile(tileSize, freqIndex);
 
       tile.position.set(x, 0, z);
       tile.realignY();
@@ -54,6 +60,9 @@ export default class Floor {
   }
 
   update() {
-    this.tiles.forEach(tile => tile.update());
+    this.tiles.forEach(tile => {
+      const freq = tile.freqIndex === -1 ? 0 : this.context.audio.frequencyData[tile.freqIndex];
+      tile.update(freq);
+    });
   }
 }
