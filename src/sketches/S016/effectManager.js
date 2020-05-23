@@ -5,13 +5,12 @@ export default class EffectManager {
   constructor(context) {
     this.context = context;
     this.spectrumStart = context.spectrumStart;
+    this.beatManager = context.beatManager;
     this.pp = new PP(this.context);
     this.audio = context.audio;
 
     this.glitchPass = {};
-    this.bassAverages = [];
-    this.bassThreshold = 24;
-    this.isBassTriggered = false;
+    this.isGlitchTriggered = false;
 
     this.init();
   }
@@ -26,38 +25,25 @@ export default class EffectManager {
   }
 
   updateGlitch() {
-    const { bass, midrange } = this.spectrumStart;
-
-    let avg = 0;
-    for(let i = bass; i < midrange; i++) {
-      avg += this.context.audio.frequencyData[i];
-    }
-    avg /= (midrange - bass);
-
-    this.bassAverages.push(avg);
-
-    if(this.bassAverages.length !== 0) {
-      const currAvgIndex = this.bassAverages.length - 1;
-      const delta = this.bassAverages[currAvgIndex] - this.bassAverages[currAvgIndex - 1];
-      if(delta > this.bassThreshold) {
-        // console.debug('[BEAT]', delta);
+    const { bassAverages, bassThreshold } = this.beatManager;
+    if(bassAverages.length !== 0) {
+      const currAvgIndex = bassAverages.length - 1;
+      const delta = bassAverages[currAvgIndex] - bassAverages[currAvgIndex - 1];
+      if(delta > bassThreshold) {
         this.glitchPass.curF = 0;
-        this.isBassTriggered = true;
+        this.isGlitchTriggered = true;
       }
 
       // stop glitch
-      if(this.glitchPass.curF >= 20 && this.isBassTriggered) {
+      if(this.glitchPass.curF >= 20 && this.isGlitchTriggered) {
         this.glitchPass.curF = 100; // no glitch at 100
       }
     }
   }
 
   render() {
-    this.update();
-
     this.context.renderer.autoClear = false;
     this.context.renderer.clear();
     this.pp.render();
   }
-
 }

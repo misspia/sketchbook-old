@@ -6,6 +6,7 @@ import utils from '../utils';
 import Environment from './environment';
 import Shard from './shard';
 import EffectManager from './effectManager';
+import BeatManager from './beatManager';
 import Debris from './debris';
 import Floor from './floor';
 
@@ -20,7 +21,7 @@ class Sketch extends SketchManagerThree {
       midrange: 13,
       high: 75,
     }
-    this.effectManager = {};
+    this.beatManager = new BeatManager(this);
     this.effectManager = new EffectManager(this);
 
     this.directionalLight = {};
@@ -115,6 +116,8 @@ class Sketch extends SketchManagerThree {
 
     this.stats.end();
 
+    this.beatManager.update();
+    this.effectManager.update();
     this.effectManager.render();
 
     requestAnimationFrame(() => this.draw());
