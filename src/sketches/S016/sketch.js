@@ -1,10 +1,11 @@
 import * as THREE from 'three';
 import SketchManagerThree from '../sketchManagerThree';
 import { Audio } from '../../themes';
+import utils from '../utils';
 
 import Environment from './environment';
 import Shard from './shard';
-import utils from '../utils';
+import EffectManager from './effectManager';
 import Debris from './debris';
 import Floor from './floor';
 
@@ -14,11 +15,13 @@ class Sketch extends SketchManagerThree {
     this.audioSrc = Audio.tester;
     this.numFrequencyNodes = 25;
     this.fftSize = 512;
-    this.spectrumHead = {
+    this.spectrumStart = {
       bass: 0,
-      midrange: 10,
-
+      midrange: 13,
+      high: 75,
     }
+    this.effectManager = {};
+    this.effectManager = new EffectManager(this);
 
     this.directionalLight = {};
     const environment = new Environment(this.renderer);
@@ -51,13 +54,12 @@ class Sketch extends SketchManagerThree {
     const audioConfig = { fftSize: this.fftSize };
     this.initAudio(audioConfig);
     this.audio.setSommothingTimeConstant(0.85);
-    this.audio.volume(0.01);
+    // this.audio.volume(0.01);
 
     this.scene.add(this.debris.pivot);
     this.scene.add(this.floor.pivot);
     // this.scene.add(this.shard.pivot);
     // this.createBars();
-
   }
 
   createBars() {
@@ -69,10 +71,10 @@ class Sketch extends SketchManagerThree {
     let color = 0xccbbff;
 
     for(let i = 0; i < 110; i++) {
-      if(i > 13) {
+      if(i > this.spectrumStart.midrange) {
         color = 0xffddee;
       }
-      if(i > 75) {
+      if(i > this.spectrumStart.high) {
         color = 0xccffbb;
       }
       const material = new THREE.MeshBasicMaterial({
@@ -92,6 +94,15 @@ class Sketch extends SketchManagerThree {
     })
   }
 
+  getPeaksAtThreshold(data, threshold) {
+    const peaks = [];
+    for(let i = 0; i < data.length;) {
+      if(data[i] > threshold) {
+        peaks.push(i);
+      }
+    }
+  }
+
   remapFreq(freq) {
     return utils.remap(0, 255, 0.001, 1, freq);
   }
@@ -100,12 +111,12 @@ class Sketch extends SketchManagerThree {
     this.stats.begin();
 
     this.audio.getByteFrequencyData();
+    this.debris.update();
 
     this.stats.end();
 
-    this.debris.update();
+    this.effectManager.render();
 
-    this.renderer.render(this.scene, this.camera);
     requestAnimationFrame(() => this.draw());
   }
 }
