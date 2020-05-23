@@ -12,7 +12,6 @@ import Floor from './floor';
 class Sketch extends SketchManagerThree {
   constructor(canvas, audioElement) {
     super(canvas, audioElement);
-    this.effectManager = new EffectManager(this);
     this.audioSrc = Audio.tester;
     this.numFrequencyNodes = 25;
     this.fftSize = 512;
@@ -21,6 +20,8 @@ class Sketch extends SketchManagerThree {
       midrange: 13,
       high: 75,
     }
+    this.effectManager = {};
+    this.effectManager = new EffectManager(this);
 
     this.directionalLight = {};
     const environment = new Environment(this.renderer);
@@ -53,7 +54,7 @@ class Sketch extends SketchManagerThree {
     const audioConfig = { fftSize: this.fftSize };
     this.initAudio(audioConfig);
     this.audio.setSommothingTimeConstant(0.85);
-    this.audio.volume(0.01);
+    // this.audio.volume(0.01);
 
     this.scene.add(this.debris.pivot);
     this.scene.add(this.floor.pivot);
@@ -91,6 +92,15 @@ class Sketch extends SketchManagerThree {
     this.audio.frequencyData.forEach((freq, index) => {
       this.bars[index].scale.y = this.remapFreq(freq);
     })
+  }
+
+  getPeaksAtThreshold(data, threshold) {
+    const peaks = [];
+    for(let i = 0; i < data.length;) {
+      if(data[i] > threshold) {
+        peaks.push(i);
+      }
+    }
   }
 
   remapFreq(freq) {

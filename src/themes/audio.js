@@ -3,9 +3,9 @@ export const BASE_URL = 'https://raw.githubusercontent.com/misspia/assets/master
 
 const Audio = {
   elemId: 'audio',
-  // tester: require('./misc/black.mp3'),
+  tester: require('./misc/black.mp3'),
 
-  tester: require('./misc/illusion.mp3'),
+  // tester: require('./misc/illusion.mp3'),
   // tester: require('./misc/dust.mp3'),
   // tester: require('./misc/mindgames.mp3'),
   // tester: require('./misc/soldiers.mp3'),
