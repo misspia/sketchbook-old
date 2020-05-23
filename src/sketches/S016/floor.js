@@ -3,7 +3,8 @@ import Tile from './tile';
 import FloorBack from './floorBack';
 
 export default class Floor {
-  constructor({ size = 1, divisions = 1 }) {
+  constructor(context, { size = 1, divisions = 1 }) {
+    this.context = context;
     this.tileBorderWidth = 0.05;
     this.size = size;
     this.divisions = divisions;

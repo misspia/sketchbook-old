@@ -9,6 +9,7 @@ import EffectManager from './effectManager';
 import BeatManager from './beatManager';
 import Debris from './debris';
 import Floor from './floor';
+import Lights from './lights';
 
 class Sketch extends SketchManagerThree {
   constructor(canvas, audioElement) {
@@ -21,10 +22,10 @@ class Sketch extends SketchManagerThree {
       midrange: 13,
       high: 75,
     }
+    this.lights = new Lights();
     this.beatManager = new BeatManager(this);
     this.effectManager = new EffectManager(this);
 
-    this.directionalLight = {};
     const environment = new Environment(this.renderer);
     this.shard = new Shard(environment);
 
@@ -35,7 +36,9 @@ class Sketch extends SketchManagerThree {
       radius: size / 2,
       numNodes: 20,
     });
-    this.floor = new Floor({
+    this.floor = new Floor(
+      this,
+      {
       size,
       divisions: 30,
     });
@@ -57,6 +60,7 @@ class Sketch extends SketchManagerThree {
     this.audio.setSommothingTimeConstant(0.85);
     // this.audio.volume(0.01);
 
+    this.scene.add(this.lights.directional);
     this.scene.add(this.debris.pivot);
     this.scene.add(this.floor.pivot);
     // this.scene.add(this.shard.pivot);
