@@ -1,8 +1,10 @@
 import * as THREE from 'three';
 import DebrisNode from './debrisNode';
+import utils from '../utils';
 
 export default class Debris {
-  constructor({ radius, numNodes = 10 }) {
+  constructor(context, { radius, numNodes = 10 }) {
+    this.context = context;
     this.radius = radius;
     this.numNodes = numNodes;
 
@@ -18,7 +20,10 @@ export default class Debris {
 
   init() {
     for(let i = 0; i < this.numNodes; i ++) {
+      const { bass, midrange } = this.context.spectrumStart;
+      const freqIndex = utils.randomIntBetween(bass, midrange);
       const node = new DebrisNode({
+        freqIndex,
         minRadius: 0.1,
         maxRadius: this.radius,
         minY: 0.5,
@@ -30,7 +35,9 @@ export default class Debris {
     }
   }
 
-  update() {
-    this.debris.forEach((node) => node.update());
+  update(frequencies) {
+    this.debris.forEach((node) => (
+      node.update(frequencies[node.freqIndex])
+    ));
   }
 }

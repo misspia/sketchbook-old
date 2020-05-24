@@ -25,6 +25,9 @@ const utils = {
   randomBool: () => (
     Math.random() >= 0.5
   ),
+  weightedRandomBool: (trueWeight) => (
+    Math.random() <= trueWeight
+  ),
   randomSign: () => (
     Math.random() >= 0.5 ? 1 : -1
   ),

@@ -17,11 +17,7 @@ export default class Audio {
     this.play();
   }
 
-  createOfflineContext() {
-
-  }
-
-  setSommothingTimeConstant(val) {
+  setSmoothingTimeConstant(val) {
     this.analyser.smoothingTimeConstant = val;
   }
 
@@ -59,9 +55,5 @@ export default class Audio {
   }
   createBiquadFilter() {
     return this.context.createBiquadFilter();
-  }
-
-  get tempo() {
-    return 0;
   }
 }
