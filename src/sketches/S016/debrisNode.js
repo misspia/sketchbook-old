@@ -32,19 +32,26 @@ export default class DebrisNode {
     this.rotation = new THREE.Vector3();
     this.scale = 1;
 
-    this.yVelocity = utils.randomFloatBetween(0.001, 0.01);
     this.minYVelocity = utils.randomFloatBetween(0.001, 0.005);
-    this.maxYVelocity = utils.randomFloatBetween(0.006, 0.01);
+    this.maxYVelocity = utils.randomFloatBetween(0.01, 0.015);
 
-    this.angleVelocity = utils.randomFloatBetween(0.001, 0.01);
     this.minAgleVelocity = utils.randomFloatBetween(0.001, 0.005);
-    this.maxAngleVelocity = utils.randomFloatBetween(0.006, 0.01);
+    this.maxAngleVelocity = utils.randomFloatBetween(0.017, 0.022);
 
-    this.rotationVelocity = new THREE.Vector3(
-      utils.randomFloatBetween(-0.01, 0.01),
-      utils.randomFloatBetween(-0.01, 0.01),
-      utils.randomFloatBetween(-0.01, 0.01),
-    );
+    this.rotationVelocity = {
+      x: 0,
+      y: 0,
+      z: 0,
+    };
+    const rotationSignX = utils.randomBool() ? -1 : 1;
+    this.minRotationVelocityX = utils.randomFloatBetween(0.001, 0.01) * rotationSignX;
+    this.maxRotationVelocityX = utils.randomFloatBetween(0.013, 0.018) * rotationSignX;
+    const rotationSignY = utils.randomBool() ? -1 : 1;
+    this.minRotationVelocityY = utils.randomFloatBetween(0.001, 0.01) * rotationSignY;
+    this.maxRotationVelocityY = utils.randomFloatBetween(0.013, 0.018) * rotationSignY;
+    const rotationSignZ = utils.randomBool() ? -1 : 1;
+    this.minRotationVelocityZ = utils.randomFloatBetween(0.001, 0.01) * rotationSignZ;
+    this.maxRotationVelocityZ = utils.randomFloatBetween(0.013, 0.018) * rotationSignZ;
 
     this.geometry = new THREE.BoxGeometry(
       utils.randomFloatBetween(0.05, 0.5),
@@ -57,7 +64,8 @@ export default class DebrisNode {
       vertexShader,
       fragmentShader,
       uniforms: {
-        uColor: { value: palette[paletteIndex] },
+        // uColor: { value: palette[paletteIndex] },
+        uColor: { value: new THREE.Vector3(0.6, 0.6, 0.6) },
         uFreq: { value: 0.0 },
       }
     });
@@ -95,17 +103,62 @@ export default class DebrisNode {
     );
   }
 
+  remapFreq(min, max, freq) {
+    return utils.remap(0, 255, min, max, freq);
+  }
+
+  remapAngleVelocity(freq) {
+    return this.remapFreq(
+      this.minAgleVelocity,
+      this.maxAngleVelocity,
+      freq
+    );
+  }
+
+  remapYVelocity(freq) {
+    return this.remapFreq(
+      this.minYVelocity,
+      this.maxYVelocity,
+      freq
+    );
+  }
+
+  remapRotationVelocityX(freq) {
+    return this.remapFreq(
+      this.minRotationVelocityX,
+      this.maxRotationVelocityX,
+      freq
+    );
+  }
+
+  remapRotationVelocityY(freq) {
+    return this.remapFreq(
+      this.minRotationVelocityY,
+      this.maxRotationVelocityY,
+      freq
+    );
+  }
+
+  remapRotationVelocityZ(freq) {
+    return this.remapFreq(
+      this.minRotationVelocityZ,
+      this.maxRotationVelocityZ,
+      freq
+    );
+  }
+
   update(freq) {
     if(this.centerCoord.y >= this.maxY) {
       this.centerCoord.y = this.minY;
     } else {
-      this.centerCoord.y += this.yVelocity;
+      this.centerCoord.y += this.remapYVelocity(freq);
     }
 
-    this.angle += this.angleVelocity;
-    this.pivot.rotation.x += this.rotationVelocity.x;
-    this.pivot.rotation.y += this.rotationVelocity.y;
-    this.pivot.rotation.z += this.rotationVelocity.z;
+    this.angle += this.remapAngleVelocity(freq);
+
+    this.pivot.rotation.x += this.remapRotationVelocityX(freq);
+    this.pivot.rotation.y += this.remapRotationVelocityY(freq);
+    this.pivot.rotation.z += this.remapRotationVelocityZ(freq);
 
     this.updatePosition();
     this.updateScale();

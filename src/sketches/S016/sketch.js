@@ -58,8 +58,8 @@ class Sketch extends SketchManagerThree {
 
     const audioConfig = { fftSize: this.fftSize, dataLength: this.frequencyDataLength };
     this.initAudio(audioConfig);
-    // this.audio.setSmoothingTimeConstant(0.85);
-    this.audio.setSmoothingTimeConstant(0.7);
+    this.audio.setSmoothingTimeConstant(0.85);
+    // this.audio.setSmoothingTimeConstant(0.7);
     // this.audio.volume(0.01);
     this.audio.volume(0.9);
 
