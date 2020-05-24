@@ -17,11 +17,11 @@ export default class EffectManager {
 
   init() {
     this.glitchPass = new GlitchPass();
-    this.pp.addPass(this.glitchPass);
+    // this.pp.addPass(this.glitchPass);
   }
 
   update() {
-    this.updateGlitch();
+    // this.updateGlitch();
   }
 
   updateGlitch() {

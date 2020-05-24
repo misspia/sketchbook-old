@@ -17,7 +17,7 @@ export default class Audio {
     this.play();
   }
 
-  setSommothingTimeConstant(val) {
+  setSmoothingTimeConstant(val) {
     this.analyser.smoothingTimeConstant = val;
   }
 

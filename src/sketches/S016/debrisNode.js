@@ -1,21 +1,25 @@
 import * as THREE from 'three';
 import utils from '../utils';
+import fragmentShader from './shaders/debris.frag';
+import vertexShader from './shaders/debris.vert';
 
 const palette = [
-  0x4c4c4e,
-  0xaaaaaf,
-  0xf1ebeb,
-  0x111111,
-  0x000000,
-];
+  new THREE.Vector3(0.3, 0.3, 0.31),
+  new THREE.Vector3(0.67, 0.67, 0.69),
+  new THREE.Vector3(0.95, 0.92, 0.92),
+  new THREE.Vector3(0.07, 0.07, 0.07),
+  new THREE.Vector3(0.0, 0.0, 0.0),
+]
 
 export default class DebrisNode {
   constructor({
+    freqIndex = 0,
     minRadius = 1,
     maxRadius = 10,
     minY = 0,
     maxY = 5,
   }) {
+    this.freqIndex = freqIndex;
     this.minY = minY;
     this.maxY = maxY;
     this.centerCoord = new THREE.Vector3(
@@ -29,7 +33,13 @@ export default class DebrisNode {
     this.scale = 1;
 
     this.yVelocity = utils.randomFloatBetween(0.001, 0.01);
+    this.minYVelocity = utils.randomFloatBetween(0.001, 0.005);
+    this.maxYVelocity = utils.randomFloatBetween(0.006, 0.01);
+
     this.angleVelocity = utils.randomFloatBetween(0.001, 0.01);
+    this.minAgleVelocity = utils.randomFloatBetween(0.001, 0.005);
+    this.maxAngleVelocity = utils.randomFloatBetween(0.006, 0.01);
+
     this.rotationVelocity = new THREE.Vector3(
       utils.randomFloatBetween(-0.01, 0.01),
       utils.randomFloatBetween(-0.01, 0.01),
@@ -43,9 +53,15 @@ export default class DebrisNode {
     );
 
     const paletteIndex = utils.randomIntBetween(0, palette.length - 1);
-    this.material = new THREE.MeshBasicMaterial({
-      color: palette[paletteIndex],
+    this.material = new THREE.RawShaderMaterial({
+      vertexShader,
+      fragmentShader,
+      uniforms: {
+        uColor: { value: palette[paletteIndex] },
+        uFreq: { value: 0.0 },
+      }
     });
+
     this.pivot = new THREE.Mesh(this.geometry, this.material);
     this.updatePosition();
     this.updateScale();
@@ -79,7 +95,7 @@ export default class DebrisNode {
     );
   }
 
-  update() {
+  update(freq) {
     if(this.centerCoord.y >= this.maxY) {
       this.centerCoord.y = this.minY;
     } else {
@@ -93,5 +109,7 @@ export default class DebrisNode {
 
     this.updatePosition();
     this.updateScale();
+
+    this.material.uniforms.uFreq.value = freq;
   }
 }

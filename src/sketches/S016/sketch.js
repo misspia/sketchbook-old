@@ -17,6 +17,7 @@ class Sketch extends SketchManagerThree {
     this.audioSrc = Audio.tester;
     this.numFrequencyNodes = 25;
     this.fftSize = 512;
+    this.frequencyDataLength = 110;
     this.spectrumStart = {
       bass: 0,
       midrange: 13,
@@ -32,7 +33,9 @@ class Sketch extends SketchManagerThree {
     this.bars = [];
 
     const size = 25;
-    this.debris = new Debris({
+    this.debris = new Debris(
+      this,
+      {
       radius: size / 2,
       numNodes: 20,
     });
@@ -48,25 +51,30 @@ class Sketch extends SketchManagerThree {
 
   init() {
     this.createStats();
-    // this.setCameraPos(0, 0, 110);
     this.setCameraPos(12, 8, 12);
     this.setClearColor(0xd5d5d5);
     this.lookAt(0, 0, 0);
     this.camera.updateProjectionMatrix();
 
-    const audioConfig = { fftSize: this.fftSize };
+    const audioConfig = { fftSize: this.fftSize, dataLength: this.frequencyDataLength };
     this.initAudio(audioConfig);
-    this.audio.setSommothingTimeConstant(0.85);
+    // this.audio.setSmoothingTimeConstant(0.85);
+    this.audio.setSmoothingTimeConstant(0.7);
     // this.audio.volume(0.01);
+    this.audio.volume(0.9);
 
-    this.scene.add(this.lights.directional);
+    this.scene.add(this.lights.directionalTop);
+    this.scene.add(this.lights.directionalSide);
     this.scene.add(this.debris.pivot);
     this.scene.add(this.floor.pivot);
+
     // this.scene.add(this.shard.pivot);
     // this.createBars();
   }
 
   createBars() {
+    this.setCameraPos(0, 0, 110);
+
     const geometry = new THREE.BoxGeometry(1, 80, 1);
 
     const xOffset = 110;
@@ -78,7 +86,7 @@ class Sketch extends SketchManagerThree {
       if(i > this.spectrumStart.midrange) {
         color = 0xffddee;
       }
-      if(i > this.spectrumStart.high) {
+      if(i > this.spectrumStart.highrange) {
         color = 0xccffbb;
       }
       const material = new THREE.MeshBasicMaterial({
@@ -98,15 +106,6 @@ class Sketch extends SketchManagerThree {
     })
   }
 
-  getPeaksAtThreshold(data, threshold) {
-    const peaks = [];
-    for(let i = 0; i < data.length;) {
-      if(data[i] > threshold) {
-        peaks.push(i);
-      }
-    }
-  }
-
   remapFreq(freq) {
     return utils.remap(0, 255, 0.001, 1, freq);
   }
@@ -115,15 +114,14 @@ class Sketch extends SketchManagerThree {
     this.stats.begin();
 
     this.audio.getByteFrequencyData();
-    this.debris.update();
-
-    this.stats.end();
-
+    this.debris.update(this.audio.frequencyData);
     this.beatManager.update();
     this.effectManager.update();
     this.floor.update();
+
     this.effectManager.render();
 
+    this.stats.end();
     requestAnimationFrame(() => this.draw());
   }
 }
