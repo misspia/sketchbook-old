@@ -62,8 +62,6 @@ class Sketch extends SketchManagerThree {
     this.initAudio(audioConfig);
     this.audio.setSmoothingTimeConstant(0.85);
     // this.audio.setSmoothingTimeConstant(0.7);
-    // this.audio.volume(0.01);
-    this.audio.volume(0.9);
 
     this.scene.add(this.lights.directionalTop);
     this.scene.add(this.lights.directionalSide);

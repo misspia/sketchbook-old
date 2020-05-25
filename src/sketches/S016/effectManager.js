@@ -2,10 +2,7 @@ import { NodePass } from 'three/examples/jsm/nodes/postprocessing/NodePass';
 import * as Nodes from 'three/examples/jsm/nodes/Nodes';
 import { GlitchPass } from 'three/examples/jsm/postprocessing/GlitchPass';
 import PP from '../postProcessor';
-import utils from '../utils';
 
-// https://github.com/mrdoob/three.js/blob/master/examples/webgl_postprocessing_sobel.html
-// https://threejs.org/examples/?q=postprocessing#webgl_postprocessing_nodes_pass
 export default class EffectManager {
   constructor(context) {
     this.context = context;
@@ -29,7 +26,9 @@ export default class EffectManager {
     this.maxBrightness = 0.5;
     this.brightness = {};
     this.brightnessNode = {};
+
     this.blendThreshold = 170;
+    this.dropThreshold = -4.2;
 
     this.init();
   }
@@ -57,20 +56,21 @@ export default class EffectManager {
   update() {
     this.updateGlitch();
     this.updateBlend();
+    this.updateDrop();
   }
 
   updateGlitch() {
     const { bassAverages } = this.beatManager;
-    if(bassAverages.length !== 0) {
+    if (bassAverages.length !== 0) {
       const currAvgIndex = bassAverages.length - 1;
       const delta = bassAverages[currAvgIndex] - bassAverages[currAvgIndex - 1];
-      if(delta > this.glitchThreshold) {
+      if (delta > this.glitchThreshold) {
         this.glitchPass.curF = 0;
         this.isGlitchTriggered = true;
       }
 
       // stop glitch
-      if(this.glitchPass.curF >= 20 && this.isGlitchTriggered) {
+      if (this.glitchPass.curF >= 20 && this.isGlitchTriggered) {
         this.glitchPass.curF = 100; // no glitch at 100
       }
     }
@@ -78,18 +78,31 @@ export default class EffectManager {
 
   updateBlend() {
     const { midrangeAverages } = this.beatManager;
-    if(midrangeAverages.length !== 0) {
-      const currAvgIndex = midrangeAverages.length - 1;
-      const average =  midrangeAverages[currAvgIndex]
+    if (midrangeAverages.length === 0) {
+      return;
+    }
 
-      if(average > this.blendThreshold) {
-        this.contrast.value = 1,5;
-        this.brightness.value = 0.2;
-      } else {
-        this.contrast.value = 1;
-        this.brightness.value = 0;
-      }
+    const average = midrangeAverages[midrangeAverages.length - 1]
+    if (average > this.blendThreshold) {
+      this.contrast.value = 1, 5;
+      this.brightness.value = 0.2;
+    } else {
+      this.contrast.value = 1;
+      this.brightness.value = 0;
+    }
+  }
 
+  updateDrop() {
+    const { bassAverages } = this.beatManager;
+    if (bassAverages.length === 0) {
+      return;
+    }
+    const currIndex = bassAverages.length - 1;
+    const delta = bassAverages[currIndex] - bassAverages[currIndex - 1];
+
+    if(delta < this.dropThreshold) {
+      this.brightness.value = 0;
+      this.contrast.value = 0.1;
     }
   }
 

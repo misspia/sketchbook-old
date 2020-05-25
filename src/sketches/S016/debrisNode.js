@@ -33,10 +33,10 @@ export default class DebrisNode {
     this.scale = 1;
 
     this.minYVelocity = utils.randomFloatBetween(0.001, 0.005);
-    this.maxYVelocity = utils.randomFloatBetween(0.01, 0.015);
+    this.maxYVelocity = utils.randomFloatBetween(0.02, 0.05);
 
-    this.minAgleVelocity = utils.randomFloatBetween(0.001, 0.005);
-    this.maxAngleVelocity = utils.randomFloatBetween(0.017, 0.022);
+    this.minAgleVelocity = 0;
+    this.maxAngleVelocity = utils.randomFloatBetween(0.001, 0.003);
 
     this.rotationVelocity = {
       x: 0,
@@ -54,9 +54,9 @@ export default class DebrisNode {
     this.maxRotationVelocityZ = utils.randomFloatBetween(0.013, 0.018) * rotationSignZ;
 
     this.geometry = new THREE.BoxGeometry(
-      utils.randomFloatBetween(0.05, 0.5),
-      utils.randomFloatBetween(0.05, 0.5),
-      utils.randomFloatBetween(0.05, 0.5),
+      utils.randomFloatBetween(0.03, 0.1),
+      utils.randomFloatBetween(0.03, 0.1),
+      utils.randomFloatBetween(0.03, 0.1),
     );
 
     const paletteIndex = utils.randomIntBetween(0, palette.length - 1);
