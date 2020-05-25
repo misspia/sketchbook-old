@@ -1,6 +1,11 @@
 import PP from '../postProcessor';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
 import { GlitchPass } from 'three/examples/jsm/postprocessing/GlitchPass';
+import { RGBShiftShader } from 'three/examples/jsm/shaders/RGBShiftShader';
+import { DotScreenShader } from 'three/examples/jsm/shaders/DotScreenShader';
 
+// https://github.com/mrdoob/three.js/blob/master/examples/webgl_postprocessing_sobel.html
+// https://threejs.org/examples/?q=postprocessing#webgl_postprocessing
 export default class EffectManager {
   constructor(context) {
     this.context = context;
@@ -17,11 +22,11 @@ export default class EffectManager {
 
   init() {
     this.glitchPass = new GlitchPass();
-    // this.pp.addPass(this.glitchPass);
+    this.pp.addPass(this.glitchPass);
   }
 
   update() {
-    // this.updateGlitch();
+    this.updateGlitch();
   }
 
   updateGlitch() {
