@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import utils from '../utils';
 
 export default class CameraManager {
   constructor(context) {
@@ -7,6 +8,8 @@ export default class CameraManager {
 
     this.radius = 16;
     this.angleVelocity = -0.001;
+    this.minAngleVelocity = -0.0005;
+    this.maxAngleVelocity = -0.0025;
     this.angle = 0;
 
     this.centerCoord = new THREE.Vector3(0, 8, 0);
@@ -25,8 +28,17 @@ export default class CameraManager {
     );
   }
 
+  getAngleVelocity() {
+    const { overallAverages } = this.context.beatManager;
+    return utils.remap(
+      0, 255,
+      this.minAngleVelocity, this.maxAngleVelocity,
+      overallAverages[overallAverages.length - 1],
+    );
+  }
+
   update() {
-    this.angle += this.angleVelocity;
+    this.angle += this.getAngleVelocity();
 
     this.updatePosition();
     this.camera.lookAt(this.target);
