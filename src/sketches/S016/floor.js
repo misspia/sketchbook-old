@@ -79,7 +79,7 @@ export default class Floor {
     const colMid = Math.round(this.divisions / 2);
     const colNum = Math.ceil(tileIndex / this.divisions) - 1;
     const distanceToColMid = Math.abs(colNum - colMid);
-    const trueWeightCol = 1 - utils.remap(0, colMid, 0.4, 1, distanceToColMid);
+    const trueWeightCol = 1 - utils.remap(0, colMid, 0.25, 1, distanceToColMid);
 
     return utils.weightedRandomBool(trueWeightRow * trueWeightCol);
   }

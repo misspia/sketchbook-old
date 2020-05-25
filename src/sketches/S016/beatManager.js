@@ -2,17 +2,25 @@ export default class BeatManager {
   constructor(context) {
     this.context = context;
     this.spectrumStart = context.spectrumStart;
+
+    const totalFrequencies = context.frequencyDataLength - 1;
+    this.bassWeight = (this.spectrumStart.midrange - this.spectrumStart.bass) / totalFrequencies;
+    this.midrangeWeight = (this.spectrumStart.highrange - this.spectrumStart.midrange) / totalFrequencies;
+    this.highrangeWeight = (totalFrequencies - this.spectrumStart.highrange) / totalFrequencies;
+
     this.bassAverages = [];
-    this.bassThreshold = 24;
 
     this.midrangeAverages = [];
     this.highrangeAverages = [];
+
+    this.overallAverages = [];
   }
 
   update() {
     this.updateBassAverage();
     this.updateMidrangeAverage();
     this.updateHighrangeAverage();
+    this.updateOverallAverage();
   }
 
   updateBassAverage() {
@@ -46,5 +54,13 @@ export default class BeatManager {
     }
     avg /= (total - highrange);
     this.highrangeAverages.push(avg);
+  }
+
+  updateOverallAverage() {
+    this.overallAverages.push(
+      this.bassAverages[this.bassAverages.length - 1] * this.bassWeight +
+      this.midrangeAverages[this.midrangeAverages.length - 1] * this.midrangeWeight +
+      this.highrangeAverages[this.highrangeAverages.length - 1] * this.highrangeWeight
+    );
   }
 }

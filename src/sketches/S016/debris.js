@@ -21,14 +21,14 @@ export default class Debris {
   init() {
     for(let i = 0; i < this.numNodes; i ++) {
       const { bass, midrange, highrange } = this.context.spectrumStart;
-      // const freqIndex = utils.randomIntBetween(midrange, this.context.frequencyDataLength - 1);
-      const freqIndex = utils.randomIntBetween(highrange, this.context.frequencyDataLength - 1);
+      const freqIndex = utils.randomIntBetween(midrange, this.context.frequencyDataLength - 1);
+      // const freqIndex = utils.randomIntBetween(highrange, this.context.frequencyDataLength - 1);
       const node = new DebrisNode({
         freqIndex,
-        minRadius: 0.1,
+        minRadius: this.radius * 0.3,
         maxRadius: this.radius,
-        minY: 1,
-        maxY: 6,
+        minY: 2,
+        maxY: 8,
       });
 
       this.debris.push(node);
