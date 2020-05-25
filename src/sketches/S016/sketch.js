@@ -5,6 +5,7 @@ import utils from '../utils';
 
 import Environment from './environment';
 import Shard from './shard';
+import CameraManager from './cameraManager';
 import EffectManager from './effectManager';
 import BeatManager from './beatManager';
 import Debris from './debris';
@@ -24,6 +25,7 @@ class Sketch extends SketchManagerThree {
       highrange: 75,
     }
     this.lights = new Lights();
+    this.cameraManager = new CameraManager(this);
     this.beatManager = new BeatManager(this);
     this.effectManager = new EffectManager(this);
 
@@ -114,10 +116,11 @@ class Sketch extends SketchManagerThree {
     this.stats.begin();
 
     this.audio.getByteFrequencyData();
-    this.debris.update(this.audio.frequencyData);
     this.beatManager.update();
     this.effectManager.update();
+    this.cameraManager.update();
     this.floor.update();
+    this.debris.update(this.audio.frequencyData);
 
     this.effectManager.render();
 
