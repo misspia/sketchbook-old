@@ -121,9 +121,9 @@ const Sketches = [
   },
   {
     title: '',
-    instructions: ``,
+    instructions: `Wrong (ft. Lil Uzi Vert) - MAX`,
     isAudio: true,
-    image: Images.S015,
+    image: Images.S016,
     sketch: S016,
   },
 

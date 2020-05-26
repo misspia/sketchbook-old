@@ -3,14 +3,6 @@ import utils from '../utils';
 import fragmentShader from './shaders/debris.frag';
 import vertexShader from './shaders/debris.vert';
 
-const palette = [
-  new THREE.Vector3(0.3, 0.3, 0.31),
-  new THREE.Vector3(0.67, 0.67, 0.69),
-  new THREE.Vector3(0.95, 0.92, 0.92),
-  new THREE.Vector3(0.07, 0.07, 0.07),
-  new THREE.Vector3(0.0, 0.0, 0.0),
-]
-
 export default class DebrisNode {
   constructor({
     freqIndex = 0,
@@ -59,13 +51,10 @@ export default class DebrisNode {
       utils.randomFloatBetween(0.03, 0.1),
     );
 
-    const paletteIndex = utils.randomIntBetween(0, palette.length - 1);
     this.material = new THREE.RawShaderMaterial({
       vertexShader,
       fragmentShader,
       uniforms: {
-        // uColor: { value: palette[paletteIndex] },
-        uColor: { value: new THREE.Vector3(0.6, 0.6, 0.6) },
         uFreq: { value: 0.0 },
       }
     });
@@ -89,7 +78,7 @@ export default class DebrisNode {
   }
 
   updateScale() {
-    if(this.position.y >= 4) {
+    if (this.position.y >= 4) {
       const distanceToMax = this.maxY - this.position.y;
       this.scale = utils.remap(0, 1, 0.01, 1, distanceToMax);
     } else {
@@ -148,7 +137,7 @@ export default class DebrisNode {
   }
 
   update(freq) {
-    if(this.centerCoord.y >= this.maxY) {
+    if (this.centerCoord.y >= this.maxY) {
       this.centerCoord.y = this.minY;
     } else {
       this.centerCoord.y += this.remapYVelocity(freq);

@@ -13,7 +13,7 @@ class Entry extends Component {
     this.state = {
       title: '',
       sketch: null,
-      activateMediaRequired: false, 
+      activateMediaRequired: false,
     }
     this.resizeHandler = this.resizeHandler.bind(this);
   }
@@ -53,8 +53,7 @@ class Entry extends Component {
       instructions: Sketch.instructions,
       sketch: new Sketch.sketch(this.canvas, this.audio),
     }, () => {
-      // if(this.state.sketch.audioElement) {
-      if(false) {
+      if(this.state.sketch.audioElement) {
         this.setState(() => ({
           activateMediaRequired: true,
         }));
@@ -105,7 +104,7 @@ class Entry extends Component {
     return (
       <Container ref={ref => this.container = ref }>
           {this.renderMediaActivator()}
-          <Header 
+          <Header
             title={this.state.title}
             instructions={this.state.instructions}
           />

@@ -32,7 +32,6 @@ export default class Floor {
   }
 
   createTiles() {
-    const { bass, midrange, highrange } = this.spectrumStart;
     const tilesPerRow = this.divisions;
     const borderWidth = 0.02;
     const tileSize = this.size / this.divisions - borderWidth;
@@ -109,9 +108,6 @@ export default class Floor {
         return utils.randomIntBetween(highrange, this.context.frequencyDataLength - 1);
       }
     }
-  }
-  pickClusters() {
-    console.debug(this.numTiles)
   }
 
   update() {

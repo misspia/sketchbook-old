@@ -6,7 +6,7 @@ export default class CameraManager {
     this.context = context;
     this.camera = context.camera;
 
-    this.radius = 16;
+    this.radius = 18;
     this.angleVelocity = -0.001;
     this.minAngleVelocity = -0.0005;
     this.maxAngleVelocity = -0.0025;

@@ -2,7 +2,6 @@ precision highp float;
 
 uniform float uRadius;
 
-varying vec2 vUv;
 varying float dist;
 
 float remap(float value, float oldMin, float oldMax, float newMin, float newMax) {
