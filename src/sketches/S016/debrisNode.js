@@ -45,7 +45,6 @@ export default class DebrisNode {
     this.minRotationVelocityZ = utils.randomFloatBetween(0.001, 0.01) * rotationSignZ;
     this.maxRotationVelocityZ = utils.randomFloatBetween(0.013, 0.018) * rotationSignZ;
 
-
     this.geometry = new THREE.BoxGeometry(
       utils.randomFloatBetween(0.03, 0.1),
       utils.randomFloatBetween(0.03, 0.1),
@@ -57,20 +56,6 @@ export default class DebrisNode {
       fragmentShader,
       uniforms: {
         uFreq: { value: 0.0 },
-        uMinRotationVeolicty: {
-          value: new THREE.Vector3(
-            this.minRotationVelocityX,
-            this.minRotationVelocityY,
-            this.minRotationVelocityZ,
-          )
-        },
-        uMaxRotationVeolicty: {
-          value: new THREE.Vector3(
-            this.maxRotationVelocityX,
-            this.maxRotationVelocityY,
-            this.maxRotationVelocityZ,
-          )
-        },
       }
     });
 
