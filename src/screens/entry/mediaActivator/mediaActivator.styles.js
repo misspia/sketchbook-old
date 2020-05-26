@@ -21,14 +21,16 @@ export const Button = styled.div`
     font-size: 1.4em;
     padding: 0.2em 0.6em;
     color: ${Colors.cream};
-    border: solid 0.1em ${Colors.cream};
+    border: solid 0 transparent;
+    border-left-width: 0.1em;
+    border-right-width: 0.1em;
     border-radius: 0.1em;
 
     transition: all 0.3s;
     cursor: pointer;
-    
+
     &:hover {
-        background-color: ${Colors.cream};
-        color: ${Colors.black};
+        border-color: ${Colors.cream};
+        letter-spacing: 1px;
     }
 `;

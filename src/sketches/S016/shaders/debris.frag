@@ -1,6 +1,5 @@
 precision highp float;
 
-uniform vec3 uColor;
 uniform float uFreq;
 
 float remap(float value, float oldMin, float oldMax, float newMin, float newMax) {
@@ -12,10 +11,11 @@ float remapFreq(float freq, float min, float max) {
 }
 
 void main() {
-  vec3 color = uColor;
-  color.r = remapFreq(uFreq, 0.0, uColor.r);
-  color.g = remapFreq(uFreq, 0.0, uColor.g);
-  color.b = remapFreq(uFreq, 0.0, uColor.b);
+  vec3 baseColor = vec3(0.6, 0.6, 0.6);
+  vec3 color = baseColor;
+  color.r = remapFreq(uFreq, 0.0, baseColor.r);
+  color.g = remapFreq(uFreq, 0.0, baseColor.g);
+  color.b = remapFreq(uFreq, 0.0, baseColor.b);
 
   gl_FragColor = vec4(color, 1.0);
 }
