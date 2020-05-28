@@ -1,3 +1,6 @@
+import * as THREE from 'three';
+
+// https://github.com/misspia/sketchbook/commit/50f0ef2ddc79c37cb0be7b10dc542e90621be95d
 export default class Environment {
   constructor(renderer) {
     const pmremGenerator = new THREE.PMREMGenerator(renderer);
