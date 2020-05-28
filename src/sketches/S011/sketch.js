@@ -27,7 +27,7 @@ const config = {
 
     this.pyramid = {};
     this.outlilneMaterial = {};
-    
+
     this.halo = {};
 
     this.petals = [];
@@ -50,7 +50,7 @@ const config = {
   }
   createEffects() {
     this.composer = new PP.EffectComposer(this.renderer);
-    this.renderPass = new PP.RenderPass(this.scene, this.camera, 0x111111);    
+    this.renderPass = new PP.RenderPass(this.scene, this.camera, 0x111111);
 
     const bloomPass = new PP.EffectPass(this.camera, new PP.BloomEffect());
     bloomPass.renderToScreen = true;
@@ -86,7 +86,7 @@ const config = {
       color: 0xddddff,
       envMap: this.cubeCamera.renderTarget.texture,
     });
-    const mirrorPyramid = new THREE.Mesh(geometry, mirrorMaterial);    
+    const mirrorPyramid = new THREE.Mesh(geometry, mirrorMaterial);
 
     const outlineMaterial = new THREE.RawShaderMaterial({
       wireframe: true,
@@ -116,11 +116,11 @@ const config = {
   }
   draw() {
     this.composer.renderer.autoClear = true;
-    
+
     this.cubeCamera.position.copy(this.pyramid.position);
     this.cubeCamera.update(this.composer.renderer, this.scene);
     this.composer.render(this.clock.getDelta());
-    
+
     this.composer.renderer.autoClear = false;
 
     this.updatePetals();
