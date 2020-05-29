@@ -1,6 +1,9 @@
 import * as THREE from 'three';
 import utils from '../utils';
 
+import outlineFrag from './outline.frag';
+import outlineVert from './outline.vert';
+
 export default class Pyramid {
   constructor(environment) {
     this.environment = environment;

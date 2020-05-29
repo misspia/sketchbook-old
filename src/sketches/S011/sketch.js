@@ -1,11 +1,8 @@
 import * as THREE from 'three';
-import * as PP from 'postprocessing';
 import SketchManagerThree from '../sketchManagerThree';
 
 import haloFrag from './halo.frag';
 import haloVert from './halo.vert';
-import outlineFrag from './outline.frag';
-import outlineVert from './outline.vert';
 import utils from '../utils';
 import Petal from './petal';
 
@@ -52,18 +49,8 @@ const config = {
 
     this.createHalo();
     this.createPetals();
-    this.createEffects();
   }
-  createEffects() {
-    this.composer = new PP.EffectComposer(this.renderer);
-    this.renderPass = new PP.RenderPass(this.scene, this.camera, 0x111111);
 
-    const bloomPass = new PP.EffectPass(this.camera, new PP.BloomEffect());
-    bloomPass.renderToScreen = true;
-
-    this.composer.addPass(this.renderPass);
-    this.composer.addPass(bloomPass);
-  }
   createHalo() {
     const geometry = new THREE.TorusGeometry( 45, 0.6, 15, 90 );
     geometry.computeFlatVertexNormals();
@@ -86,7 +73,7 @@ const config = {
 
   createPetals() {
     for(let i = 0; i < this.numPetals; i++) {
-      const petal = new Petal({x: 0, y: 0, z: 0}, this.composer);
+      const petal = new Petal({x: 0, y: 0, z: 0});
       this.petals.push(petal);
       this.scene.add(petal.mesh);
     }
@@ -95,9 +82,9 @@ const config = {
     this.petals.forEach(petal => petal.update());
   }
   draw() {
-    // this.updatePetals();
-    // this.haloMaterial.uniforms.uTime.value = this.clock.getElapsedTime();
-    // this.pyramid.rotation.y += 0.001;
+    this.updatePetals();
+    this.haloMaterial.uniforms.uTime.value = this.clock.getElapsedTime();
+    this.pyramid.rotation.y += 0.001;
 
     this.effectManager.render();
     requestAnimationFrame(() => this.draw());
