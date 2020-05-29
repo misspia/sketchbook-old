@@ -51,7 +51,7 @@ export default class Petal {
     heartShape.bezierCurveTo( 35, 0, 25, 25, 25, 25 );
 
     var extrudeSettings = {
-      amount: 1,
+      depth: 1,
       bevelEnabled: true,
       bevelSegments: 2,
       steps: 2,
