@@ -1,8 +1,8 @@
 import * as THREE from 'three';
 
 import utils from '../utils';
-import frag from './petal.frag';
-import vert from './petal.vert';
+import frag from './shaders/petal.frag';
+import vert from './shaders/petal.vert';
 
 const minRadius = 23;
 const maxRadius = 35;

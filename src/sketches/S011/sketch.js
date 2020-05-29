@@ -1,11 +1,11 @@
 import * as THREE from 'three';
 import SketchManagerThree from '../sketchManagerThree';
 
-import haloFrag from './halo.frag';
-import haloVert from './halo.vert';
+import haloFrag from './shaders/halo.frag';
+import haloVert from './shaders/halo.vert';
 import utils from '../utils';
-import Petal from './petal';
 
+import Petals from './petals';
 import Environment from './environment';
 import Pyramid from './pyramid';
 import EffectManager from './effectManager';
@@ -28,12 +28,12 @@ const config = {
     this.environment = new Environment(this.renderer);
     this.pyramid = new Pyramid(this.environment);
     this.effectManager = new EffectManager(this);
-    this.outlilneMaterial = {};
+    this.petals = new Petals({
+      numPetals: 25,
+    });
 
     this.halo = {};
 
-    this.petals = [];
-    this.numPetals = 25;
   }
   unmount() {
 
@@ -46,10 +46,10 @@ const config = {
     this.lookAt(0, 0, 0, 0);
 
     this.pyramid.position.set(0, 5, 0);
-    this.scene.add(this.pyramid.pivot)
+    this.scene.add(this.pyramid.pivot);
+    this.scene.add(this.petals.pivot);
 
     this.createHalo();
-    this.createPetals();
   }
 
   createHalo() {
@@ -72,20 +72,11 @@ const config = {
     this.scene.add(this.halo);
   }
 
-  createPetals() {
-    for(let i = 0; i < this.numPetals; i++) {
-      const petal = new Petal({x: 0, y: 0, z: 0});
-      this.petals.push(petal);
-      this.scene.add(petal.mesh);
-    }
-  }
-  updatePetals() {
-    this.petals.forEach(petal => petal.update());
-  }
   draw() {
-    this.updatePetals();
+
     this.haloMaterial.uniforms.uTime.value = this.clock.getElapsedTime();
-    this.pyramid.rotation.y += 0.001;
+    this.petals.update();
+    this.pyramid.update();
 
     this.effectManager.render();
     requestAnimationFrame(() => this.draw());

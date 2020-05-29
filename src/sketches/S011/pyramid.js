@@ -2,8 +2,8 @@ import * as THREE from 'three';
 import utils from '../utils';
 
 import Environment from './environment';
-import outlineFrag from './outline.frag';
-import outlineVert from './outline.vert';
+import outlineFrag from './shaders/outline.frag';
+import outlineVert from './shaders/outline.vert';
 
 /**
  * https://www.reddit.com/r/ImaginaryMindscapes/comments/aao0yx/voyager_by_archist/
@@ -13,6 +13,7 @@ export default class Pyramid {
   constructor(environment) {
     this.environment = environment;
 
+    this.rotationVelocity = 0.001;
     this.pyramidGap = 5;
     const size = 20;
     this.tipGeometry = new THREE.ConeGeometry(size, size * 2, 4);
@@ -81,5 +82,9 @@ export default class Pyramid {
       color: 0x000000,
     });
     this.base = new THREE.Mesh(this.baseGeometry, material);
+  }
+
+  update() {
+    this.pivot.rotation.y += this.rotationVelocity;
   }
 }
