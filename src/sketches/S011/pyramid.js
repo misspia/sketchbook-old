@@ -1,21 +1,29 @@
 import * as THREE from 'three';
 import utils from '../utils';
 
+import Environment from './environment';
 import outlineFrag from './outline.frag';
 import outlineVert from './outline.vert';
 
+/**
+ * https://www.reddit.com/r/ImaginaryMindscapes/comments/aao0yx/voyager_by_archist/
+ * https://www.reddit.com/r/ImaginaryMonuments/comments/9ywnkr/the_middle_of_eternity_by_alex_andreyev/
+ */
 export default class Pyramid {
   constructor(environment) {
     this.environment = environment;
 
-    this.geometry = new THREE.ConeGeometry(20, 40, 4);
-    this.pyramid = {};
-    this.outline = {};
+    this.pyramidGap = 5;
+    const size = 20;
+    this.tipGeometry = new THREE.ConeGeometry(size, size * 2, 4);
+    this.baseGeometry = new THREE.CylinderGeometry(size, size * 3, size * 3, 4);
+    this.tip = {};
+    this.tipOutline = {};
+    this.base = {};
 
     this.pivot = new THREE.Group();
 
     this.init();
-
   }
 
   get position() {
@@ -27,20 +35,27 @@ export default class Pyramid {
   }
 
   init() {
-    this.createPyramid();
-    this.createOutline();
+    this.createTip();
+    this.createTipOutline();
+    this.createBase();
 
-    this.pivot.add(this.pyramid);
-    this.pivot.add(this.outline);
+    this.pivot.add(this.tip);
+    this.pivot.add(this.tipOutline);
+    this.pivot.add(this.base);
 
     this.rotation.x += utils.toRadians(180);
+
+    const tipBbox = new THREE.Box3().setFromObject(this.tip);
+    const baseBbox = new THREE.Box3().setFromObject(this.base);
+    const baseHeight = (baseBbox.max.y - baseBbox.min.y);
+    this.base.position.y = -tipBbox.max.y - baseHeight / 2 - this.pyramidGap;
   }
 
-  createPyramid() {
+  createTip() {
     const glassMaterial = new THREE.MeshPhysicalMaterial({
       metalness: 0.1,
       roughness: 0,
-      opacity: 0.8,
+      opacity: 1.0,
       transparent: true,
       premultipliedAlpha: true,
       envMap: this.environment.envMap,
@@ -49,14 +64,22 @@ export default class Pyramid {
       color: new THREE.Color(0xffffff).convertGammaToLinear(2.2),
       refractionRatio: 1.0 / 1.6,
     });
-    this.pyramid = new THREE.Mesh(this.geometry, glassMaterial);
+    this.tip = new THREE.Mesh(this.tipGeometry, glassMaterial);
   }
 
-  createOutline() {
-    const material = new THREE.MeshBasicMaterial({
-      color: 0xff00ff,
+  createTipOutline() {
+    const material = new THREE.RawShaderMaterial({
+      fragmentShader: outlineFrag,
+      vertexShader: outlineVert,
       wireframe: true,
     });
-    this.outline = new THREE.Mesh(this.geometry, material);
+    this.tipOutline = new THREE.Mesh(this.tipGeometry, material);
+  }
+
+  createBase() {
+    const material = new THREE.MeshBasicMaterial({
+      color: 0x000000,
+    });
+    this.base = new THREE.Mesh(this.baseGeometry, material);
   }
 }
