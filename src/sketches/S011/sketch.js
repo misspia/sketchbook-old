@@ -19,6 +19,11 @@ const config = {
   fog: new THREE.FogExp2(0x111111, 0.011),
 }
 
+/**
+ * TODO: override resize
+ * https://github.com/mrdoob/three.js/blob/400acd3c78c8e631087322eb1e0e9fc00a16b375/examples/webgl_postprocessing_unreal_bloom.html#L129-L140
+ */
+
  class Sketch extends SketchManagerThree {
   constructor(canvas) {
     super(canvas, null, config);

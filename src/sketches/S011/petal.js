@@ -9,6 +9,11 @@ const maxRadius = 35;
 const minVelocity = 0.006;
 const maxVelocity = 0.02;
 
+
+/**
+ * color palette:
+ * https://www.pinterest.ca/pin/666603182331068421/
+ */
 export default class Petal {
   constructor(pivotCoord) {
     this.minY = -25;

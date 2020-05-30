@@ -10,10 +10,10 @@ export default class Petals {
     this.petals = [];
     this.pivot = new THREE.Group();
 
-    this.init();
+    this.createPetals();
   }
 
-  init() {
+  createPetals() {
     for(let i = 0; i < this.numPetals; i++) {
       const petal = new Petal({x: 0, y: 0, z: 0});
       this.petals.push(petal);
