@@ -1,11 +1,12 @@
 import * as THREE from 'three';
 import SketchManagerThree from '../sketchManagerThree';
 
-import haloFrag from './halo.frag';
-import haloVert from './halo.vert';
+import haloFrag from './shaders/halo.frag';
+import haloVert from './shaders/halo.vert';
 import utils from '../utils';
-import Petal from './petal';
 
+import Clouds from './clouds';
+import Petals from './petals';
 import Environment from './environment';
 import Pyramid from './pyramid';
 import EffectManager from './effectManager';
@@ -19,6 +20,11 @@ const config = {
   fog: new THREE.FogExp2(0x111111, 0.011),
 }
 
+/**
+ * TODO: override resize
+ * https://github.com/mrdoob/three.js/blob/400acd3c78c8e631087322eb1e0e9fc00a16b375/examples/webgl_postprocessing_unreal_bloom.html#L129-L140
+ */
+
  class Sketch extends SketchManagerThree {
   constructor(canvas) {
     super(canvas, null, config);
@@ -26,29 +32,41 @@ const config = {
     this.composer = {};
 
     this.environment = new Environment(this.renderer);
-    this.pyramid = new Pyramid(this.environment);
+    this.pyramid = new Pyramid({
+      environment: this.environment,
+      size: 20,
+    });
+    this.petals = new Petals({
+      numPetals: 10,
+    });
+    this.clouds = new Clouds({
+      radius: 50,
+      numClouds: 25,
+      maxY: 35,
+      minY: 10,
+    });
     this.effectManager = new EffectManager(this);
-    this.outlilneMaterial = {};
 
     this.halo = {};
 
-    this.petals = [];
-    this.numPetals = 25;
   }
   unmount() {
 
   }
   init() {
-    this.setClearColor(0x111111);
-    this.setCameraPos(-9, -17, 94);
+    // this.setClearColor(0x111111);
+    // this.setClearColor(0xffffff);
+    this.setClearColor(0x5555ff);
+    this.setCameraPos(-9, -40, 94);
 
     this.lookAt(0, 0, 0, 0);
 
     this.pyramid.position.set(0, 5, 0);
-    this.scene.add(this.pyramid.pivot)
+    this.scene.add(this.pyramid.pivot);
+    this.scene.add(this.clouds.pivot);
+    this.scene.add(this.petals.pivot);
 
     this.createHalo();
-    this.createPetals();
   }
 
   createHalo() {
@@ -71,20 +89,13 @@ const config = {
     this.scene.add(this.halo);
   }
 
-  createPetals() {
-    for(let i = 0; i < this.numPetals; i++) {
-      const petal = new Petal({x: 0, y: 0, z: 0});
-      this.petals.push(petal);
-      this.scene.add(petal.mesh);
-    }
-  }
-  updatePetals() {
-    this.petals.forEach(petal => petal.update());
-  }
   draw() {
-    this.updatePetals();
-    this.haloMaterial.uniforms.uTime.value = this.clock.getElapsedTime();
-    this.pyramid.rotation.y += 0.001;
+
+    const time = this.clock.getElapsedTime();
+    this.haloMaterial.uniforms.uTime.value = time;
+    this.petals.update();
+    this.pyramid.update();
+    this.clouds.update(time)
 
     this.effectManager.render();
     requestAnimationFrame(() => this.draw());

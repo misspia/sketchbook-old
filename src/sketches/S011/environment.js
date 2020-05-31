@@ -27,7 +27,7 @@ export default class Environment {
     envScene.add(ambient);
 
     const lightMaterial = new THREE.MeshLambertMaterial({
-      color: 0x000000,
+      color: 0xffffff,
       emissive: 0xffffff,
       emissiveIntensity: 15,
     });
