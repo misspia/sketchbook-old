@@ -5,6 +5,7 @@ import haloFrag from './shaders/halo.frag';
 import haloVert from './shaders/halo.vert';
 import utils from '../utils';
 
+import Clouds from './clouds';
 import Petals from './petals';
 import Environment from './environment';
 import Pyramid from './pyramid';
@@ -32,10 +33,11 @@ const config = {
 
     this.environment = new Environment(this.renderer);
     this.pyramid = new Pyramid(this.environment);
-    this.effectManager = new EffectManager(this);
     this.petals = new Petals({
       numPetals: 25,
     });
+    this.clouds = new Clouds();
+    this.effectManager = new EffectManager(this);
 
     this.halo = {};
 
@@ -45,13 +47,15 @@ const config = {
   }
   init() {
     // this.setClearColor(0x111111);
-    this.setClearColor(0xffffff);
+    // this.setClearColor(0xffffff);
+    this.setClearColor(0x5555ff);
     this.setCameraPos(-9, -17, 94);
 
     this.lookAt(0, 0, 0, 0);
 
-    this.pyramid.position.set(0, 5, 0);
-    this.scene.add(this.pyramid.pivot);
+    // this.pyramid.position.set(0, 5, 0);
+    // this.scene.add(this.pyramid.pivot);
+    this.scene.add(this.clouds.pivot);
     this.scene.add(this.petals.pivot);
 
     this.createHalo();
@@ -79,9 +83,11 @@ const config = {
 
   draw() {
 
-    this.haloMaterial.uniforms.uTime.value = this.clock.getElapsedTime();
+    const time = this.clock.getElapsedTime();
+    this.haloMaterial.uniforms.uTime.value = time;
     this.petals.update();
     this.pyramid.update();
+    this.clouds.update(time)
 
     this.effectManager.render();
     requestAnimationFrame(() => this.draw());

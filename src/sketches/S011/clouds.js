@@ -30,7 +30,7 @@ export default class Clouds {
     }
   }
 
-  update() {
-
+  update(uTime) {
+    this.clouds.forEach(cloud => cloud.update(uTime));
   }
 }

@@ -12,7 +12,8 @@ export default class Cloud {
     noiseTexture,
   }) {
 
-    const geometry = new THREE.PlaneGeometry(3, 3, 15, 15);
+    const size = 20;
+    const geometry = new THREE.PlaneGeometry(size, size, size * 3, size * 3);
     this.material = new THREE.ShaderMaterial({
       vertexShader,
       fragmentShader,
@@ -23,8 +24,8 @@ export default class Cloud {
         uTxtCloudNoise: { value: noiseTexture },
         uFac1: { value: 17.8 },
         uFac2: { value: 2.7 },
-        uTimeFactor1: { value: 0.002 },
-        uTimeFactor2: { value: 0.0015 },
+        uTimeFactor1: { value: 0.2 },
+        uTimeFactor2: { value: 0.15 },
         uDisplStrenght1: { value: 0.04 },
         uDisplStrenght2: { value: 0.08 },
       },
@@ -34,9 +35,7 @@ export default class Cloud {
     this.pivot = new THREE.Mesh(geometry, this.material);
   }
 
-  update(noiseTexture, shapeTexture, uTime) {
-    this.material.uniforms.uTxtCloudNoise.value = noiseTexture;
-    this.material.uniforms.uTxtShape.value = shapeTexture;
+  update(uTime) {
     this.material.uniforms.uTime.value = uTime;
 
   }

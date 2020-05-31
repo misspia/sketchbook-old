@@ -14,6 +14,17 @@ const maxVelocity = 0.02;
  * color palette:
  * https://www.pinterest.ca/pin/666603182331068421/
  */
+const palettes = [
+  new THREE.Vector3(0.97, 0.97, 0.97), // #f8f8f8
+  new THREE.Vector3(0.94, 0.91, 0.93), // #f8f8f8
+  new THREE.Vector3(0.24, 0.88, 0.89), // #3ee1e3
+  new THREE.Vector3(0.49, 0.8, 0.94), // #7dcdef
+  new THREE.Vector3(0.92, 0.83, 0.74), // #ead3bc
+  new THREE.Vector3(0.9, 0.74, 0.92), // #e6bdea
+  new THREE.Vector3(0.92, 0.93, 0.82), // #eaeed1
+  new THREE.Vector3(0.81, 0.95, 0.67), // #f3eed1
+];
+
 export default class Petal {
   constructor(pivotCoord) {
     this.minY = -25;
@@ -30,6 +41,9 @@ export default class Petal {
     this.yVelocity = utils.randomFloatBetween(minVelocity, maxVelocity);
     this.angleVelocity = utils.randomFloatBetween(minVelocity, maxVelocity);
     this.rotateVelocity = utils.randomFloatBetween(minVelocity, maxVelocity);
+
+    const paletteIndex = utils.randomIntBetween(0, palettes.length - 1);
+    const palette = palettes[paletteIndex];
 
     this.geometry = this.createPetalGeometry(utils.randomFloatBetween(0.01, 0.04));
     this.material = new THREE.RawShaderMaterial({
