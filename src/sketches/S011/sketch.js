@@ -32,14 +32,17 @@ const config = {
     this.composer = {};
 
     this.environment = new Environment(this.renderer);
-    this.pyramid = new Pyramid(this.environment);
+    this.pyramid = new Pyramid({
+      environment: this.environment,
+      size: 20,
+    });
     this.petals = new Petals({
-      numPetals: 25,
+      numPetals: 10,
     });
     this.clouds = new Clouds({
-      radius: 40,
-      numClouds: 1,
-      maxY: 30,
+      radius: 50,
+      numClouds: 25,
+      maxY: 35,
       minY: 10,
     });
     this.effectManager = new EffectManager(this);
@@ -54,12 +57,12 @@ const config = {
     // this.setClearColor(0x111111);
     // this.setClearColor(0xffffff);
     this.setClearColor(0x5555ff);
-    this.setCameraPos(-9, -17, 94);
+    this.setCameraPos(-9, -40, 94);
 
     this.lookAt(0, 0, 0, 0);
 
-    // this.pyramid.position.set(0, 5, 0);
-    // this.scene.add(this.pyramid.pivot);
+    this.pyramid.position.set(0, 5, 0);
+    this.scene.add(this.pyramid.pivot);
     this.scene.add(this.clouds.pivot);
     this.scene.add(this.petals.pivot);
 

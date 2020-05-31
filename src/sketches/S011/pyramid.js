@@ -11,12 +11,15 @@ import outlineVert from './shaders/outline.vert';
  * https://www.reddit.com/r/ImaginaryMindscapes/comments/9ah51q/d_a_y_b_r_e_a_k_by_me/
  */
 export default class Pyramid {
-  constructor(environment) {
+  constructor({
+    environment,
+    size = 20,
+
+  }) {
     this.environment = environment;
 
-    this.rotationVelocity = 0.001;
+    this.rotationVelocity = -0.001;
     this.pyramidGap = 5;
-    const size = 20;
     this.tipGeometry = new THREE.ConeGeometry(size, size * 2, 4);
     this.baseGeometry = new THREE.CylinderGeometry(size, size * 3, size * 3, 4);
     this.tip = {};
