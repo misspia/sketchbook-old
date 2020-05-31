@@ -36,7 +36,12 @@ const config = {
     this.petals = new Petals({
       numPetals: 25,
     });
-    this.clouds = new Clouds();
+    this.clouds = new Clouds({
+      radius: 40,
+      numClouds: 1,
+      maxY: 30,
+      minY: 10,
+    });
     this.effectManager = new EffectManager(this);
 
     this.halo = {};
