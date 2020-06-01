@@ -57,7 +57,7 @@ const config = {
     // this.setClearColor(0x111111);
     // this.setClearColor(0xffffff);
     this.setClearColor(0x5555ff);
-    this.setCameraPos(-9, -40, 94);
+    this.setCameraPos(-9, -50, 74);
 
     this.lookAt(0, 0, 0, 0);
 

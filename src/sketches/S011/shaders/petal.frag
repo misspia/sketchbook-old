@@ -1,11 +1,21 @@
 precision highp float;
 
-varying float intensity;
+uniform vec3 uPrimaryColor;
+uniform vec3 uSecondaryColor;
+uniform vec3 uColorNoise;
 
-float gaussianPdf(float x, float sigma) {
-    return 0.39894 * exp( -0.5 * x * x / (sigma * sigma) / sigma);
-}
+varying vec3 vNormal;
+varying vec2 vUv;
+
+#pragma glslify: snoise3 = require(glsl-noise/simplex/3d)
 
 void main() {
-    gl_FragColor = vec4(1.0, 0.6, 0.8, 1.0);
+    float noise = snoise3(uColorNoise);
+    float dist = distance(vec2(0.5), vUv);
+    vec3 color = mix(uPrimaryColor, uSecondaryColor, dist);
+
+    gl_FragColor = vec4(vec3(color), 1.0);
+    // gl_FragColor = vec4(dist, 0.0, 0.0, 1.0);
+    // gl_FragColor = vec4(vUv.x, 0.0, 0.0, 1.0);
+    // gl_FragColor = vec4(vDist, 0.0, 0.0, 1.0);
 }
