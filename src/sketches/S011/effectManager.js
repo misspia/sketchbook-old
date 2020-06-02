@@ -35,12 +35,9 @@ export default class EffectManager {
     this.bloomPass.radius = params.bloomRadius;
 
     this.pp.composer.addPass(this.bloomPass);
-
   }
 
   render() {
-    this.context.renderer.autoClear = false;
-    this.context.renderer.clear();
     this.pp.render();
   }
 }
