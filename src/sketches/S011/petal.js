@@ -13,16 +13,25 @@ const maxVelocity = 0.02;
  * color palette:
  * https://www.pinterest.ca/pin/666603182331068421/
  */
-const palettes = [
-  new THREE.Vector3(0.97, 0.97, 0.97), // #f8f8f8
-  new THREE.Vector3(0.94, 0.91, 0.93), // #f8f8f8
-  new THREE.Vector3(0.24, 0.88, 0.89), // #3ee1e3
-  new THREE.Vector3(0.49, 0.8, 0.94), // #7dcdef
-  new THREE.Vector3(0.92, 0.83, 0.74), // #ead3bc
-  new THREE.Vector3(0.9, 0.74, 0.92), // #e6bdea
-  new THREE.Vector3(0.92, 0.93, 0.82), // #eaeed1
-  new THREE.Vector3(0.81, 0.95, 0.67), // #f3eed1
+// const colors = [
+//   // new THREE.Vector3(0.94, 0.91, 0.93), // #f8f8f8
+//   new THREE.Vector3(0.24, 0.88, 0.89), // #3ee1e3
+//   new THREE.Vector3(0.49, 0.8, 0.94), // #7dcdef
+//   new THREE.Vector3(0.92, 0.83, 0.74), // #ead3bc
+//   new THREE.Vector3(0.9, 0.74, 0.92), // #e6bdea
+//   new THREE.Vector3(0.92, 0.93, 0.82), // #eaeed1
+//   // new THREE.Vector3(0.81, 0.95, 0.67), // #f3eed1
+// ];
+
+const colors = [
+  // new THREE.Vector3(0.24, 0.88, 0.89),
+  // new THREE.Vector3(0.88, 0.24, 0.89),
+  // new THREE.Vector3(0.88, 0.89, 0.24),
+  new THREE.Vector3(0.38, 0.79, 0.82),
 ];
+
+// const secondaryColor = new THREE.Vector3(0.97, 0.97, 0.97); // #f8f8f8
+const secondaryColor = new THREE.Vector3(0.97, 0.6, 0.7); // #f8f8f8
 
 export default class Petal {
   constructor(pivotCoord) {
@@ -41,14 +50,22 @@ export default class Petal {
     this.angleVelocity = utils.randomFloatBetween(minVelocity, maxVelocity);
     this.rotateVelocity = utils.randomFloatBetween(minVelocity, maxVelocity);
 
-    const paletteIndex = utils.randomIntBetween(0, palettes.length - 1);
-    const palette = palettes[paletteIndex];
+    const colorIndex = utils.randomIntBetween(0, colors.length- 1);
+    const primaryColor = colors[colorIndex];
 
-    this.geometry = this.createPetalGeometry(utils.randomFloatBetween(0.01, 0.04));
+   this.geometry = this.createShardGeometry(utils.randomFloatBetween(0.01, 0.04));
     this.material = new THREE.RawShaderMaterial({
-      side: THREE.DoubleSide,
+     side: THREE.DoubleSide,
       uniforms: {
-        viewVector: { type: 'v3', value: new THREE.Vector3() }
+        uPrimaryColor: { value: primaryColor },
+        uSecondaryColor: { value: secondaryColor },
+        uColorNoise: {
+          value: new THREE.Vector3(
+            utils.randomFloatBetween(5, 5),
+            utils.randomFloatBetween(5, 5),
+            utils.randomFloatBetween(5, 5),
+          )
+        },
       },
       fragmentShader: frag,
       vertexShader: vert,
@@ -58,6 +75,7 @@ export default class Petal {
     this.mesh.doubleSide = true;
     this.mesh.rotation.y = Math.PI / 2;
   }
+
   createPetalGeometry(size = 1) {
     var heartShape = new THREE.Shape();
     heartShape.moveTo( 25, 25 );
@@ -81,6 +99,35 @@ export default class Petal {
 
     return geometry;
   }
+
+  createShardGeometry(size = 1) {
+    const geometry = new THREE.BufferGeometry();
+
+    const vertices = new Float32Array([
+      -0.5, 0.5, 0.0,
+      2.0, 2.0, 0.0,
+      0.5, -0.5, 0.0,
+      -2.0, -2.0, 0.0
+    ]);
+
+    const uvs = new Float32Array([
+      0.0, 0.0,
+      1.0, 0.0,
+      1.0, 1.0,
+      0.0, 1.0,
+    ]);
+
+    const indices = new Uint32Array([
+      0, 2, 1, 0, 3, 2
+    ]);
+
+    geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
+    geometry.setAttribute('uv', new THREE.BufferAttribute(uvs, 2));
+    geometry.setIndex(new THREE.BufferAttribute(indices, 1));
+
+    return geometry;
+  }
+
   getInitialCoord() {
     const { x, y, z } = this.centerCoord;
     return {
@@ -112,7 +159,7 @@ export default class Petal {
   }
   // refactor
   incrementCenterY() {
-    if(
+    if (
       this.centerCoord.y >= this.maxY ||
       this.centerCoord.y <= this.minY
     ) {

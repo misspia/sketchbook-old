@@ -10,27 +10,24 @@ import Petals from './petals';
 import Environment from './environment';
 import Pyramid from './pyramid';
 import EffectManager from './effectManager';
+import Lights from './lights';
 
 /**
- * Inspo: https://i.redd.it/5u2xbx7eo9721.jpg
+ * Inspo
  * https://twitter.com/mattdesl/status/1079879696978927616
- */
-
-const config = {
-  fog: new THREE.FogExp2(0x111111, 0.011),
-}
-
-/**
+ * https://i.redd.it/5u2xbx7eo9721.jpg
+ *
  * TODO: override resize
  * https://github.com/mrdoob/three.js/blob/400acd3c78c8e631087322eb1e0e9fc00a16b375/examples/webgl_postprocessing_unreal_bloom.html#L129-L140
  */
 
  class Sketch extends SketchManagerThree {
   constructor(canvas) {
-    super(canvas, null, config);
+    super(canvas, null);
     this.clock = new THREE.Clock();
     this.composer = {};
 
+    this.lights = new Lights();
     this.environment = new Environment(this.renderer);
     this.pyramid = new Pyramid({
       environment: this.environment,
@@ -42,8 +39,8 @@ const config = {
     this.clouds = new Clouds({
       radius: 50,
       numClouds: 25,
-      maxY: 35,
-      minY: 10,
+      maxY: 40,
+      minY: 20,
     });
     this.effectManager = new EffectManager(this);
 
@@ -57,7 +54,7 @@ const config = {
     // this.setClearColor(0x111111);
     // this.setClearColor(0xffffff);
     this.setClearColor(0x5555ff);
-    this.setCameraPos(-9, -40, 94);
+    this.setCameraPos(-9, -50, 60);
 
     this.lookAt(0, 0, 0, 0);
 
@@ -65,8 +62,11 @@ const config = {
     this.scene.add(this.pyramid.pivot);
     this.scene.add(this.clouds.pivot);
     this.scene.add(this.petals.pivot);
+    this.scene.add(this.lights.ambient );
+    this.scene.add(this.lights.directionalSide);
+    this.scene.add(this.lights.directionalBottom);
 
-    this.createHalo();
+    // this.createHalo();
   }
 
   createHalo() {
@@ -92,12 +92,19 @@ const config = {
   draw() {
 
     const time = this.clock.getElapsedTime();
-    this.haloMaterial.uniforms.uTime.value = time;
+    // this.haloMaterial.uniforms.uTime.value = time;
     this.petals.update();
     this.pyramid.update();
-    this.clouds.update(time)
+    this.clouds.update(time);
 
+
+    this.renderer.autoClear = false;
+    this.renderer.clear();
     this.effectManager.render();
+
+
+    this.renderer.render(this.scene, this.camera);
+
     requestAnimationFrame(() => this.draw());
   }
 }

@@ -45,7 +45,7 @@ export default class Pyramid {
     this.createBase();
 
     this.pivot.add(this.tip);
-    this.pivot.add(this.tipOutline);
+    // this.pivot.add(this.tipOutline);
     this.pivot.add(this.base);
 
     this.rotation.x += utils.toRadians(180);
@@ -54,13 +54,14 @@ export default class Pyramid {
     const baseBbox = new THREE.Box3().setFromObject(this.base);
     const baseHeight = (baseBbox.max.y - baseBbox.min.y);
     this.base.position.y = -tipBbox.max.y - baseHeight / 2 - this.pyramidGap;
+
   }
 
   createTip() {
     const glassMaterial = new THREE.MeshPhysicalMaterial({
-      metalness: 0.1,
-      roughness: 0,
-      opacity: 1.0,
+      metalness: 0.6,
+      roughness: 0.2,
+      opacity: 0.99,
       transparent: true,
       premultipliedAlpha: true,
       envMap: this.environment.envMap,
@@ -82,8 +83,8 @@ export default class Pyramid {
   }
 
   createBase() {
-    const material = new THREE.MeshBasicMaterial({
-      color: 0x000000,
+    const material = new THREE.MeshLambertMaterial({
+      color: 0xd5d5d5,
     });
     this.base = new THREE.Mesh(this.baseGeometry, material);
   }
