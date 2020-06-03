@@ -18,13 +18,14 @@ export default class Pyramid {
   }) {
     this.environment = environment;
 
-    this.rotationVelocity = -0.001;
-    this.pyramidGap = 5;
-    this.tipGeometry = new THREE.ConeGeometry(size, size * 2, 4);
-    this.baseGeometry = new THREE.CylinderGeometry(size, size * 3, size * 3, 4);
+    this.rotationVelocity = -0.003;
+    this.pyramidGap = 6;
+    this.tipGeometry = new THREE.ConeGeometry(size, size * 1.5, 4);
+    this.baseGeometry = new THREE.CylinderGeometry(size, size * 3.2, size * 2.5, 4);
     this.tip = {};
     this.tipOutline = {};
     this.base = {};
+    this.baseOutline = {};
 
     this.pivot = new THREE.Group();
 
@@ -43,10 +44,11 @@ export default class Pyramid {
     this.createTip();
     this.createTipOutline();
     this.createBase();
+    this.createBaseOutline();
 
     this.pivot.add(this.tip);
-    // this.pivot.add(this.tipOutline);
     this.pivot.add(this.base);
+    // this.pivot.add(this.baseOutline);
 
     this.rotation.x += utils.toRadians(180);
 
@@ -54,14 +56,14 @@ export default class Pyramid {
     const baseBbox = new THREE.Box3().setFromObject(this.base);
     const baseHeight = (baseBbox.max.y - baseBbox.min.y);
     this.base.position.y = -tipBbox.max.y - baseHeight / 2 - this.pyramidGap;
-
+    this.baseOutline.position.y = this.base.position.y;
   }
 
   createTip() {
     const glassMaterial = new THREE.MeshPhysicalMaterial({
       metalness: 0.6,
       roughness: 0.2,
-      opacity: 0.99,
+      opacity: 0.85,
       transparent: true,
       premultipliedAlpha: true,
       envMap: this.environment.envMap,
@@ -87,6 +89,15 @@ export default class Pyramid {
       color: 0xd5d5d5,
     });
     this.base = new THREE.Mesh(this.baseGeometry, material);
+  }
+
+  createBaseOutline() {
+    const material = new THREE.RawShaderMaterial({
+      fragmentShader: outlineFrag,
+      vertexShader: outlineVert,
+      wireframe: true,
+    });
+    this.baseOutline = new THREE.Mesh(this.baseGeometry, material);
   }
 
   update() {
