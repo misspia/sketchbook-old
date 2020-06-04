@@ -22,7 +22,8 @@ import Lights from './lights';
  class Sketch extends SketchManagerThree {
   constructor(canvas) {
     super(canvas, null);
-    this.clock = new THREE.Clock();
+    this.time = 50;
+    this.timeIncrement = 1;
     this.composer = {};
 
     this.lights = new Lights();
@@ -35,10 +36,7 @@ import Lights from './lights';
       numPetals: 10,
     });
     this.clouds = new Clouds({
-      radius: 50,
       numClouds: 25,
-      maxY: -10,
-      minY: -50,
     });
     this.effectManager = new EffectManager(this);
   }
@@ -47,21 +45,21 @@ import Lights from './lights';
   }
   init() {
     this.setClearColor(0x111111);
-    this.setCameraPos(-40, 40, 90);
+    this.setCameraPos(-50, 70, 100);
 
     this.lookAt(0, 0, 0, 0);
 
     this.pyramid.position.set(0, 5, 0);
     this.scene.add(this.pyramid.pivot);
     this.scene.add(this.clouds.pivot);
-    this.scene.add(this.petals.pivot);
+    // this.scene.add(this.petals.pivot);
   }
 
   draw() {
-    const time = this.clock.getElapsedTime();
+    this.time += this.timeIncrement;
     this.petals.update();
     this.pyramid.update();
-    this.clouds.update(time);
+    this.clouds.update(this.time);
 
     this.effectManager.render();
 
