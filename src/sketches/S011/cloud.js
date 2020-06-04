@@ -12,24 +12,26 @@ export default class Cloud {
     shapeTexture,
     noiseTexture,
     centerCoord = new THREE.Vector3(),
-    radius = 10,
-    maxY = 0,
-    minY = 0,
   }) {
-    this.maxY = maxY;
-    this.minY = minY;
+    this.minY = -50;
+    this.maxY = -30;
 
     this.centerCoord = new THREE.Vector3(
       centerCoord.x,
-      utils.randomFloatBetween(this.minY, this.maxY),
+      utils.randomFloatBetween(this.minY / 2, this.maxY),
       centerCoord.z,
     );
-    this.radius = radius;
-    this.angle = utils.randomFloatBetween(0, 2 * Math.PI);
-    this.angleVelocity = utils.randomFloatBetween(0.0005, 0.001);
-    this.yVelocity = utils.randomFloatBetween(0.005, 0.01);
 
-    const size = utils.randomFloatBetween(30, 50);
+    this.minRadius = utils.randomFloatBetween(25, 40);
+    this.maxRadius = utils.randomFloatBetween(60, 80);
+    this.radius = 0;
+    this.updateRadius();
+
+    this.angle = utils.randomFloatBetween(0, 2 * Math.PI);
+    this.angleVelocity = utils.randomFloatBetween(0.001, 0.005);
+    this.yVelocity = utils.randomFloatBetween(0.01, 0.04);
+
+    const size = utils.randomFloatBetween(50, 90);
     const geometry = new THREE.PlaneGeometry(size, size, size * 3, size * 3);
     this.material = new THREE.ShaderMaterial({
       vertexShader,
@@ -41,8 +43,8 @@ export default class Cloud {
         uTxtCloudNoise: { value: noiseTexture },
         uFac1: { value: utils.randomFloatBetween(15, 18) },
         uFac2: { value: utils.randomFloatBetween(2, 7) },
-        uTimeFactor1: { value: utils.randomFloatBetween(0.01, 0.5) },
-        uTimeFactor2: { value: utils.randomFloatBetween(0.01, 0.3) },
+        uTimeFactor1: { value: utils.randomFloatBetween(0.0001, 0.005) },
+        uTimeFactor2: { value: utils.randomFloatBetween(0.0001, 0.003) },
         uDisplStrenght1: { value: utils.randomFloatBetween(0.01, 0.05) },
         uDisplStrenght2: { value: utils.randomFloatBetween(0.001, 0.15) },
       },
@@ -57,6 +59,9 @@ export default class Cloud {
     return this.pivot.position;
   }
 
+  updateRadius() {
+    this.radius = utils.remap(this.minY, this.maxY, this.minRadius, this.maxRadius, this.centerCoord.y);
+  }
   updatePostion() {
     this.position.x = this.centerCoord.x + this.radius * Math.cos(this.angle);
     this.position.z = this.centerCoord.z + this.radius * Math.sin(this.angle);
@@ -72,6 +77,7 @@ export default class Cloud {
     if(this.position.y > this.maxY || this.position.y < this.minY) {
       this.yVelocity = -this.yVelocity;
     }
+    this.updateRadius();
     this.updatePostion();
   }
 }

@@ -22,7 +22,7 @@ void main() {
     vec4 txtNoise1 = texture2D(uTxtCloudNoise, vec2(vUv.x + uTime * 0.1, vUv.y - uTime * 0.14));
     vec4 txtNoise2 = texture2D(uTxtCloudNoise, vec2(vUv.x - uTime * 0.02, vUv.y + uTime * 0.17 + 0.2));
 
-    float noiseBig = fbm3d(vec3(vUv * uFac1, uTime * uTimeFactor1), 4)+ 1.0 * 0.5;
+    float noiseBig = fbm3d(vec3(vUv * uFac1, uTime * uTimeFactor1), 2);
     newUv += noiseBig * uDisplStrenght1;
 
     float noiseSmall = snoise3(vec3(newUv * uFac2, uTime * uTimeFactor2));
