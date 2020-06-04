@@ -18,13 +18,10 @@ export default class Pyramid {
   }) {
     this.environment = environment;
 
-    this.rotationVelocity = -0.001;
-    this.pyramidGap = 5;
-    this.tipGeometry = new THREE.ConeGeometry(size, size * 2, 4);
-    this.baseGeometry = new THREE.CylinderGeometry(size, size * 3, size * 3, 4);
+    this.rotationVelocity = -0.003;
+    this.tipGeometry = new THREE.ConeGeometry(size, size * 1.5, 4);
     this.tip = {};
     this.tipOutline = {};
-    this.base = {};
 
     this.pivot = new THREE.Group();
 
@@ -42,31 +39,22 @@ export default class Pyramid {
   init() {
     this.createTip();
     this.createTipOutline();
-    this.createBase();
 
     this.pivot.add(this.tip);
-    // this.pivot.add(this.tipOutline);
-    this.pivot.add(this.base);
 
-    this.rotation.x += utils.toRadians(180);
-
-    const tipBbox = new THREE.Box3().setFromObject(this.tip);
-    const baseBbox = new THREE.Box3().setFromObject(this.base);
-    const baseHeight = (baseBbox.max.y - baseBbox.min.y);
-    this.base.position.y = -tipBbox.max.y - baseHeight / 2 - this.pyramidGap;
-
+    // this.rotation.x += utils.toRadians(180);
   }
 
   createTip() {
     const glassMaterial = new THREE.MeshPhysicalMaterial({
-      metalness: 0.6,
-      roughness: 0.2,
-      opacity: 0.99,
+      metalness: 0.4,
+      roughness: 0.0,
+      opacity: 0.85,
       transparent: true,
       premultipliedAlpha: true,
       envMap: this.environment.envMap,
       side: THREE.DoubleSide,
-      sheen: new THREE.Color(0xffffff).convertGammaToLinear(2.2),
+      sheen: new THREE.Color(0x0000ff).convertGammaToLinear(2.2),
       color: new THREE.Color(0xffffff).convertGammaToLinear(2.2),
       refractionRatio: 1.0 / 1.6,
     });
@@ -80,13 +68,6 @@ export default class Pyramid {
       wireframe: true,
     });
     this.tipOutline = new THREE.Mesh(this.tipGeometry, material);
-  }
-
-  createBase() {
-    const material = new THREE.MeshLambertMaterial({
-      color: 0xd5d5d5,
-    });
-    this.base = new THREE.Mesh(this.baseGeometry, material);
   }
 
   update() {

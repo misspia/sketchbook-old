@@ -23,53 +23,37 @@ export default class Environment {
     room.scale.setScalar(10);
     envScene.add(room);
 
-    const ambient = new THREE.AmbientLight(new THREE.Color(0xffffff).convertGammaToLinear(2.2), 0.3);
+    const ambient = new THREE.AmbientLight(new THREE.Color(0xaaaaff).convertGammaToLinear(2.2), 0.5);
     envScene.add(ambient);
 
-    const material1 = new THREE.MeshLambertMaterial({
+    const lightMaterial = new THREE.MeshLambertMaterial({
       color: 0x0000ff,
-      emissive: 0x0000ff,
-      emissiveIntensity: 15,
+      emissive: 0xaaaaff,
+      emissiveIntensity: 20,
     });
-    const light1 = new THREE.Mesh(geometry, material1);
+    const light1 = new THREE.Mesh(geometry, lightMaterial);
     light1.position.set(5, -2, 0);
     light1.scale.set(0.1, 2, 1);
     envScene.add(light1);
 
-    const material2 = new THREE.MeshLambertMaterial({
-      color: 0xff0000,
-      emissive: 0xff0000,
-      emissiveIntensity: 15,
-    });
-    const light2 = new THREE.Mesh(geometry, material2);
+    const light2 = new THREE.Mesh(geometry, lightMaterial);
     light2.position.set(0, 5, 2);
-    light2.scale.set(5, 5, 5);
+    light2.scale.set(0.5, 0.5, 0.5);
     envScene.add(light2);
 
-    const material3 = new THREE.MeshLambertMaterial({
-      color: 0x00ff00,
-      emissive: 0x00ff00,
-      emissiveIntensity: 15,
-    });
-    const light3 = new THREE.Mesh(geometry, material3);
+    const light3 = new THREE.Mesh(geometry, lightMaterial);
     light3.position.set(3.5, -1, -5);
-    light3.scale.set(5, 5, 5);
+    light3.scale.set(2, 2, 2);
     envScene.add(light3);
 
-    const material4 = new THREE.MeshLambertMaterial({
-      color: 0xff00ff,
-      emissive: 0xff00ff,
-      emissiveIntensity: 15,
-    });
-    const light4 = new THREE.Mesh(geometry, material4);
+    const light4 = new THREE.Mesh(geometry, lightMaterial);
     light4.position.set(-5, 2, 0);
-    light4.scale.set(5, 5, 5);
+    light4.scale.set(2, 2, 2);
     envScene.add(light4);
 
 
     return envScene;
   }
-
   update() {
 
   }

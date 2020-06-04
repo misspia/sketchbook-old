@@ -38,6 +38,8 @@ export default class EffectManager {
   }
 
   render() {
+    this.context.renderer.autoClear = false;
+    this.context.renderer.clear();
     this.pp.render();
   }
 }

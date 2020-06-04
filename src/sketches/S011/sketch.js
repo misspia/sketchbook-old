@@ -1,8 +1,6 @@
 import * as THREE from 'three';
 import SketchManagerThree from '../sketchManagerThree';
 
-import haloFrag from './shaders/halo.frag';
-import haloVert from './shaders/halo.vert';
 import utils from '../utils';
 
 import Clouds from './clouds';
@@ -39,22 +37,17 @@ import Lights from './lights';
     this.clouds = new Clouds({
       radius: 50,
       numClouds: 25,
-      maxY: 40,
-      minY: 20,
+      maxY: -10,
+      minY: -50,
     });
     this.effectManager = new EffectManager(this);
-
-    this.halo = {};
-
   }
   unmount() {
 
   }
   init() {
-    // this.setClearColor(0x111111);
-    // this.setClearColor(0xffffff);
-    this.setClearColor(0x5555ff);
-    this.setCameraPos(-9, -50, 60);
+    this.setClearColor(0x111111);
+    this.setCameraPos(-40, 40, 90);
 
     this.lookAt(0, 0, 0, 0);
 
@@ -62,48 +55,15 @@ import Lights from './lights';
     this.scene.add(this.pyramid.pivot);
     this.scene.add(this.clouds.pivot);
     this.scene.add(this.petals.pivot);
-    this.scene.add(this.lights.ambient );
-    this.scene.add(this.lights.directionalSide);
-    this.scene.add(this.lights.directionalBottom);
-
-    // this.createHalo();
-  }
-
-  createHalo() {
-    const geometry = new THREE.TorusGeometry( 45, 0.6, 15, 90 );
-    geometry.computeFlatVertexNormals();
-    this.haloMaterial = new THREE.RawShaderMaterial({
-      uniforms: {
-        uTime: { type: 'f', value: 0.0 },
-        fogColor: { type: 'c', value: this.scene.fog.color },
-        fogDensity: { type: 'f', value: this.scene.fog.density },
-      },
-      vertexShader: haloVert,
-      fragmentShader: haloFrag,
-      transparent: true,
-    });
-    this.halo = new THREE.Mesh(geometry, this.haloMaterial);
-    this.halo.rotateX(utils.toRadians(90));
-
-    this.halo.position.set(0, -25, 0);
-    this.scene.add(this.halo);
   }
 
   draw() {
-
     const time = this.clock.getElapsedTime();
-    // this.haloMaterial.uniforms.uTime.value = time;
     this.petals.update();
     this.pyramid.update();
     this.clouds.update(time);
 
-
-    this.renderer.autoClear = false;
-    this.renderer.clear();
     this.effectManager.render();
-
-
-    this.renderer.render(this.scene, this.camera);
 
     requestAnimationFrame(() => this.draw());
   }
