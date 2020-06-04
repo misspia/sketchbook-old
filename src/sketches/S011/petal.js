@@ -30,13 +30,12 @@ const colors = [
   new THREE.Vector3(0.38, 0.79, 0.82),
 ];
 
-// const secondaryColor = new THREE.Vector3(0.97, 0.97, 0.97); // #f8f8f8
 const secondaryColor = new THREE.Vector3(0.97, 0.6, 0.7); // #f8f8f8
 
 export default class Petal {
   constructor(pivotCoord) {
-    this.minY = -25;
-    this.maxY = 10;
+    this.minY = 0;
+    this.maxY = 20;
 
     this.centerCoord = {
       x: pivotCoord.x,

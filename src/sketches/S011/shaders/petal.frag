@@ -4,7 +4,6 @@ uniform vec3 uPrimaryColor;
 uniform vec3 uSecondaryColor;
 uniform vec3 uColorNoise;
 
-varying vec3 vNormal;
 varying vec2 vUv;
 
 #pragma glslify: snoise3 = require(glsl-noise/simplex/3d)

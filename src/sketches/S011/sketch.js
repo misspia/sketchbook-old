@@ -37,8 +37,8 @@ import Lights from './lights';
     this.clouds = new Clouds({
       radius: 50,
       numClouds: 25,
-      maxY: 40,
-      minY: 20,
+      maxY: -10,
+      minY: -50,
     });
     this.effectManager = new EffectManager(this);
   }
@@ -47,9 +47,7 @@ import Lights from './lights';
   }
   init() {
     this.setClearColor(0x111111);
-    // this.setClearColor(0xffffff);
-    // this.setClearColor(0x5555ff);
-    this.setCameraPos(-30, -25, 80);
+    this.setCameraPos(-40, 40, 90);
 
     this.lookAt(0, 0, 0, 0);
 
@@ -57,9 +55,6 @@ import Lights from './lights';
     this.scene.add(this.pyramid.pivot);
     this.scene.add(this.clouds.pivot);
     this.scene.add(this.petals.pivot);
-    this.scene.add(this.lights.ambient );
-    this.scene.add(this.lights.directionalSide);
-    this.scene.add(this.lights.directionalBottom);
   }
 
   draw() {
