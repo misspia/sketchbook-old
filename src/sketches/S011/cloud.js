@@ -22,8 +22,8 @@ export default class Cloud {
       centerCoord.z,
     );
 
-    this.minRadius = utils.randomFloatBetween(25, 40);
-    this.maxRadius = utils.randomFloatBetween(60, 80);
+    this.minRadius = utils.randomFloatBetween(40, 50);
+    this.maxRadius = utils.randomFloatBetween(70, 90);
     this.radius = 0;
     this.updateRadius();
 
@@ -32,6 +32,7 @@ export default class Cloud {
     this.yVelocity = utils.randomFloatBetween(0.01, 0.04);
 
     const size = utils.randomFloatBetween(50, 90);
+    // const size = utils.randomFloatBetween(100, 150);
     const geometry = new THREE.PlaneGeometry(size, size, size * 3, size * 3);
     this.material = new THREE.ShaderMaterial({
       vertexShader,
@@ -43,7 +44,7 @@ export default class Cloud {
         uTxtCloudNoise: { value: noiseTexture },
         uFac1: { value: utils.randomFloatBetween(15, 18) },
         uFac2: { value: utils.randomFloatBetween(2, 7) },
-        uTimeFactor1: { value: utils.randomFloatBetween(0.0001, 0.005) },
+        uTimeFactor1: { value: utils.randomFloatBetween(0.001, 0.007) },
         uTimeFactor2: { value: utils.randomFloatBetween(0.0001, 0.003) },
         uDisplStrenght1: { value: utils.randomFloatBetween(0.01, 0.05) },
         uDisplStrenght2: { value: utils.randomFloatBetween(0.001, 0.15) },
