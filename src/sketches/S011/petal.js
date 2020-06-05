@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 
+import { Layers } from './effectManager';
 import utils from '../utils';
 import frag from './shaders/petal.frag';
 import vert from './shaders/petal.vert';
@@ -9,33 +10,10 @@ const maxRadius = 35;
 const minVelocity = 0.006;
 const maxVelocity = 0.02;
 
-/**
- * color palette:
- * https://www.pinterest.ca/pin/666603182331068421/
- */
-// const colors = [
-//   // new THREE.Vector3(0.94, 0.91, 0.93), // #f8f8f8
-//   new THREE.Vector3(0.24, 0.88, 0.89), // #3ee1e3
-//   new THREE.Vector3(0.49, 0.8, 0.94), // #7dcdef
-//   new THREE.Vector3(0.92, 0.83, 0.74), // #ead3bc
-//   new THREE.Vector3(0.9, 0.74, 0.92), // #e6bdea
-//   new THREE.Vector3(0.92, 0.93, 0.82), // #eaeed1
-//   // new THREE.Vector3(0.81, 0.95, 0.67), // #f3eed1
-// ];
-
-const colors = [
-  // new THREE.Vector3(0.24, 0.88, 0.89),
-  // new THREE.Vector3(0.88, 0.24, 0.89),
-  // new THREE.Vector3(0.88, 0.89, 0.24),
-  new THREE.Vector3(0.38, 0.79, 0.82),
-];
-
-const secondaryColor = new THREE.Vector3(0.97, 0.6, 0.7); // #f8f8f8
-
 export default class Petal {
   constructor(pivotCoord) {
-    this.minY = 0;
-    this.maxY = 20;
+    this.minY = -10;
+    this.maxY = 40;
 
     this.centerCoord = {
       x: pivotCoord.x,
@@ -49,30 +27,19 @@ export default class Petal {
     this.angleVelocity = utils.randomFloatBetween(minVelocity, maxVelocity);
     this.rotateVelocity = utils.randomFloatBetween(minVelocity, maxVelocity);
 
-    const colorIndex = utils.randomIntBetween(0, colors.length- 1);
-    const primaryColor = colors[colorIndex];
-
-   this.geometry = this.createShardGeometry(utils.randomFloatBetween(0.01, 0.04));
+  //  this.geometry = this.createShardGeometry(utils.randomFloatBetween(0.01, 0.04));
+   this.geometry = this.createPetalGeometry(utils.randomFloatBetween(0.01, 0.04));
     this.material = new THREE.RawShaderMaterial({
      side: THREE.DoubleSide,
-      uniforms: {
-        uPrimaryColor: { value: primaryColor },
-        uSecondaryColor: { value: secondaryColor },
-        uColorNoise: {
-          value: new THREE.Vector3(
-            utils.randomFloatBetween(5, 5),
-            utils.randomFloatBetween(5, 5),
-            utils.randomFloatBetween(5, 5),
-          )
-        },
-      },
+      uniforms: {},
       fragmentShader: frag,
       vertexShader: vert,
     });
-    this.mesh = new THREE.Mesh(this.geometry, this.material);
+    this.pivot = new THREE.Mesh(this.geometry, this.material);
     this.setPosition(this.getInitialCoord())
-    this.mesh.doubleSide = true;
-    this.mesh.rotation.y = Math.PI / 2;
+    this.pivot.doubleSide = true;
+    this.pivot.rotation.y = Math.PI / 2;
+    this.pivot.layers.enable(Layers.BLOOM);
   }
 
   createPetalGeometry(size = 1) {
@@ -140,9 +107,9 @@ export default class Petal {
     this.updatePosition();
   }
   updateRotation() {
-    this.mesh.rotation.x += this.rotateVelocity;
-    this.mesh.rotation.y += this.rotateVelocity;
-    this.mesh.rotation.z += this.rotateVelocity;
+    this.pivot.rotation.x += this.rotateVelocity;
+    this.pivot.rotation.y += this.rotateVelocity;
+    this.pivot.rotation.z += this.rotateVelocity;
   }
   updatePosition() {
     this.incrementCenterY();
@@ -167,7 +134,7 @@ export default class Petal {
     this.centerCoord.y += this.yVelocity;
   }
   setPosition({ x, y, z }) {
-    this.mesh.position.set(x, y, z);
+    this.pivot.position.set(x, y, z);
   }
   setRotation() {
 

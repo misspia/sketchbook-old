@@ -17,7 +17,7 @@ export default class Petals {
     for(let i = 0; i < this.numPetals; i++) {
       const petal = new Petal({x: 0, y: 0, z: 0});
       this.petals.push(petal);
-      this.pivot.add(petal.mesh);
+      this.pivot.add(petal.pivot);
     }
   }
   update() {
