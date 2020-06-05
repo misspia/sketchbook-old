@@ -7,12 +7,12 @@ import vert from './shaders/petal.vert';
 
 const minRadius = 23;
 const maxRadius = 35;
-const minVelocity = 0.006;
-const maxVelocity = 0.02;
+const minVelocity = 0.009;
+const maxVelocity = 0.025;
 
 export default class Petal {
   constructor(pivotCoord) {
-    this.minY = -10;
+    this.minY = -20;
     this.maxY = 40;
 
     this.centerCoord = {

@@ -32,7 +32,12 @@ void main() {
     vec4 txtShape = texture2D(uTxtShape, newUv);
 
     float alpha = levels((txtNoise1 + txtNoise2) * 0.6, 0.2, 0.4, 0.7).r;
+    float opacity = 1.0;
     alpha *= txtShape.r;
+    if(alpha < 0.15 ) {
+        alpha = 0.0;
+    }
 
     gl_FragColor = vec4(vec3(0.95,0.95,0.95), alpha);
+    // gl_FragColor = vec4(vec3(alpha, 0.0,0.0), opacity);
 }

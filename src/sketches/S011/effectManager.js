@@ -27,7 +27,7 @@ export default class EffectManager {
   createBloom() {
     const params = {
       exposure: 1,
-      bloomStrength: 1,
+      bloomStrength: 0.7,
       bloomThreshold: 0,
       bloomRadius: 0,
     };

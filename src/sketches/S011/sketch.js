@@ -31,7 +31,8 @@ import EffectManager from './effectManager';
       numPetals: 10,
     });
     this.clouds = new Clouds({
-      numClouds: 20,
+      // numClouds: 20,
+      numClouds: 10,
     });
     this.effectManager = new EffectManager(this);
   }
