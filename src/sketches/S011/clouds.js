@@ -7,6 +7,7 @@ export default class Clouds {
   constructor({
     numClouds = 10,
   }) {
+    this.rotationVelocity = 0.001;
     this.numClouds = numClouds;
     this.clouds = [];
     this.pivot = new THREE.Group();
@@ -24,11 +25,14 @@ export default class Clouds {
     const shapeTexture = loader.load(Images.T011a);
     const noiseTexture = loader.load(Images.T011b);
 
+    const angleIncrement = Math.PI * 2 / this.numClouds;
     for(let i = 0; i < this.numClouds; i++) {
+      const angle = i * angleIncrement;
       const cloud = new Cloud({
         shapeTexture,
         noiseTexture,
         centerCoord: this.position,
+        angle,
       });
 
       this.clouds.push(cloud);
@@ -37,6 +41,7 @@ export default class Clouds {
   }
 
   update(uTime) {
+    this.pivot.rotation.y += this.rotationVelocity;
     this.clouds.forEach(cloud => cloud.update(uTime));
   }
 }
