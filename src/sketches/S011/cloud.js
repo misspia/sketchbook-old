@@ -25,7 +25,7 @@ export default class Cloud {
 
     this.minRadius = utils.randomFloatBetween(40, 50);
     this.maxRadius = utils.randomFloatBetween(70, 90);
-    this.radius = 60;
+    this.radius = 65;
 
     this.angle = angle;
     this.angleVelocity = utils.randomFloatBetween(0.001, 0.005);

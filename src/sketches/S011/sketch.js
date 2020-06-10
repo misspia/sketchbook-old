@@ -3,7 +3,7 @@ import SketchManagerThree from '../sketchManagerThree';
 import Clouds from './clouds';
 import Petals from './petals';
 import Environment from './environment';
-import Pyramid from './pyramid';
+import Crystal from './crystal';
 import EffectManager from './effectManager';
 
 /**
@@ -23,7 +23,7 @@ import EffectManager from './effectManager';
     this.composer = {};
 
     this.environment = new Environment(this.renderer);
-    this.pyramid = new Pyramid({
+    this.crystal = new Crystal({
       environment: this.environment,
       size: 20,
     });
@@ -45,8 +45,8 @@ import EffectManager from './effectManager';
 
     this.lookAt(0, 0, 0, 0);
 
-    this.pyramid.position.set(0, 5, 0);
-    this.scene.add(this.pyramid.pivot);
+    this.crystal.position.set(0, 5, 0);
+    this.scene.add(this.crystal.pivot);
     this.scene.add(this.clouds.pivot);
     this.scene.add(this.petals.pivot);
   }
@@ -54,7 +54,7 @@ import EffectManager from './effectManager';
   draw() {
     this.time += this.timeIncrement;
     this.petals.update();
-    this.pyramid.update();
+    this.crystal.update();
     this.clouds.update(this.time);
 
     this.effectManager.render();
