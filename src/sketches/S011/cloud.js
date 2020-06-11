@@ -12,9 +12,10 @@ export default class Cloud {
     shapeTexture,
     noiseTexture,
     centerCoord = new THREE.Vector3(),
+    angle,
   }) {
-    this.minY = -50;
-    this.maxY = -30;
+    this.minY = -70;
+    this.maxY = -45;
 
     this.centerCoord = new THREE.Vector3(
       centerCoord.x,
@@ -24,15 +25,13 @@ export default class Cloud {
 
     this.minRadius = utils.randomFloatBetween(40, 50);
     this.maxRadius = utils.randomFloatBetween(70, 90);
-    this.radius = 0;
-    this.updateRadius();
+    this.radius = 65;
 
-    this.angle = utils.randomFloatBetween(0, 2 * Math.PI);
+    this.angle = angle;
     this.angleVelocity = utils.randomFloatBetween(0.001, 0.005);
     this.yVelocity = utils.randomFloatBetween(0.01, 0.04);
 
-    const size = utils.randomFloatBetween(50, 90);
-    // const size = utils.randomFloatBetween(100, 150);
+    const size = utils.randomFloatBetween(70, 100);
     const geometry = new THREE.PlaneGeometry(size, size, size * 3, size * 3);
     this.material = new THREE.ShaderMaterial({
       vertexShader,
@@ -46,13 +45,14 @@ export default class Cloud {
         uFac2: { value: utils.randomFloatBetween(2, 7) },
         uTimeFactor1: { value: utils.randomFloatBetween(0.001, 0.007) },
         uTimeFactor2: { value: utils.randomFloatBetween(0.0001, 0.003) },
-        uDisplStrenght1: { value: utils.randomFloatBetween(0.01, 0.05) },
-        uDisplStrenght2: { value: utils.randomFloatBetween(0.001, 0.15) },
+        uDisplStrenght1: { value: utils.randomFloatBetween(0.02, 0.06) },
+        uDisplStrenght2: { value: utils.randomFloatBetween(0.005, 0.2) },
       },
       transparent: true,
       side: THREE.DoubleSide,
     });
     this.pivot = new THREE.Mesh(geometry, this.material);
+
     this.updatePostion();
   }
 
@@ -73,12 +73,5 @@ export default class Cloud {
 
   update(uTime) {
     this.material.uniforms.uTime.value = uTime;
-
-    this.angle += this.angleVelocity;
-    if(this.position.y > this.maxY || this.position.y < this.minY) {
-      this.yVelocity = -this.yVelocity;
-    }
-    this.updateRadius();
-    this.updatePostion();
   }
 }
