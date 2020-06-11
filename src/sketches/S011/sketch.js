@@ -28,11 +28,10 @@ import EffectManager from './effectManager';
       size: 20,
     });
     this.petals = new Petals({
-      numPetals: 10,
+      numPetals: 8,
     });
     this.clouds = new Clouds({
       numClouds: 10,
-      // numClouds: 1,
     });
     this.effectManager = new EffectManager(this);
   }

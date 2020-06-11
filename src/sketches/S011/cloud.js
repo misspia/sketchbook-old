@@ -31,7 +31,7 @@ export default class Cloud {
     this.angleVelocity = utils.randomFloatBetween(0.001, 0.005);
     this.yVelocity = utils.randomFloatBetween(0.01, 0.04);
 
-    const size = utils.randomFloatBetween(50, 110);
+    const size = utils.randomFloatBetween(70, 100);
     const geometry = new THREE.PlaneGeometry(size, size, size * 3, size * 3);
     this.material = new THREE.ShaderMaterial({
       vertexShader,

@@ -12,7 +12,7 @@ const maxVelocity = 0.03;
 
 export default class Petal {
   constructor(pivotCoord) {
-    this.minY = -50;
+    this.minY = 0;
     this.maxY = 60;
 
     this.centerCoord = {

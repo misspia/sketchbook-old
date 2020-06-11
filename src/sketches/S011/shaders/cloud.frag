@@ -34,6 +34,6 @@ void main() {
     float alpha = levels((txtNoise1 + txtNoise2) * 0.6, 0.2, 0.4, 0.7).r;
     alpha *= txtShape.r;
 
-    gl_FragColor = vec4(vec3(1.0, 1.0, 1.0), alpha);
+    gl_FragColor = vec4(vec3(0.85, 0.8, 1.0), alpha);
     // gl_FragColor = vec4(vec3(alpha, 0.0, 0.0), 1.0);
 }
