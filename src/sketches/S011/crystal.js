@@ -1,12 +1,6 @@
 import * as THREE from 'three';
 import utils from '../utils';
 
-/**
- * https://www.reddit.com/r/ImaginaryMindscapes/comments/aao0yx/voyager_by_archist/
- * https://www.reddit.com/r/ImaginaryMonuments/comments/9ywnkr/the_middle_of_eternity_by_alex_andreyev/
- * https://www.reddit.com/r/ImaginaryLandscapes/comments/9x1sf4/s_e_n_s_o_r_y_by_me/
- * https://www.reddit.com/r/ImaginaryMindscapes/comments/9ah51q/d_a_y_b_r_e_a_k_by_me/
- */
 export default class Crystal {
   constructor({
     environment,
