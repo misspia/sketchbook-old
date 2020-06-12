@@ -14,24 +14,24 @@ export default class Cloud {
     centerCoord = new THREE.Vector3(),
     angle,
   }) {
-    this.minY = -70;
-    this.maxY = -45;
+    this.minY = -50;
+    this.maxY = -35;
 
     this.centerCoord = new THREE.Vector3(
       centerCoord.x,
-      utils.randomFloatBetween(this.minY / 2, this.maxY),
+      utils.randomFloatBetween(this.minY, this.maxY),
       centerCoord.z,
     );
 
     this.minRadius = utils.randomFloatBetween(40, 50);
     this.maxRadius = utils.randomFloatBetween(70, 90);
-    this.radius = 65;
+    this.radius = 70;
 
     this.angle = angle;
     this.angleVelocity = utils.randomFloatBetween(0.001, 0.005);
     this.yVelocity = utils.randomFloatBetween(0.01, 0.04);
 
-    const size = utils.randomFloatBetween(70, 100);
+    const size = utils.randomFloatBetween(70, 90);
     const geometry = new THREE.PlaneGeometry(size, size, size * 3, size * 3);
     this.material = new THREE.ShaderMaterial({
       vertexShader,
@@ -41,12 +41,12 @@ export default class Cloud {
         uTime: { value: 0 },
         uTxtShape: { value: shapeTexture },
         uTxtCloudNoise: { value: noiseTexture },
-        uFac1: { value: utils.randomFloatBetween(15, 18) },
-        uFac2: { value: utils.randomFloatBetween(2, 7) },
+        uFac1: { value: utils.randomFloatBetween(8, 10) },
+        uFac2: { value: utils.randomFloatBetween(2, 3) },
         uTimeFactor1: { value: utils.randomFloatBetween(0.001, 0.007) },
         uTimeFactor2: { value: utils.randomFloatBetween(0.0001, 0.003) },
-        uDisplStrenght1: { value: utils.randomFloatBetween(0.02, 0.06) },
-        uDisplStrenght2: { value: utils.randomFloatBetween(0.005, 0.2) },
+        uDisplStrenght1: { value: utils.randomFloatBetween(0.04, 0.08) },
+        uDisplStrenght2: { value: utils.randomFloatBetween(0.02, 0.15) },
       },
       transparent: true,
       side: THREE.DoubleSide,
