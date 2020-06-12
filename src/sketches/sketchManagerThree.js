@@ -62,6 +62,9 @@ class SketchManagerThree {
     // event listeners
     window.addEventListener('resize', () => this.resize());
   }
+  clear() {
+
+  }
   unmount() { }
   init() { }
   draw() { }
