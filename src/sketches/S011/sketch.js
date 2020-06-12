@@ -35,6 +35,7 @@ import EffectManager from './effectManager';
 
   }
   init() {
+    this.disableOrbitControls();
     this.setClearColor(0x111111);
     this.setCameraPos(-100, 100, 150);
 
