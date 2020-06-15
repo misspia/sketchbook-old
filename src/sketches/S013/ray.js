@@ -5,15 +5,15 @@ import frag from './ray.frag';
 import vert from './ray.vert';
 
 export default class Line  {
-  constructor(cameraDistance, pivotCoord) {  
+  constructor(cameraDistance, pivotCoord) {
     const palette = [
       0xdddddd,
       0xaaaaaa,
       0x555555,
-    ];  
+    ];
     this.velocity = utils.randomFloatBetween(0.1, 1);
     this.rotateVeocityY = 0.02;
-    
+
     const height = utils.randomFloatBetween(50, 70)
     this.dimension = cameraDistance;
     this.minY = -this.dimension - height;
@@ -30,10 +30,10 @@ export default class Line  {
       fragmentShader: frag,
       vertexShader: vert,
     });
-    
+
     this.mesh = new THREE.Mesh(this.geometry, this.material);
     this.mesh.receiveShadow = true;
-    
+
     this.centerCoord = {
       x: pivotCoord.x,
       y: utils.randomFloatBetween(-this.dimension, this.dimension),
@@ -42,6 +42,12 @@ export default class Line  {
     const { x, y, z } = this.getInitialCoord();
     this.mesh.position.set(x, y, z);
   }
+
+  dispose() {
+    this.geometry.dispose();
+    this.material.dispose();
+  }
+
   getInitialCoord() {
     const { x, y, z } = this.centerCoord;
     const radius = utils.randomFloatBetween(this.dimension * 0.7, this.dimension);
