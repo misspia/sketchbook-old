@@ -16,11 +16,20 @@ class Sketch extends SketchManagerThree {
     this.curve = {};
     this.spline = {};
     this.tunnel = {};
+    this.tube = {};
+    this.texture = {};
     this.tubeGeometry = {};
-    this.tubeGeometryOriginal = {};
     this.tubeMaterial = {};
     this.tubeSpeed = 0.02;
   }
+
+  unmount() {
+    this.texture.dispose();
+    this.tube.geometry.dispose();
+    this.tube.material.dispose();
+    this.clearScene();
+  }
+
   init() {
     this.setCameraPos(0, 0, 1.3);
     this.setClearColor(0xf1ebeb);
@@ -46,10 +55,8 @@ class Sketch extends SketchManagerThree {
     this.tubeMaterial = this.createTubeMaterial();
     this.wrapTubeMaterialMap();
 
-    const tube = new THREE.Mesh(this.tubeGeometry, this.tubeMaterial);
-    this.scene.add(tube);
-
-    this.tubeGeometryOriginal = this.tubeGeometry.clone();
+    this.tube = new THREE.Mesh(this.tubeGeometry, this.tubeMaterial);
+    this.scene.add(this.tube);
   }
   createCurve() {
     let points = [];
@@ -69,10 +76,10 @@ class Sketch extends SketchManagerThree {
     return new THREE.TubeGeometry(this.curve, 70, 0.02, 50, false);
   }
   createTubeMaterial() {
-    const texture = new THREE.TextureLoader().load(Images.T007);
+    this.texture = new THREE.TextureLoader().load(Images.T007);
     return new THREE.MeshBasicMaterial({
       side: THREE.BackSide,
-      map: texture,
+      map: this.texture,
     });
   }
   wrapTubeMaterialMap() {
