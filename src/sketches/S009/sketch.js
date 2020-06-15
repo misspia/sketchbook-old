@@ -27,21 +27,24 @@ class Sketch extends SketchManagerThree {
 
   }
   unmount() {
-
+    this.tube.geometry.dispose();
+    this.tube.material.dispose();
+    this.clearScene();
   }
+
   init() {
     this.setClearColor(0xCCCFCC)
     this.setCameraPos(0, 50, -100);
 
     this.createLights();
-    
+
     this.scene.fog = new THREE.FogExp2( 0xCFEFEF, 0.05 );
-    
+
     this.curve = new THREE.CatmullRomCurve3(this.getInitialCurvePoints());
     // this.createLine();
     this.createTunnel();
   }
-  createLights() {    
+  createLights() {
     this.dirLightPositive = new THREE.DirectionalLight(palette[0], 0.5);
     this.scene.add(this.dirLightPositive);
 
@@ -55,7 +58,7 @@ class Sketch extends SketchManagerThree {
     this.scene.add(this.lightLeft);
   }
   getInitialCurvePoints() {
-    return [      
+    return [
       new THREE.Vector3(0, 0, 0),
       new THREE.Vector3(-60, 0, -22),
       new THREE.Vector3(-80, 0, 10),
@@ -75,13 +78,13 @@ class Sketch extends SketchManagerThree {
   }
   createTunnel() {
     const geometry = new THREE.TubeGeometry(this.curve, 70, 5, 10, true);
-      
+
     const texture = new THREE.TextureLoader().load(Images.T009);
     texture.wrapT = THREE.RepeatWrapping;
     texture.wrapS = THREE.RepeatWrapping;
 
     const material = new THREE.MeshLambertMaterial({
-      color: 0xffffff, 
+      color: 0xffffff,
       opacity: 1,
       map: texture,
       side: THREE.BackSide,
@@ -93,19 +96,19 @@ class Sketch extends SketchManagerThree {
   // move camera along the line
   moveCamera() {
     this.cameraPosOnCurve += this.cameraIncrement;
-    
+
     const { x, y, z } = this.getPoint(this.cameraPosOnCurve);
     this.setCameraPos(x, y, z);
-    
+
     const lookAtVector = this.getPoint(this.cameraPosOnCurve + this.cameraIncrement)
     this.camera.lookAt(lookAtVector);
-    
+
     /**
      * Move lights
      */
-    const { x: tx, y: ty, z:tz } = lookAtVector; 
+    const { x: tx, y: ty, z:tz } = lookAtVector;
     this.dirLightNegative.position.set(tx, ty - 1, tz - 1);
-    this.dirLightPositive.position.set(tx, ty + 1, tz + 1);  
+    this.dirLightPositive.position.set(tx, ty + 1, tz + 1);
 
     this.lightLeft.position.set(tx + 2, ty - 3, tz + 2);
     this.lightRight.position.set(tx - 2, ty - 3, tz - 2);
@@ -117,7 +120,7 @@ class Sketch extends SketchManagerThree {
   draw() {
     this.renderer.render(this.scene, this.camera);
     this.moveCamera();
-    
+
     requestAnimationFrame(() => this.draw());
   }
 }
