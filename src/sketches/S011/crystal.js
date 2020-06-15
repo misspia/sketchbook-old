@@ -25,6 +25,11 @@ export default class Crystal {
     return this.pivot.rotation;
   }
 
+  dispose() {
+    this.crystal.geometry.dispose();
+    this.crystal.material.dispose();
+  }
+
   init() {
     this.createCrystal();
     this.pivot.add(this.crystal);
@@ -36,7 +41,6 @@ export default class Crystal {
       roughness: 0.0,
       opacity: 0.85,
       transparent: true,
-      premulcrystalliedAlpha: true,
       envMap: this.environment.envMap,
       side: THREE.DoubleSide,
       sheen: new THREE.Color(0x0000ff).convertGammaToLinear(2.2),
