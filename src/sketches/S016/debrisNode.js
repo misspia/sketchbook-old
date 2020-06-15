@@ -68,6 +68,11 @@ export default class DebrisNode {
     return this.pivot.position;
   }
 
+  dispose() {
+    this.geometry.dispose();
+    this.material.dispose();
+  }
+
   updatePosition() {
     const pos = {
       x: this.centerCoord.x + this.radius * Math.cos(this.angle),

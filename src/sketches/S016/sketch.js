@@ -40,7 +40,12 @@ class Sketch extends SketchManagerThree {
     });
 
   }
-  unmount() {}
+  unmount() {
+    this.audio.close();
+    this.debris.dispose();
+    this.floor.dispose();
+    this.clearScene();
+  }
 
   init() {
     this.setCameraPos(12, 8, 12);

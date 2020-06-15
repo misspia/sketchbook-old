@@ -18,11 +18,14 @@ export default class Debris {
     return this.pivot.position;
   }
 
+  dispose() {
+    this.debris.forEach(debris => debris.dispose());
+  }
+
   init() {
     for(let i = 0; i < this.numNodes; i ++) {
-      const { bass, midrange, highrange } = this.context.spectrumStart;
+      const { midrange } = this.context.spectrumStart;
       const freqIndex = utils.randomIntBetween(midrange, this.context.frequencyDataLength - 1);
-      // const freqIndex = utils.randomIntBetween(highrange, this.context.frequencyDataLength - 1);
       const node = new DebrisNode({
         freqIndex,
         minRadius: this.radius * 0.3,
