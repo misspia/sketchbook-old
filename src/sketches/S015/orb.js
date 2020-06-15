@@ -48,6 +48,11 @@ export default class Orb {
     this.mesh = new THREE.Points(this.geometry, this.material);
   }
 
+  dispose() {
+    this.geometry.dispose();
+    this.material.dispose();
+  }
+
   createParticles() {
     for (let i = 0; i < this.numPoints; i++) {
       const particle = {

@@ -7,10 +7,6 @@ attribute vec2 uv;
 uniform mat4 projectionMatrix;
 uniform mat4 modelViewMatrix;
 
-varying vec3 vNormal;
-varying vec3 vPosition;
-varying vec2 vUv;
-
 uniform float u_freq;
 uniform float u_radius;
 uniform float u_angle;
@@ -63,6 +59,6 @@ void main () {
 
   pos += translate();
 
-  
+
   gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
 }

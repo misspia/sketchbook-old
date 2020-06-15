@@ -11,7 +11,7 @@ export default class Shard {
     this.minZ = minZ;
     this.maxZ = maxZ;
     this.positionZ = utils.randomFloatBetween(this.minZ, this.maxZ);
-    
+
     this.radius = utils.randomFloatBetween(50, 100);
     this.angle = utils.randomFloatBetween(0, Math.PI * 2);
     const rotateSpeed = new THREE.Vector3(
@@ -77,6 +77,12 @@ export default class Shard {
 
     this.mesh = new THREE.Mesh(this.geometry, this.material);
   }
+
+  dispose() {
+    this.geometry.dispose();
+    this.material.dispose();
+  }
+
   createGeometry(size = 1) {
     const petalShape = new THREE.Shape();
     petalShape.moveTo(0, 0);
@@ -125,7 +131,7 @@ export default class Shard {
     if(this.positionZ < this.minZ) {
       this.positionZ = this.maxZ;
     }
-    this.material.uniforms.u_position_z.value = this.positionZ; 
+    this.material.uniforms.u_position_z.value = this.positionZ;
 
   }
 }

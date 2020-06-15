@@ -7,10 +7,6 @@ attribute vec2 uv;
 uniform mat4 projectionMatrix;
 uniform mat4 modelViewMatrix;
 
-varying vec3 vNormal;
-varying vec3 vPosition;
-varying vec2 vUv;
-
 uniform float u_time;
 uniform float u_freq;
 uniform vec3 u_translate_speed;
@@ -73,8 +69,8 @@ mat3 rotateZ(float rad) {
 mat3 rotate() {
   vec3 u_rotate_speed = vec3(10.0, 0.1, 2.0);
     float rad = u_time * DEG_TO_RAD;
-    return rotateX(rad * u_rotate_speed.x) * 
-            rotateY(rad * u_rotate_speed.y) * 
+    return rotateX(rad * u_rotate_speed.x) *
+            rotateY(rad * u_rotate_speed.y) *
             rotateZ(rad * u_rotate_speed.z);
 }
 

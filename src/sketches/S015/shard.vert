@@ -7,11 +7,6 @@ attribute vec2 uv;
 uniform mat4 projectionMatrix;
 uniform mat4 modelViewMatrix;
 
-varying vec3 vNormal;
-varying vec3 vPosition;
-varying vec2 vUv;
-varying vec3 vColor;
-
 uniform float u_freq;
 uniform float u_time;
 uniform float u_radius;
@@ -61,8 +56,8 @@ mat3 rotateZ(float rad) {
 }
 
 mat3 rotate() {
-    return rotateX(u_rotation.x) * 
-            rotateY(u_rotation.y) * 
+    return rotateX(u_rotation.x) *
+            rotateY(u_rotation.y) *
             rotateZ(u_rotation.z);
 }
 
@@ -71,7 +66,7 @@ mat3 scale() {
     return mat3(
         scale, 0.0, 0.0,
         0.0, scale, 0.0,
-        0.0, 0.0, scale    
+        0.0, 0.0, scale
     );
 }
 
