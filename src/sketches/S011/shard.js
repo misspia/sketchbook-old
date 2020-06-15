@@ -45,6 +45,11 @@ export default class Shard {
     this.pivot.layers.enable(Layers.BLOOM);
   }
 
+  dispose() {
+    this.geometry.dispose();
+    this.material.dispose();
+  }
+
   createShardGeometry(size = 1) {
     const geometry = new THREE.BufferGeometry();
 

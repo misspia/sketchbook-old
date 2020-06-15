@@ -13,6 +13,10 @@ export default class Shards {
     this.createPetals();
   }
 
+  dispose() {
+    this.shards.forEach(shard => shard.dispose());
+  }
+
   createPetals() {
     for(let i = 0; i < this.numShards; i++) {
       const shard = new Shard({x: 0, y: 0, z: 0});

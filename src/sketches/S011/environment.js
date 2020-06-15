@@ -13,6 +13,17 @@ export default class Environment {
     return this.cubeMap;
   }
 
+  dispose() {
+    this.light1.geometry.dispose();
+    this.light1.material.dispose();
+    this.light2.geometry.dispose();
+    this.light2.material.dispose();
+    this.light3.geometry.dispose();
+    this.light3.material.dispose();
+    this.light4.geometry.dispose();
+    this.light4.material.dispose();
+  }
+
   getEnvScene() {
     const envScene = new THREE.Scene();
 
@@ -31,26 +42,25 @@ export default class Environment {
       emissive: 0xaaaaff,
       emissiveIntensity: 20,
     });
-    const light1 = new THREE.Mesh(geometry, lightMaterial);
-    light1.position.set(5, -2, 0);
-    light1.scale.set(0.1, 2, 1);
-    envScene.add(light1);
+    this.light1 = new THREE.Mesh(geometry, lightMaterial);
+    this.light1.position.set(5, -2, 0);
+    this.light1.scale.set(0.1, 2, 1);
+    envScene.add(this.light1);
 
-    const light2 = new THREE.Mesh(geometry, lightMaterial);
-    light2.position.set(0, 5, 2);
-    light2.scale.set(0.5, 0.5, 0.5);
-    envScene.add(light2);
+    this.light2 = new THREE.Mesh(geometry, lightMaterial);
+    this.light2.position.set(0, 5, 2);
+    this.light2.scale.set(0.5, 0.5, 0.5);
+    envScene.add(this.light2);
 
-    const light3 = new THREE.Mesh(geometry, lightMaterial);
-    light3.position.set(3.5, -1, -5);
-    light3.scale.set(2, 2, 2);
-    envScene.add(light3);
+    this.light3 = new THREE.Mesh(geometry, lightMaterial);
+    this.light3.position.set(3.5, -1, -5);
+    this.light3.scale.set(2, 2, 2);
+    envScene.add(this.light3);
 
-    const light4 = new THREE.Mesh(geometry, lightMaterial);
-    light4.position.set(-5, 2, 0);
-    light4.scale.set(2, 2, 2);
-    envScene.add(light4);
-
+    this.light4 = new THREE.Mesh(geometry, lightMaterial);
+    this.light4.position.set(-5, 2, 0);
+    this.light4.scale.set(2, 2, 2);
+    envScene.add(this.light4);
 
     return envScene;
   }

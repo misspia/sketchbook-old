@@ -3,9 +3,6 @@ precision highp float;
 uniform float u_freq;
 uniform sampler2D u_texture;
 
-varying vec3 vColor;
-varying float fOpacity;
-
 float remap(float min1, float max1, float min2, float max2, float value) {
     return min2 + (max2 - min2) * (value - min1) / (max1 - min1);
 }
@@ -25,7 +22,7 @@ void main() {
     color.g = remapFreq(0.0, 0.7);
     color.b = remapFreq(0.0, 0.7);
     color.a = 0.0;
-    
+
     gl_FragColor = vec4(color.rgb * texture.rgb, color.a);
     if(texture.a < 0.1) discard;
 }

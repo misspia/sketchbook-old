@@ -44,11 +44,17 @@ export default class Petal {
       vertexShader: vert,
       side: THREE.DoubleSide,
     });
-    
+
     this.mesh = new THREE.Mesh(this.geometry, this.material);
     this.mesh.receiveShadow = true;
     this.updatePosition();
   }
+
+  dispose() {
+    this.geometry.dispose();
+    this.material.dispose();
+  }
+
   createPetalGeometry(size = 1) {
     const petalShape = new THREE.Shape();
     petalShape.moveTo(0, 0);
@@ -71,10 +77,10 @@ export default class Petal {
     const { x, y, z } = this.centerCoord;
     const newX =  x + this.radius * Math.cos(this.angle);
     const newZ = z + this.radius * Math.sin(this.angle);
-    
+
     this.mesh.position.set(newX, y, newZ);
   }
-  update() { 
+  update() {
     this.mesh.rotation.x += this.rotateVelocityX;
     this.mesh.rotation.y += this.rotateVelocityY;
     this.mesh.rotation.z += this.rotateVelocityZ;

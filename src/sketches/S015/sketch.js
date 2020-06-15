@@ -12,7 +12,6 @@ class Sketch extends SketchManagerThree {
     super(canvas, audioElement);
 
     this.audioSrc = Audio.S015;
-    // this.audioSrc = Audio.tester;
     this.numFrequencyNodes = 25;
     this.fftSize = 512;
 
@@ -35,9 +34,16 @@ class Sketch extends SketchManagerThree {
     this.shards = [];
     this.numShards = this.numFrequencyNodes;
   }
-  unmount() {
 
+  unmount() {
+    this.audio.close();
+    this.leaves.forEach(leaf => leaf.dispose());
+    this.tiles.forEach(tile => tile.dispose());
+    this.shards.forEach(shard => shard.dispose());
+    this.orb.dispose();
+    this.clearScene();
   }
+
   init() {
     this.disableOrbitControls();
     this.setCameraPos(0, 0, this.cameraPositionZ);

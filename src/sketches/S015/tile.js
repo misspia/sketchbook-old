@@ -24,12 +24,20 @@ export default class Tile {
     this.mesh = new THREE.Mesh(this.geometry, this.material);
     this.mesh.rotation.x += Math.PI / 2;
   }
+
+  dispose() {
+    this.geometry.dispose();
+    this.material.dispose();
+  }
+
   setPosition(x, y, z) {
     this.mesh.position.set(x, y, z);
   }
+
   setRotation(x, y, z) {
     this.mesh.rotation.set(x, y, z);
   }
+
   update(freq) {
     this.material.uniforms.u_freq.value = freq;
   }

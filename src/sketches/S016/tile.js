@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-import utils from '../utils';
 
 const MIN_SCALE = 0.001;
 export default class Tile {
@@ -40,6 +39,11 @@ export default class Tile {
   set height(scale) {
     this.pivot.scale.y = scale;
     this.realignY();
+  }
+
+  dispose() {
+    this.geometry.dispose();
+    this.material.dispose();
   }
 
   updateSize() {

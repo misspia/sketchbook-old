@@ -20,12 +20,17 @@ export default class Leaf {
       utils.toRadians(3),
     );
 
-    const geometry = this.createGeometry(0.1);
+    this.geometry = this.createGeometry(0.1);
     const materialConfig = this.createMaterialConfig();
-
     this.material = new THREE.RawShaderMaterial(materialConfig);
-    this.mesh = new THREE.Mesh(geometry, this.material);
+    this.mesh = new THREE.Mesh(this.geometry, this.material);
   }
+
+  dispose() {
+    this.geometry.dispose();
+    this.material.dispose();
+  }
+
   createMaterialConfig() {
     const rotateSpeed = new THREE.Vector3(
       utils.randomSign() * utils.randomFloatBetween(20, 80),

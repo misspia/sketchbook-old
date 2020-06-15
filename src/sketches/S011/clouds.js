@@ -19,6 +19,10 @@ export default class Clouds {
     return this.pivot.position;
   }
 
+  dispose() {
+    this.clouds.forEach(cloud => cloud.dispose());
+  }
+
   createClouds() {
     const loader = new THREE.TextureLoader();
 

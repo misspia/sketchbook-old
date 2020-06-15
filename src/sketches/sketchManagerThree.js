@@ -62,15 +62,20 @@ class SketchManagerThree {
     // event listeners
     window.addEventListener('resize', () => this.resize());
   }
-  clear() {
 
-  }
+  clear() {}
   unmount() { }
   init() { }
   draw() { }
   render() {
     this.init();
     this.draw();
+  }
+
+  clearScene() {
+    while(this.scene.children.length > 0) {
+      this.scene.remove(this.scene.children[0]);
+    }
   }
 
   // create audio context

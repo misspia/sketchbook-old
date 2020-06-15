@@ -31,9 +31,15 @@ import EffectManager from './effectManager';
     });
     this.effectManager = new EffectManager(this);
   }
-  unmount() {
 
+  unmount() {
+    this.environment.dispose();
+    this.crystal.dispose();
+    this.shards.dispose();
+    this.clouds.dispose();
+    this.clearScene();
   }
+
   init() {
     this.disableOrbitControls();
     this.setClearColor(0x111111);

@@ -25,6 +25,11 @@ export default class FloorBack {
     this.bbox = new THREE.Box3().setFromObject(this.pivot);
   }
 
+  dispose() {
+    this.geometry.dispose();
+    this.material.dispose();
+  }
+
   createFrame(size) {
     const geometry = new THREE.PlaneGeometry(size, size);
     const material = new THREE.MeshBasicMaterial({

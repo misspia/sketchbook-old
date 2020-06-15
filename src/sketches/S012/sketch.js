@@ -14,7 +14,9 @@ import vert from './plane.vert';
     this.interactRadius = 0.2;
     this.amp = 3.5;
     this.planeNoise = new THREE.Vector3(1, 2, 2);
+    this.planeGeometry = {};
     this.planeMaterial = {};
+    this.plane = {};
 
     this.raycaster = {};
     this.isMousedown = false;
@@ -28,9 +30,13 @@ import vert from './plane.vert';
       maxX: 100,
     };
   }
-  unmount() {
 
+  unmount() {
+    this.planeGeometry.dispose();
+    this.planeMaterial.dispose();
+    this.clearScene();
   }
+
   init() {
     this.disableOrbitControls();
     this.setClearColor(0xbbbb55);
@@ -62,7 +68,7 @@ import vert from './plane.vert';
     const width = 90;
     const height = 90;
     const segmentRatio = 1.2;
-    const geometry = new THREE.PlaneGeometry(
+    this.planeGeometry = new THREE.PlaneGeometry(
       width,
       height,
       width * segmentRatio,
@@ -86,8 +92,8 @@ import vert from './plane.vert';
         u_mix_value: { type: 'f', value: this.reveal },
       }
     });
-    const plane = new THREE.Mesh(geometry, this.planeMaterial);
-    this.scene.add(plane);
+    this.plane = new THREE.Mesh(this.planeGeometry, this.planeMaterial);
+    this.scene.add(this.plane);
   }
   offsetCamera() {
     const { minX, maxX } = this.rotationRange;
@@ -119,7 +125,7 @@ import vert from './plane.vert';
       this.reveal -= this.revealIncrement;
     }
     this.planeMaterial.uniforms.u_mix_value.value = this.reveal;
-    
+
     requestAnimationFrame(() => this.draw());
   }
 }

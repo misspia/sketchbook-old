@@ -83,9 +83,7 @@ class Entry extends Component {
       y: document.documentElement.clientHeight
     }
   }
-  clearCanvas() {
 
-  }
   renderMediaActivator() {
     if(!this.state.activateMediaRequired) return;
     return (

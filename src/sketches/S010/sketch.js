@@ -22,9 +22,18 @@ class Sketch extends SketchManagerThree {
     this.maxAmp = 22;
     this.minAmp = 0;
   }
-  unmount() {
 
+  unmount() {
+    this.diamond.geometry.dispose();
+    this.diamond.material.dispose();
+    this.square.geometry.dispose();
+    this.square.material.dispose();
+    this.sphere.geometry.dispose();
+    this.sphere.material.dispose();
+
+    this.clearScene();
   }
+
   init() {
     this.disableOrbitControls();
     this.setClearColor(0x111111)
@@ -54,10 +63,10 @@ class Sketch extends SketchManagerThree {
     const material = new THREE.MeshBasicMaterial({
       envMap: this.cubeCamera.renderTarget,
     });
-    const square = new THREE.Mesh(geometry, material);
-    square.receiveShadow = true;
-    square.position.set(0, 0, 30);
-    this.scene.add(square);
+    this.square = new THREE.Mesh(geometry, material);
+    this.square.receiveShadow = true;
+    this.square.position.set(0, 0, 30);
+    this.scene.add(this.square);
   }
   createSphere() {
     this.geometry = new THREE.IcosahedronGeometry(13, 5);

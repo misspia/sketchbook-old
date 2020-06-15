@@ -7,6 +7,7 @@ import SketchManagerThree from '../sketchManagerThree';
 import utils from '../utils';
 import { Audio } from '../../themes';
 
+import Skybox from './skybox';
 import Ring from './ring';
 import OuterRing from './outerRing';
 import Bar from './bar';
@@ -28,18 +29,27 @@ class Sketch extends SketchManagerThree {
     this.fftSize = 512;
     this.vertices = [];
 
+    this.skybox = new Skybox({
+      size: 1000,
+    });
+
     this.light = {};
     this.numRings = 15;
     this.lastRingRadius = 12;
-    this.skybox = {};
     this.rings = [];
     this.outerRing = {};
     this.bars = [];
-
   }
+
   unmount() {
-
+    this.audio.close();
+    this.skybox.dispose();
+    this.rings.forEach(ring => ring.dispose());
+    this.outerRing.dispose();
+    this.bars.forEach(bar => bar.dispose());
+    this.clearScene();
   }
+
   init() {
     this.disableOrbitControls();
     this.renderer.shadowMap.enabled = true;
@@ -57,10 +67,11 @@ class Sketch extends SketchManagerThree {
     this.audio.volume(1);
 
     this.createLight();
-    this.createSkybox();
     this.createRings(0, this.numRings);
     this.createOuterRing();
     this.createBars();
+
+    this.scene.add(this.skybox.pivot);
 
     this.createEffects();
   }
@@ -91,18 +102,7 @@ class Sketch extends SketchManagerThree {
     this.pp.addPass(fxaa);
     this.pp.addPass(bloom);
   }
-  createSkybox() {
-    const size = 1000;
-    const geometry = new THREE.BoxGeometry(size, size, size);
-    const material = new THREE.MeshPhongMaterial({
-      color: 0xffffff,
-      side: THREE.DoubleSide,
-    });
-    this.skybox = new THREE.Mesh(geometry, material);
-    this.skybox.receiveShadow = true;
-    this.skybox.position.y = size / 2 - 3;
-    this.scene.add(this.skybox);
-  }
+
   createRings(z, length) {
     const color = 0x00bbff;
     const tube = 0.7;

@@ -7,10 +7,6 @@ attribute vec2 uv;
 uniform mat4 projectionMatrix;
 uniform mat4 modelViewMatrix;
 
-varying vec3 vNormal;
-varying vec3 vPosition;
-varying vec2 vUv;
-
 uniform float u_time;
 uniform vec3 u_rotate_speed;
 uniform vec3 u_translate_speed;
@@ -51,18 +47,10 @@ mat3 rotateZ(float rad) {
 
 mat3 rotate() {
     float rad = u_time * DEG_TO_RAD;
-    return rotateX(rad * u_rotate_speed.x) * 
-            rotateY(rad * u_rotate_speed.y) * 
+    return rotateX(rad * u_rotate_speed.x) *
+            rotateY(rad * u_rotate_speed.y) *
             rotateZ(rad * u_rotate_speed.z);
 }
-
-// vec3 translate() {
-//     return vec3(
-//         sin(u_time) * u_translate_speed.x,
-//         max(sin(u_time) * u_translate_speed.y, 0.0),
-//         sin(u_time) * u_translate_speed.z
-//     );
-// }
 
 vec3 translate() {
     vec3 centerCoord = vec3(0.0, 0.0, 0.0);
@@ -80,9 +68,9 @@ float remap(float min1, float max1, float min2, float max2, float value) {
 
 bool isInBounds(vec3 pos) {
     vec3 bounds = vec3(100.0, 100.0, 100.0);
-    return abs(pos.x) < bounds.x && 
+    return abs(pos.x) < bounds.x &&
             abs(pos.y) < bounds.y &&
-            abs(pos.z) < bounds.z;  
+            abs(pos.z) < bounds.z;
 }
 
 void main () {

@@ -31,6 +31,11 @@ export default class Floor {
     return this.pivot.position;
   }
 
+  dispose() {
+    this.floorBack.dispose();
+    this.tiles.forEach(tile => tile.dispose());
+  }
+
   createTiles() {
     const tilesPerRow = this.divisions;
     const borderWidth = 0.02;

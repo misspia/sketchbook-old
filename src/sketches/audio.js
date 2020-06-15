@@ -17,6 +17,10 @@ export default class Audio {
     this.play();
   }
 
+  close() {
+    this.context.close();
+  }
+
   setSmoothingTimeConstant(val) {
     this.analyser.smoothingTimeConstant = val;
   }
@@ -27,22 +31,28 @@ export default class Audio {
     audioElement.type = 'audio/mp3';
     audioElement.src = audioSrc;
   }
+
   play() {
     this.audioElement.play();
   }
+
   pause() {
     this.audioElement.pause();
   }
+
   stop() {
     this.pause();
     this.audioElement.currentTime = 0;
   }
+
   volume(vol = 1) {
     this.audioElement.volume = vol
   }
+
   getByteFrequencyData() {
     this.analyser.getByteFrequencyData(this.frequencyData);
   }
+
   getAverageFrequency() {
     const sum = this.frequencyData.reduce((acc, node) => {
       acc += node;
@@ -50,9 +60,11 @@ export default class Audio {
     }, 0);
     return sum / (this.frequencyData.length - 1);
   }
+
   createGain() {
     return this.context.createGain();
   }
+
   createBiquadFilter() {
     return this.context.createBiquadFilter();
   }

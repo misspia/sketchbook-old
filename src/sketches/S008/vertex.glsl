@@ -7,8 +7,6 @@ uniform float uFreq;
 attribute vec4 position;
 attribute vec3 normal;
 
-varying vec3 vNormal;
-
 void main () {
   vec4 offset = position;
   float dist = sin(uTime) * 0.5 + 0.5;

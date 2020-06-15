@@ -22,6 +22,12 @@ class Node {
     this.material.uniforms.uFreq.value = freq;
     this.material.uniforms.uTime.value = time;
   }
+
+  dispose() {
+    this.geometry.dispose();
+    this.material.dispose();
+  }
+
   updatePos() {
 
   }

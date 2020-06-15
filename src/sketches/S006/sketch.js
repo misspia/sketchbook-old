@@ -18,6 +18,13 @@ class Sketch extends SketchManagerThree {
     this.displacement = 0;
     this.displacementInc = 0.02;
   }
+
+  unmount() {
+    this.geometry.dispose();
+    this.material.dispose();
+    this.clearScene();
+  }
+
   init() {
     this.disableOrbitControls();
     this.setClearColor(0xf1ebeb);
@@ -67,7 +74,7 @@ class Sketch extends SketchManagerThree {
     let angleXY = 0;
     const angleIncrement = utils.toRadians(360 / 200);
     const geometry = new THREE.BufferGeometry();
-    let vertices = []; 
+    let vertices = [];
     for(let i = 0; i < 200; i ++) {
       vertices.push(
         radius * Math.cos(angleZ) * Math.sin(angleXY),

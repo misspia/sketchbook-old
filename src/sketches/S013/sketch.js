@@ -25,9 +25,14 @@ import SketchManagerThree from '../sketchManagerThree';
     this.composer = {};
     this.effect = {};
   }
-  unmount() {
 
+  unmount() {
+    this.rays.forEach(ray => ray.dispose());
+    this.petals.forEach(petal => petal.dispose());
+    this.butterflies.forEach(butterfly => butterfly.dispose());
+    this.clearScene();
   }
+
   init() {
     this.disableOrbitControls();
     this.setClearColor(0xeeeeff);
@@ -43,16 +48,16 @@ import SketchManagerThree from '../sketchManagerThree';
     const light = new THREE.PointLight(0x0088ff, 0.01, 1);
     light.castShadow = true;
     this.scene.add(light);
-  
+
     this.composer = new PP.EffectComposer(this.renderer);
-    this.renderPass = new PP.RenderPass(this.scene, this.camera, 0x111111);   
-  
-    const options = { 
+    this.renderPass = new PP.RenderPass(this.scene, this.camera, 0x111111);
+
+    const options = {
       density: 0.1,
       weight: 0.1,
       exposure: 0.4,
     };
-    
+
     const godraysEffect = new PP.GodRaysEffect(
       this.scene,
       this.camera,
@@ -61,7 +66,7 @@ import SketchManagerThree from '../sketchManagerThree';
     );
     const godraysPass = new PP.EffectPass(this.camera, godraysEffect);
     godraysPass.renderToScreen = true;
-  
+
     this.composer.addPass(this.renderPass);
     this.composer.addPass(godraysPass);
   }
