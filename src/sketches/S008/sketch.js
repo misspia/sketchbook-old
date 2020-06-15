@@ -7,9 +7,6 @@ import utils from '../utils';
 class Sketch extends SketchManagerThree {
   constructor(canvas, audioElement) {
     super(canvas, audioElement);
-    this.geometry = {};
-    this.material = {};
-    // this.audioSrc = Audio.tester;
     this.audioSrc = Audio.S008;
     this.graph = new THREE.Group();
     this.fftSize = 512;
@@ -20,9 +17,15 @@ class Sketch extends SketchManagerThree {
 
     this.clock = new THREE.Clock();
   }
-  unmount() {
 
+  unmount() {
+    this.audio.close();
+    this.layer0.nodes.forEach(node => node.dispose());
+    this.layer1.nodes.forEach(node => node.dispose());
+    this.layer2.nodes.forEach(node => node.dispose());
+    this.clearScene();
   }
+
   init() {
     this.disableOrbitControls()
     this.setClearColor(0xf1ebeb);
