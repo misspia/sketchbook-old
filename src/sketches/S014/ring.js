@@ -6,7 +6,7 @@ import vert from './ring.vert';
 export default class Ring {
   constructor(customConfig) {
     const config = {
-      radius: 10, 
+      radius: 10,
       tube: 1,
       radialSegments: 8,
       tubularSegments: 15,
@@ -15,7 +15,7 @@ export default class Ring {
       wireframe: false,
       ...customConfig
     }
-    const geometry = new THREE.TorusGeometry(
+    this.geometry = new THREE.TorusGeometry(
       config.radius,
       config.tube,
       config.radialSegments,
@@ -29,7 +29,7 @@ export default class Ring {
       fragmentShader: frag,
       vertexShader: vert,
     });
-    this.mesh = new THREE.Mesh(geometry, this.material);
+    this.mesh = new THREE.Mesh(this.geometry, this.material);
     this.mesh.castShadow = true;
     this.mesh.rotation.x = utils.toRadians(90);
     this.velocity = 0;
@@ -38,6 +38,12 @@ export default class Ring {
     this.maxVelocity = utils.randomFloatBetween(0.05, 0.15);
 
   }
+
+  dispose() {
+    this.geometry.dispose();
+    this.material.dispose();
+  }
+
   setPosition(x, y, z) {
     this.mesh.position.set(x, y, z);
   }

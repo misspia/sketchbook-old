@@ -1,6 +1,5 @@
 precision highp float;
 
-varying vec3 vPosition;
 uniform float u_freq;
 
 float remap(float min1, float max1, float min2, float max2, float value) {

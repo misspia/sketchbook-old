@@ -26,6 +26,14 @@ export default class OuterRing {
 
     this.group.rotation.x = utils.toRadians(90);
   }
+
+  dispose() {
+    this.arcs.forEach(arc => {
+      arc.geometry.dispose();
+      arc.material.dispose();
+    })
+  }
+
   createArcs() {
     const { radius, tube, radialSegments, tubularSegments, numDivisions } = this.config;
     const padding = utils.toRadians(2);

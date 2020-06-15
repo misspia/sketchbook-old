@@ -7,10 +7,6 @@ attribute vec2 uv;
 uniform mat4 projectionMatrix;
 uniform mat4 modelViewMatrix;
 
-varying vec3 vNormal;
-varying vec3 vPosition;
-varying vec2 vUv;
-
 uniform float u_freq;
 
 float remap(float min1, float max1, float min2, float max2, float value) {
@@ -41,7 +37,7 @@ mat4 translateY(float translate) {
 
 void main () {
   float freq = remapFreq(0.5, 2.0);
-  
+
   gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
   // gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0) * scaleY(freq) * translateY(freq);
 }
