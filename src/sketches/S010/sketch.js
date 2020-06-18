@@ -6,8 +6,10 @@ import Lines from './lines';
 class Sketch extends SketchManagerThree {
   constructor(canvas) {
     super(canvas);
+    this.time = 0;
+    this.timeIncrement = 1 / 16;
     this.lines = new Lines({
-      num: 10,
+      num: 1,
     });
     this.mouse = new Mouse(this);
   }
@@ -32,12 +34,15 @@ class Sketch extends SketchManagerThree {
     this.mouse.update();
 
     if(this.mouse.intersection) {
-      this.lines.setTouching(this.mouse.intersection.object.uuid);
+      this.lines.setActive(this.mouse.intersection.object.uuid);
     } else {
-      this.lines.setTouching(undefined);
+      this.lines.setActive(undefined);
     }
+    this.lines.update(this.time);
 
     requestAnimationFrame(() => this.draw());
+
+    this.time += this.timeIncrement;
   }
 }
 

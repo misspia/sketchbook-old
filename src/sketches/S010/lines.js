@@ -53,12 +53,17 @@ export default class Lines {
     return points;
   }
 
-  setTouching(uuid) {
-    // console.debug(this.linesMap[uuid]);
-
+  setActive(uuid) {
+    this.lines.forEach(line => {
+      if(line.uuid === uuid) {
+        line.setActive(true);
+      } else {
+        line.setActive(false);
+      }
+    })
   }
 
-  update() {
-
+  update(time) {
+    this.lines.forEach(line => line.update(time));
   }
 }
