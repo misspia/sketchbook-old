@@ -11,6 +11,10 @@ uniform vec3 uNoise;
 uniform float uTime;
 uniform float uAmp;
 
+varying vec3 vNormal;
+varying vec3 vPosition;
+varying vec2 vUv;
+
 #pragma glslify: noise = require('glsl-noise/simplex/3d')
 
 void main () {
@@ -19,6 +23,10 @@ void main () {
   if(uv.x > 0.001 && uv.x < 0.999) {
     newPosition = position + normal * displacement;
   }
+
+  vNormal = normal;
+  vPosition = newPosition;
+  vUv = uv;
 
   gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);
 }

@@ -14,8 +14,8 @@ export default class Line {
     this.noiseIncrement = utils.randomFloatBetween(0.01, 0.05);
 
     this.amp = 0;
-    this.maxAmp = utils.randomFloatBetween(1, 1);
-    this.ampIncrement = utils.randomFloatBetween(0.001, 0.01);
+    this.maxAmp = utils.randomFloatBetween(1.2, 1.7);
+    this.ampIncrement = utils.randomFloatBetween(0.005, 0.01);
 
     this.time = 0;
     this.timeIncrement = 1 / 16;
@@ -38,7 +38,7 @@ export default class Line {
         uAmp: { type: 'f', value: this.amp },
       },
       side: THREE.DoubleSide,
-      shading: THREE.FlatShading,
+      flatShading: true,
     });
     this.pivot = new THREE.Mesh(this.geometry, this.material);
     this.pivot.rotation.x += Math.PI;

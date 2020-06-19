@@ -20,7 +20,7 @@ class Sketch extends SketchManagerThree {
 
   init() {
     this.setClearColor(0x111111)
-    this.setCameraPos(0, -15, 10);
+    this.setCameraPos(0, -10, 10);
     this.lookAt(0, 0, 0);
 
     this.scene.add(this.lines.pivot);
