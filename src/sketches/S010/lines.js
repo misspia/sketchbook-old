@@ -26,7 +26,7 @@ export default class Lines {
   }
 
   createLines() {
-    const yIncrement = 3;
+    const yIncrement = 2;
     let y = -Math.floor(this.numLines / 2) * yIncrement;
     const points = this.generateInitialPoints();
     for(let i = 0; i < this.numLines; i++) {
@@ -63,7 +63,7 @@ export default class Lines {
     })
   }
 
-  update(time) {
-    this.lines.forEach(line => line.update(time));
+  update() {
+    this.lines.forEach(line => line.update());
   }
 }

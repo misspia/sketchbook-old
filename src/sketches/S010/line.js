@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import utils from '../utils';
+import glsl from 'glslify';
 
 import vertexShader from './shaders/line.vert';
 import fragmentShader from './shaders/line.frag';
@@ -8,24 +9,38 @@ import fragmentShader from './shaders/line.frag';
 export default class Line {
   constructor({ points= [] }) {
     this.isActive = false;
-    this.noise = 0;
-    this.maxNoise = utils.randomFloatBetween(3, 5);
+    this.noise = new THREE.Vector3(0, 0, 0);
+    this.maxNoise = utils.randomFloatBetween(1.2, 1.5);
     this.noiseIncrement = utils.randomFloatBetween(0.01, 0.05);
 
-    this.geometry = new THREE.BufferGeometry().setFromPoints(points);
-    // this.geometry = new THREE.PlaneGeometry(15, 15, 10, 10)
+    this.amp = 0;
+    this.maxAmp = utils.randomFloatBetween(1, 1);
+    this.ampIncrement = utils.randomFloatBetween(0.001, 0.01);
+
+    this.time = 0;
+    this.timeIncrement = 1 / 16;
+
+    const width = 20;
+    const height = 1;
+    const segmentRatio = 1.2;
+    this.geometry = new THREE.PlaneGeometry(
+      width,
+      height,
+      width * segmentRatio,
+      height * segmentRatio
+      );
     this.material = new THREE.RawShaderMaterial({
-      fragmentShader,
-      vertexShader,
+      fragmentShader: glsl(fragmentShader),
+      vertexShader: glsl(vertexShader),
       uniforms: {
-        uNoise: { value: new THREE.Vector3(1, 1, 1) },
-        uTime: { value: 0 },
-        uAmp: { value: 5 },
+        uNoise: { type: 'v3', value: this.noise },
+        uTime: { type: 'f', value: 0 },
+        uAmp: { type: 'f', value: this.amp },
       },
       side: THREE.DoubleSide,
+      shading: THREE.FlatShading,
     });
-    this.pivot = new THREE.Line(this.geometry, this.material);
-    // this.pivot = new THREE.Mesh(this.geometry, this.material);
+    this.pivot = new THREE.Mesh(this.geometry, this.material);
     this.pivot.rotation.x += Math.PI;
 
   }
@@ -56,12 +71,22 @@ export default class Line {
 
   update(time) {
     if(this.isActive) {
-      this.noise = Math.min(this.maxNoise, this.noise + this.noiseIncrement);
+      const noise = Math.min(this.maxNoise, this.noise.y + this.noiseIncrement);
+      this.noise.set(noise, noise, noise);
+
+      this.amp = Math.min(this.maxAmp, this.amp + this.ampIncrement);
+
+      this.time += this.timeIncrement;
     } else {
-      this.noise = Math.max(0, this.noise - this.noiseIncrement);
+      const val = Math.max(0, this.noise.y - this.noiseIncrement);
+      this.noise.set(val, val, val);
+
+      this.amp = Math.max(0, this.amp - this.ampIncrement);
+
+      this.time = Math.max(0, this.time - this.timeIncrement);
     }
-    // console.debug(this.noise, time)
+    this.uniforms.uTime.value = this.time;
     this.uniforms.uNoise.value = this.noise;
-    this.uniforms.uTime.value = time;
+    this.uniforms.uAmp.value = this.amp;
   }
 }
