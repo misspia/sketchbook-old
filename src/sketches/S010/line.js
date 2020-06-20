@@ -10,12 +10,20 @@ export default class Line {
   constructor({ points= [] }) {
     this.isActive = false;
     this.noise = new THREE.Vector3(0, 0, 0);
-    this.maxNoise = utils.randomFloatBetween(1.2, 1.5);
-    this.noiseIncrement = utils.randomFloatBetween(0.01, 0.05);
+    this.maxNoise = new THREE.Vector3(
+      utils.randomFloatBetween(1, 1.2),
+      utils.randomFloatBetween(3, 5),
+      utils.randomFloatBetween(1, 1.2),
+    );
+    this.noiseIncrement = new THREE.Vector3(
+      utils.randomFloatBetween(0.005, 0.01),
+      utils.randomFloatBetween(0.01, 0.05),
+      utils.randomFloatBetween(0.005, 0.01),
+    );
 
     this.amp = 0;
     this.maxAmp = utils.randomFloatBetween(1.2, 1.7);
-    this.ampIncrement = utils.randomFloatBetween(0.005, 0.01);
+    this.ampIncrement = utils.randomFloatBetween(0.01, 0.05);
 
     this.time = 0;
     this.timeIncrement = 1 / 16;
@@ -71,15 +79,21 @@ export default class Line {
 
   update(time) {
     if(this.isActive) {
-      const noise = Math.min(this.maxNoise, this.noise.y + this.noiseIncrement);
-      this.noise.set(noise, noise, noise);
+      this.noise.set(
+        Math.min(this.maxNoise.x, this.noise.x + this.noiseIncrement.x),
+        Math.min(this.maxNoise.y, this.noise.y + this.noiseIncrement.y),
+        Math.min(this.maxNoise.z, this.noise.z + this.noiseIncrement.z),
+      );
 
       this.amp = Math.min(this.maxAmp, this.amp + this.ampIncrement);
 
       this.time += this.timeIncrement;
     } else {
-      const val = Math.max(0, this.noise.y - this.noiseIncrement);
-      this.noise.set(val, val, val);
+      this.noise.set(
+        Math.max(0, this.noise.x - this.noiseIncrement.x),
+        Math.max(0, this.noise.y - this.noiseIncrement.y),
+        Math.max(0, this.noise.z - this.noiseIncrement.z),
+      );
 
       this.amp = Math.max(0, this.amp - this.ampIncrement);
 
