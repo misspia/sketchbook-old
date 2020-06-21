@@ -26,31 +26,19 @@ export default class Lines {
   }
 
   createLines() {
-    const yIncrement = 2;
-    let y = -Math.floor(this.numLines / 2) * yIncrement;
-    const points = this.generateInitialPoints();
+    const width = 20;
+    const height = 1;
+    const zIncrement = height + 0.0;
+    let z = -Math.floor(this.numLines / 2) * zIncrement;
     for(let i = 0; i < this.numLines; i++) {
-      const line = new Line({ points });
-      line.position.y = y;
+      const line = new Line({ width, height });
+      line.position.z = z;
       this.lines.push(line);
       this.pivot.add(line.pivot);
       this.linesMap[line.uuid] = line;
 
-      y += yIncrement;
+      z += zIncrement;
     }
-  }
-  generateInitialPoints() {
-    const lineLength = 30;
-    const numPoints = 40;
-
-    const xIncrement = lineLength / numPoints;
-    let x = -Math.floor(lineLength / 2)
-    const points = [];
-    for(let i = 0; i < numPoints; i++) {
-      points.push(new THREE.Vector3(x, 0, 0));
-      x += xIncrement;
-    }
-    return points;
   }
 
   setActive(uuid) {
