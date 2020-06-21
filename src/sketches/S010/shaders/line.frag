@@ -11,9 +11,9 @@ float remap(float value, float oldMin, float oldMax, float newMin, float newMax)
 void main() {
     float zDistance = 1.0 - vPosition.z;
     vec3 white = vec3(
-        remap(zDistance, -1.0, 1.0, 0.7, 0.9),
-        remap(zDistance, -1.0, 1.0, 0.7, 0.9),
-        remap(zDistance, -1.0, 1.0, 0.7, 0.9)
+        remap(zDistance, -1.0, 1.0, 0.3, 1.0),
+        remap(zDistance, -1.0, 1.0, 0.3, 1.0),
+        remap(zDistance, -1.0, 1.0, 0.3, 1.0)
     );
 
     // gl_FragColor = vec4(1.0, 0.75, 0.8, 1.0);

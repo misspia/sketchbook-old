@@ -24,11 +24,8 @@ float remap(float value, float oldMin, float oldMax, float newMin, float newMax)
 void main () {
   float dist = distance(uv.x, 0.5);
   float noiseFactor = 1.0 - remap(dist, 0.0, 0.5, 0.0, 1.0);
-  float displacement = uAmp * noise(vec3(position * uNoise * 0.06) + uTime );
-  vec3 newPosition = position;
-  if(uv.x > 0.001 && uv.x < 0.999) {
-    newPosition = position + normal * (displacement * noiseFactor);
-  }
+  float displacement = uAmp * noise(vec3(position * uNoise * 0.06) + uTime * 0.5 );
+  vec3 newPosition = position + normal * (displacement * noiseFactor);
 
   vNormal = normal;
   vPosition = newPosition;

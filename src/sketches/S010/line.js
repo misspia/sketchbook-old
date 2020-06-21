@@ -7,18 +7,18 @@ import fragmentShader from './shaders/line.frag';
 
 
 export default class Line {
-  constructor({ points= [] }) {
+  constructor({ width, height }) {
     this.isActive = false;
     this.noise = new THREE.Vector3(0, 0, 0);
     this.maxNoise = new THREE.Vector3(
-      utils.randomFloatBetween(1, 1.2),
-      utils.randomFloatBetween(3, 5),
-      utils.randomFloatBetween(1, 1.2),
+      utils.randomFloatBetween(1.5, 2),
+      utils.randomFloatBetween(2, 4),
+      utils.randomFloatBetween(10, 15),
     );
     this.noiseIncrement = new THREE.Vector3(
-      utils.randomFloatBetween(0.005, 0.01),
-      utils.randomFloatBetween(0.01, 0.05),
-      utils.randomFloatBetween(0.005, 0.01),
+      utils.randomFloatBetween(0.05, 0.1),
+      utils.randomFloatBetween(0.05, 0.1),
+      utils.randomFloatBetween(0.1, 0.5),
     );
 
     this.amp = 0;
@@ -28,8 +28,6 @@ export default class Line {
     this.time = 0;
     this.timeIncrement = 1 / 16;
 
-    const width = 20;
-    const height = 1;
     const segmentRatio = 1.2;
     this.geometry = new THREE.PlaneGeometry(
       width,
@@ -49,8 +47,7 @@ export default class Line {
       flatShading: true,
     });
     this.pivot = new THREE.Mesh(this.geometry, this.material);
-    this.pivot.rotation.x += Math.PI;
-
+    this.pivot.rotation.x += Math.PI / 2;
   }
 
   get uuid() {
@@ -77,7 +74,7 @@ export default class Line {
     this.material.dispose();
   }
 
-  update(time) {
+  update() {
     if(this.isActive) {
       this.noise.set(
         Math.min(this.maxNoise.x, this.noise.x + this.noiseIncrement.x),
