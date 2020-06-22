@@ -86,6 +86,7 @@ const Sketches = [
   },
   {
     title: 'Noise',
+    instructions: 'Hover to activate the ribbons',
     image: Images.S010,
     sketch: S010,
   },

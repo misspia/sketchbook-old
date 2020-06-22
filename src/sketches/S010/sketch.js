@@ -6,10 +6,7 @@ import Lines from './lines';
 class Sketch extends SketchManagerThree {
   constructor(canvas) {
     super(canvas);
-    this.lines = new Lines({
-      num: 10,
-    });
-
+    this.lines = new Lines();
     this.mouse = new Mouse(this);
   }
 
