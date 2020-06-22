@@ -6,7 +6,8 @@ import vertexShader from './shaders/line.vert';
 import fragmentShader from './shaders/line.frag';
 
 export default class Line {
-  constructor({ width, height, color }) {
+  constructor({ width, height, color, isInteractable }) {
+    this.isInteractable = isInteractable;
     this.isActive = false;
     this.noise = new THREE.Vector3(0, 0, 0);
     this.maxNoise = new THREE.Vector3(
@@ -17,11 +18,16 @@ export default class Line {
     this.noiseIncrement = new THREE.Vector3(
       utils.randomFloatBetween(0.05, 0.1),
       utils.randomFloatBetween(0.05, 0.1),
-      utils.randomFloatBetween(0.1, 0.5),
+      utils.randomFloatBetween(0.5, 1),
+    );
+    this.noiseDecrement = new THREE.Vector3(
+      this.noiseIncrement.x * 0.1,
+      this.noiseIncrement.y * 0.1,
+      this.noiseIncrement.z * 0.1,
     );
 
     this.amp = 0;
-    this.maxAmp = utils.randomFloatBetween(1.2, 1.7);
+    this.maxAmp = utils.randomFloatBetween(1.5, 1.8);
     this.ampIncrement = utils.randomFloatBetween(0.01, 0.05);
 
     this.time = 0;
@@ -58,6 +64,10 @@ export default class Line {
     return this.pivot.position;
   }
 
+  get rotation() {
+    return this.pivot.rotation;
+  }
+
   get uniforms() {
     return this.material.uniforms;
   }
@@ -75,6 +85,10 @@ export default class Line {
   }
 
   update() {
+    if(!this.isInteractable) {
+      return;
+    }
+
     if (this.isActive) {
       this.noise.set(
         Math.min(this.maxNoise.x, this.noise.x + this.noiseIncrement.x),
@@ -87,9 +101,9 @@ export default class Line {
       this.time += this.timeIncrement;
     } else {
       this.noise.set(
-        Math.max(0, this.noise.x - this.noiseIncrement.x),
-        Math.max(0, this.noise.y - this.noiseIncrement.y),
-        Math.max(0, this.noise.z - this.noiseIncrement.z),
+        Math.max(0, this.noise.x - this.noiseDecrement.x),
+        Math.max(0, this.noise.y - this.noiseDecrement.y),
+        Math.max(0, this.noise.z - this.noiseDecrement.z),
       );
 
       this.amp = Math.max(0, this.amp - this.ampIncrement);

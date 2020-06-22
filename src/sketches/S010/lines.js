@@ -1,25 +1,20 @@
 import * as THREE from 'three';
+import palette from './palette';
 import Line from './line';
 
-const palette = [
-  new THREE.Vector3(0.96, 0.72, 0.84),
-  new THREE.Vector3(0.96, 0.83, 0.68),
-  new THREE.Vector3(0.93, 0.92, 0.61),
-  new THREE.Vector3(0.79, 0.95, 0.67),
-  new THREE.Vector3(0.36, 0.91, 0.95),
-  new THREE.Vector3(0.6, 0.73, 0.96),
-  new THREE.Vector3(0.8, 0.73, 1.0),
-];
 export default class Lines {
-  constructor({
-    num = 10,
-  }) {
-    this.numLines = num;
+  constructor() {
+    this.numRepititions = 6;
+
+    this.lineWidth = 50;
+    this.lineHeight = 4;
+    this.padding = 0.15;
     this.lines = [];
     this.linesMap = {};
 
     this.pivot = new THREE.Group();
     this.createLines();
+    this.createInActiveLines();
   }
 
   get position() {
@@ -35,19 +30,52 @@ export default class Lines {
   }
 
   createLines() {
-    const width = 50;
-    const height = 3;
-    const zIncrement = height + 0.1;
-    let z = -Math.floor((palette.length - 1) / 2) * zIncrement;
-    palette.forEach((color, i) => {
-      const line = new Line({ width, height, color });
-      line.position.z = z;
-      this.lines.push(line);
-      this.pivot.add(line.pivot);
-      this.linesMap[line.uuid] = line;
+    const zIncrement = this.lineHeight + this.padding;
+    let z = -Math.floor((palette.length - 1) / 2) * zIncrement * this.numRepititions;
 
-      z += zIncrement;
-    });
+    for(let i = 0; i < this.numRepititions; i ++) {
+      palette.forEach((color) => {
+        const line = new Line({
+          width: this.lineWidth,
+          height: this.lineHeight,
+          color,
+          isInteractable: true,
+        });
+        line.position.z = z;
+        this.lines.push(line);
+        this.pivot.add(line.pivot);
+        this.linesMap[line.uuid] = line;
+
+        z += zIncrement;
+      });
+    }
+  }
+
+  createInActiveLines() {
+    const zIncrement = this.lineHeight + this.padding;
+    let z = -Math.floor((palette.length - 1) / 2) * zIncrement * this.numRepititions;
+
+    for(let i = 0; i < this.numRepititions; i++) {
+      palette.forEach((color) => {
+        const line = new Line({
+          width: this.lineWidth,
+          height: this.lineHeight,
+          color,
+          isInteractable: false,
+        });
+        line.rotation.y += Math.PI / 2;
+        line.position.set(
+          -this.lineWidth / 2,
+          this.lineWidth / 2,
+          z,
+        );
+        this.lines.push(line);
+        this.pivot.add(line.pivot);
+        this.linesMap[line.uuid] = line;
+
+        z += zIncrement;
+      });
+    }
   }
 
   setActive(uuid) {
