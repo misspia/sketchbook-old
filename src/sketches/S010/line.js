@@ -12,8 +12,8 @@ export default class Line {
     this.noise = new THREE.Vector3(0, 0, 0);
     this.maxNoise = new THREE.Vector3(
       utils.randomFloatBetween(1.5, 2),
-      utils.randomFloatBetween(2, 4),
-      utils.randomFloatBetween(10, 15),
+      utils.randomFloatBetween(1, 2),
+      utils.randomFloatBetween(8, 10),
     );
     this.noiseIncrement = new THREE.Vector3(
       utils.randomFloatBetween(0.05, 0.1),
@@ -27,8 +27,9 @@ export default class Line {
     );
 
     this.amp = 0;
-    this.maxAmp = utils.randomFloatBetween(1.5, 1.8);
+    this.maxAmp = utils.randomFloatBetween(1.7, 2);
     this.ampIncrement = utils.randomFloatBetween(0.01, 0.05);
+    this.ampDecrement = this.ampIncrement * 0.6
 
     this.time = 0;
     this.timeIncrement = 1 / 16;
@@ -106,7 +107,7 @@ export default class Line {
         Math.max(0, this.noise.z - this.noiseDecrement.z),
       );
 
-      this.amp = Math.max(0, this.amp - this.ampIncrement);
+      this.amp = Math.max(0, this.amp - this.ampDecrement);
 
       this.time = Math.max(0, this.time - this.timeIncrement);
     }

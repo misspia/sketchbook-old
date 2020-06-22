@@ -6,8 +6,6 @@ export default class Mouse {
     this.intersection = undefined;
     this.mouse = new THREE.Vector2();
     this.raycaster = new THREE.Raycaster();
-    this.raycaster.params.Line.threshold = 3;
-    this.raycaster.params.Points.threshold = 3;
 
     this.context.canvas.addEventListener('mousemove', this.onMouseMove, false);
   }
