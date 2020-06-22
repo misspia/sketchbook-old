@@ -5,9 +5,8 @@ import glsl from 'glslify';
 import vertexShader from './shaders/line.vert';
 import fragmentShader from './shaders/line.frag';
 
-
 export default class Line {
-  constructor({ width, height }) {
+  constructor({ width, height, color }) {
     this.isActive = false;
     this.noise = new THREE.Vector3(0, 0, 0);
     this.maxNoise = new THREE.Vector3(
@@ -34,14 +33,15 @@ export default class Line {
       height,
       width * segmentRatio,
       height * segmentRatio
-      );
+    );
     this.material = new THREE.RawShaderMaterial({
-      fragmentShader: glsl(fragmentShader),
-      vertexShader: glsl(vertexShader),
+      fragmentShader: fragmentShader,
+      vertexShader: vertexShader,
       uniforms: {
-        uNoise: { type: 'v3', value: this.noise },
-        uTime: { type: 'f', value: 0 },
-        uAmp: { type: 'f', value: this.amp },
+        uNoise: { value: this.noise },
+        uTime: { value: 0 },
+        uAmp: { value: this.amp },
+        uColor: { value: color },
       },
       side: THREE.DoubleSide,
       flatShading: true,
@@ -75,7 +75,7 @@ export default class Line {
   }
 
   update() {
-    if(this.isActive) {
+    if (this.isActive) {
       this.noise.set(
         Math.min(this.maxNoise.x, this.noise.x + this.noiseIncrement.x),
         Math.min(this.maxNoise.y, this.noise.y + this.noiseIncrement.y),

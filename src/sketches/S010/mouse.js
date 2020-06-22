@@ -18,7 +18,7 @@ export default class Mouse {
 
   onMouseMove = (e) => {
     this.mouse.x = (e.clientX / this.context.canvas.width) * 2 - 1;
-    this.mouse.y =  -( event.clientY / this.context.canvas.height ) * 2 + 1;
+    this.mouse.y =  -( e.clientY / this.context.canvas.height ) * 2 + 1;
 
   }
 
