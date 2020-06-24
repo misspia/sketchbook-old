@@ -5,6 +5,7 @@ import Petal from './petal';
 import Butterfly from './butterfly';
 import EffectManager from './effectManager';
 import Lights from './lights';
+import Floor from './floor';
 
 import SketchManagerThree from '../sketchManagerThree';
 
@@ -26,6 +27,7 @@ import SketchManagerThree from '../sketchManagerThree';
     this.petals = [];
     this.butterflies = [];
     this.lights = new Lights();
+    this.floor = new Floor();
   }
 
   unmount() {
@@ -37,9 +39,8 @@ import SketchManagerThree from '../sketchManagerThree';
 
   init() {
     this.setClearColor(0x000000);
-    this.setCameraPos(0, 0, -30);
-    const { x, y, z } = this.sceneCenter;
-    this.lookAt(x, y, z);
+    this.setCameraPos(0, 10, -30);
+    this.lookAt(new THREE.Vector3());
 
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFShadowMap;
@@ -47,6 +48,7 @@ import SketchManagerThree from '../sketchManagerThree';
 
     this.scene.add(this.lights.ambient);
     this.scene.add(this.lights.rectLight);
+    this.scene.add(this.floor.pivot);
   }
 
   createRays() {

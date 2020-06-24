@@ -17,6 +17,7 @@ export default class Lights {
     this.rectLight = new THREE.RectAreaLight(0xffffff, 1, 10, 10);
     this.rectLight.intensity = 1;
     this.rectLight.position.set(5, 5, 0);
+    this.rectLight.rotation.x -= Math.PI / 4;
 
     const rectLightMesh = new THREE.Mesh(
       new THREE.PlaneBufferGeometry(),
