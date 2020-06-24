@@ -1,12 +1,15 @@
 import * as THREE from 'three';
-import * as PP from 'postprocessing';
 
-import Ray from './ray';
-import Petal from './petal';
-import Butterfly from './butterfly';
+import Lights from './lights';
+import RectLight from './rectLight';
+import Floor from './floor';
 
 import SketchManagerThree from '../sketchManagerThree';
 
+/**
+ * http://learningthreejs.com/blog/2013/08/02/how-to-do-a-procedural-city-in-100lines/
+ * https://steemit.com/utopian-io/@clayjohn/learning-3d-graphics-with-three-js-or-procedural-geometry
+ */
  class Sketch extends SketchManagerThree {
   constructor(canvas) {
     super(canvas);
@@ -14,62 +17,41 @@ import SketchManagerThree from '../sketchManagerThree';
     this.cameraDistance = 100;
     this.sceneCenter = { x: 0, y: 0, z: 0 };
 
-    this.numRays = 10;
-    this.numPetals = 24;
-    this.numButterflies = 5;
-    this.rays = [];
-    this.petals = [];
-    this.butterflies = [];
-
-    this.clock = new THREE.Clock();
-    this.composer = {};
-    this.effect = {};
+    this.lights = new Lights();
+    this.rectLight = new RectLight({
+      width: 10,
+      height: 30,
+    });
+    this.floor = new Floor({
+      width: 100,
+      height: 150,
+    });
   }
 
   unmount() {
-    this.rays.forEach(ray => ray.dispose());
-    this.petals.forEach(petal => petal.dispose());
-    this.butterflies.forEach(butterfly => butterfly.dispose());
+    this.floor.dispose();
+    this.rectLight.dispose();
     this.clearScene();
   }
 
   init() {
-    this.disableOrbitControls();
-    this.setClearColor(0xeeeeff);
-    this.setCameraPos(0, -this.cameraDistance, -this.cameraDistance);
-    const { x, y, z } = this.sceneCenter;
-    this.lookAt(x, y, z);
-    this.createRays();
-    this.createPetals();
-    this.createButterflies();
+    this.setClearColor(0x000000);
+    this.setCameraPos(0, 60, 100);
+    this.lookAt(new THREE.Vector3());
+
+    this.renderer.shadowMap.enabled = true;
+    this.renderer.shadowMap.type = THREE.PCFShadowMap;
+    this.renderer.outputEncoding = THREE.sRGBEncoding;
+
+    this.rectLight.position.set(0, this.rectLight.height / 2, this.floor.min.z);
+    this.scene.add(this.lights.ambient);
+    this.scene.add(this.rectLight.pivot);
+    this.scene.add(this.floor.pivot);
   }
 
-  createRays() {
-    for(let i = 0; i < this.numRays; i ++) {
-      const ray = new Ray(this.cameraDistance, this.sceneCenter);
-      this.scene.add(ray.mesh);
-      this.rays.push(ray);
-    }
-  }
-  createPetals() {
-    for(let i = 0; i < this.numPetals; i++) {
-      const petal = new Petal(this.cameraDistance, this.sceneCenter);
-      this.scene.add(petal.mesh);
-      this.petals.push(petal);
-    }
-  }
-  createButterflies() {
-    for(let i = 0; i < this.numButterflies; i++) {
-      const butterfly = new Butterfly(this.cameraDistance, this.sceneCenter);
-      this.scene.add(butterfly.group);
-      this.butterflies.push(butterfly);
-    }
-  }
   draw() {
     this.renderer.render(this.scene, this.camera);
-    this.rays.forEach(ray => ray.update());
-    this.petals.forEach(petal => petal.update());
-    this.butterflies.forEach(butterfly => butterfly.update());
+    this.rectLight.update();
 
     requestAnimationFrame(() => this.draw());
   }
