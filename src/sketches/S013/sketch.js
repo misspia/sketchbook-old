@@ -42,34 +42,8 @@ import SketchManagerThree from '../sketchManagerThree';
     this.createRays();
     this.createPetals();
     this.createButterflies();
-    this.createEffects();
   }
-  createEffects() {
-    const light = new THREE.PointLight(0x0088ff, 0.01, 1);
-    light.castShadow = true;
-    this.scene.add(light);
 
-    this.composer = new PP.EffectComposer(this.renderer);
-    this.renderPass = new PP.RenderPass(this.scene, this.camera, 0x111111);
-
-    const options = {
-      density: 0.1,
-      weight: 0.1,
-      exposure: 0.4,
-    };
-
-    const godraysEffect = new PP.GodRaysEffect(
-      this.scene,
-      this.camera,
-      light,
-      options
-    );
-    const godraysPass = new PP.EffectPass(this.camera, godraysEffect);
-    godraysPass.renderToScreen = true;
-
-    this.composer.addPass(this.renderPass);
-    this.composer.addPass(godraysPass);
-  }
   createRays() {
     for(let i = 0; i < this.numRays; i ++) {
       const ray = new Ray(this.cameraDistance, this.sceneCenter);
@@ -92,10 +66,7 @@ import SketchManagerThree from '../sketchManagerThree';
     }
   }
   draw() {
-    this.composer.renderer.autoClear = true;
-    this.composer.render(this.clock.getDelta());
-    this.composer.renderer.autoClear = false;
-
+    this.renderer.render(this.scene, this.camera);
     this.rays.forEach(ray => ray.update());
     this.petals.forEach(petal => petal.update());
     this.butterflies.forEach(butterfly => butterfly.update());
