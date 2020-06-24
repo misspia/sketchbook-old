@@ -1,12 +1,16 @@
 import * as THREE from 'three';
-import * as PP from 'postprocessing';
 
 import Ray from './ray';
 import Petal from './petal';
 import Butterfly from './butterfly';
+import EffectManager from './effectManager';
 
 import SketchManagerThree from '../sketchManagerThree';
 
+/**
+ * http://learningthreejs.com/blog/2013/08/02/how-to-do-a-procedural-city-in-100lines/
+ * https://steemit.com/utopian-io/@clayjohn/learning-3d-graphics-with-three-js-or-procedural-geometry
+ */
  class Sketch extends SketchManagerThree {
   constructor(canvas) {
     super(canvas);
@@ -20,10 +24,6 @@ import SketchManagerThree from '../sketchManagerThree';
     this.rays = [];
     this.petals = [];
     this.butterflies = [];
-
-    this.clock = new THREE.Clock();
-    this.composer = {};
-    this.effect = {};
   }
 
   unmount() {
@@ -35,7 +35,7 @@ import SketchManagerThree from '../sketchManagerThree';
 
   init() {
     this.disableOrbitControls();
-    this.setClearColor(0xeeeeff);
+    this.setClearColor(0xffffff);
     this.setCameraPos(0, -this.cameraDistance, -this.cameraDistance);
     const { x, y, z } = this.sceneCenter;
     this.lookAt(x, y, z);
