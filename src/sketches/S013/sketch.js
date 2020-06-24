@@ -4,6 +4,7 @@ import Ray from './ray';
 import Petal from './petal';
 import Butterfly from './butterfly';
 import EffectManager from './effectManager';
+import Lights from './lights';
 
 import SketchManagerThree from '../sketchManagerThree';
 
@@ -24,6 +25,7 @@ import SketchManagerThree from '../sketchManagerThree';
     this.rays = [];
     this.petals = [];
     this.butterflies = [];
+    this.lights = new Lights();
   }
 
   unmount() {
@@ -34,14 +36,17 @@ import SketchManagerThree from '../sketchManagerThree';
   }
 
   init() {
-    this.disableOrbitControls();
-    this.setClearColor(0xffffff);
-    this.setCameraPos(0, -this.cameraDistance, -this.cameraDistance);
+    this.setClearColor(0x000000);
+    this.setCameraPos(0, 0, -30);
     const { x, y, z } = this.sceneCenter;
     this.lookAt(x, y, z);
-    this.createRays();
-    this.createPetals();
-    this.createButterflies();
+
+    this.renderer.shadowMap.enabled = true;
+    this.renderer.shadowMap.type = THREE.PCFShadowMap;
+    this.renderer.outputEncoding = THREE.sRGBEncoding;
+
+    this.scene.add(this.lights.ambient);
+    this.scene.add(this.lights.rectLight);
   }
 
   createRays() {
@@ -67,9 +72,6 @@ import SketchManagerThree from '../sketchManagerThree';
   }
   draw() {
     this.renderer.render(this.scene, this.camera);
-    this.rays.forEach(ray => ray.update());
-    this.petals.forEach(petal => petal.update());
-    this.butterflies.forEach(butterfly => butterfly.update());
 
     requestAnimationFrame(() => this.draw());
   }
