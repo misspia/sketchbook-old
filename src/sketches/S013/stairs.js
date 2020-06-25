@@ -3,13 +3,13 @@ import * as THREE from 'three';
 export default class Stairs {
   constructor({
     numSteps = 5,
+    width = 10,
   }) {
     this.numSteps = numSteps;
     this.stepDepth = 2;
     this.stepHeight = 1;
-    this.stepGeometry = new THREE.BoxGeometry(10, this.stepHeight, this.stepDepth);
-    const material = new THREE.MeshBasicMaterial({ color: 0x000000 });
-    this.stepMesh = new THREE.Mesh(this.stepGeometry, material);
+    this.stepWidth = width;
+    this.stepGeometry = new THREE.BoxGeometry(this.stepWidth, this.stepHeight, this.stepDepth);
 
     this.geometry = new THREE.Geometry();
     this.createSteps();
@@ -26,12 +26,33 @@ export default class Stairs {
     return this.pivot.position;
   }
 
+  get width() {
+    return this.stepWidth;
+  }
+
+  get height() {
+    return this.numSteps * this.stepHeight;
+  }
+
+  get depth() {
+    return this.numSteps * this.stepDepth - this.stepDepth / 2;
+  }
+
+  get matrix() {
+    return this.pivot.matrix;
+  }
+
+  dispose() {
+
+  }
+
   createSteps() {
-    let y = 0;
+    let y = this.stepHeight / 2;
     let z = 0;
 
+    const stepMesh = new THREE.Mesh(this.stepGeometry, this.material);
     for (let i = 0; i < this.numSteps; i++) {
-      const step = this.stepMesh.clone();
+      const step = stepMesh.clone();
       step.position.set(0, y, z);
 
       step.updateMatrix();
@@ -40,5 +61,9 @@ export default class Stairs {
       y += this.stepHeight;
       z -= this.stepDepth;
     }
+  }
+
+  updateMatrix() {
+    this.pivot.updateMatrix();
   }
 }
