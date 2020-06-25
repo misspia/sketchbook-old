@@ -6,6 +6,7 @@ import Floor from './floor';
 
 import SketchManagerThree from '../sketchManagerThree';
 import Pillars from './pillars';
+import Platform from './platform';
 
 /**
  * http://learningthreejs.com/blog/2013/08/02/how-to-do-a-procedural-city-in-100lines/
@@ -19,13 +20,18 @@ import Pillars from './pillars';
     this.sceneCenter = { x: 0, y: 0, z: 0 };
 
     this.lights = new Lights();
-    this.rectLight = new RectLight({
-      width: 10,
-      height: 30,
-    });
+
     this.floor = new Floor({
       width: 100,
       height: 220,
+    });
+    this.rectLight = new RectLight({
+      width: 20,
+      height: 30,
+    });
+    this.platform = new Platform({
+      numSteps: 5,
+      width: 20
     });
     this.pillars = new Pillars({
       minZ: this.floor.getZCoord(0.5),
@@ -33,6 +39,7 @@ import Pillars from './pillars';
       numPerSide: 3,
       gap: this.floor.width * 0.4,
     });
+
   }
 
   unmount() {
@@ -43,7 +50,8 @@ import Pillars from './pillars';
 
   init() {
     this.setClearColor(0x000000);
-    this.setCameraPos(0, 60, 100);
+    // this.setCameraPos(0, 60, 100);
+    this.setCameraPos(0, 10, 100);
     this.lookAt(new THREE.Vector3());
 
     this.renderer.shadowMap.enabled = true;
@@ -51,9 +59,12 @@ import Pillars from './pillars';
     this.renderer.outputEncoding = THREE.sRGBEncoding;
 
     this.rectLight.position.set(0, this.rectLight.height / 2, this.floor.min.z);
+    this.platform.position.z = this.floor.min.z + this.platform.depth / 2;
+
     this.scene.add(this.lights.ambient);
-    this.scene.add(this.rectLight.pivot);
     this.scene.add(this.floor.pivot);
+    this.scene.add(this.rectLight.pivot);
+    this.scene.add(this.platform.pivot);
     this.scene.add(this.pillars.pivot);
   }
 

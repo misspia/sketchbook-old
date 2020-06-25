@@ -30,7 +30,6 @@ export default class Floor {
   }
 
   get height() {
-    console.debug(this.max.z - this.min.z)
     return Math.abs(this.max.z - this.min.z);
   }
 
