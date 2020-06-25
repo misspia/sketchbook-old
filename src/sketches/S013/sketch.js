@@ -6,6 +6,7 @@ import Floor from './floor';
 
 import SketchManagerThree from '../sketchManagerThree';
 import Pillars from './pillars';
+import Stairs from './stairs';
 
 /**
  * http://learningthreejs.com/blog/2013/08/02/how-to-do-a-procedural-city-in-100lines/
@@ -33,6 +34,9 @@ import Pillars from './pillars';
       numPerSide: 3,
       gap: this.floor.width * 0.4,
     });
+    this.stairs = new Stairs({
+      numSteps: 5,
+    });
   }
 
   unmount() {
@@ -55,6 +59,7 @@ import Pillars from './pillars';
     this.scene.add(this.rectLight.pivot);
     this.scene.add(this.floor.pivot);
     this.scene.add(this.pillars.pivot);
+    this.scene.add(this.stairs.pivot);
   }
 
   draw() {
