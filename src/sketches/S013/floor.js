@@ -13,6 +13,8 @@ export default class Floor {
     this.pivot.rotation.x -= Math.PI / 2;
 
     this.bbox = new THREE.Box3();
+    this.center = new THREE.Vector3();
+    this.bbox.setFromObject(this.pivot).getCenter(this.center);
   }
 
   get min() {
@@ -21,6 +23,20 @@ export default class Floor {
 
   get max() {
     return this.bbox.setFromObject(this.pivot).max;
+  }
+
+  get width() {
+    return Math.abs(this.max.x - this.min.x);
+  }
+
+  get height() {
+    console.debug(this.max.z - this.min.z)
+    return Math.abs(this.max.z - this.min.z);
+  }
+
+  getZCoord(percentage) {
+    const offset = this.height * percentage;
+    return this.min.z + offset;
   }
 
   get position() {
