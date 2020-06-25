@@ -36,7 +36,6 @@ export default class Floor {
 
   getZCoord(percentage) {
     const offset = this.height * percentage;
-    console.debug(this.min.z, offset)
     return this.min.z + offset;
   }
 
