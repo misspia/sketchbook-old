@@ -5,6 +5,7 @@ import RectLight from './rectLight';
 import Floor from './floor';
 
 import SketchManagerThree from '../sketchManagerThree';
+import Pillars from './pillars';
 
 /**
  * http://learningthreejs.com/blog/2013/08/02/how-to-do-a-procedural-city-in-100lines/
@@ -24,7 +25,13 @@ import SketchManagerThree from '../sketchManagerThree';
     });
     this.floor = new Floor({
       width: 100,
-      height: 150,
+      height: 220,
+    });
+    this.pillars = new Pillars({
+      minZ: this.floor.getZCoord(0.5),
+      maxZ: this.floor.getZCoord(0.7),
+      numPerSide: 3,
+      gap: this.floor.width * 0.4,
     });
   }
 
@@ -47,6 +54,7 @@ import SketchManagerThree from '../sketchManagerThree';
     this.scene.add(this.lights.ambient);
     this.scene.add(this.rectLight.pivot);
     this.scene.add(this.floor.pivot);
+    this.scene.add(this.pillars.pivot);
   }
 
   draw() {
