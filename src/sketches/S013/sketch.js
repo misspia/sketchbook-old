@@ -7,6 +7,7 @@ import Floor from './floor';
 import SketchManagerThree from '../sketchManagerThree';
 import Pillars from './pillars';
 import Platform from './platform';
+import Entrance from './entrance';
 
 /**
  * http://learningthreejs.com/blog/2013/08/02/how-to-do-a-procedural-city-in-100lines/
@@ -39,6 +40,14 @@ import Platform from './platform';
       numPerSide: 3,
       gap: this.floor.width * 0.4,
     });
+    this.entrance = new Entrance({
+      numArcs: 5,
+      arcMaxHeight: 30,
+      arcMinHeight: 20,
+      arcWidth: 5,
+      arcDepth: 5,
+      gap: 3,
+    });
 
   }
 
@@ -50,7 +59,6 @@ import Platform from './platform';
 
   init() {
     this.setClearColor(0x000000);
-    // this.setCameraPos(0, 60, 100);
     this.setCameraPos(0, 10, 100);
     this.lookAt(new THREE.Vector3());
 
@@ -65,7 +73,8 @@ import Platform from './platform';
     this.scene.add(this.floor.pivot);
     this.scene.add(this.rectLight.pivot);
     this.scene.add(this.platform.pivot);
-    this.scene.add(this.pillars.pivot);
+    // this.scene.add(this.pillars.pivot);
+    this.scene.add(this.entrance.pivot);
   }
 
   draw() {
