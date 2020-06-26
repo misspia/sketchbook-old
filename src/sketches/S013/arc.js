@@ -33,7 +33,8 @@ export default class Arc {
   }
 
   dispose() {
-
+    this.geometry.dispose();
+    this.material.dispose();
   }
 
   updateMatrix() {
@@ -48,11 +49,11 @@ export default class Arc {
       this.radius * 8,
       1,
       true,
-      Math.PI,
+      0,
       Math.PI,
     );
     const mesh = new THREE.Mesh(geometry, this.material);
-    mesh.rotation.x -= Math.PI / 2;
+    mesh.rotation.x += Math.PI / 2;
     mesh.rotation.y += Math.PI / 2;
     mesh.position.y += this.height - this.radius;
 
