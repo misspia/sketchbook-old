@@ -14,7 +14,7 @@ export default class Platform {
     this.addPlatform();
 
     this.material = new THREE.MeshStandardMaterial({
-      color: 0x0000ff,
+      color: 0x080808,
       metalness: 0,
       roughness: 0,
     });
@@ -30,8 +30,14 @@ export default class Platform {
     return this.bbox.max.z - this.bbox.min.z;
   }
 
-  dispose() {
+  get height() {
+    return this.bbox.max.y - this.bbox.min.y;
+  }
 
+  dispose() {
+    this.geometry.dispose();
+    this.material.dispose();
+    this.stairs.dispose();
   }
 
   addPlatform() {
