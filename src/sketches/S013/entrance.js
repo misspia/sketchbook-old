@@ -24,14 +24,13 @@ export default class Entrance {
     this.geometry = new THREE.Geometry();
 
     this.material = new THREE.MeshBasicMaterial({
-      color: 0xff0000,
+      color: 0x080808,
       side: THREE.DoubleSide,
     });
     this.pivot = new THREE.Group();
     this.frame = new THREE.Mesh(this.geometry, this.material);
     this.pivot.add(this.frame);
     this.createArcs();
-
   }
 
   get position() {
@@ -39,6 +38,8 @@ export default class Entrance {
   }
 
   dispose() {
+    this.geometry.dispose();
+    this.material.dispose();
     this.arcs.forEach(arc => arc.dispose());
     this.arcLights.forEach(arcLight => arcLight.dispose());
   }
@@ -57,8 +58,8 @@ export default class Entrance {
 
     for(let i = 0; i < this.numArcs; i ++) {
 
-      this.createArc({ height, x, y: 0, z: 0 });
-      this.createArcLight({ height, x, y: 0, z: -this.arcDepth / 2 });
+      this.createArc({ height, x, y: 0, z: this.arcDepth / 2 });
+      this.createArcLight({ height, x, y: 0, z: 0 });
 
       if(i === midIndex) {
         // decrease height after reaching peak
@@ -83,7 +84,7 @@ export default class Entrance {
     this.arcs.push(arc);
   }
 
-  createArcLight({ width, height, x, y, z }) {
+  createArcLight({ height, x, y, z }) {
     const arcLight = new ArcLight({
       height,
       width: this.arcWidth,
@@ -93,5 +94,9 @@ export default class Entrance {
 
     this.pivot.add(arcLight.pivot);
     this.arcLights.push(arcLight);
+  }
+
+  update() {
+    this.arcLights.forEach(arcLight => arcLight.update());
   }
 }

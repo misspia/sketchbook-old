@@ -43,7 +43,8 @@ export default class Stairs {
   }
 
   dispose() {
-
+    this.geometry.dispose();
+    this.material.dispose();
   }
 
   createSteps() {
