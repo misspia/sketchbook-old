@@ -43,6 +43,9 @@ import Entrance from './entrance';
 
   unmount() {
     this.floor.dispose();
+    this.platform.dispose();
+    this.pillars.dispose();
+    this.entrance.dispose();
     this.clearScene();
   }
 
