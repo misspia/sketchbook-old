@@ -8,10 +8,11 @@ export default class Platform {
     width = 10,
   }) {
     this.width = width;
+    this.platformDepth = 20;
     this.geometry = new THREE.Geometry();
     this.stairs = new Stairs({ numSteps, width });
-    this.addStairs();
     this.addPlatform();
+    this.addStairs();
 
     this.material = new THREE.MeshStandardMaterial({
       color: 0x080808,
@@ -41,14 +42,13 @@ export default class Platform {
   }
 
   addPlatform() {
-    const depth = 10;
     const geometry = new THREE.BoxGeometry(
       this.stairs.width,
       this.stairs.height,
-      depth
+      this.platformDepth,
     );
     const mesh = new THREE.Mesh(geometry, this.material);
-    mesh.position.set(0, this.stairs.height / 2, -depth / 2);
+    mesh.position.set(0, this.stairs.height / 2, this.platformDepth / 2);
 
     mesh.updateMatrix();
 
@@ -56,7 +56,7 @@ export default class Platform {
   }
 
   addStairs() {
-    this.stairs.position.z += this.stairs.depth;
+    this.stairs.position.z += this.stairs.depth + this.platformDepth;
     this.stairs.updateMatrix();
     this.geometry.merge(this.stairs.geometry, this.stairs.matrix);
   }

@@ -7,6 +7,7 @@ import SketchManagerThree from '../sketchManagerThree';
 import Pillars from './pillars';
 import Platform from './platform';
 import Entrance from './entrance';
+import Wall from './wall';
 
  class Sketch extends SketchManagerThree {
   constructor(canvas) {
@@ -21,8 +22,9 @@ import Entrance from './entrance';
       width: 100,
       height: 180,
     });
+    this.wall = new Wall();
     this.platform = new Platform({
-      numSteps: 5,
+      numSteps: 15,
       width: this.floor.width * 0.6,
     });
     this.pillars = new Pillars({
@@ -36,7 +38,7 @@ import Entrance from './entrance';
       arcMaxHeight: 30,
       arcMinHeight: 20,
       arcWidth: 5,
-      arcDepth: 5,
+      arcDepth: 10,
       gap: 3,
     });
   }
@@ -50,22 +52,24 @@ import Entrance from './entrance';
   }
 
   init() {
-    // this.setClearColor(0x000000);
-    this.setClearColor(0xffffff);
-    this.setCameraPos(0, 10, 100);
-    this.lookAt(new THREE.Vector3());
+    this.setClearColor(0x000000);
+    // this.setClearColor(0xffffff);
+    this.setCameraPos(0, 40, 1);
+    this.lookAt(new THREE.Vector3(0, 10, this.floor.min.z + 30));
 
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFShadowMap;
     this.renderer.outputEncoding = THREE.sRGBEncoding;
 
     this.entrance.position.set(0, this.platform.height, this.floor.min.z);
-    this.platform.position.z = this.floor.min.z + this.platform.depth / 2;
+    this.platform.position.z = this.floor.min.z ;
+    this.wall.position.z = this.floor.min.z - 0.5;
 
     this.scene.add(this.lights.ambient);
     this.scene.add(this.floor.pivot);
+    this.scene.add(this.wall.pivot);
     this.scene.add(this.platform.pivot);
-    this.scene.add(this.pillars.pivot);
+    // this.scene.add(this.pillars.pivot);
     this.scene.add(this.entrance.pivot);
   }
 

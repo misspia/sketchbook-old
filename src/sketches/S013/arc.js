@@ -20,6 +20,7 @@ export default class Arc {
       side: THREE.DoubleSide,
     });
     this.pivot = new THREE.Mesh(this.geometry, this.material);
+    this.pivot.receiveShadow = true;
 
     this.bbox = new THREE.Box3().setFromObject(this.pivot);
   }
