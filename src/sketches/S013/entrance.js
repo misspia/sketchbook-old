@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import Arc from './arc';
 import ArcLight from './arcLight';
+import Bats from './bats';
 
 export default class Entrance {
   constructor({
@@ -20,6 +21,7 @@ export default class Entrance {
     this.numArcs = numArcs;
     this.arcs = [];
     this.arcLights = [];
+    this.bats = [];
 
     this.geometry = new THREE.Geometry();
 
@@ -42,6 +44,7 @@ export default class Entrance {
     this.material.dispose();
     this.arcs.forEach(arc => arc.dispose());
     this.arcLights.forEach(arcLight => arcLight.dispose());
+    this.bats.forEach(bats => bats.dispose());
   }
 
   createArcs() {
@@ -60,6 +63,7 @@ export default class Entrance {
 
       this.createArc({ height, x, y: 0, z: this.arcDepth / 2 });
       this.createArcLight({ height, x, y: 0, z: 0 });
+      this.createBats({ x, y, z });
 
       if(i === midIndex) {
         // decrease height after reaching peak
@@ -94,6 +98,14 @@ export default class Entrance {
 
     this.pivot.add(arcLight.pivot);
     this.arcLights.push(arcLight);
+  }
+
+  createBats({ x, y, z }) {
+    const bats = new Bats();
+    bats.position.set(x, y, z);
+
+    this.pivot.add(bats.pivot);
+    this.bats.push(bats);
   }
 
   update() {
