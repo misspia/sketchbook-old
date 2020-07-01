@@ -95,9 +95,7 @@ export default class ArcLight {
     this.light.rotation.x = -utils.toRadians(25);
     this.light.distance = 150;
     this.light.decay = 2;
-    this.light.position.z = -40;
-    this.light.position.y = 15;
-    this.light.castShadow = true;
+    this.light.position.set(0, 15, -40);
   }
 
   update() {
