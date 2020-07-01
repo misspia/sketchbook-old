@@ -80,15 +80,6 @@ export default class Bat {
     this.leftWing.rotation.x += utils.toRadians(-45);
     this.rightWing.rotation.x += utils.toRadians(45);
 
-
-    // this.leftWing.position.x -= 1;
-    // this.rightWing.position.x += 1;
-
-    // this.leftWing.rotation.y = -Math.PI / 2;
-    // this.leftWing.rotation.x = Math.PI;
-    // this.rightWing.rotation.y = Math.PI / 2;
-
-
     this.pivot.add(this.rightWing);
     this.pivot.add(this.leftWing);
   }
