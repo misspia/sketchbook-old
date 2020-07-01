@@ -63,7 +63,7 @@ export default class Entrance {
 
       this.createArc({ height, x, y: 0, z: this.arcDepth / 2 });
       this.createArcLight({ height, x, y: 0, z: 0 });
-      this.createBats({ x, y, z });
+      this.createBats({ x, y: height / 2, z: this.arcDepth / 2 });
 
       if(i === midIndex) {
         // decrease height after reaching peak
@@ -110,5 +110,6 @@ export default class Entrance {
 
   update() {
     this.arcLights.forEach(arcLight => arcLight.update());
+    this.bats.forEach(bat => bat.update());
   }
 }

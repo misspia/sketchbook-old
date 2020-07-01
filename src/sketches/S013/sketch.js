@@ -19,8 +19,8 @@ import Wall from './wall';
     this.lights = new Lights();
 
     this.floor = new Floor({
-      width: 100,
-      height: 180,
+      width: 150,
+      height: 150,
     });
     this.wall = new Wall();
     this.platform = new Platform({
@@ -53,8 +53,7 @@ import Wall from './wall';
 
   init() {
     this.setClearColor(0x000000);
-    // this.setClearColor(0xffffff);
-    this.setCameraPos(0, 40, 1);
+    this.setCameraPos(0, 40, 28);
     this.lookAt(new THREE.Vector3(0, 10, this.floor.min.z + 30));
 
     this.renderer.shadowMap.enabled = true;
