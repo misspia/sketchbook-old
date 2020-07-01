@@ -4,7 +4,7 @@ import utils from '../utils';
 
 export default class Bats {
   constructor() {
-    this.numBats = utils.randomFloatBetween(5, 10);
+    this.numBats = utils.randomFloatBetween(8, 12);
     this.bats = [];
 
     this.pivot = new THREE.Group();

@@ -19,13 +19,13 @@ import Wall from './wall';
     this.lights = new Lights();
 
     this.floor = new Floor({
-      width: 150,
+      width: 200,
       height: 150,
     });
     this.wall = new Wall();
     this.platform = new Platform({
       numSteps: 15,
-      width: this.floor.width * 0.6,
+      width: this.floor.width * 1,
     });
     this.pillars = new Pillars({
       minZ: this.floor.getZCoord(0.5),
@@ -35,11 +35,11 @@ import Wall from './wall';
     });
     this.entrance = new Entrance({
       numArcs: 5,
-      arcMaxHeight: 30,
-      arcMinHeight: 20,
-      arcWidth: 5,
+      arcMaxHeight: 40,
+      arcMinHeight: 30,
+      arcWidth: 7,
       arcDepth: 10,
-      gap: 3,
+      gap: 5,
     });
   }
 
@@ -65,6 +65,7 @@ import Wall from './wall';
     this.wall.position.z = this.floor.min.z - 0.5;
 
     this.scene.add(this.lights.ambient);
+    this.scene.add(this.lights.directional);
     this.scene.add(this.floor.pivot);
     this.scene.add(this.wall.pivot);
     this.scene.add(this.platform.pivot);

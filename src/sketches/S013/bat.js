@@ -7,9 +7,9 @@ export default class Bat {
     this.progressY = 0;
     this.progressZ = 0;
 
-    this.progressVelocityX = utils.randomFloatBetween(0.005, 0.01);
-    this.progressVelocityY = utils.randomFloatBetween(0.005, 0.01);
-    this.progressVelocityZ = utils.randomFloatBetween(0.005, 0.01);
+    this.progressVelocityX = utils.randomFloatBetween(0.004, 0.007);
+    this.progressVelocityY = utils.randomFloatBetween(0.006, 0.009);
+    this.progressVelocityZ = utils.randomFloatBetween(0.004, 0.007);
 
     this.signX = utils.randomBool() ? 1 : -1;
     this.signY = utils.randomBool() ? 1 : -1;
@@ -22,14 +22,25 @@ export default class Bat {
     this.endY = utils.randomFloatBetween(15, 20);
 
     this.startZ = 0;
-    this.endZ = 100;
+    this.endZ = 150;
 
+    this.startWingAngle = utils.toRadians(0);
+    this.endWingAngle = utils.toRadians(80);
+    this.wingVelocity = utils.randomFloatBetween(0.2, 0.5);
 
-    this.geometry = new THREE.BoxGeometry(1, 1, 1);
+    this.rightWing = {};
+    this.leftWing = {};
+    this.geometry = new THREE.Geometry();
+
     this.material = new THREE.MeshBasicMaterial({
-      color: 0xff0000,
+      color: 0x000000,
+      side: THREE.DoubleSide,
     });
-    this.pivot = new THREE.Mesh(this.geometry, this.material);
+
+    this.pivot = new THREE.Group();
+    this.createGeometry();
+    this.pivot.rotation.y = Math.PI / 2;
+
   }
 
   get position() {
@@ -41,14 +52,51 @@ export default class Bat {
     this.material.dispose();
   }
 
-  updatePosition() {
+  createWingGeometry(scale = 1) {
+    const triangle = new THREE.Geometry();
+    triangle.vertices.push(
+      new THREE.Vector3(-1, 1, 0),
+      new THREE.Vector3(-1, -1, 0),
+      new THREE.Vector3(1, -1, 0),
+    );
+    triangle.faces.push(new THREE.Face3(0, 1, 2));
+    triangle.computeBoundingSphere();
+    /**
+     * change pivot point
+     */
+    triangle.applyMatrix( new THREE.Matrix4().makeTranslation(-1, 1, 0));
+    triangle.scale(scale, scale, scale);
+    return triangle;
+  }
+  createGeometry() {
+    const wingGeometry = this.createWingGeometry(1);
 
+    this.rightWing = new THREE.Mesh(wingGeometry, this.material);
+    this.leftWing = new THREE.Mesh(wingGeometry, this.material);
+
+    this.leftWing = new THREE.Mesh(wingGeometry, this.material);
+    this.rightWing = new THREE.Mesh(wingGeometry, this.material);
+
+    this.leftWing.rotation.x += utils.toRadians(-45);
+    this.rightWing.rotation.x += utils.toRadians(45);
+
+
+    // this.leftWing.position.x -= 1;
+    // this.rightWing.position.x += 1;
+
+    // this.leftWing.rotation.y = -Math.PI / 2;
+    // this.leftWing.rotation.x = Math.PI;
+    // this.rightWing.rotation.y = Math.PI / 2;
+
+
+    this.pivot.add(this.rightWing);
+    this.pivot.add(this.leftWing);
   }
 
   updateWings() {
     if(
-      this.rightWing.rotation.x > this.endWingAngle ||
-      this.rightWing.rotation.x < this.startWingAngle
+      this.rightWing.rotation.x > this.maxWingAngle ||
+      this.rightWing.rotation.x < this.minWingAngle
     ) {
       this.wingVelocity = -this.wingVelocity;
     }
@@ -85,6 +133,8 @@ export default class Bat {
       this.progressY = 0;
       this.progressZ = 0;
     }
+
+    this.updateWings();
 
     this.position.x = this.getXPos();
     this.position.y = this.getYPos();
