@@ -6,20 +6,21 @@ export default class Platform {
   constructor({
     numSteps = 5,
     width = 10,
-    color = 0x080808,
+    material,
   }) {
+    this.material = material;
+
     this.width = width;
     this.platformDepth = 20;
     this.geometry = new THREE.Geometry();
-    this.stairs = new Stairs({ numSteps, width });
+    this.stairs = new Stairs({
+      numSteps,
+      width,
+      material: this.material,
+    });
     this.addPlatform();
     this.addStairs();
 
-    this.material = new THREE.MeshStandardMaterial({
-      color,
-      metalness: 0,
-      roughness: 0,
-    });
     this.pivot = new THREE.Mesh(this.geometry, this.material);
     this.bbox = new THREE.Box3().setFromObject(this.pivot);
   }
@@ -38,7 +39,6 @@ export default class Platform {
 
   dispose() {
     this.geometry.dispose();
-    this.material.dispose();
     this.stairs.dispose();
   }
 

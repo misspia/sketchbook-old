@@ -14,8 +14,6 @@ import Entrance from './entrance';
     this.cameraDistance = 100;
     this.sceneCenter = { x: 0, y: 0, z: 0 };
 
-    const envColor = 0xffffff;
-
     this.lights = new Lights();
 
     this.envMaterial = new THREE.MeshStandardMaterial({
@@ -35,14 +33,13 @@ import Entrance from './entrance';
     this.platform = new Platform({
       numSteps: 15,
       width: this.skybox.width * 1,
-      color: envColor,
+      material: this.envMaterial,
     });
     this.pillars = new Pillars({
       minZ: this.skybox.getZCoord(0.5),
       maxZ: this.skybox.getZCoord(0.7),
       numPerSide: 3,
       gap: this.skybox.width * 0.5,
-      color: envColor,
     });
     this.entrance = new Entrance({
       numArcs: 5,
@@ -51,7 +48,7 @@ import Entrance from './entrance';
       arcWidth: 9,
       arcDepth: 15,
       gap: 5,
-      color: envColor,
+      material: this.envMaterial,
     });
   }
 

@@ -5,7 +5,7 @@ export default class Arc {
     height = 10,
     width = 5,
     depth = 5,
-    color = 0xffffff,
+    material,
   }) {
     this.height = height;
     this.width = width;
@@ -16,10 +16,7 @@ export default class Arc {
     this.createCrown();
     this.createSupports();
 
-    this.material = new THREE.MeshBasicMaterial({
-      color,
-      side: THREE.DoubleSide,
-    });
+    this.material = material;
     this.pivot = new THREE.Mesh(this.geometry, this.material);
     this.pivot.receiveShadow = true;
 
@@ -36,7 +33,6 @@ export default class Arc {
 
   dispose() {
     this.geometry.dispose();
-    this.material.dispose();
   }
 
   updateMatrix() {
