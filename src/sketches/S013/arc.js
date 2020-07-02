@@ -5,6 +5,7 @@ export default class Arc {
     height = 10,
     width = 5,
     depth = 5,
+    color = 0xffffff,
   }) {
     this.height = height;
     this.width = width;
@@ -16,7 +17,7 @@ export default class Arc {
     this.createSupports();
 
     this.material = new THREE.MeshBasicMaterial({
-      color: 0xffffff,
+      color,
       side: THREE.DoubleSide,
     });
     this.pivot = new THREE.Mesh(this.geometry, this.material);

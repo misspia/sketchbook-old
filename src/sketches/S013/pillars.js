@@ -7,6 +7,7 @@ export default class Pillars {
     maxZ = 0,
     numPerSide = 1,
     gap = 1,
+    color = 0x111111,
   }) {
     this.numPerSide = numPerSide;
     this.minZ = minZ;
@@ -28,8 +29,8 @@ export default class Pillars {
     let z = this.minZ;
     const zIncrement = (this.maxZ - this.minZ) / (this.numPerSide - 1);
     for(let i = 0; i < this.numPerSide; i++) {
-      const leftPillar = new Pillar();
-      const rightPillar = new Pillar();
+      const leftPillar = new Pillar({ color: 0x111111 });
+      const rightPillar = new Pillar({ color: 0x111111 });
 
       this.pillars.push(leftPillar, rightPillar);
       this.pivot.add(leftPillar.pivot, rightPillar.pivot);

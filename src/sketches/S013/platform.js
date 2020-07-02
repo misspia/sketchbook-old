@@ -6,6 +6,7 @@ export default class Platform {
   constructor({
     numSteps = 5,
     width = 10,
+    color = 0x080808,
   }) {
     this.width = width;
     this.platformDepth = 20;
@@ -15,7 +16,7 @@ export default class Platform {
     this.addStairs();
 
     this.material = new THREE.MeshStandardMaterial({
-      color: 0x080808,
+      color,
       metalness: 0,
       roughness: 0,
     });

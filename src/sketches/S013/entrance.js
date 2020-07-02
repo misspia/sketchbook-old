@@ -11,7 +11,9 @@ export default class Entrance {
     arcWidth = 5,
     arcDepth = 5,
     gap = 2,
+    color = 0x080808,
   }) {
+    this.color = color;
     this.arcMaxHeight = arcMaxHeight;
     this.arcMinHeight = arcMinHeight;
     this.arcWidth = arcWidth;
@@ -25,8 +27,10 @@ export default class Entrance {
 
     this.geometry = new THREE.Geometry();
 
-    this.material = new THREE.MeshBasicMaterial({
-      color: 0x080808,
+    this.material = new THREE.MeshStandardMaterial({
+      color,
+      roughness: 0,
+      metalness: 0,
       side: THREE.DoubleSide,
     });
     this.pivot = new THREE.Group();
