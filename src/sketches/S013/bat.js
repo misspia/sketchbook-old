@@ -16,10 +16,10 @@ export default class Bat {
     this.signZ = 1;
 
     this.startX = 0;
-    this.endX = utils.randomFloatBetween(13, 15);
+    this.endX = utils.randomFloatBetween(5, 15);
 
     this.startY = 0;
-    this.endY = utils.randomFloatBetween(15, 20);
+    this.endY = utils.randomFloatBetween(8, 25);
 
     this.startZ = 0;
     this.endZ = 150;
@@ -33,7 +33,8 @@ export default class Bat {
     this.geometry = new THREE.Geometry();
 
     this.material = new THREE.MeshBasicMaterial({
-      color: 0x000000,
+      // color: 0x000000,
+      color: 0xffaaff,
       side: THREE.DoubleSide,
     });
 

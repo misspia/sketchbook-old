@@ -1,10 +1,12 @@
 import * as THREE from 'three';
 
 export default class Pillar {
-  constructor() {
+  constructor({
+    color = 0x111111,
+  }) {
     this.geometry = new THREE.CylinderGeometry(3, 3, 50, 50);
     this.material = new THREE.MeshStandardMaterial({
-      color: 0x111111,
+      color,
       roughness: 0,
       metalness: 0,
     });

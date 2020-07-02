@@ -11,6 +11,7 @@ export default class Entrance {
     arcWidth = 5,
     arcDepth = 5,
     gap = 2,
+    material,
   }) {
     this.arcMaxHeight = arcMaxHeight;
     this.arcMinHeight = arcMinHeight;
@@ -25,10 +26,7 @@ export default class Entrance {
 
     this.geometry = new THREE.Geometry();
 
-    this.material = new THREE.MeshBasicMaterial({
-      color: 0x080808,
-      side: THREE.DoubleSide,
-    });
+    this.material = material
     this.pivot = new THREE.Group();
     this.frame = new THREE.Mesh(this.geometry, this.material);
     this.pivot.add(this.frame);
@@ -41,7 +39,6 @@ export default class Entrance {
 
   dispose() {
     this.geometry.dispose();
-    this.material.dispose();
     this.arcs.forEach(arc => arc.dispose());
     this.arcLights.forEach(arcLight => arcLight.dispose());
     this.bats.forEach(bats => bats.dispose());
@@ -80,6 +77,7 @@ export default class Entrance {
       height,
       width: this.arcWidth,
       depth: this.arcDepth,
+      material: this.material,
     });
     arc.position.set(x, y, z);
     arc.updateMatrix();

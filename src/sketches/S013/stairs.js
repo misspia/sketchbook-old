@@ -4,6 +4,7 @@ export default class Stairs {
   constructor({
     numSteps = 5,
     width = 10,
+    material,
   }) {
     this.numSteps = numSteps;
     this.stepDepth = 2;
@@ -14,11 +15,8 @@ export default class Stairs {
     this.geometry = new THREE.Geometry();
     this.createSteps();
 
-    this.material = new THREE.MeshStandardMaterial({
-      color: 0x0000ff,
-      metalness: 0,
-      roughness: 0,
-    });
+    this.material = material;
+
     this.pivot = new THREE.Mesh(this.geometry, this.material);
   }
 
@@ -44,7 +42,6 @@ export default class Stairs {
 
   dispose() {
     this.geometry.dispose();
-    this.material.dispose();
   }
 
   createSteps() {
