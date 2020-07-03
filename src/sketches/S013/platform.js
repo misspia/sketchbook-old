@@ -22,7 +22,12 @@ export default class Platform {
     this.addStairs();
 
     this.pivot = new THREE.Mesh(this.geometry, this.material);
+    this.pivot.castShadow = true;
+    this.pivot.receiveShadow = true;
+
     this.bbox = new THREE.Box3().setFromObject(this.pivot);
+    this.min = this.bbox.min;
+    this.max = this.bbox.max;
   }
 
   get position() {

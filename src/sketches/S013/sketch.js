@@ -3,7 +3,6 @@ import SketchManagerThree from '../sketchManagerThree';
 
 import Lights from './lights';
 import Skybox from './Skybox';
-import Pillars from './pillars';
 import Platform from './platform';
 import Entrance from './entrance';
 
@@ -24,48 +23,42 @@ import Entrance from './entrance';
     });
 
     this.skybox = new Skybox({
-      width: 200,
+      width: 300,
       height: 200,
-      depth: 200,
+      depth: 150,
       material: this.envMaterial,
     })
 
     this.platform = new Platform({
-      numSteps: 15,
+      numSteps: 35,
       width: this.skybox.width * 1,
       material: this.envMaterial,
     });
-    this.pillars = new Pillars({
-      minZ: this.skybox.getZCoord(0.5),
-      maxZ: this.skybox.getZCoord(0.7),
-      numPerSide: 3,
-      gap: this.skybox.width * 0.5,
-    });
     this.entrance = new Entrance({
       numArcs: 5,
-      arcMaxHeight: 50,
-      arcMinHeight: 35,
-      arcWidth: 9,
-      arcDepth: 15,
-      gap: 5,
+      arcMaxHeight: 80,
+      arcMinHeight: 50,
+      arcWidth: 15,
+      arcDepth: 5,
+      gap: 7,
       material: this.envMaterial,
     });
   }
 
   unmount() {
     this.envMaterial.dispose();
-    this.floor.dispose();
-    this.wall.dispose();
     this.platform.dispose();
-    this.pillars.dispose();
     this.entrance.dispose();
+    this.skybox.dispose();
     this.clearScene();
   }
 
   init() {
+    this.disableOrbitControls();
     this.setClearColor(0x000000);
-    this.setCameraPos(0, 40, 28);
-    this.lookAt(new THREE.Vector3(0, 10, this.skybox.min.z + 30));
+
+    this.setCameraPos(0, 31, this.skybox.max.z);
+    this.lookAt(new THREE.Vector3(0, this.platform.max.y, this.skybox.min.z + 40));
 
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFShadowMap;
@@ -79,9 +72,12 @@ import Entrance from './entrance';
     this.scene.add(this.lights.ambient);
     this.scene.add(this.lights.directional);
     this.scene.add(this.skybox.pivot);
-    // this.scene.add(this.pillars.pivot);
     this.scene.add(this.platform.pivot);
     this.scene.add(this.entrance.pivot);
+
+    this.entrance.arcLights.forEach(arcLight => {
+      this.scene.add(arcLight.helper);
+    })
   }
 
   draw() {

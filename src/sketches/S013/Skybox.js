@@ -18,6 +18,11 @@ export default class Skybox {
      * remove top face
      */
     this.geometry.faces.splice(4, 2);
+    /**
+     * remove front face
+     */
+    this.geometry.faces.splice(6, 2);
+
     this.pivot = new THREE.Mesh(this.geometry, material);
 
     const bbox = new THREE.Box3().setFromObject(this.pivot);

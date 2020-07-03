@@ -8,7 +8,7 @@ export default class Stairs {
   }) {
     this.numSteps = numSteps;
     this.stepDepth = 2;
-    this.stepHeight = 1;
+    this.stepHeight = 1.1;
     this.stepWidth = width;
     this.stepGeometry = new THREE.BoxGeometry(this.stepWidth, this.stepHeight, this.stepDepth);
 
