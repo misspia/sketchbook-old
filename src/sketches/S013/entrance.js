@@ -29,7 +29,10 @@ export default class Entrance {
     this.material = material
     this.pivot = new THREE.Group();
     this.frame = new THREE.Mesh(this.geometry, this.material);
+    this.frame.castShadow = true;
+    this.frame.receiveShadow = true;
     this.pivot.add(this.frame);
+
     this.createArcs();
   }
 

@@ -1,10 +1,6 @@
 import * as THREE from 'three';
-import { RectAreaLightUniformsLib } from 'three/examples/jsm/lights/RectAreaLightUniformsLib';
 import utils from '../utils';
 
-/**
- * https://threejs.org/examples/?q=light#webgl_lights_rectarealight
- */
 export default class ArcLight {
   constructor({
     width = 10,
@@ -18,23 +14,22 @@ export default class ArcLight {
     this.height = height;
     this.radius = this.width / 2;
     this.geometry = new THREE.Geometry();
-    // this.backMaterial = new THREE.MeshBasicMaterial({ color: 0x080808 });
-    this.backMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+    this.backMaterial = new THREE.MeshBasicMaterial({ color: 0xffefef });
     this.createGeometry();
 
-    // RectAreaLightUniformsLib.init();
-    // this.backing = new THREE.RectAreaLight(0xddaaff, 1, width, height);
     this.backing = new THREE.Mesh(this.geometry, this.backMaterial);
     this.backing.intensity = 1;
 
     this.pivot = new THREE.Group();
     this.pivot.add(this.backing);
 
-    this.light = new THREE.SpotLight(0xffaaff, 1.8);
+    this.light = {};
     this.setupLight();
     this.pivot.add(this.light);
 
     this.bbox = new THREE.Box3();
+
+    this.helper = new THREE.SpotLightHelper(this.light, 0xff0000);
   }
 
   get position() {
@@ -56,7 +51,7 @@ export default class ArcLight {
   createFaces() {
     const rectLightMesh = new THREE.Mesh(
       this.geometry,
-      new THREE.MeshBasicMaterial({ side: THREE.DoubleSide })
+      new THREE.MeshBasicMaterial({ color: 0xff0000, side: THREE.DoubleSide })
     );
     this.backing.add(rectLightMesh);
 
@@ -91,11 +86,12 @@ export default class ArcLight {
   }
 
   setupLight() {
-    this.light.angle = utils.toRadians(10);
-    this.light.rotation.x = -utils.toRadians(25);
+    this.light = new THREE.SpotLight(0xffaaf0, 1.5);
+    this.light.angle = utils.toRadians(40);
     this.light.distance = 150;
     this.light.decay = 2;
-    this.light.position.set(0, 15, -40);
+    // make 2nd light??
+
   }
 
   update() {

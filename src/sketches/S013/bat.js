@@ -12,14 +12,14 @@ export default class Bat {
     this.progressVelocityZ = utils.randomFloatBetween(0.004, 0.007);
 
     this.signX = utils.randomBool() ? 1 : -1;
-    this.signY = utils.randomBool() ? 1 : -1;
+    this.signY = utils.weightedRandomBool(0.1) ? 1 : -1;
     this.signZ = 1;
 
     this.startX = 0;
-    this.endX = utils.randomFloatBetween(5, 15);
+    this.endX = utils.randomFloatBetween(2, 11);
 
     this.startY = 0;
-    this.endY = utils.randomFloatBetween(8, 25);
+    this.endY = utils.randomFloatBetween(5, 50);
 
     this.startZ = 0;
     this.endZ = 150;
@@ -33,7 +33,6 @@ export default class Bat {
     this.geometry = new THREE.Geometry();
 
     this.material = new THREE.MeshBasicMaterial({
-      // color: 0x000000,
       color: 0xffaaff,
       side: THREE.DoubleSide,
     });
