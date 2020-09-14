@@ -26,7 +26,7 @@ class Entry extends Component {
   }
   componentWillUnmount() {
     this.removeResizeHandler();
-    this.state.sketch.unmount();
+    this.state.sketch.triggerUnmount();
   }
   componentWillReceiveProps(nextProps) {
     if(!nextProps.match) return; // 404 handler

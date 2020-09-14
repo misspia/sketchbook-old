@@ -18,7 +18,9 @@ export default class Audio {
   }
 
   close() {
-    this.context.close();
+    if(this.context) {
+      this.context.close();
+    }
   }
 
   setSmoothingTimeConstant(val) {

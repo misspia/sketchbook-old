@@ -15,12 +15,13 @@ class SketchManagerThree {
       cameraFar: 1000,
       ...customOptions,
     };
+    this.isInitiated = false;
     this.frag = '';
     this.vert = '';
 
     this.audioElement = audioElement;
     this.audioSrc = '';
-    this.audio = {};
+    this.audio = null;
 
     this.startTime = Date.now();
 
@@ -64,12 +65,19 @@ class SketchManagerThree {
   }
 
   clear() {}
-  unmount() { }
+  triggerUnmount() {
+    if(!this.isInitiated) {
+      return;
+    }
+    this.unmount();
+  }
   init() { }
   draw() { }
   render() {
     this.init();
     this.draw();
+
+    this.isInitiated = true;
   }
 
   clearScene() {
