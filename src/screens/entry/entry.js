@@ -53,7 +53,8 @@ class Entry extends Component {
       instructions: Sketch.instructions,
       sketch: new Sketch.sketch(this.canvas, this.audio),
     }, () => {
-      if(this.state.sketch.audioElement) {
+      // if(this.state.sketch.audioElement) {
+      if(false) {
         this.setState(() => ({
           activateMediaRequired: true,
         }));
