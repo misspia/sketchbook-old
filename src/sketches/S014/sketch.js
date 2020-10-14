@@ -13,7 +13,7 @@ import Ring from './ring';
 import OuterRing from './outerRing';
 import Bar from './bar';
 
-
+// https://dribbble.com/shots/7033454-vinnexyuna
 class Sketch extends SketchManagerThree {
   constructor(canvas, audioElement) {
     super(canvas, audioElement);
