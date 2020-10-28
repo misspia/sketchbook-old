@@ -5,6 +5,10 @@ import utils from '../utils';
 import frag from './boids.frag';
 import vert from './boids.vert';
 
+/**
+ * https://eater.net/boids
+ * https://www.pinterest.ca/pin/516295544779785194/
+ */
 class Sketch extends SketchManagerThree {
   constructor(canavs) {
     super(canvas);
