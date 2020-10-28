@@ -17,11 +17,10 @@ float reverseRemapFreq(float min, float max) {
 // chunk(shadowmap_pars_fragment);
 
 void main() {
-    // vec3 color = vec3(0.2, 0.5, 0.9);
-    vec3 color = vec3(1.0, 0.6, 0.2);
-    color.r = remapFreq(0.5, 0.6);
-    color.g = remapFreq(0.1, 0.6);
-    color.b = remapFreq(0.2, 1.0);
+    vec3 color = vec3(0.07, 0.065, 0.7);
+    color.r = remapFreq(0.05, 0.1);
+    color.g = remapFreq(0.045, 0.09);
+    color.b = remapFreq(0.6, 0.8);
 
 
     gl_FragColor = vec4(color, 1.0);

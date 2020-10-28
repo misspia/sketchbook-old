@@ -12,6 +12,7 @@ class Sketch extends SketchManagerThree {
     super(canvas, audioElement);
 
     this.audioSrc = Audio.S015;
+    // this.audioSrc = Audio.tester;
     this.numFrequencyNodes = 25;
     this.fftSize = 512;
 

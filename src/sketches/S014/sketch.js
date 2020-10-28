@@ -7,18 +7,19 @@ import SketchManagerThree from '../sketchManagerThree';
 import utils from '../utils';
 import { Audio } from '../../themes';
 
+import Lights from './lights';
 import Skybox from './skybox';
 import Ring from './ring';
 import OuterRing from './outerRing';
 import Bar from './bar';
 
-
+// https://dribbble.com/shots/7033454-vinnexyuna
 class Sketch extends SketchManagerThree {
   constructor(canvas, audioElement) {
     super(canvas, audioElement);
     this.raycaster = {};
-    // this.audioSrc = Audio.tester;
-    this.audioSrc = Audio.S014;
+    this.audioSrc = Audio.tester;
+    // this.audioSrc = Audio.S014;
 
     this.composer = {};
     this.pp = new PostProcessor(this);
@@ -33,7 +34,7 @@ class Sketch extends SketchManagerThree {
       size: 1000,
     });
 
-    this.light = {};
+    this.lights = new Lights();
     this.numRings = 15;
     this.lastRingRadius = 12;
     this.rings = [];
@@ -66,23 +67,17 @@ class Sketch extends SketchManagerThree {
     this.initAudio(audioConfig);
     this.audio.volume(1);
 
-    this.createLight();
     this.createRings(0, this.numRings);
     this.createOuterRing();
     this.createBars();
 
     this.scene.add(this.skybox.pivot);
+    this.scene.add(this.lights.spot);
+    this.scene.add(this.lights.ambient);
 
     this.createEffects();
   }
-  createLight() {
-    this.light = new THREE.SpotLight(0xffffff, 0.5, 1000, 1.05, 0.3, 2);
-    this.light.position.set(0, 150, 0);
-    this.light.castShadow = true;
-    this.scene.add(this.light);
 
-    this.scene.add(new THREE.AmbientLight(0xffffff, 0.5));
-  }
   createEffects() {
     const fxaa = new ShaderPass(FXAAShader);
     fxaa.uniforms.resolution.value.set(
