@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import * as S from './preview.styles'
-import Icon from '../../../shared/icon/icon';
+import Icon from '../../../shared/icon';
 import { Icons, Colors } from '../../../themes';
 
 export default function Preview({

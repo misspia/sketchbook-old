@@ -4,7 +4,7 @@ import {
   Container, Header, Title, Subtitle,
   SocialContainer, SocialLink
 } from './home.styles'
-import Icon from '../../shared/icon/icon'
+import Icon from '../../shared/icon'
 import SketchList from './sketchList/sketchList'
 
 import Metadata from './home.metadata'
