@@ -29,8 +29,34 @@ export const Button = styled.div`
     transition: all 0.3s;
     cursor: pointer;
 
+    position: relative;
+
+    &::after,
+    &::before {
+        content: '';
+        position: absolute;
+        transition: all 0.3s;
+        height: 1px;
+        width: 0px;
+        background-color: ${Colors.cream};
+    }
+
+    &::before {
+        right: 33.33%;
+        top: 0px;
+    }
+    &::after {
+        left: 33.33%;
+        bottom: 0px;        
+    }
+
+
     &:hover {
-        border-color: ${Colors.cream};
         letter-spacing: 1px;
+
+        &::before,
+        &::after {
+            width: 33.33%;
+        }
     }
 `;

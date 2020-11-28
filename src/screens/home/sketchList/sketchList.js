@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Routes from '../../../router/routes'
 import Preview from '../preview/preview'
 
-import { Container } from './SketchList.styles'
+import { Container } from './sketchList.styles'
 
 import Sketches from '../../../sketches/sketches'
 

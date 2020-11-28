@@ -65,7 +65,7 @@ class Sketch extends SketchManagerThree {
       dataLength: this.numFrequencyNodes,
     };
     this.initAudio(audioConfig);
-    this.audio.volume(1);
+    this.audio.volume(0.1);
 
     this.createRings(0, this.numRings);
     this.createOuterRing();
