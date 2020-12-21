@@ -3,16 +3,7 @@ export const BASE_URL = 'https://raw.githubusercontent.com/misspia/assets/master
 
 const Audio = {
   elemId: 'audio',
-  // tester: require('./misc/likeu.mp3'),
-  // tester: require('./misc/black.mp3'),
-  // tester: require('./misc/blues.mp3'),
-  // tester: require('./misc/hungover.mp3'),
-  // tester: require('./misc/gods.mp3'),
-  // tester: require('./misc/midnight.mp3'),
-  tester: require('./misc/sky.mp3'),
-
-
-
+  tester: require('./misc/likeu.mp3'),
 
   S008: `${BASE_URL}nurko-right-now.mp3`,
   S014: `${BASE_URL}kda-popstars.mp3`,

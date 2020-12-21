@@ -6,6 +6,7 @@ export default class Audio {
     this.configElement(audioSrc);
 
     this.context = new AudioContext();
+    this.offlineContext = new OfflineAudioContext(2, 44100*40, 44100);
     this.source = this.context.createMediaElementSource(this.audioElement);
     this.analyser = this.context.createAnalyser();
 
@@ -49,6 +50,20 @@ export default class Audio {
 
   volume(vol = 1) {
     this.audioElement.volume = vol
+  }
+
+  startOfflineAnalysis() {
+    this.offlineContext.startRendering();
+    console.debug('start')
+  }
+
+  /**
+   * https://developer.mozilla.org/en-US/docs/Web/API/OfflineAudioContext/startRendering
+   * https://stackoverflow.com/a/29651911 
+   */
+  readOfflineAnalysis(compute) {
+    console.debug('compute')
+    this.offlineContext.oncomplete = (e) => compute(e.renderedBuffer);
   }
 
   getByteFrequencyData() {
