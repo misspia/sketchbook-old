@@ -106,13 +106,13 @@ const Sketches = [
     image: Images.S013,
     sketch: S013,
   },
-  {
-    title: '',
-    instructions: `Popstars - K/DA`,
-    isAudio: true,
-    image: Images.S014,
-    sketch: S014,
-  },
+  // {
+  //   title: '',
+  //   instructions: `Popstars - K/DA`,
+  //   isAudio: true,
+  //   image: Images.S014,
+  //   sketch: S014,
+  // },
   {
     title: '',
     instructions: `Nobody (ft. MINO) - Blue.D`,

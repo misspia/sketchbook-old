@@ -32,4 +32,3 @@ export const Bar = styled.div`
     width: ${props => props.width}%;
     background-color: ${Colors.cream};
 `;
-
