@@ -16,7 +16,7 @@ import S012 from './S012/sketch';
 import S013 from './S013/sketch';
 import S014 from './S014/sketch';
 import S015 from './S015/sketch';
-import S016 from './S016/sketch';
+import S016 from './S016';
 
 
 /**
@@ -31,111 +31,111 @@ import S016 from './S016/sketch';
 
 
 const Sketches = [
-  {
-    title: 'Metaballs',
-    image: Images.S000,
-    sketch: S000
-  },
-  {
-    title: 'Playing with oscillators',
-    image: Images.S001,
-    sketch: S001
-  },
-  {
-    title: 'SDFs',
-    image: Images.S002,
-    sketch: S002
-  },
-  {
-    title: 'Ray marching',
-    image: Images.S003,
-    sketch: S003
-  },
-  {
-    title: 'Toon shading',
-    image: Images.S004,
-    sketch: S004
-  },
-  {
-    title: 'Basic texture mapping',
-    image: Images.S005,
-    sketch: S005
-  },
-  {
-    title: 'Mesh explosion',
-    instructions: 'Press & hold to make the sphere explode',
-    image: Images.S006,
-    sketch: S006
-  },
-  {
-    title: 'Tunnel',
-    image: Images.S007,
-    sketch: S007
-  },
-  {
-    title: '',
-    instructions: `Right Now - Nurko & Misdom`,
-    isAudio: true,
-    image: Images.S008,
-    sketch: S008
-  },
-  {
-    title: 'Light Tunnel',
-    image: Images.S009,
-    sketch: S009,
-  },
-  {
-    title: 'Noise',
-    instructions: 'Hover to activate the ribbons',
-    image: Images.S010,
-    sketch: S010,
-  },
-  {
-    title: 'Bloom',
-    image: Images.S011,
-    sketch: S011,
-  },
-  {
-    title: 'Noisey plane & texture mixing',
-    instructions: 'Press & hold to reach level 9000',
-    image: Images.S012,
-    sketch: S012,
-  },
-  {
-    title: 'God rays',
-    image: Images.S013,
-    sketch: S013,
-  },
+  // {
+  //   title: 'Metaballs',
+  //   image: Images.S000,
+  //   sketch: S000
+  // },
+  // {
+  //   title: 'Playing with oscillators',
+  //   image: Images.S001,
+  //   sketch: S001
+  // },
+  // {
+  //   title: 'SDFs',
+  //   image: Images.S002,
+  //   sketch: S002
+  // },
+  // {
+  //   title: 'Ray marching',
+  //   image: Images.S003,
+  //   sketch: S003
+  // },
+  // {
+  //   title: 'Toon shading',
+  //   image: Images.S004,
+  //   sketch: S004
+  // },
+  // {
+  //   title: 'Basic texture mapping',
+  //   image: Images.S005,
+  //   sketch: S005
+  // },
+  // {
+  //   title: 'Mesh explosion',
+  //   instructions: 'Press & hold to make the sphere explode',
+  //   image: Images.S006,
+  //   sketch: S006
+  // },
+  // {
+  //   title: 'Tunnel',
+  //   image: Images.S007,
+  //   sketch: S007
+  // },
   // {
   //   title: '',
-  //   instructions: `Popstars - K/DA`,
+  //   instructions: `Right Now - Nurko & Misdom`,
   //   isAudio: true,
-  //   image: Images.S014,
-  //   sketch: S014,
+  //   image: Images.S008,
+  //   sketch: S008
   // },
-  {
-    title: '',
-    instructions: `Nobody (ft. MINO) - Blue.D`,
-    isAudio: true,
-    image: Images.S015,
-    sketch: S015,
-  },
+  // {
+  //   title: 'Light Tunnel',
+  //   image: Images.S009,
+  //   sketch: S009,
+  // },
+  // {
+  //   title: 'Noise',
+  //   instructions: 'Hover to activate the ribbons',
+  //   image: Images.S010,
+  //   sketch: S010,
+  // },
+  // {
+  //   title: 'Bloom',
+  //   image: Images.S011,
+  //   sketch: S011,
+  // },
+  // {
+  //   title: 'Noisey plane & texture mixing',
+  //   instructions: 'Press & hold to reach level 9000',
+  //   image: Images.S012,
+  //   sketch: S012,
+  // },
+  // {
+  //   title: 'God rays',
+  //   image: Images.S013,
+  //   sketch: S013,
+  // },
+  // // {
+  // //   title: '',
+  // //   instructions: `Popstars - K/DA`,
+  // //   isAudio: true,
+  // //   image: Images.S014,
+  // //   sketch: S014,
+  // // },
+  // {
+  //   title: '',
+  //   instructions: `Nobody (ft. MINO) - Blue.D`,
+  //   isAudio: true,
+  //   image: Images.S015,
+  //   sketch: S015,
+  // },
   {
     title: '',
     instructions: `Wrong (ft. Lil Uzi Vert) - MAX`,
     isAudio: true,
     image: Images.S016,
-    sketch: S016,
+    component: S016,
   },
 
-  // {
-  //   title: '',
-  //   image: Images.S,
-  //   sketch: S,
-  //   instructions: ``,
-  //   isAudio: false,
-  //   isWebcam: false,
-  // },
+  // // {
+  // //   title: '',
+  // //   image: Images.S,
+  // //   sketch: S,
+  // //   instructions: ``,
+  // //   isAudio: false,
+  // //   isWebcam: false,
+  // // },
 ];
 
 export default Sketches;

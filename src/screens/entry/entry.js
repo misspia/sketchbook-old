@@ -1,113 +1,124 @@
-import React, { Component } from 'react'
-
+import React, { useEffect, useRef, useMemo } from 'react'
+import { withRouter } from 'react-router-dom';
 import Header from './header'
 
-import { Container } from './entry.styles'
+import * as S from './entry.styles'
 
 import Sketches from '../../sketches/sketches'
 import MediaActivator from './mediaActivator/mediaActivator';
 
-class Entry extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      title: '',
-      sketch: null,
-      activateMediaRequired: false,
-    }
-    this.resizeHandler = this.resizeHandler.bind(this);
-  }
-  componentDidMount() {
-    this.initCanvas()
-    this.addResizeHandler()
+// class EntryOld extends Component {
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       title: '',
+//       SketchComponent: null,
+//       activateMediaRequired: false,
+//     }
+//   }
+//   componentWillMount() {
+//     this.setNewSketch();
+//   }
+//   componentWillUnmount() {
+//     this.state.sketch.triggerUnmount();
+//   }
+//   componentWillReceiveProps(nextProps) {
+//     if (!nextProps.match) return; // 404 handler
 
-    const sketchIndex = this.props.match.params.index;
-    this.setNewSketch(sketchIndex);
-  }
-  componentWillUnmount() {
-    this.removeResizeHandler();
-    this.state.sketch.triggerUnmount();
-  }
-  componentWillReceiveProps(nextProps) {
-    if (!nextProps.match) return; // 404 handler
+//     const currentIndex = parseInt(this.props.match.params.index);
+//     const nextIndex = parseInt(nextProps.match.params.index);
 
-    const currentIndex = parseInt(this.props.match.params.index);
-    const nextIndex = parseInt(nextProps.match.params.index);
+//     if (currentIndex != nextIndex) {
+//       this.clearSketchContext();
+//       this.setNewSketch(nextIndex);
+//     }
+//   }
+//   clearSketchContext() {
+//     if (this.state.sketch) this.state.sketch.clear();
+//     this.setState({
+//       title: '',
+//       SketchComponent: null
+//     })
+//   }
+//   setNewSketch() {
+//     const sketchIndex = this.props.match.params.index;
+//     const Sketch = Sketches[sketchIndex];
+//     console.debug(Sketch)
+//     this.setState({
+//       title: Sketch.title,
+//       instructions: Sketch.instructions,
+//       SketchComponent: Sketch.component,
+//     }, () => {
+//       // if (this.state.sketch.audioElement) {
+//       //   this.setState(() => ({
+//       //     activateMediaRequired: true,
+//       //   }));
+//       // } else {
+//       //   this.state.sketch.render()
+//       // }
+//     })
+//   }
+//   render() {
+//     const { SketchComponent } = this.state;
+//     return (
+//       <Container ref={ref => this.container = ref}>
+//         {/* {
+//           this.state.activateMediaRequired &&
+//           <MediaActivator
+//             onClick={e => {
+//               this.setState(() => ({
+//                 activateMediaRequired: false,
+//               }), () => {
+//                 this.state.sketch.render();
+//               })
+//             }}
+//           />
+//         } */}
+//         <Header
+//           title={this.state.title}
+//           instructions={this.state.instructions}
+//         />
+//         <SketchComponent />
+//       </Container>
+//     );
+//   }
+// }
 
-    if (currentIndex != nextIndex) {
-      this.clearSketchContext();
-      this.setNewSketch(nextIndex);
-    }
-  }
-  clearSketchContext() {
-    if (this.state.sketch) this.state.sketch.clear();
-    this.setState({
-      title: '',
-      sketch: {}
-    })
-  }
-  setNewSketch(sketchIndex) {
-    const Sketch = Sketches[sketchIndex];
-    this.setState({
-      title: Sketch.title,
-      instructions: Sketch.instructions,
-      sketch: new Sketch.sketch(this.canvas, this.audio),
-    }, () => {
-      if (this.state.sketch.audioElement) {
-        this.setState(() => ({
-          activateMediaRequired: true,
-        }));
-      } else {
-        this.state.sketch.render()
-      }
-    })
-  }
-  initCanvas() {
-    this.canvas.width = this.getDimensions().x;
-    this.canvas.height = this.getDimensions().y;
-  }
-  addResizeHandler() {
-    window.addEventListener('resize', this.resizeHandler);
-  }
-  removeResizeHandler() {
-    window.removeEventListener('resize', this.resizeHandler);
-  }
-  resizeHandler() {
-    this.canvas.width = this.getDimensions().x;
-    this.canvas.height = this.getDimensions().y;
-    this.state.sketch.resize(this.canvas.width, this.canvas.height)
-  }
-  getDimensions() {
-    return {
-      x: document.documentElement.clientWidth,
-      y: document.documentElement.clientHeight
-    }
-  }
 
-  render() {
-    return (
-      <Container ref={ref => this.container = ref}>
-        {
-          this.state.activateMediaRequired &&
-          <MediaActivator
-            onClick={e => {
-              this.setState(() => ({
-                activateMediaRequired: false,
-              }), () => {
-                this.state.sketch.render();
-              })
-            }}
-          />
-        }
-        <Header
-          title={this.state.title}
-          instructions={this.state.instructions}
+const Entry = ({
+  match,
+}) => {
+  const sketchIndex = match.params.index;
+  const { title, instructions } = Sketches[sketchIndex]
+
+  const SketchComponent = useMemo(() => (
+    Sketches[sketchIndex].component
+  ), [sketchIndex]);
+
+  const test = useMemo(() => {
+    return test
+  }, [])
+  return (
+    <S.Container>
+      {/* {
+        this.state.activateMediaRequired &&
+        <MediaActivator
+          onClick={e => {
+            this.setState(() => ({
+              activateMediaRequired: false,
+            }), () => {
+              this.state.sketch.render();
+            })
+          }}
         />
-        <canvas ref={ref => this.canvas = ref}></canvas>
-        <audio ref={ref => this.audio = ref} loop />
-      </Container>
-    );
-  }
+      } */}
+      <Header
+        title={title}
+        instructions={instructions}
+      />
+      <SketchComponent />
+    </S.Container>
+  );
 }
 
-export default Entry;
+export default withRouter(Entry);
