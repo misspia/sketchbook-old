@@ -57,6 +57,7 @@ class Sketch extends SketchManagerThree {
     const audioConfig = { fftSize: this.fftSize, dataLength: this.frequencyDataLength };
     this.initAudio(audioConfig);
     this.audio.setSmoothingTimeConstant(0.85);
+    this.audio.volume(0.2)
 
     this.scene.add(this.lights.directionalTop);
     this.scene.add(this.lights.directionalSide);
@@ -72,7 +73,8 @@ class Sketch extends SketchManagerThree {
     this.floor.update();
     this.debris.update(this.audio.frequencyData);
 
-    this.effectManager.render();
+    this.renderer.render(this.scene, this.camera);
+    // this.effectManager.render();
 
     requestAnimationFrame(() => this.draw());
   }
