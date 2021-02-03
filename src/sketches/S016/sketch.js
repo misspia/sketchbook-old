@@ -11,7 +11,6 @@ import Lights from './lights';
 class Sketch extends SketchManagerThree {
   constructor(canvas, audioElement) {
     super(canvas, audioElement);
-
     this.audioSrc = Audio.S016;
     this.numFrequencyNodes = 25;
     this.fftSize = 512;
@@ -73,8 +72,7 @@ class Sketch extends SketchManagerThree {
     this.floor.update();
     this.debris.update(this.audio.frequencyData);
 
-    this.renderer.render(this.scene, this.camera);
-    // this.effectManager.render();
+    this.effectManager.render();
 
     requestAnimationFrame(() => this.draw());
   }
