@@ -3,6 +3,8 @@ import * as Nodes from 'three/examples/jsm/nodes/Nodes';
 import { GlitchPass } from 'three/examples/jsm/postprocessing/GlitchPass';
 import PP from '../postProcessor';
 
+// https://github.com/misspia/sketchbook/blob/master/src/screens/entry/entry.js
+// https://threejs.org/docs/#manual/en/introduction/How-to-use-post-processing
 export default class EffectManager {
   constructor(context) {
     this.context = context;

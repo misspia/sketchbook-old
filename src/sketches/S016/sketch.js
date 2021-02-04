@@ -11,7 +11,8 @@ import Lights from './lights';
 class Sketch extends SketchManagerThree {
   constructor(canvas, audioElement) {
     super(canvas, audioElement);
-    this.audioSrc = Audio.S016;
+    // this.audioSrc = Audio.S016;
+    this.audioSrc = Audio.tester;
     this.numFrequencyNodes = 25;
     this.fftSize = 512;
     this.frequencyDataLength = 110;
@@ -56,7 +57,6 @@ class Sketch extends SketchManagerThree {
     const audioConfig = { fftSize: this.fftSize, dataLength: this.frequencyDataLength };
     this.initAudio(audioConfig);
     this.audio.setSmoothingTimeConstant(0.85);
-    this.audio.volume(0.2)
 
     this.scene.add(this.lights.directionalTop);
     this.scene.add(this.lights.directionalSide);
