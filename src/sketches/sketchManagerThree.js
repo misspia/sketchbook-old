@@ -52,16 +52,11 @@ class SketchManagerThree {
     const dpr = Math.min(1.5, window.devicePixelRatio);
     this.renderer.setPixelRatio(dpr);
 
-    // window.scene = this.scene;
+    window.scene = this.scene;
 
     this.controls = new OrbitController(this.camera, this.renderer.domElement);
     this.pp = new PostProcessor(this);
 
-    // initial resize
-    this.resize();
-
-    // event listeners
-    window.addEventListener('resize', () => this.resize());
   }
 
   clear() {}
@@ -114,29 +109,26 @@ class SketchManagerThree {
       this.mouse.y = - (e.clientY / this.canvas.height) * 2 + 1;
     });
   }
-  resize() {
-    this.updateProjectionMatrix();
 
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-
+  resize(width, height) {
+    this.canvas.width = width;
+    this.canvas.height = height;
+    
     this.camera.aspect = width / height;
+    this.camera.updateProjectionMatrix();
+
     this.renderer.setSize(width, height);
     this.pp.resize(width, height);
+
     this.customResize(width, height);
   }
+
+
   /**
    * Sketch specific resize operations
    */
   customResize(width, height) { }
 
-  updateProjectionMatrix() {
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-
-    this.camera.aspect = width / height;
-    this.camera.updateProjectionMatrix();
-  }
   setCameraPos(x, y, z) {
     this.camera.position.set(x, y, z);
   }

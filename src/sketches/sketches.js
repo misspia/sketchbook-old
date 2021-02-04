@@ -1,22 +1,22 @@
 import { Images } from '../themes';
 
-import S000 from './S000/sketch';
-import S001 from './S001/sketch';
-import S002 from './S002/sketch';
-import S003 from './S003/sketch';
-import S004 from './S004/sketch';
-import S005 from './S005/sketch';
-import S006 from './S006/sketch';
-import S007 from './S007/sketch';
-import S008 from './S008/sketch';
-import S009 from './S009/sketch';
-import S010 from './S010/sketch';
-import S011 from './S011/sketch';
-import S012 from './S012/sketch';
-import S013 from './S013/sketch';
-import S014 from './S014/sketch';
-import S015 from './S015/sketch';
-import S016 from './S016/sketch';
+import S000 from './S000';
+import S001 from './S001';
+import S002 from './S002';
+import S003 from './S003';
+import S004 from './S004';
+import S005 from './S005';
+import S006 from './S006';
+import S007 from './S007';
+import S008 from './S008';
+import S009 from './S009';
+import S010 from './S010';
+import S011 from './S011';
+import S012 from './S012';
+import S013 from './S013';
+import S014 from './S014';
+import S015 from './S015';
+import S016 from './S016';
 
 
 /**
@@ -34,108 +34,108 @@ const Sketches = [
   {
     title: 'Metaballs',
     image: Images.S000,
-    sketch: S000
+    component: S000
   },
   {
     title: 'Playing with oscillators',
     image: Images.S001,
-    sketch: S001
+    component: S001
   },
   {
     title: 'SDFs',
     image: Images.S002,
-    sketch: S002
+    component: S002
   },
   {
     title: 'Ray marching',
     image: Images.S003,
-    sketch: S003
+    component: S003
   },
   {
     title: 'Toon shading',
     image: Images.S004,
-    sketch: S004
+    component: S004
   },
   {
     title: 'Basic texture mapping',
     image: Images.S005,
-    sketch: S005
+    component: S005
   },
   {
     title: 'Mesh explosion',
     instructions: 'Press & hold to make the sphere explode',
     image: Images.S006,
-    sketch: S006
+    component: S006
   },
   {
     title: 'Tunnel',
     image: Images.S007,
-    sketch: S007
+    component: S007
   },
   {
     title: '',
     instructions: `Right Now - Nurko & Misdom`,
     isAudio: true,
     image: Images.S008,
-    sketch: S008
+    component: S008
   },
   {
     title: 'Light Tunnel',
     image: Images.S009,
-    sketch: S009,
+    component: S009,
   },
   {
     title: 'Noise',
     instructions: 'Hover to activate the ribbons',
     image: Images.S010,
-    sketch: S010,
+    component: S010,
   },
   {
     title: 'Bloom',
     image: Images.S011,
-    sketch: S011,
+    component: S011,
   },
   {
     title: 'Noisey plane & texture mixing',
     instructions: 'Press & hold to reach level 9000',
     image: Images.S012,
-    sketch: S012,
+    component: S012,
   },
   {
     title: 'God rays',
     image: Images.S013,
-    sketch: S013,
+    component: S013,
   },
   // {
   //   title: '',
   //   instructions: `Popstars - K/DA`,
   //   isAudio: true,
   //   image: Images.S014,
-  //   sketch: S014,
+  //   component: S014,
   // },
   {
     title: '',
     instructions: `Nobody (ft. MINO) - Blue.D`,
     isAudio: true,
     image: Images.S015,
-    sketch: S015,
+    component: S015,
   },
   {
     title: '',
     instructions: `Wrong (ft. Lil Uzi Vert) - MAX`,
     isAudio: true,
     image: Images.S016,
-    sketch: S016,
+    component: S016,
   },
 
-  // {
-  //   title: '',
-  //   image: Images.S,
-  //   sketch: S,
-  //   instructions: ``,
-  //   isAudio: false,
-  //   isWebcam: false,
-  // },
+  // // {
+  // //   title: '',
+  // //   image: Images.S,
+  // //   component: S,
+  // //   instructions: ``,
+  // //   isAudio: false,
+  // //   isWebcam: false,
+  // // },
 ];
 
 export default Sketches;

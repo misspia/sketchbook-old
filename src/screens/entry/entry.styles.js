@@ -42,3 +42,8 @@ export const Instructions = styled.div`
   letter-spacing: 0.1em;
 
 `;
+
+
+export const SketchContainer = styled.div`
+  z-index: 1;
+`;

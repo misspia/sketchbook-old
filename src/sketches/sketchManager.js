@@ -27,6 +27,8 @@ class Sketch {
     this.gl.clear(this.gl.COLOR_BUFFER_BIT);
   }
   resize(width, height) {
+    this.canvas.width = width;
+    this.canvas.height = height;
     this.gl.viewport(
       0, 0,
       this.gl.drawingBufferWidth,

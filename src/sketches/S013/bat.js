@@ -64,7 +64,7 @@ export default class Bat {
     /**
      * change pivot point
      */
-    triangle.applyMatrix( new THREE.Matrix4().makeTranslation(-1, 1, 0));
+    triangle.applyMatrix4( new THREE.Matrix4().makeTranslation(-1, 1, 0));
     triangle.scale(scale, scale, scale);
     return triangle;
   }
