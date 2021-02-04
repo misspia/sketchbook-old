@@ -123,7 +123,7 @@ const Sketches = [
   {
     title: '',
     instructions: `Wrong (ft. Lil Uzi Vert) - MAX`,
-    // isAudio: true,
+    isAudio: true,
     image: Images.S016,
     component: S016,
   },
