@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import * as S from './preview.styles'
-import Icon from '../../../shared/icon';
+import Icon from '../../../components/icon';
 import { Icons, Colors } from '../../../themes';
 
 export default function Preview({
@@ -9,11 +9,15 @@ export default function Preview({
   title = '',
   image = '',
   isAudio = false,
+  onLoad = () => {},
 
 }) {
     return (
       <S.Container>
-        <S.Image src={image} />
+        <S.Image 
+          src={image} 
+          onLoad={onLoad}
+        />
         <NavLink to={to} />
         <S.HiddenContainer>
 

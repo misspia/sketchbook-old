@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom'
 import Routes from '../../router/routes'
 
 import { Icons } from '../../themes'
-import Icon from '../../shared/icon'
+import Icon from '../../components/icon'
 
 import * as S from './entry.styles'
 

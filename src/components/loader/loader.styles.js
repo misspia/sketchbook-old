@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { Colors } from '../../themes';
 
 export const Wrapper = styled.div`
+    z-index: 999;
     position: fixed;
     top: 0;
     left: 0;
@@ -12,23 +13,18 @@ export const Wrapper = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    background-color: ${Colors.cream};
 `;
 
 export const Text = styled.div`
-    color: ${Color.cream};
-`;
-
-export const Progress = styled.div`
-    width: 100%;
-    height: 2px;
-    position: relative;
+    color: ${Colors.grey};
+    margin-bottom: 1.5em;
+    letter-spacing: 2px;
 `;
 
 export const Bar = styled.div`
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
+    height: 1px;
     width: ${props => props.width}%;
-    background-color: ${Colors.cream};
+    background-color: ${Colors.grey};
+    transition: width 0.3s;
 `;
