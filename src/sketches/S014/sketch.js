@@ -6,6 +6,7 @@ import PostProcessor from '../postProcessor';
 import SketchManagerThree from '../sketchManagerThree';
 import utils from '../utils';
 import { Audio } from '../../themes';
+import BeatDetector from './beatDetector';
 
 import Lights from './lights';
 import Skybox from './skybox';
@@ -19,6 +20,7 @@ class Sketch extends SketchManagerThree {
     super(canvas, audioElement);
     this.raycaster = {};
     this.audioSrc = Audio.tester;
+    this.beat = new BeatDetector(this)
     // this.audioSrc = Audio.S014;
 
     this.composer = {};
@@ -65,11 +67,8 @@ class Sketch extends SketchManagerThree {
       dataLength: this.numFrequencyNodes,
     };
     this.initAudio(audioConfig);
+    this.beat.onStart(this.audio.source)
     this.audio.volume(0.1);
-    this.audio.startOfflineAnalysis();
-    this.audio.readOfflineAnalysis(buffer => {
-      console.debug(buffer);
-    })
 
     this.createRings(0, this.numRings);
     this.createOuterRing();
