@@ -20,6 +20,7 @@ class Sketch extends SketchManagerThree {
     super(canvas, audioElement);
     this.raycaster = {};
     this.audioSrc = Audio.tester;
+    console.debug(this.audioSrc)
     this.beat = new BeatDetector(this)
     // this.audioSrc = Audio.S014;
 
@@ -67,8 +68,7 @@ class Sketch extends SketchManagerThree {
       dataLength: this.numFrequencyNodes,
     };
     this.initAudio(audioConfig);
-    this.beat.onStart(this.audio.source)
-    this.audio.volume(0.1);
+    this.beat.onStart(this.audioSrc, this.audio.context)
 
     this.createRings(0, this.numRings);
     this.createOuterRing();
