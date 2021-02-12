@@ -26,7 +26,7 @@ export default class BeatDetector {
       reader.readAsArrayBuffer(file)
     }
   }
-  
+
   /**
    * https://stackoverflow.com/a/30112800 
    */
@@ -40,10 +40,13 @@ export default class BeatDetector {
     source.connect(filter);
     filter.connect(offlineContext.destination);
     source.start(0);
-    offlineContext.start();
+    offlineContext.startRendering();
+    offlineContext.onProgress = () => {
+      console.debug('processing')
+    }
     offlineContext.onComplete = (e) => this.process(e)
   }
-  
+
   process(e) {
     const filteredBuffer = e.renderedBuffer
     console.debug('[rendering complete]', filteredBuffer);
@@ -51,28 +54,82 @@ export default class BeatDetector {
     const max = arrayMax(data);
     const min = arrayMin(data);
 
-    const threshold = min + (max - min) *  0.98;
+    const threshold = min + (max - min) * 0.98;
+    console.debug('@@', threshold)
     const peaks = this.getPeaksAtThreshold(data, threshold);
     const intervalCounts = this.countIntervalsBetweenNearbyPeaks(peaks);
     const tempoCounts = this.groupNeighboursByTemp(intervalCounts);
     tempoCounts.sort((a, b) => b.count - a.count);
-    if(tempoCounts.length) {
+
+    console.debug(tempoCounts, intervalCounts, peaks)
+    if (tempoCounts.length) {
       console.debug('[tempo counts]', tempoCounts)
     }
   }
 
   getPeaksAtThreshold(data, threshold) {
+    const peaks = [];
+    for (let i = 0; i < data.length; i++) {
+      if (data[i] > threshold) {
+        peaks.push(i);
 
+        // Skip forward ~1/4s to get past this peak
+        i += 10000;
+      }
+    }
+    return peaks;
   }
 
   countIntervalsBetweenNearbyPeaks(peaks) {
-
+    const intervals = [];
+    peaks.forEach((peak, index) => {
+      for (let i = 0; i < 10; i++) {
+        const interval = peaks[index + i] - peak;
+        const foundInterval = intervalCounts.some(interval => {
+          if (interval.interval === interval) {
+            return interval.count++;
+          }
+        });
+        if (!isNaN(interval) && interval !== 0 && !foundInterval) {
+          intervals.push({ interval, count: 1 });
+        }
+      }
+    })
+    return intervals;
   }
 
-  groupNeighboursByTemp(intervalCounts) {
+  groupNeighboursByTemp(intervals) {
+    const tempoCounts = [];
+    intervals.forEach((interval) => {
+      // Convert an interval to tempo
+      const theoreticalTempo = Math.round(60 / (interval.interval / 44100));
+      if (theoreticalTempo === 0) {
+        return;
+      }
 
+      // Adjust the tempo to fit within the 90 - 180 BPM range
+      while (theoreticalTempo < 90) {
+        theoreticalTempo *= 2;
+      }
+      while (theoreticalTempo > 180) {
+        theoreticalTempo /= 2;
+      }
+
+      const foundTempo = tempoCounts.some((tempoCount) => {
+        if (tempoCount.tempo === theoreticalTempo) {
+          return tempoCounts.count += interval.count;
+        }
+      });
+      if (!foundTempo) {
+        tempoCounts.push({
+          tempo: theoreticalTempo,
+          count: interval.count,
+        });
+      }
+    });
+    return tempoCounts;
   }
-  
+
   onProgress() {
 
   }
