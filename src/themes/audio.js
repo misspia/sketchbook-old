@@ -8,8 +8,8 @@ const Audio = {
   // tester: require('./audio/how-do-you-like-it.mp3'),
   // tester: require('./audio/therapy.mp3'),
   // tester: require('./audio/want-it-all.mp3'),
-  // tester: require('./audio/we-dont-need-words.mp3'),
-  tester: require('./audio/guitarmass.mp3'),
+  tester: require('./audio/we-dont-need-words.mp3'),
+  // tester: require('./audio/guitarmass.mp3'),
 
   S008: `${BASE_URL}nurko-right-now.mp3`,
   S014: `${BASE_URL}kda-popstars.mp3`,

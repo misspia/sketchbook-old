@@ -31,8 +31,8 @@ export default class BeatDetector {
    * https://stackoverflow.com/a/30112800 
    */
   prepare(buffer) {
-    console.debug(buffer);
     const offlineContext = new OfflineAudioContext(1, buffer.length, buffer.sampleRate);
+    console.debug('[prepare]', buffer, offlineContext)
     const source = offlineContext.createBufferSource();
     source.buffer = buffer;
     const filter = offlineContext.createBiquadFilter();
@@ -40,28 +40,22 @@ export default class BeatDetector {
     source.connect(filter);
     filter.connect(offlineContext.destination);
     source.start(0);
-    offlineContext.startRendering();
-    offlineContext.onProgress = () => {
-      console.debug('processing')
-    }
-    offlineContext.onComplete = (e) => this.process(e)
+    offlineContext.startRendering().then((renderedBuffer) => {
+      this.process(renderedBuffer)
+    })
   }
 
-  process(e) {
-    const filteredBuffer = e.renderedBuffer
-    console.debug('[rendering complete]', filteredBuffer);
-    const data = filteredBuffer.getChannelData(0);
+  process(renderedBuffer) {
+    const data = renderedBuffer.getChannelData(0);
     const max = arrayMax(data);
     const min = arrayMin(data);
 
     const threshold = min + (max - min) * 0.98;
-    console.debug('@@', threshold)
     const peaks = this.getPeaksAtThreshold(data, threshold);
     const intervalCounts = this.countIntervalsBetweenNearbyPeaks(peaks);
     const tempoCounts = this.groupNeighboursByTemp(intervalCounts);
     tempoCounts.sort((a, b) => b.count - a.count);
 
-    console.debug(tempoCounts, intervalCounts, peaks)
     if (tempoCounts.length) {
       console.debug('[tempo counts]', tempoCounts)
     }
@@ -81,7 +75,7 @@ export default class BeatDetector {
   }
 
   countIntervalsBetweenNearbyPeaks(peaks) {
-    const intervals = [];
+    const intervalCounts = [];
     peaks.forEach((peak, index) => {
       for (let i = 0; i < 10; i++) {
         const interval = peaks[index + i] - peak;
@@ -91,18 +85,18 @@ export default class BeatDetector {
           }
         });
         if (!isNaN(interval) && interval !== 0 && !foundInterval) {
-          intervals.push({ interval, count: 1 });
+          intervalCounts.push({ interval, count: 1 });
         }
       }
     })
-    return intervals;
+    return intervalCounts;
   }
 
   groupNeighboursByTemp(intervals) {
     const tempoCounts = [];
     intervals.forEach((interval) => {
       // Convert an interval to tempo
-      const theoreticalTempo = Math.round(60 / (interval.interval / 44100));
+      let theoreticalTempo = Math.round(60 / (interval.interval / 44100));
       if (theoreticalTempo === 0) {
         return;
       }
@@ -117,7 +111,7 @@ export default class BeatDetector {
 
       const foundTempo = tempoCounts.some((tempoCount) => {
         if (tempoCount.tempo === theoreticalTempo) {
-          return tempoCounts.count += interval.count;
+          return tempoCount.count += interval.count;
         }
       });
       if (!foundTempo) {
@@ -128,14 +122,6 @@ export default class BeatDetector {
       }
     });
     return tempoCounts;
-  }
-
-  onProgress() {
-
-  }
-
-  onComplete() {
-
   }
 }
 
