@@ -13,6 +13,7 @@ import Skybox from './skybox';
 import Ring from './ring';
 import OuterRing from './outerRing';
 import Bar from './bar';
+import { Events } from '../../constants';
 
 // https://dribbble.com/shots/7033454-vinnexyuna
 class Sketch extends SketchManagerThree {
@@ -20,7 +21,6 @@ class Sketch extends SketchManagerThree {
     super(canvas, audioElement);
     this.raycaster = {};
     this.audioSrc = Audio.tester;
-    console.debug(this.audioSrc)
     this.beat = new BeatDetector(this)
     // this.audioSrc = Audio.S014;
 
@@ -69,6 +69,10 @@ class Sketch extends SketchManagerThree {
     };
     this.initAudio(audioConfig);
     this.beat.onStart(this.audioSrc, this.audio.context)
+
+    this.addEventListener(Events.BEAT_DETECTION_COMPLETE, (e) => {
+      console.debug('beat detection complete', e)
+    })
 
     this.createRings(0, this.numRings);
     this.createOuterRing();

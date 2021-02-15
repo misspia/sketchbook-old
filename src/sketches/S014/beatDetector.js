@@ -1,3 +1,5 @@
+import { Events } from '../../constants';
+
 /**
  * https://developer.mozilla.org/en-US/docs/Web/API/OfflineAudioContext/startRendering
  * https://stackoverflow.com/a/29651911 
@@ -9,7 +11,8 @@ export default class BeatDetector {
     this.context = context;
   }
 
-  onStart(src, context) {
+  onStart(src) {
+    const { context } = this.context.audio;
     const xhr = new XMLHttpRequest();
     xhr.open('GET', src, true);
     xhr.responseType = "arraybuffer";
@@ -32,7 +35,6 @@ export default class BeatDetector {
    */
   prepare(buffer) {
     const offlineContext = new OfflineAudioContext(1, buffer.length, buffer.sampleRate);
-    console.debug('[prepare]', buffer, offlineContext)
     const source = offlineContext.createBufferSource();
     source.buffer = buffer;
     const filter = offlineContext.createBiquadFilter();
@@ -56,9 +58,10 @@ export default class BeatDetector {
     const tempoCounts = this.groupNeighboursByTemp(intervalCounts);
     tempoCounts.sort((a, b) => b.count - a.count);
 
-    if (tempoCounts.length) {
-      console.debug('[tempo counts]', tempoCounts)
-    }
+    this.context.dispatchEvent({
+      type: Events.BEAT_DETECTION_COMPLETE,
+      payload: tempoCounts
+    })
   }
 
   getPeaksAtThreshold(data, threshold) {
