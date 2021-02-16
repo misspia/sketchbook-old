@@ -8,8 +8,9 @@ import PostProcessor from './postProcessor';
 
 const OrbitController = OrbitControls(THREE);
 
-class SketchManagerThree {
+class SketchManagerThree extends THREE.EventDispatcher {
   constructor(canvas, audioElement, customOptions = {}) {
+    super();
     const options = {
       cameraNear: 0.1,
       cameraFar: 1000,

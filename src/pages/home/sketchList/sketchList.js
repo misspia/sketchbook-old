@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Routes from '../../../router/routes'
 import Preview from '../preview/preview'
 
