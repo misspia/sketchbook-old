@@ -5,14 +5,28 @@ import { Events } from '../../constants';
  * https://stackoverflow.com/a/29651911 
  */
 
+class FrequencyProcessor extends AudioWorklet {
+  process() {
+    
+  }
+}
 export default class BeatDetector {
   constructor(context) {
     this.audio = {}
     this.context = context;
   }
+  
+  // https://medium.com/@binyamin/enabling-async-await-and-generator-functions-in-babel-node-and-express-71e941b183e2
+  // https://developer.mozilla.org/en-US/docs/Web/API/AudioWorkletNode
+  // https://stackoverflow.com/questions/18718337/fft-with-offlineaudiocontext
+  async test() {
 
+  }
   onStart(src) {
     const { context } = this.context.audio;
+    // await context.audioWorklet.addModule('./whiteNoiseProcessor.js')
+    // const whiteNoiseNode = new AudioWorkletNode(context, 'white-noise-processor')
+    // console.debug('[whitenoisenode]', whiteNoiseNode)
     const xhr = new XMLHttpRequest();
     xhr.open('GET', src, true);
     xhr.responseType = "arraybuffer";
