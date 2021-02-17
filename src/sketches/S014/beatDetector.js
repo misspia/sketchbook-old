@@ -1,17 +1,22 @@
 import { Events } from '../../constants';
 
 /**
- * https://developer.mozilla.org/en-US/docs/Web/API/OfflineAudioContext/startRendering
  * https://stackoverflow.com/a/29651911 
+ * https://stackoverflow.com/questions/18718337/fft-with-offlineaudiocontext
  */
 
+class FrequencyProcessor extends AudioWorklet {
+  process() {
+    
+  }
+}
 export default class BeatDetector {
   constructor(context) {
     this.audio = {}
     this.context = context;
   }
-
-  onStart(src) {
+  
+  async onStart(src) {
     const { context } = this.context.audio;
     const xhr = new XMLHttpRequest();
     xhr.open('GET', src, true);
