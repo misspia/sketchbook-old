@@ -3,13 +3,22 @@ export const BASE_URL = 'https://raw.githubusercontent.com/misspia/assets/master
 
 const Audio = {
   elemId: 'audio',
-  // tester: require('./audio/likeu.mp3'),
-  // tester: require('./audio/hot-baby.mp3'),
-  // tester: require('./audio/how-do-you-like-it.mp3'),
-  // tester: require('./audio/therapy.mp3'),
-  // tester: require('./audio/want-it-all.mp3'),
-  tester: require('./audio/we-dont-need-words.mp3'),
+  tester: require('./audio/Dante Leon - The Sky.mp3'),
+  // tester: require('./audio/Way down We Go.mp3'),
+  // tester: require('./audio/sad.mp3'),
+  // tester: require('./audio/scarlet.mp3'),
+  // tester: require('./audio/Amy Winehouse - Back to Black ( EFIX & EDGAR ft XKAEM cover ).mp3'),
   // tester: require('./audio/guitarmass.mp3'),
+  // tester: require('./audio/mob.mp3'),
+  // tester: require('./audio/Final Fantasy VII Remake - Stand Up (Full).mp3'),
+  // tester: require('./audio/NANA - rose.mp3'),
+  // tester: require('./audio/bad.mp3'),
+  // tester: require('./audio/incrowd.mp3'),
+  // tester: require('./audio/afraid-to-be-cool.mp3'),
+  // tester: require('./audio/whats-my-name.mp3'),
+  // tester: require('./audio/need-for-speed.mp3'),
+  tester: require('./audio/infinity.mp3'),
+  
 
   S008: `${BASE_URL}nurko-right-now.mp3`,
   S014: `${BASE_URL}kda-popstars.mp3`,

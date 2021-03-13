@@ -3,7 +3,7 @@ import { Audio } from '../../themes';
 
 import CameraManager from './cameraManager';
 import EffectManager from './effectManager';
-import BeatManager from './beatManager';
+import BeatManager from '../beatManager';
 import Debris from './debris';
 import Floor from './floor';
 import Lights from './lights';
