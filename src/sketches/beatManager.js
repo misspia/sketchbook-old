@@ -1,6 +1,13 @@
 export default class BeatManager {
   constructor(context) {
     this.context = context;
+    /**
+     * {
+     *  bass: number
+     *  midrange: number
+     *  highrange: number
+     * }
+     */
     this.spectrumStart = context.spectrumStart;
 
     const totalFrequencies = context.frequencyDataLength - 1;
