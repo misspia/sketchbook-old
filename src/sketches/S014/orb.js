@@ -4,7 +4,8 @@ import vertexShader from './shaders/orb.vert';
 
 export default class Orb {
   constructor() {
-    this.geometry = new THREE.SphereGeometry(1, 8, 8);
+    this.geometry = new THREE.IcosahedronGeometry(1, 2);
+    this.geometry.computeFlatVertexNormals();
     this.material = new THREE.RawShaderMaterial({
       fragmentShader,
       vertexShader,
@@ -23,8 +24,8 @@ export default class Orb {
   get uniforms() {
     return this.material.uniforms;
   }
-  
-  update() {
 
+  update(time) {
+    this.uniforms.u_time.value = time;
   }
 }

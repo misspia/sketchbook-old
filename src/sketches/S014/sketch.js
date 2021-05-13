@@ -7,13 +7,16 @@ import { Audio } from '../../themes';
 import BeatDetector from './beatDetector';
 
 import Lights from './lights';
+import Orb from './orb';
+import Wall from './wall';
 
 // https://dribbble.com/shots/7033454-vinnexyuna
 // https://www.pinterest.ca/search/pins/?rs=ac&len=2&q=teamlab&eq=teamla&etslf=7511&term_meta[]=teamlab%7Cautocomplete%7C0
 class Sketch extends SketchManagerThree {
   constructor(canvas, audioElement) {
     super(canvas, audioElement);
-    this.raycaster = {};
+    // this.audioSrc = Audio.S014;
+    this.clock = new THREE.Clock();
     this.audioSrc = Audio.tester;
     this.beat = new BeatDetector(this)
 
@@ -23,7 +26,6 @@ class Sketch extends SketchManagerThree {
       highrange: 68,
     }
     this.beatManager = new BeatManager(this)
-    // this.audioSrc = Audio.S014;
 
     this.composer = {};
     this.pp = new PostProcessor(this);
@@ -34,8 +36,8 @@ class Sketch extends SketchManagerThree {
     this.numFrequencyNodes = 100;
     this.bars = [];
 
-    this.lights = new Lights();
-
+    this.orb = new Orb();
+    this.wall = new Wall();
   }
 
   unmount() {
@@ -44,14 +46,9 @@ class Sketch extends SketchManagerThree {
   }
 
   init() {
-    this.renderer.xr.enabled = true;
+    // this.disableOrbitControls();
 
-    this.disableOrbitControls();
-    this.renderer.shadowMap.enabled = true;
-    this.renderer.shadowMap.soft = true;
-
-    // this.setCameraPos(110, 105, -110);
-    this.setCameraPos(0, 0, 40);
+    this.setCameraPos(0, 0, 10);
     this.lookAt(0, 0, 0);
     this.setClearColor(0xffffff);
 
@@ -63,24 +60,29 @@ class Sketch extends SketchManagerThree {
     this.audio.setSmoothingTimeConstant(0.75);
     this.beat.onStart(this.audioSrc, this.audio.context)
 
+    this.scene.add(this.orb.mesh);
+    this.scene.add(this.wall.mesh);
 
-    const X_OFFSET = -50;
-    for(let i = 0; i < this.numFrequencyNodes; i++) {
-      let color = null
-      if(i < this.spectrumStart.midrange) {
-        color = 0xeeaaaa;
-      } else if(i < this.spectrumStart.highrange) {
-        color = 0xaaeeaa;
-      } else {
-        color = 0xeeeeaa
-      }
-      const g = new THREE.BoxGeometry(1, 0.15, 1)
-      const m = new THREE.MeshBasicMaterial({ color })
-      const mesh = new THREE.Mesh(g, m);
-      mesh.position.set(i + X_OFFSET, 0, 0);
-      this.scene.add(mesh);
-      this.bars.push(mesh)
-    }
+    this.orb.position.set(0, 0, 2)
+
+
+    // const X_OFFSET = -50;
+    // for(let i = 0; i < this.numFrequencyNodes; i++) {
+    //   let color = null
+    //   if(i < this.spectrumStart.midrange) {
+    //     color = 0xeeaaaa;
+    //   } else if(i < this.spectrumStart.highrange) {
+    //     color = 0xaaeeaa;
+    //   } else {
+    //     color = 0xeeeeaa
+    //   }
+    //   const g = new THREE.BoxGeometry(1, 0.15, 1)
+    //   const m = new THREE.MeshBasicMaterial({ color })
+    //   const mesh = new THREE.Mesh(g, m);
+    //   mesh.position.set(i + X_OFFSET, 0, 0);
+    //   this.scene.add(mesh);
+    //   this.bars.push(mesh)
+    // }
   }
 
   draw() {
@@ -88,9 +90,12 @@ class Sketch extends SketchManagerThree {
     requestAnimationFrame(() => this.draw());
     this.audio.getByteFrequencyData();
 
-    this.audio.frequencyData.forEach((freq, i) => {
-      this.bars[i].scale.y = freq
-    })
+    const time = this.clock.getElapsedTime();
+    this.orb.update(time)
+
+    // this.audio.frequencyData.forEach((freq, i) => {
+    //   this.bars[i].scale.y = freq
+    // })
   }
 }
 
