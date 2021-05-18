@@ -36,8 +36,8 @@ class Sketch extends SketchManagerThree {
     this.numFrequencyNodes = 100;
     this.bars = [];
 
-    this.orb = new Orb();
-    this.wall = new Wall();
+    this.orb = new Orb(this);
+    this.wall = new Wall(this);
   }
 
   unmount() {
@@ -90,8 +90,11 @@ class Sketch extends SketchManagerThree {
     requestAnimationFrame(() => this.draw());
     this.audio.getByteFrequencyData();
 
+    this.beatManager.update();
+    
     const time = this.clock.getElapsedTime();
     this.orb.update(time)
+    this.wall.update(time)
 
     // this.audio.frequencyData.forEach((freq, i) => {
     //   this.bars[i].scale.y = freq

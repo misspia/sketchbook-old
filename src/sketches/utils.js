@@ -7,6 +7,9 @@ const utils = {
   remap: (min1, max1, min2, max2, value) => (
     min2 + (max2 - min2) * (value - min1) / (max1 - min1)
   ),
+  remapFreq: (min, max, value) => (
+    utils.remap(0, 255, min, max, value)
+  ),
   toRadians: (degrees) => (
     degrees * Math.PI / 180
   ),

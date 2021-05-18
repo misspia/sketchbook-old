@@ -23,6 +23,18 @@ export default class BeatManager {
     this.overallAverages = [];
   }
 
+  get latestBassAverage() {
+    return this.bassAverages[this.bassAverages.length - 1]
+  }
+
+  get latestMidrangeAverage() {
+    return this.midrangeAverages[this.midrangeAverages.length - 1]
+  }
+
+  get latestHighrangeAverage() {
+    return this.highrangeAverages[this.highrangeAverages.length - 1]
+  }
+
   update() {
     this.updateBassAverage();
     this.updateMidrangeAverage();

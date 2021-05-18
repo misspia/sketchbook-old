@@ -14,8 +14,8 @@ const Audio = {
   // tester: require('./audio/afraid-to-be-cool.mp3'),
   // tester: require('./audio/need-for-speed.mp3'),
   // tester: require('./audio/infinity.mp3'),
-  // tester: require('./audio/devil.mp3'),
-  tester: require('./audio/disowned.mp3'),
+  tester: require('./audio/devil.mp3'),
+  // tester: require('./audio/disowned.mp3'),
   
 
   S008: `${BASE_URL}nurko-right-now.mp3`,
