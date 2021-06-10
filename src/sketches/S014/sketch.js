@@ -10,8 +10,7 @@ import Lights from './lights';
 import Orb from './orb';
 import Wall from './wall';
 
-// https://dribbble.com/shots/7033454-vinnexyuna
-// https://www.pinterest.ca/search/pins/?rs=ac&len=2&q=teamlab&eq=teamla&etslf=7511&term_meta[]=teamlab%7Cautocomplete%7C0
+// https://youtu.be/5gZrYyi-XRQ?t=62
 class Sketch extends SketchManagerThree {
   constructor(canvas, audioElement) {
     super(canvas, audioElement);
@@ -36,8 +35,8 @@ class Sketch extends SketchManagerThree {
     this.numFrequencyNodes = 100;
     this.bars = [];
 
-    this.orb = new Orb(this);
-    this.wall = new Wall(this);
+    // this.orb = new Orb(this);
+    // this.wall = new Wall(this);
   }
 
   unmount() {
@@ -48,7 +47,8 @@ class Sketch extends SketchManagerThree {
   init() {
     // this.disableOrbitControls();
 
-    this.setCameraPos(0, 0, 10);
+    // this.setCameraPos(0, 0, 10);
+    this.setCameraPos(0, 0, 50);
     this.lookAt(0, 0, 0);
     this.setClearColor(0xffffff);
 
@@ -58,31 +58,31 @@ class Sketch extends SketchManagerThree {
     };
     this.initAudio(audioConfig);
     this.audio.setSmoothingTimeConstant(0.75);
+    this.audio.volume(1)
     this.beat.onStart(this.audioSrc, this.audio.context)
 
-    this.scene.add(this.orb.mesh);
-    this.scene.add(this.wall.mesh);
+    // this.scene.add(this.orb.mesh);
+    // this.scene.add(this.wall.mesh);
+    // this.orb.position.set(0, 0, 2)
 
-    this.orb.position.set(0, 0, 2)
 
-
-    // const X_OFFSET = -50;
-    // for(let i = 0; i < this.numFrequencyNodes; i++) {
-    //   let color = null
-    //   if(i < this.spectrumStart.midrange) {
-    //     color = 0xeeaaaa;
-    //   } else if(i < this.spectrumStart.highrange) {
-    //     color = 0xaaeeaa;
-    //   } else {
-    //     color = 0xeeeeaa
-    //   }
-    //   const g = new THREE.BoxGeometry(1, 0.15, 1)
-    //   const m = new THREE.MeshBasicMaterial({ color })
-    //   const mesh = new THREE.Mesh(g, m);
-    //   mesh.position.set(i + X_OFFSET, 0, 0);
-    //   this.scene.add(mesh);
-    //   this.bars.push(mesh)
-    // }
+    const X_OFFSET = -50;
+    for(let i = 0; i < this.numFrequencyNodes; i++) {
+      let color = null
+      if(i < this.spectrumStart.midrange) {
+        color = 0xeeaaaa;
+      } else if(i < this.spectrumStart.highrange) {
+        color = 0xaaeeaa;
+      } else {
+        color = 0xeeeeaa
+      }
+      const g = new THREE.BoxGeometry(1, 0.15, 1)
+      const m = new THREE.MeshBasicMaterial({ color })
+      const mesh = new THREE.Mesh(g, m);
+      mesh.position.set(i + X_OFFSET, 0, 0);
+      this.scene.add(mesh);
+      this.bars.push(mesh)
+    }
   }
 
   draw() {
@@ -93,12 +93,12 @@ class Sketch extends SketchManagerThree {
     this.beatManager.update();
     
     const time = this.clock.getElapsedTime();
-    this.orb.update(time)
-    this.wall.update(time)
+    // this.orb.update(time)
+    // this.wall.update(time)
 
-    // this.audio.frequencyData.forEach((freq, i) => {
-    //   this.bars[i].scale.y = freq
-    // })
+    this.audio.frequencyData.forEach((freq, i) => {
+      this.bars[i].scale.y = freq + 0.01
+    })
   }
 }
 
