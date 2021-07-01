@@ -21,8 +21,8 @@ class Sketch extends SketchManagerThree {
 
     this.spectrumStart = {
       bass: 0,
-      midrange: 7,
-      highrange: 68,
+      midrange: 9,
+      highrange: 69,
     }
     this.beatManager = new BeatManager(this)
 
@@ -35,7 +35,7 @@ class Sketch extends SketchManagerThree {
     this.numFrequencyNodes = 100;
     this.bars = [];
 
-    // this.orb = new Orb(this);
+    this.orb = new Orb(this);
     // this.wall = new Wall(this);
   }
 
@@ -50,7 +50,7 @@ class Sketch extends SketchManagerThree {
     // this.setCameraPos(0, 0, 10);
     this.setCameraPos(0, 0, 50);
     this.lookAt(0, 0, 0);
-    this.setClearColor(0xffffff);
+    this.setClearColor(0x000000);
 
     const audioConfig = {
       fftSize: this.fftSize,

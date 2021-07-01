@@ -16,7 +16,7 @@ void main() {
   float offsetFactor = 1.2;
 
   vec4 offset = position;
-  offset.xyz += noise(normal * dist * offsetFactor) * sin(u_time);
+  offset.xyz *= noise(normal * dist * offsetFactor) * sin(u_time);
 
   gl_Position = projectionMatrix * modelViewMatrix * offset;
 }

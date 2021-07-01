@@ -6,7 +6,6 @@ const Audio = {
   // tester: require('./audio/sad.mp3'),
   // tester: require('./audio/Amy Winehouse - Back to Black ( EFIX & EDGAR ft XKAEM cover ).mp3'),
   // tester: require('./audio/NANA - rose.mp3'),
-  // tester: require('./audio/bad.mp3'),
   // tester: require('./audio/afraid-to-be-cool.mp3'),
   // tester: require('./audio/need-for-speed.mp3'),
   // tester: require('./audio/infinity.mp3'),
@@ -15,9 +14,11 @@ const Audio = {
   // tester: require('./audio/reign.mp3'),
   // tester: require('./audio/say-it-right.mp3'),
   // tester: require('./audio/disowned.mp3'),
-  // tester: require('./audio/chaos.mp3'),
+  tester: require('./audio/chaos.mp3'),
   // tester: require('./audio/puppeteer.mp3'),
-  tester: require('./audio/anastasia.mp3'),
+  // tester: require('./audio/Talking To The Moon (Bruno Mars Remix).mp3'),
+  // tester: require('./audio/Lana Del Rey - Gods & Monsters.mp3'),
+  // tester: require('./audio/Rosenfeld - like u.mp3'),
   
 
   S008: `${BASE_URL}nurko-right-now.mp3`,
