@@ -9,6 +9,7 @@ import BeatDetector from './beatDetector';
 import Lights from './lights';
 import Orb from './orb';
 import Wall from './wall';
+import Staircase from './staircase';
 
 // https://youtu.be/5gZrYyi-XRQ?t=62
 class Sketch extends SketchManagerThree {
@@ -34,7 +35,7 @@ class Sketch extends SketchManagerThree {
     this.fftSize = 512;
     this.numFrequencyNodes = 100;
     this.bars = [];
-
+    this.staircase = new Staircase(this)
     this.orb = new Orb(this);
     // this.wall = new Wall(this);
   }
@@ -47,8 +48,7 @@ class Sketch extends SketchManagerThree {
   init() {
     // this.disableOrbitControls();
 
-    // this.setCameraPos(0, 0, 10);
-    this.setCameraPos(0, 0, 50);
+    this.setCameraPos(0, 0, 10);
     this.lookAt(0, 0, 0);
     this.setClearColor(0x000000);
 
@@ -64,9 +64,15 @@ class Sketch extends SketchManagerThree {
     // this.scene.add(this.orb.mesh);
     // this.scene.add(this.wall.mesh);
     // this.orb.position.set(0, 0, 2)
+    this.scene.add(this.staircase.mesh)
 
+    this.createBars()
 
-    const X_OFFSET = -50;
+    
+  }
+  createBars() {
+    const width = 0.1
+    const X_OFFSET = -10;
     for(let i = 0; i < this.numFrequencyNodes; i++) {
       let color = null
       if(i < this.spectrumStart.midrange) {
@@ -76,10 +82,10 @@ class Sketch extends SketchManagerThree {
       } else {
         color = 0xeeeeaa
       }
-      const g = new THREE.BoxGeometry(1, 0.15, 1)
+      const g = new THREE.BoxGeometry(width, 0.02, width)
       const m = new THREE.MeshBasicMaterial({ color })
       const mesh = new THREE.Mesh(g, m);
-      mesh.position.set(i + X_OFFSET, 0, 0);
+      mesh.position.set(width * i + X_OFFSET, 0, 1);
       this.scene.add(mesh);
       this.bars.push(mesh)
     }

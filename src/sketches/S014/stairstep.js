@@ -3,9 +3,8 @@ import fragmentShader from './shaders/stairstep.frag'
 import vertexShader from './shaders/stairstep.vert'
 
 export default class Stairstep {
-  constructor() {
-    this.context = context
-    this.geometry = new THREE.BoxGeometry(5, 1, 1)
+  constructor(width,  height, depth) {
+    this.geometry = new THREE.BoxGeometry(width, height, depth)
     this.material = new THREE.RawShaderMaterial({
       fragmentShader,
       vertexShader,
@@ -18,7 +17,7 @@ export default class Stairstep {
   }
 
   get position() {
-    this.mesh.position
+    return this.mesh.position
   }
   
   get uniforms() {
