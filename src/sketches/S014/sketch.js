@@ -2,7 +2,6 @@ import * as THREE from 'three';
 import PostProcessor from '../postProcessor';
 import BeatManager from '../beatManager';
 import SketchManagerThree from '../sketchManagerThree';
-import utils from '../utils';
 import { Audio } from '../../themes';
 import BeatDetector from './beatDetector';
 
@@ -23,7 +22,7 @@ class Sketch extends SketchManagerThree {
     this.spectrumStart = {
       bass: 0,
       midrange: 9,
-      highrange: 69,
+      highrange: 70,
     }
     this.beatManager = new BeatManager(this)
 
@@ -37,6 +36,7 @@ class Sketch extends SketchManagerThree {
     this.bars = [];
     this.staircase = new Staircase(this)
     this.orb = new Orb(this);
+    this.lights = new Lights()
     // this.wall = new Wall(this);
   }
 
@@ -65,6 +65,10 @@ class Sketch extends SketchManagerThree {
     // this.scene.add(this.wall.mesh);
     // this.orb.position.set(0, 0, 2)
     this.scene.add(this.staircase.mesh)
+    this.scene.add(this.lights.ambient)
+    this.scene.add(this.lights.directional)
+    
+    this.staircase.position.set(0, -5, 0)
 
     this.createBars()
 
@@ -102,6 +106,7 @@ class Sketch extends SketchManagerThree {
     // this.orb.update(time)
     // this.wall.update(time)
 
+    this.staircase.update()
     this.audio.frequencyData.forEach((freq, i) => {
       this.bars[i].scale.y = freq + 0.01
     })

@@ -7,7 +7,10 @@ export default class Lights {
     this.spot.position.set(0, 150, 0);
     // this.spot.castShadow = true;
 
-    this.ambient = new THREE.AmbientLight(0xffffff, 0.5);
+    this.directional = new THREE.DirectionalLight(0xffffff, 0.2);
+    this.directional.position.set(0, 50, 0);
+
+    this.ambient = new THREE.AmbientLight(0xffffff, 1);
   }
 
 }

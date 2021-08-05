@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-export default class Tsar {
+export default class Moon {
   constructor() {
     this.geometry = new THREE.SphereGeometry(1, 20, 20);
     this.material = new THREE.MeshBasicMaterial({ color: 0xeeeeee })

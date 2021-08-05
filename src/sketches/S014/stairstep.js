@@ -1,30 +1,37 @@
 import * as THREE from 'three'
-import fragmentShader from './shaders/stairstep.frag'
-import vertexShader from './shaders/stairstep.vert'
+import utils from '../utils'
 
 export default class Stairstep {
-  constructor(width,  height, depth) {
+  constructor(width, height, depth, frequencyIndicies) {
+    this.frequencyIndicies = frequencyIndicies
+    this.colorModifier = new THREE.Color(0x000000)
     this.geometry = new THREE.BoxGeometry(width, height, depth)
-    this.material = new THREE.RawShaderMaterial({
-      fragmentShader,
-      vertexShader,
-      uniforms: {
-
-      },
-      transparent: true,
-    })
+    this.material = new THREE.MeshStandardMaterial({
+      color: this.color,
+      roughness: 0,
+      metalness: 0,
+      side: THREE.FrontSide,
+    });
     this.mesh = new THREE.Mesh(this.geometry, this.material)
+    this.mesh.castShadow = true;
+    this.mesh.receiveShadow = true;
+    
   }
 
   get position() {
     return this.mesh.position
   }
   
-  get uniforms() {
-    return this.material.uniforms
+  set opacity(value) {
+    this.material.opacity = value
+  }
+
+  set color(value) {
+    this.material.color = value
   }
 
   update(freq) {
-
+    this.colorModifier.r = utils.remapFreq(0, 0.8, freq)
+    this.color = this.colorModifier
   }
 }
