@@ -6,17 +6,38 @@ import { Audio } from '../../themes';
 import BeatDetector from './beatDetector';
 
 import Lights from './lights';
-import Orb from './orb';
-import Wall from './wall';
-import Staircase from './staircase';
+import Particles from "./particles"
 
-// https://youtu.be/5gZrYyi-XRQ?t=62
+
+// https://www.instagram.com/p/CR9sVtwqupS/
+// https://www.instagram.com/p/CQq6f6lNIBk/
+// https://www.instagram.com/p/CR3QW1DqUD_/
+// https://www.instagram.com/p/CO-LszCqhD-/
+// https://www.pinterest.ca/pin/79798224637824408/
+// https://www.pinterest.ca/pin/93660867241814246/
+
+/**
+ * https://threejs.org/docs/#api/en/materials/MeshToonMaterial
+ * https://github.com/mnmxmx/toon-shading
+ * https://github.com/mnmxmx/halftone-effect
+ */
+
+/**
+ * https://stackoverflow.com/q/50025798
+ * https://threejs.org/docs/?q=points#api/en/objects/Points
+ * https://stackoverflow.com/q/12337660
+ * https://stackoverflow.com/q/33845623
+ * https://blog.mozvr.com/threejs-particles-recycling/
+ * 
+ * https://www.youtube.com/watch?v=OFqENgtqRAY&ab_channel=SimonDev
+ * https://github.com/simondevyoutube/ThreeJS_Tutorial_ParticleSystems/blob/master/main.js
+ */
 class Sketch extends SketchManagerThree {
   constructor(canvas, audioElement) {
     super(canvas, audioElement);
     // this.audioSrc = Audio.S014;
-    this.clock = new THREE.Clock();
     this.audioSrc = Audio.tester;
+    this.clock = new THREE.Clock();
     this.beat = new BeatDetector(this)
 
     this.spectrumStart = {
@@ -34,10 +55,8 @@ class Sketch extends SketchManagerThree {
     this.fftSize = 512;
     this.numFrequencyNodes = 100;
     this.bars = [];
-    this.staircase = new Staircase(this)
-    this.orb = new Orb(this);
     this.lights = new Lights()
-    // this.wall = new Wall(this);
+    this.particles = new Particles(this)
   }
 
   unmount() {
@@ -56,21 +75,17 @@ class Sketch extends SketchManagerThree {
       fftSize: this.fftSize,
       dataLength: this.numFrequencyNodes,
     };
-    this.initAudio(audioConfig);
-    this.audio.setSmoothingTimeConstant(0.75);
-    this.audio.volume(1)
-    this.beat.onStart(this.audioSrc, this.audio.context)
+    // this.initAudio(audioConfig);
+    // this.audio.setSmoothingTimeConstant(0.75);
+    // this.audio.volume(1)
+    // this.beat.onStart(this.audioSrc, this.audio.context)
 
-    // this.scene.add(this.orb.mesh);
-    // this.scene.add(this.wall.mesh);
-    // this.orb.position.set(0, 0, 2)
-    this.scene.add(this.staircase.mesh)
+    this.scene.add(this.particles.mesh)
     this.scene.add(this.lights.ambient)
     this.scene.add(this.lights.directional)
     
-    this.staircase.position.set(0, -5, 0)
 
-    this.createBars()
+    // this.createBars()
 
     
   }
@@ -98,18 +113,16 @@ class Sketch extends SketchManagerThree {
   draw() {
     this.renderer.render(this.scene, this.camera);
     requestAnimationFrame(() => this.draw());
-    this.audio.getByteFrequencyData();
+    // this.audio.getByteFrequencyData();
 
-    this.beatManager.update();
+    // this.beatManager.update();
     
     const time = this.clock.getElapsedTime();
-    // this.orb.update(time)
-    // this.wall.update(time)
 
-    this.staircase.update()
-    this.audio.frequencyData.forEach((freq, i) => {
-      this.bars[i].scale.y = freq + 0.01
-    })
+    this.particles.update()
+    // this.audio.frequencyData.forEach((freq, i) => {
+    //   this.bars[i].scale.y = freq + 0.01
+    // })
   }
 }
 
