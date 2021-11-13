@@ -8,29 +8,13 @@ import BeatDetector from './beatDetector';
 import Lights from './lights';
 import Particles from "./particles"
 
-
-// https://www.instagram.com/p/CR9sVtwqupS/
-// https://www.instagram.com/p/CQq6f6lNIBk/
-// https://www.instagram.com/p/CR3QW1DqUD_/
-// https://www.instagram.com/p/CO-LszCqhD-/
-// https://www.pinterest.ca/pin/79798224637824408/
-// https://www.pinterest.ca/pin/93660867241814246/
-
 /**
  * https://threejs.org/docs/#api/en/materials/MeshToonMaterial
  * https://github.com/mnmxmx/toon-shading
  * https://github.com/mnmxmx/halftone-effect
- */
-
-/**
- * https://stackoverflow.com/q/50025798
- * https://threejs.org/docs/?q=points#api/en/objects/Points
- * https://stackoverflow.com/q/12337660
- * https://stackoverflow.com/q/33845623
- * https://blog.mozvr.com/threejs-particles-recycling/
  * 
- * https://www.youtube.com/watch?v=OFqENgtqRAY&ab_channel=SimonDev
- * https://github.com/simondevyoutube/ThreeJS_Tutorial_ParticleSystems/blob/master/main.js
+ * https://stackoverflow.com/q/50025798
+ * 
  */
 class Sketch extends SketchManagerThree {
   constructor(canvas, audioElement) {
@@ -67,7 +51,8 @@ class Sketch extends SketchManagerThree {
   init() {
     // this.disableOrbitControls();
 
-    this.setCameraPos(0, 0, 10);
+    // this.setCameraPos(0, 0, 10);
+    this.setCameraPos(0, 0, 2750);
     this.lookAt(0, 0, 0);
     this.setClearColor(0x000000);
 
@@ -83,6 +68,7 @@ class Sketch extends SketchManagerThree {
     this.scene.add(this.particles.mesh)
     this.scene.add(this.lights.ambient)
     this.scene.add(this.lights.directional)
+    this.scene.add(this.lights.directional2)
     
 
     // this.createBars()
@@ -117,9 +103,9 @@ class Sketch extends SketchManagerThree {
 
     // this.beatManager.update();
     
-    const time = this.clock.getElapsedTime();
+    // const time = this.clock.getElapsedTime();
 
-    this.particles.update()
+    // this.particles.update()
     // this.audio.frequencyData.forEach((freq, i) => {
     //   this.bars[i].scale.y = freq + 0.01
     // })
