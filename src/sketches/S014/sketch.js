@@ -16,9 +16,10 @@ import Particles from "./particles"
  * https://stackoverflow.com/q/50025798
  * 
  */
+
 class Sketch extends SketchManagerThree {
   constructor(canvas, audioElement) {
-    super(canvas, audioElement);
+    super(canvas, audioElement, { cameraNear: 1, cameraFar: 3500 });
     // this.audioSrc = Audio.S014;
     this.audioSrc = Audio.tester;
     this.clock = new THREE.Clock();
@@ -37,7 +38,7 @@ class Sketch extends SketchManagerThree {
     this.clock = new THREE.Clock();
 
     this.fftSize = 512;
-    this.numFrequencyNodes = 100;
+    this.numFrequencyNodes = 50000;
     this.bars = [];
     this.lights = new Lights()
     this.particles = new Particles(this)
@@ -53,17 +54,18 @@ class Sketch extends SketchManagerThree {
 
     // this.setCameraPos(0, 0, 10);
     this.setCameraPos(0, 0, 2750);
+    this.scene.fog = new THREE.Fog( 0x050505, 2000, 3500 );
     this.lookAt(0, 0, 0);
-    this.setClearColor(0x000000);
+    this.setClearColor(0xffeeee);
 
     const audioConfig = {
       fftSize: this.fftSize,
       dataLength: this.numFrequencyNodes,
     };
-    // this.initAudio(audioConfig);
-    // this.audio.setSmoothingTimeConstant(0.75);
-    // this.audio.volume(1)
-    // this.beat.onStart(this.audioSrc, this.audio.context)
+    this.initAudio(audioConfig);
+    this.audio.setSmoothingTimeConstant(0.75);
+    this.audio.volume(1)
+    this.beat.onStart(this.audioSrc, this.audio.context)
 
     this.scene.add(this.particles.mesh)
     this.scene.add(this.lights.ambient)
@@ -99,13 +101,13 @@ class Sketch extends SketchManagerThree {
   draw() {
     this.renderer.render(this.scene, this.camera);
     requestAnimationFrame(() => this.draw());
-    // this.audio.getByteFrequencyData();
 
-    // this.beatManager.update();
+    this.audio.getByteFrequencyData();
+    this.beatManager.update();
     
     // const time = this.clock.getElapsedTime();
 
-    // this.particles.update()
+    this.particles.update()
     // this.audio.frequencyData.forEach((freq, i) => {
     //   this.bars[i].scale.y = freq + 0.01
     // })

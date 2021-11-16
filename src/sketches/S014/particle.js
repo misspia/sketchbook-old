@@ -4,12 +4,8 @@ import utils from "../utils"
 const n = 800, n2 = n / 2;	// triangles spread in the cube
 const d = 12, d2 = d / 2;	// individual triangle size
 
-const pA = new THREE.Vector3();
-const pB = new THREE.Vector3();
-const pC = new THREE.Vector3();
 
-const cb = new THREE.Vector3();
-const ab = new THREE.Vector3();
+
 
 export default class Particle {
   constructor() {
@@ -33,53 +29,95 @@ export default class Particle {
 
     this.pointA = new THREE.Vector3(
       x + Math.random() * d - d2,
-			y + Math.random() * d - d2,
-			z + Math.random() * d - d2,
+      y + Math.random() * d - d2,
+      z + Math.random() * d - d2,
     )
     this.pointB = new THREE.Vector3(
       x + Math.random() * d - d2,
-			y + Math.random() * d - d2,
-			z + Math.random() * d - d2,
+      y + Math.random() * d - d2,
+      z + Math.random() * d - d2,
     )
     this.pointC = new THREE.Vector3(
       x + Math.random() * d - d2,
-			y + Math.random() * d - d2,
-			z + Math.random() * d - d2,
+      y + Math.random() * d - d2,
+      z + Math.random() * d - d2,
     )
 
+    const pA = new THREE.Vector3();
+    const pB = new THREE.Vector3();
+    const pC = new THREE.Vector3();
+
+    pA.set(this.pointA.x, this.pointA.y, this.pointA.z);
+    pB.set(this.pointB.x, this.pointB.y, this.pointB.z);
+    pC.set(this.pointC.x, this.pointC.y, this.pointC.z);
+
+
     const cb = new THREE.Vector3()
-    cb.subVectors(this.pointC, this.pointB)
+    cb.subVectors(pC, pB)
 
     const ab = new THREE.Vector3()
-    ab.subVectors(this.pointA, this.pointB)
+    ab.subVectors(pA, pB)
 
     cb.cross(ab)
     cb.normalize()
 
-    this.normalsA = new THREE.Vector3(cb.x, cb.y, cb.z)
-    this.normalsB = new THREE.Vector3(cb.x, cb.y, cb.z)
-    this.normalsC = new THREE.Vector3(cb.x, cb.y, cb.z)
-    
+    this.normalsA = new THREE.Vector3(
+      cb.x * 32767,
+      cb.y * 32767,
+      cb.z * 32767
+    )
+    this.normalsB = new THREE.Vector3(
+      cb.x * 32767,
+      cb.y * 32767,
+      cb.z * 32767
+    )
+    this.normalsC = new THREE.Vector3(
+      cb.x * 32767,
+      cb.y * 32767,
+      cb.z
+    )
+
+    const vx = (x / n) + 0.5;
+    const vy = (y / n) + 0.5;
+    const vz = (z / n) + 0.5;
+
 
     this.colorA = new THREE.Color().setRGB(
-      utils.randomFloatBetween(0, 1),
-      utils.randomFloatBetween(0, 1),
-      utils.randomFloatBetween(0, 1),
+      vx * 255, 
+      vy * 255, 
+      vz * 255
     )
     this.colorB = new THREE.Color().setRGB(
-      utils.randomFloatBetween(0, 1),
-      utils.randomFloatBetween(0, 1),
-      utils.randomFloatBetween(0, 1),
+      vx * 255, 
+      vy * 255, 
+      vz * 255
     )
     this.colorC = new THREE.Color().setRGB(
-      utils.randomFloatBetween(0, 1),
-      utils.randomFloatBetween(0, 1),
-      utils.randomFloatBetween(0, 1),
+      vx * 255, 
+      vy * 255, 
+      vz * 255
     )
     this.alpha = 1
-
-
   }
+
+  updateColor(freq) {
+    this.colorA.setRGB(
+      utils.remapFreq(0, 0.9, freq),
+      utils.remapFreq(0, 0.4, freq),
+      utils.remapFreq(0.5, 1.0, freq),
+    )
+    this.colorB.setRGB(
+      utils.remapFreq(0, 0.9, freq),
+      utils.remapFreq(0, 0.4, freq),
+      utils.remapFreq(0.5, 1.0, freq),
+    )
+    this.colorC.setRGB(
+      utils.remapFreq(0, 0.9, freq),
+      utils.remapFreq(0, 0.4, freq),
+      utils.remapFreq(0.5, 1.0, freq),
+    )
+  }
+
   update() {
 
   }
