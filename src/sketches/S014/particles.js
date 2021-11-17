@@ -22,17 +22,12 @@ export default class Particles {
     this.material = new THREE.RawShaderMaterial({
       vertexShader,
       fragmentShader,
+      side: THREE.DoubleSide, 
+      transparent: true,
       uniforms: {
 
-      }
+      },
     })
-    this.material = new THREE.MeshPhongMaterial({
-      color: 0xaaaaaa,
-      specular: 0xffffff, 
-      shininess: 250,
-      side: THREE.DoubleSide, 
-      vertexColors: true, 
-    });
     this.mesh = new THREE.Mesh(this.geometry, this.material)
   }
 
@@ -49,7 +44,7 @@ export default class Particles {
       const { 
         pointA, pointB, pointC,
         normalsA, normalsB, normalsC,
-        colorA, colorB, colorC,
+        color,
         alpha,  
       } = particle
       positions.push(
@@ -63,9 +58,7 @@ export default class Particles {
         normalsC.x, normalsC.y, normalsC.z,
       )
       colors.push(
-        colorA.x, colorA.y, colorA.z,
-        colorB.x, colorB.y, colorB.z,
-        colorC.x, colorC.y, colorC.z,
+        color.x, color.y, color.z,
       )
     })
     const positionAttribute = new THREE.Float32BufferAttribute(positions, 3)
@@ -83,22 +76,22 @@ export default class Particles {
   }
 
   update() {
+    // const colors = this.geometry.attributes.color
     const colors = []
+    
     this.particles.forEach((particle, index) => {
       particle.updateColor(this.context.audio.frequencyData[index])
 
-      const { colorA, colorB, colorC } = particle
-      colors.push(
-        colorA.x, colorA.y, colorA.z,
-        colorB.x, colorB.y, colorB.z,
-        colorC.x, colorC.y, colorC.z,
-      )
+      // colors[index * 3 + 0] = colorA.x
+      // colors[index * 3 + 1] = colorA.x
+      // colors[index * 3 + 2] = colorA.x
     })
 
     const colorAttribute = new THREE.Uint8BufferAttribute(colors, 3)
     colorAttribute.normalized = true
 
-    this.geometry.setAttribute('color', colorAttribute)
+    this.geometry.attributes.color.needsUpdate = true
+    
     
 
     // const positions = []

@@ -53,7 +53,7 @@ class Sketch extends SketchManagerThree {
     // this.disableOrbitControls();
 
     // this.setCameraPos(0, 0, 10);
-    this.setCameraPos(0, 0, 2750);
+    this.setCameraPos(600, 500, 800);
     this.scene.fog = new THREE.Fog( 0x050505, 2000, 3500 );
     this.lookAt(0, 0, 0);
     this.setClearColor(0xffeeee);

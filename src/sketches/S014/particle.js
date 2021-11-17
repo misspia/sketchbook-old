@@ -77,45 +77,30 @@ export default class Particle {
       cb.z
     )
 
-    const vx = (x / n) + 0.5;
-    const vy = (y / n) + 0.5;
-    const vz = (z / n) + 0.5;
-
-
-    this.colorA = new THREE.Color().setRGB(
-      vx * 255, 
-      vy * 255, 
-      vz * 255
-    )
-    this.colorB = new THREE.Color().setRGB(
-      vx * 255, 
-      vy * 255, 
-      vz * 255
-    )
-    this.colorC = new THREE.Color().setRGB(
-      vx * 255, 
-      vy * 255, 
-      vz * 255
+    this.color = new THREE.Color().setRGB(
+      Math.random(),
+      Math.random(),
+      Math.random(),
     )
     this.alpha = 1
   }
 
   updateColor(freq) {
-    this.colorA.setRGB(
-      utils.remapFreq(0, 0.9, freq),
-      utils.remapFreq(0, 0.4, freq),
-      utils.remapFreq(0.5, 1.0, freq),
-    )
-    this.colorB.setRGB(
-      utils.remapFreq(0, 0.9, freq),
-      utils.remapFreq(0, 0.4, freq),
-      utils.remapFreq(0.5, 1.0, freq),
-    )
-    this.colorC.setRGB(
-      utils.remapFreq(0, 0.9, freq),
-      utils.remapFreq(0, 0.4, freq),
-      utils.remapFreq(0.5, 1.0, freq),
-    )
+    // this.colorA.setRGB(
+    //   utils.remapFreq(0, 0.9, freq),
+    //   utils.remapFreq(0, 0.4, freq),
+    //   utils.remapFreq(0.5, 1.0, freq),
+    // )
+    // this.colorB.setRGB(
+    //   utils.remapFreq(0, 0.9, freq),
+    //   utils.remapFreq(0, 0.4, freq),
+    //   utils.remapFreq(0.5, 1.0, freq),
+    // )
+    // this.colorC.setRGB(
+    //   utils.remapFreq(0, 0.9, freq),
+    //   utils.remapFreq(0, 0.4, freq),
+    //   utils.remapFreq(0.5, 1.0, freq),
+    // )
   }
 
   update() {
