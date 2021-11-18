@@ -38,7 +38,7 @@ class Sketch extends SketchManagerThree {
     this.clock = new THREE.Clock();
 
     this.fftSize = 512;
-    this.numFrequencyNodes = 50000;
+    this.numFrequencyNodes = 5;
     this.bars = [];
     this.lights = new Lights()
     this.particles = new Particles(this)

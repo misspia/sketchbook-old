@@ -8,8 +8,9 @@ const ATTRIBUTE_POSITION = 'position'
 /**
  * https://github.com/simondevyoutube/ThreeJS_Tutorial_ParticleSystems/blob/master/main.js
  * https://github.com/mrdoob/three.js/blob/master/examples/webgl_buffergeometry.html
- * https://blog.mozvr.com/threejs-particles-recycling/
  * https://threejs.org/examples/?q=buffergeometry
+ * https://threejs.org/docs/#manual/en/introduction/How-to-update-things
+ * https://jsfiddle.net/xvnctbL0/2/
  */
 export default class Particles {
   constructor(context) {
@@ -22,7 +23,7 @@ export default class Particles {
     this.material = new THREE.RawShaderMaterial({
       vertexShader,
       fragmentShader,
-      side: THREE.DoubleSide, 
+      side: THREE.DoubleSide,
       transparent: true,
       uniforms: {
 
@@ -33,7 +34,7 @@ export default class Particles {
 
   createParticles() {
     const numParticles = this.context.numFrequencyNodes
-    for (let i = 0; i <  numParticles; i++) {
+    for (let i = 0; i < numParticles; i++) {
       const particle = new Particle()
       this.particles.push(particle)
     }
@@ -41,11 +42,11 @@ export default class Particles {
     const normals = []
     const colors = []
     this.particles.forEach((particle) => {
-      const { 
+      const {
         pointA, pointB, pointC,
         normalsA, normalsB, normalsC,
         color,
-        alpha,  
+        alpha,
       } = particle
       positions.push(
         pointA.x, pointA.y, pointA.z,
@@ -62,9 +63,9 @@ export default class Particles {
       )
     })
     const positionAttribute = new THREE.Float32BufferAttribute(positions, 3)
-    const normalAttribute = new THREE.Int16BufferAttribute(colors, 3) 
+    const normalAttribute = new THREE.Int16BufferAttribute(colors, 3)
     const colorAttribute = new THREE.Uint8BufferAttribute(colors, 3)
-    
+
     normalAttribute.normalized = true
     colorAttribute.normalized = true
 
@@ -76,23 +77,29 @@ export default class Particles {
   }
 
   update() {
-    // const colors = this.geometry.attributes.color
-    const colors = []
-    
+    const colors = this.geometry.attributes.color
+    // const colors = []
+
     this.particles.forEach((particle, index) => {
       particle.updateColor(this.context.audio.frequencyData[index])
-
-      // colors[index * 3 + 0] = colorA.x
-      // colors[index * 3 + 1] = colorA.x
-      // colors[index * 3 + 2] = colorA.x
+    
+    // colors[index * 3 + 0] = colorA.x
+    // colors[index * 3 + 1] = colorA.x
+    // colors[index * 3 + 2] = colorA.x
     })
 
-    const colorAttribute = new THREE.Uint8BufferAttribute(colors, 3)
-    colorAttribute.normalized = true
+    
+    for (let i = 0; i < colors.count; i++) {
+      
+      colors[i * 3 + 0] = Math.random()
+      colors[i * 3 + 1] = Math.random()
+      colors[i * 3 + 2] = Math.random()
+    }
 
+    console.debug(colors)
     this.geometry.attributes.color.needsUpdate = true
-    
-    
+
+
 
     // const positions = []
     // this.particles.forEach((particle) => {
