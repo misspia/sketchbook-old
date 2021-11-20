@@ -48,7 +48,9 @@ const Audio = {
   // tester: require('./audio/YuGiOh.mp3'),
   // tester: require('./audio/Red Swan.mp3'),
   // tester: require('./audio/The Oral Cigarettes - Hey Kids.mp3'),
-  tester: require('./audio/Wild Side _ ALI.mp3'),
+  // tester: require('./audio/Wild Side _ ALI.mp3'),
+  tester: require('./audio/Enemy (from the series Arcane League of Legends).mp3'),
+  // tester: require('./audio/playground-from-the-series-arcane-league-of-legends-scloudtomp3downloader.com.mp3'),
   // tester: require('./audio/.mp3'),
   
   

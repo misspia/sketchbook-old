@@ -38,7 +38,8 @@ class Sketch extends SketchManagerThree {
     this.clock = new THREE.Clock();
 
     this.fftSize = 512;
-    this.numFrequencyNodes = 5;
+    // this.numFrequencyNodes = 5;
+    this.numFrequencyNodes = 100;
     this.bars = [];
     this.lights = new Lights()
     this.particles = new Particles(this)
@@ -52,11 +53,12 @@ class Sketch extends SketchManagerThree {
   init() {
     // this.disableOrbitControls();
 
-    // this.setCameraPos(0, 0, 10);
-    this.setCameraPos(600, 500, 800);
+    // this.setCameraPos(0, 0, 6);
+    this.setCameraPos(600, 500, 350);
     this.scene.fog = new THREE.Fog( 0x050505, 2000, 3500 );
     this.lookAt(0, 0, 0);
-    this.setClearColor(0xffeeee);
+    // this.setClearColor(0xffeeee);
+    this.setClearColor(0x000000);
 
     const audioConfig = {
       fftSize: this.fftSize,
@@ -79,7 +81,7 @@ class Sketch extends SketchManagerThree {
   }
   createBars() {
     const width = 0.1
-    const X_OFFSET = -10;
+    const X_OFFSET = -5;
     for(let i = 0; i < this.numFrequencyNodes; i++) {
       let color = null
       if(i < this.spectrumStart.midrange) {

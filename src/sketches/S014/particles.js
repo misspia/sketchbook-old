@@ -6,24 +6,25 @@ import vertexShader from "./shaders/particle.vert"
 const ATTRIBUTE_POSITION = 'position'
 
 /**
- * https://github.com/simondevyoutube/ThreeJS_Tutorial_ParticleSystems/blob/master/main.js
+ * https://discourse.threejs.org/t/assign-different-colors-to-different-parts-of-buffergeometry/6604/13
  * https://github.com/mrdoob/three.js/blob/master/examples/webgl_buffergeometry.html
  * https://threejs.org/examples/?q=buffergeometry
  * https://threejs.org/docs/#manual/en/introduction/How-to-update-things
  * https://jsfiddle.net/xvnctbL0/2/
+ * https://threejs.org/docs/#api/en/core/BufferAttribute.updateRange
  */
 export default class Particles {
   constructor(context) {
     this.context = context
     this.particles = []
     this.geometry = new THREE.BufferGeometry()
-    this.geometry.setAttribute(ATTRIBUTE_POSITION, new THREE.Float32BufferAttribute([], 3));
     this.createParticles()
 
     this.material = new THREE.RawShaderMaterial({
       vertexShader,
       fragmentShader,
       side: THREE.DoubleSide,
+      vertexColors: THREE.VertexColors,
       transparent: true,
       uniforms: {
 
@@ -58,20 +59,21 @@ export default class Particles {
         normalsB.x, normalsB.y, normalsB.z,
         normalsC.x, normalsC.y, normalsC.z,
       )
-      colors.push(
-        color.x, color.y, color.z,
-      )
+      colors.push(color.r, color.g, color.b)
     })
     const positionAttribute = new THREE.Float32BufferAttribute(positions, 3)
-    const normalAttribute = new THREE.Int16BufferAttribute(colors, 3)
-    const colorAttribute = new THREE.Uint8BufferAttribute(colors, 3)
+    const normalAttribute = new THREE.Int16BufferAttribute(normals, 3)
+    const colorAttribute = new THREE.Float32BufferAttribute(colors, 3)
 
     normalAttribute.normalized = true
     colorAttribute.normalized = true
+    colorAttribute.updateRange.count = colors.length
 
     this.geometry.setAttribute('position', positionAttribute)
     this.geometry.setAttribute('normal', normalAttribute)
     this.geometry.setAttribute('color', colorAttribute)
+
+    console.debug(this.geometry.getAttribute("color"))
 
     this.geometry.computeBoundingSphere()
   }
@@ -79,15 +81,6 @@ export default class Particles {
   update() {
     const colors = this.geometry.attributes.color
     // const colors = []
-
-    this.particles.forEach((particle, index) => {
-      particle.updateColor(this.context.audio.frequencyData[index])
-    
-    // colors[index * 3 + 0] = colorA.x
-    // colors[index * 3 + 1] = colorA.x
-    // colors[index * 3 + 2] = colorA.x
-    })
-
     
     for (let i = 0; i < colors.count; i++) {
       
@@ -96,24 +89,6 @@ export default class Particles {
       colors[i * 3 + 2] = Math.random()
     }
 
-    console.debug(colors)
     this.geometry.attributes.color.needsUpdate = true
-
-
-
-    // const positions = []
-    // this.particles.forEach((particle) => {
-    //   positions.push(
-    //     particle.positions.x, 
-    //     particle.positions.y, 
-    //     particle.positions.z
-    //   )
-    // })
-    // this.geometry.setAttribute(
-    //   ATTRIBUTE_POSITION,
-    //   new THREE.Float32BufferAttribute(positions, 3)
-    // )
-
-    // this.geometry.attributes[ATTRIBUTE_POSITION].needsUpdate = true;
   }
 }
