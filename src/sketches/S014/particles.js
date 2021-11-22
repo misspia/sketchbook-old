@@ -12,6 +12,8 @@ const ATTRIBUTE_POSITION = 'position'
  * https://threejs.org/docs/#manual/en/introduction/How-to-update-things
  * https://jsfiddle.net/xvnctbL0/2/
  * https://threejs.org/docs/#api/en/core/BufferAttribute.updateRange
+ * https://github.com/mrdoob/three.js/issues/15652
+ * https://stackoverflow.com/questions/61501912/how-to-assign-different-color-for-each-vertex-in-a-buffer-geometry-three-js
  */
 export default class Particles {
   constructor(context) {

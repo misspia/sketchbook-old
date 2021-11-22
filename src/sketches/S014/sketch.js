@@ -53,8 +53,8 @@ class Sketch extends SketchManagerThree {
   init() {
     // this.disableOrbitControls();
 
-    // this.setCameraPos(0, 0, 6);
-    this.setCameraPos(600, 500, 350);
+    this.setCameraPos(0, 0, 6);
+    // this.setCameraPos(600, 500, 350);
     this.scene.fog = new THREE.Fog( 0x050505, 2000, 3500 );
     this.lookAt(0, 0, 0);
     // this.setClearColor(0xffeeee);
@@ -69,15 +69,13 @@ class Sketch extends SketchManagerThree {
     this.audio.volume(1)
     this.beat.onStart(this.audioSrc, this.audio.context)
 
-    this.scene.add(this.particles.mesh)
+    // this.scene.add(this.particles.mesh)
     this.scene.add(this.lights.ambient)
     this.scene.add(this.lights.directional)
     this.scene.add(this.lights.directional2)
     
 
-    // this.createBars()
-
-    
+    this.createBars()
   }
   createBars() {
     const width = 0.1
@@ -109,10 +107,10 @@ class Sketch extends SketchManagerThree {
     
     // const time = this.clock.getElapsedTime();
 
-    this.particles.update()
-    // this.audio.frequencyData.forEach((freq, i) => {
-    //   this.bars[i].scale.y = freq + 0.01
-    // })
+    // this.particles.update()
+    this.audio.frequencyData.forEach((freq, i) => {
+      this.bars[i].scale.y = freq + 0.01
+    })
   }
 }
 
