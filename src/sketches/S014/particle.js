@@ -78,9 +78,9 @@ export default class Particle {
     )
 
     this.color = new THREE.Color().setRGB(
-      Math.random() * 255,
-      Math.random() * 255,
-      Math.random() * 255,
+      Math.random(),
+      Math.random(),
+      Math.random(),
     )
     this.alpha = 1
   }

@@ -86,11 +86,12 @@ export default class Particles {
     
     for (let i = 0; i < colors.count; i++) {
       
-      colors[i * 3 + 0] = Math.random()
-      colors[i * 3 + 1] = Math.random()
-      colors[i * 3 + 2] = Math.random()
+      colors[i] = Math.random()
+      // colors[i * 3 + 0] = Math.random()
+      // colors[i * 3 + 1] = Math.random()
+      // colors[i * 3 + 2] = Math.random()
     }
 
-    this.geometry.attributes.color.needsUpdate = true
+    this.geometry.attributes.color.version ++
   }
 }
