@@ -63,35 +63,27 @@ export default class Particles {
       )
       colors.push(color.r, color.g, color.b)
     })
-    const positionAttribute = new THREE.Float32BufferAttribute(positions, 3)
-    const normalAttribute = new THREE.Int16BufferAttribute(normals, 3)
-    const colorAttribute = new THREE.Float32BufferAttribute(colors, 3)
 
-    normalAttribute.normalized = true
-    colorAttribute.normalized = true
-    colorAttribute.updateRange.count = colors.length
-
-    this.geometry.setAttribute('position', positionAttribute)
-    this.geometry.setAttribute('normal', normalAttribute)
-    this.geometry.setAttribute('color', colorAttribute)
-
-    console.debug(this.geometry.getAttribute("color"))
+    this.geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3))
+    this.geometry.setAttribute('normal', new THREE.Int16BufferAttribute(normals, 3))
+    this.geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3))
 
     this.geometry.computeBoundingSphere()
   }
 
   update() {
-    const colors = this.geometry.attributes.color
-    // const colors = []
+    const colors = []
     
-    for (let i = 0; i < colors.count; i++) {
-      
-      colors[i] = Math.random()
-      // colors[i * 3 + 0] = Math.random()
-      // colors[i * 3 + 1] = Math.random()
-      // colors[i * 3 + 2] = Math.random()
-    }
+    this.particles.forEach(particle => {
+      particle.updateColor()
+      colors.push(
+        particle.color.r,
+        particle.color.g,
+        particle.color.b,
+      )
+    })
+    this.geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3))
 
-    this.geometry.attributes.color.version ++
+    this.geometry.attributes.color.needsUpdate = true
   }
 }
