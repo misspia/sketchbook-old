@@ -73,9 +73,9 @@ export default class Particles {
 
   update() {
     const colors = []
-    
-    this.particles.forEach(particle => {
-      particle.updateColor()
+    const frequencies = this.context.audio.frequencyData
+    this.particles.forEach((particle, index) => {
+      particle.update(frequencies[index])
       colors.push(
         particle.color.r,
         particle.color.g,

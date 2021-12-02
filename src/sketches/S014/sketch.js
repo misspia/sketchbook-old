@@ -1,9 +1,8 @@
 import * as THREE from 'three';
 import PostProcessor from '../postProcessor';
-import BeatManager from '../beatManager';
 import SketchManagerThree from '../sketchManagerThree';
 import { Audio } from '../../themes';
-import BeatDetector from './beatDetector';
+import BeatManager from './beatManager';
 
 import Lights from './lights';
 import Particles from "./particles"
@@ -23,13 +22,13 @@ class Sketch extends SketchManagerThree {
     // this.audioSrc = Audio.S014;
     this.audioSrc = Audio.tester;
     this.clock = new THREE.Clock();
-    this.beat = new BeatDetector(this)
 
     this.spectrumStart = {
       bass: 0,
       midrange: 9,
       highrange: 70,
     }
+    this.numFrequencyNodes = 100;
     this.beatManager = new BeatManager(this)
 
     this.composer = {};
@@ -38,8 +37,6 @@ class Sketch extends SketchManagerThree {
     this.clock = new THREE.Clock();
 
     this.fftSize = 512;
-    // this.numFrequencyNodes = 5;
-    this.numFrequencyNodes = 100;
     this.bars = [];
     this.lights = new Lights()
     this.particles = new Particles(this)
@@ -53,8 +50,8 @@ class Sketch extends SketchManagerThree {
   init() {
     // this.disableOrbitControls();
 
-    // this.setCameraPos(0, 0, 6);
-    this.setCameraPos(600, 500, 350);
+    this.setCameraPos(0, 0, 6);
+    // this.setCameraPos(600, 500, 350);
     this.scene.fog = new THREE.Fog( 0x050505, 2000, 3500 );
     this.lookAt(0, 0, 0);
     // this.setClearColor(0xffeeee);
@@ -67,7 +64,6 @@ class Sketch extends SketchManagerThree {
     this.initAudio(audioConfig);
     this.audio.setSmoothingTimeConstant(0.75);
     this.audio.volume(1)
-    this.beat.onStart(this.audioSrc, this.audio.context)
 
     this.scene.add(this.particles.mesh)
     this.scene.add(this.lights.ambient)
@@ -75,7 +71,7 @@ class Sketch extends SketchManagerThree {
     this.scene.add(this.lights.directional2)
     
 
-    // this.createBars()
+    this.createBars()
   }
   createBars() {
     const width = 0.1
@@ -106,11 +102,20 @@ class Sketch extends SketchManagerThree {
     this.beatManager.update();
     
     // const time = this.clock.getElapsedTime();
+    // this.particles.update()
 
-    this.particles.update()
-    // this.audio.frequencyData.forEach((freq, i) => {
-    //   this.bars[i].scale.y = freq + 0.01
-    // })
+    const scale = 1.8
+    this.audio.frequencyData.forEach((freq, i) => {
+      const averages 
+        = i < this.spectrumStart.midrange ?
+        this.beatManager.bassAverages :
+        i < this.spectrumStart.highrange ?
+        this.beatManager.midrangeAverages :
+        this.beatManager.highrangeAverages
+      const average = averages[averages.length - 1]      
+      this.bars[i].scale.y = (Math.abs(freq - average) + 0.01) * scale
+      // this.bars[i].scale.y = freq + 0.01
+    })
   }
 }
 

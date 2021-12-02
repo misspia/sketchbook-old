@@ -87,28 +87,13 @@ export default class Particle {
 
   updateColor(freq) {
     this.color = new THREE.Color().setRGB(
-      Math.random(),
-      Math.random(),
-      Math.random(),
+      utils.remapFreq(0, 1, freq),
+      utils.remapFreq(0.2, 0.3, freq),
+      utils.remapFreq(0.1, 0.7, freq),
     )
-    // this.colorA.setRGB(
-    //   utils.remapFreq(0, 0.9, freq),
-    //   utils.remapFreq(0, 0.4, freq),
-    //   utils.remapFreq(0.5, 1.0, freq),
-    // )
-    // this.colorB.setRGB(
-    //   utils.remapFreq(0, 0.9, freq),
-    //   utils.remapFreq(0, 0.4, freq),
-    //   utils.remapFreq(0.5, 1.0, freq),
-    // )
-    // this.colorC.setRGB(
-    //   utils.remapFreq(0, 0.9, freq),
-    //   utils.remapFreq(0, 0.4, freq),
-    //   utils.remapFreq(0.5, 1.0, freq),
-    // )
   }
 
-  update() {
-
+  update(freq) {
+    this.updateColor(freq)
   }
 }
