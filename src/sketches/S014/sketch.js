@@ -6,6 +6,7 @@ import BeatManager from './beatManager';
 
 import Lights from './lights';
 import Particles from "./particles"
+import Orb from "./orb"
 
 /**
  * https://threejs.org/docs/#api/en/materials/MeshToonMaterial
@@ -15,7 +16,6 @@ import Particles from "./particles"
  * https://stackoverflow.com/q/50025798
  * 
  */
-
 class Sketch extends SketchManagerThree {
   constructor(canvas, audioElement) {
     super(canvas, audioElement, { cameraNear: 1, cameraFar: 3500 });
@@ -40,6 +40,7 @@ class Sketch extends SketchManagerThree {
     this.bars = [];
     this.lights = new Lights()
     this.particles = new Particles(this)
+    this.orb = new Orb(this)
   }
 
   unmount() {
@@ -52,7 +53,7 @@ class Sketch extends SketchManagerThree {
 
     this.setCameraPos(0, 0, 6);
     // this.setCameraPos(600, 500, 350);
-    this.scene.fog = new THREE.Fog( 0x050505, 2000, 3500 );
+    this.scene.fog = new THREE.Fog(0x050505, 2000, 3500);
     this.lookAt(0, 0, 0);
     // this.setClearColor(0xffeeee);
     this.setClearColor(0x000000);
@@ -63,24 +64,25 @@ class Sketch extends SketchManagerThree {
     };
     this.initAudio(audioConfig);
     this.audio.setSmoothingTimeConstant(0.75);
-    this.audio.volume(1)
+    this.audio.volume(0)
 
+    this.scene.add(this.orb.mesh)
     this.scene.add(this.particles.mesh)
     this.scene.add(this.lights.ambient)
     this.scene.add(this.lights.directional)
     this.scene.add(this.lights.directional2)
-    
+
 
     this.createBars()
   }
   createBars() {
     const width = 0.1
     const X_OFFSET = -5;
-    for(let i = 0; i < this.numFrequencyNodes; i++) {
+    for (let i = 0; i < this.numFrequencyNodes; i++) {
       let color = null
-      if(i < this.spectrumStart.midrange) {
+      if (i < this.spectrumStart.midrange) {
         color = 0xeeaaaa;
-      } else if(i < this.spectrumStart.highrange) {
+      } else if (i < this.spectrumStart.highrange) {
         color = 0xaaeeaa;
       } else {
         color = 0xeeeeaa
@@ -90,7 +92,7 @@ class Sketch extends SketchManagerThree {
       const mesh = new THREE.Mesh(g, m);
       mesh.position.set(width * i + X_OFFSET, 0, 1);
       this.scene.add(mesh);
-      this.bars.push(mesh)
+      // this.bars.push(mesh)
     }
   }
 
@@ -100,22 +102,27 @@ class Sketch extends SketchManagerThree {
 
     this.audio.getByteFrequencyData();
     this.beatManager.update();
-    
-    // const time = this.clock.getElapsedTime();
-    // this.particles.update()
 
-    const scale = 1.8
-    this.audio.frequencyData.forEach((freq, i) => {
-      const averages 
-        = i < this.spectrumStart.midrange ?
-        this.beatManager.bassAverages :
-        i < this.spectrumStart.highrange ?
-        this.beatManager.midrangeAverages :
-        this.beatManager.highrangeAverages
-      const average = averages[averages.length - 1]      
-      this.bars[i].scale.y = (Math.abs(freq - average) + 0.01) * scale
-      // this.bars[i].scale.y = freq + 0.01
-    })
+    const time = this.clock.getElapsedTime();
+    // this.particles.update()
+    this.orb.update(time)
+
+    // const scale = 1.8
+    // this.audio.frequencyData.forEach((freq, i) => {
+    //   const averages
+    //     = i < this.spectrumStart.midrange ?
+    //       this.beatManager.bassAverages :
+    //       i < this.spectrumStart.highrange ?
+    //         this.beatManager.midrangeAverages :
+    //         this.beatManager.highrangeAverages
+    //   const average = averages[averages.length - 1]
+      
+    //   const diff = freq - average
+    //   // this.bars[i].scale.y = (Math.abs(freq - average) + 0.01) * scale
+    //   // this.bars[i].scale.y = (diff <= 0 ? 0.01 : diff) * scale
+    //   // this.bars[i].scale.y = (diff > 0 ? 0.01 : diff) * scale
+    //   this.bars[i].scale.y = freq + 0.01
+    // })
   }
 }
 
