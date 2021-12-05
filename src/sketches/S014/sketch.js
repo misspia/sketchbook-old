@@ -66,14 +66,17 @@ class Sketch extends SketchManagerThree {
     this.audio.setSmoothingTimeConstant(0.75);
     this.audio.volume(0)
 
-    this.scene.add(this.orb.mesh)
+    this.scene.add(this.orb.group)
     this.scene.add(this.particles.mesh)
     this.scene.add(this.lights.ambient)
-    this.scene.add(this.lights.directional)
-    this.scene.add(this.lights.directional2)
+    this.scene.add(this.lights.point1)
+    this.scene.add(this.lights.point2)
+    this.scene.add(this.lights.point3)
+    this.scene.add(this.lights.point4)
 
+    this.render.toneMappingExposure = 0.15
 
-    this.createBars()
+    // this.createBars()
   }
   createBars() {
     const width = 0.1
