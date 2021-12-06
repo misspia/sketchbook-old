@@ -6,7 +6,7 @@ import BeatManager from './beatManager';
 
 import Lights from './lights';
 import Particles from "./particles"
-import Orb from "./orb"
+import Hextech from "./hextech"
 
 /**
  * https://threejs.org/docs/#api/en/materials/MeshToonMaterial
@@ -40,7 +40,7 @@ class Sketch extends SketchManagerThree {
     this.bars = [];
     this.lights = new Lights()
     this.particles = new Particles(this)
-    this.orb = new Orb(this)
+    this.hextech = new Hextech(this)
   }
 
   unmount() {
@@ -66,7 +66,7 @@ class Sketch extends SketchManagerThree {
     this.audio.setSmoothingTimeConstant(0.75);
     this.audio.volume(0)
 
-    this.scene.add(this.orb.group)
+    this.scene.add(this.hextech.group)
     this.scene.add(this.particles.mesh)
     this.scene.add(this.lights.ambient)
     this.scene.add(this.lights.point1)
@@ -108,7 +108,7 @@ class Sketch extends SketchManagerThree {
 
     const time = this.clock.getElapsedTime();
     // this.particles.update()
-    this.orb.update(time)
+    this.hextech.update(time)
 
     // const scale = 1.8
     // this.audio.frequencyData.forEach((freq, i) => {
