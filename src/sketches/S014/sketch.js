@@ -5,7 +5,7 @@ import { Audio } from '../../themes';
 import BeatManager from './beatManager';
 
 import Lights from './lights';
-import Particles from "./particles"
+import Smoke from "./smoke"
 import Hextech from "./hextech"
 
 /**
@@ -39,7 +39,7 @@ class Sketch extends SketchManagerThree {
     this.fftSize = 512;
     this.bars = [];
     this.lights = new Lights()
-    this.particles = new Particles(this)
+    this.smoke = new Smoke(this)
     this.hextech = new Hextech(this)
   }
 
@@ -55,7 +55,6 @@ class Sketch extends SketchManagerThree {
     // this.setCameraPos(600, 500, 350);
     this.scene.fog = new THREE.Fog(0x050505, 2000, 3500);
     this.lookAt(0, 0, 0);
-    // this.setClearColor(0xffeeee);
     this.setClearColor(0x000000);
 
     const audioConfig = {
@@ -67,7 +66,8 @@ class Sketch extends SketchManagerThree {
     this.audio.volume(0)
 
     this.scene.add(this.hextech.group)
-    this.scene.add(this.particles.mesh)
+    // this.scene.add(this.smoke.mesh)
+    this.scene.add(this.smoke.group)
     this.scene.add(this.lights.ambient)
     this.scene.add(this.lights.point1)
     this.scene.add(this.lights.point2)
@@ -107,7 +107,7 @@ class Sketch extends SketchManagerThree {
     this.beatManager.update();
 
     const time = this.clock.getElapsedTime();
-    // this.particles.update()
+    // this.smoke.update()
     this.hextech.update(time)
 
     // const scale = 1.8

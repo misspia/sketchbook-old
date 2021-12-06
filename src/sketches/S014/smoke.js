@@ -90,13 +90,16 @@
 
 
 import * as THREE from "three"
-import Particle from "./particle"
+import { BasisTextureLoader } from "three/examples/jsm/loaders/BasisTextureLoader"
+import SmokeParticle from "./smokeParticle"
 import fragmentShader from "./shaders/particle.frag"
 import vertexShader from "./shaders/particle.vert"
+import { Images } from "../../themes"
 
 const ATTRIBUTE_POSITION = 'position'
 
 /**
+ * https://codepen.io/misspia/pen/ENzyzr
  * https://discourse.threejs.org/t/assign-different-colors-to-different-parts-of-buffergeometry/6604/13
  * https://github.com/mrdoob/three.js/blob/master/examples/webgl_buffergeometry.html
  * https://threejs.org/examples/?q=buffergeometry
@@ -106,12 +109,11 @@ const ATTRIBUTE_POSITION = 'position'
  * https://github.com/mrdoob/three.js/issues/15652
  * https://stackoverflow.com/questions/61501912/how-to-assign-different-color-for-each-vertex-in-a-buffer-geometry-three-js
  */
-export default class Particles {
+export default class Smoke {
   constructor(context) {
     this.context = context
     this.particles = []
     this.geometry = new THREE.BufferGeometry()
-    this.createParticles()
 
     this.material = new THREE.RawShaderMaterial({
       vertexShader,
@@ -124,10 +126,32 @@ export default class Particles {
       },
     })
     this.mesh = new THREE.Mesh(this.geometry, this.material)
+    this.group = new THREE.Group()
+    this.createSmoke()
+
+  }
+
+  createSmoke() {
+    const texture = new THREE.TextureLoader().load(Images.T014)
+    const numParticles = 100
+
+    for(let i = 0; i < numParticles; i++) {
+      const smokeParticle = new SmokeParticle({ texture })
+      smokeParticle.position.set(
+        Math.random() * 50,
+        Math.random() * 50,
+        -10
+      )
+
+      this.group.add(smokeParticle.mesh)
+    }
+
   }
 
   createParticles() {
     const numParticles = this.context.numFrequencyNodes
+
+
     for (let i = 0; i < numParticles; i++) {
       const particle = new Particle()
       this.particles.push(particle)
