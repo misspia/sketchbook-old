@@ -66,8 +66,7 @@ class Sketch extends SketchManagerThree {
     this.audio.volume(0)
 
     this.scene.add(this.hextech.group)
-    // this.scene.add(this.smoke.mesh)
-    this.scene.add(this.smoke.group)
+    this.scene.add(this.smoke.mesh)
     this.scene.add(this.lights.ambient)
     this.scene.add(this.lights.point1)
     this.scene.add(this.lights.point2)
