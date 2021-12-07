@@ -8,6 +8,8 @@ import Lights from './lights';
 import Smoke from "./smoke"
 import Hextech from "./hextech"
 
+import { TestGraph } from "../testGraph"
+
 /**
  * https://threejs.org/docs/#api/en/materials/MeshToonMaterial
  * https://github.com/mnmxmx/toon-shading
@@ -41,6 +43,12 @@ class Sketch extends SketchManagerThree {
     this.lights = new Lights()
     this.smoke = new Smoke(this)
     this.hextech = new Hextech(this)
+
+    this.testGraph = new TestGraph({
+      numNodes: this.numFrequencyNodes,
+      midrange: this.spectrumStart.midrange,
+      highrange: this.spectrumStart.highrange,
+    })
   }
 
   unmount() {
@@ -63,10 +71,10 @@ class Sketch extends SketchManagerThree {
     };
     this.initAudio(audioConfig);
     this.audio.setSmoothingTimeConstant(0.75);
-    this.audio.volume(0)
+    this.audio.volume(1)
 
-    this.scene.add(this.hextech.group)
-    this.scene.add(this.smoke.mesh)
+    // this.scene.add(this.hextech.group)
+    // this.scene.add(this.smoke.mesh)
     this.scene.add(this.lights.ambient)
     this.scene.add(this.lights.point1)
     this.scene.add(this.lights.point2)
@@ -75,29 +83,8 @@ class Sketch extends SketchManagerThree {
 
     this.render.toneMappingExposure = 0.15
 
-    // this.createBars()
+    this.scene.add(this.testGraph.group)
   }
-  createBars() {
-    const width = 0.1
-    const X_OFFSET = -5;
-    for (let i = 0; i < this.numFrequencyNodes; i++) {
-      let color = null
-      if (i < this.spectrumStart.midrange) {
-        color = 0xeeaaaa;
-      } else if (i < this.spectrumStart.highrange) {
-        color = 0xaaeeaa;
-      } else {
-        color = 0xeeeeaa
-      }
-      const g = new THREE.BoxGeometry(width, 0.02, width)
-      const m = new THREE.MeshBasicMaterial({ color })
-      const mesh = new THREE.Mesh(g, m);
-      mesh.position.set(width * i + X_OFFSET, 0, 1);
-      this.scene.add(mesh);
-      // this.bars.push(mesh)
-    }
-  }
-
   draw() {
     this.renderer.render(this.scene, this.camera);
     requestAnimationFrame(() => this.draw());
@@ -109,22 +96,12 @@ class Sketch extends SketchManagerThree {
     // this.smoke.update()
     this.hextech.update(time)
 
-    // const scale = 1.8
-    // this.audio.frequencyData.forEach((freq, i) => {
-    //   const averages
-    //     = i < this.spectrumStart.midrange ?
-    //       this.beatManager.bassAverages :
-    //       i < this.spectrumStart.highrange ?
-    //         this.beatManager.midrangeAverages :
-    //         this.beatManager.highrangeAverages
-    //   const average = averages[averages.length - 1]
-      
-    //   const diff = freq - average
-    //   // this.bars[i].scale.y = (Math.abs(freq - average) + 0.01) * scale
-    //   // this.bars[i].scale.y = (diff <= 0 ? 0.01 : diff) * scale
-    //   // this.bars[i].scale.y = (diff > 0 ? 0.01 : diff) * scale
-    //   this.bars[i].scale.y = freq + 0.01
-    // })
+    this.testGraph.update(
+      this.audio.frequencyData,
+      this.beatManager.bassAverages,
+      this.beatManager.midrangeAverages,
+      this.beatManager.highrangeAverages
+    )
   }
 }
 
