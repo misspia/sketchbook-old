@@ -71,10 +71,10 @@ class Sketch extends SketchManagerThree {
     };
     this.initAudio(audioConfig);
     this.audio.setSmoothingTimeConstant(0.75);
-    this.audio.volume(1)
+    this.audio.volume(0)
 
-    // this.scene.add(this.hextech.group)
-    // this.scene.add(this.smoke.mesh)
+    this.scene.add(this.hextech.group)
+    this.scene.add(this.smoke.mesh)
     this.scene.add(this.lights.ambient)
     this.scene.add(this.lights.point1)
     this.scene.add(this.lights.point2)
@@ -83,7 +83,7 @@ class Sketch extends SketchManagerThree {
 
     this.render.toneMappingExposure = 0.15
 
-    this.scene.add(this.testGraph.group)
+    // this.scene.add(this.testGraph.group)
   }
   draw() {
     this.renderer.render(this.scene, this.camera);
@@ -93,15 +93,15 @@ class Sketch extends SketchManagerThree {
     this.beatManager.update();
 
     const time = this.clock.getElapsedTime();
-    // this.smoke.update()
+    this.smoke.update()
     this.hextech.update(time)
 
-    this.testGraph.update(
-      this.audio.frequencyData,
-      this.beatManager.bassAverages,
-      this.beatManager.midrangeAverages,
-      this.beatManager.highrangeAverages
-    )
+    // this.testGraph.update(
+    //   this.audio.frequencyData,
+    //   this.beatManager.bassAverages,
+    //   this.beatManager.midrangeAverages,
+    //   this.beatManager.highrangeAverages
+    // )
   }
 }
 

@@ -1,15 +1,23 @@
 precision highp float;
 
-attribute vec3 position;
-attribute vec3 normal;
-attribute vec3 color;
-
-varying vec3 vColor;
-
 uniform mat4 projectionMatrix;
 uniform mat4 modelViewMatrix;
+uniform float pointMultiplier;
+
+attribute vec3 position;
+attribute float size;
+attribute float angle;
+attribute vec4 color;
+
+varying vec4 vColour;
+varying vec2 vAngle;
 
 void main() {
-  vColor = color;
-  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+
+  vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+  gl_Position = projectionMatrix * mvPosition;
+  gl_PointSize = size * pointMultiplier / gl_Position.w;
+  vAngle = vec2(cos(angle), sin(angle));
+  vColour = color;
+
 }
