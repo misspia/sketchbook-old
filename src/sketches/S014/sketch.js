@@ -92,8 +92,9 @@ class Sketch extends SketchManagerThree {
     this.audio.getByteFrequencyData();
     this.beatManager.update();
 
-    const time = this.clock.getElapsedTime();
-    this.smoke.update()
+    const time = this.clock.getElapsedTime() || 0;
+
+    this.smoke.update(time)
     this.hextech.update(time)
 
     // this.testGraph.update(

@@ -98,8 +98,10 @@ import { Images } from "../../themes"
 const ATTRIBUTE_POSITION = 'position'
 
 /**
- * https://youtu.be/dLYMzNmILQA?t=653
- * https://codepen.io/misspia/pen/ENzyzr
+ * https://github.com/simondevyoutube/ThreeJS_Tutorial_ParticleSystems/blob/master/main.js
+ * https://youtu.be/OFqENgtqRAY
+ * 
+ * https://youtu.be/5f5wwQb22tE
  */
 export default class Smoke {
   constructor(context) {
@@ -108,7 +110,6 @@ export default class Smoke {
     this.particles = []
     this.geometry = new THREE.BufferGeometry()
     this.createParticles()
-    this.updatePositions()
 
     this.material = new THREE.RawShaderMaterial({
       blending: THREE.AdditiveBlending,
@@ -128,7 +129,7 @@ export default class Smoke {
       },
     })
 
-    this.mesh = new THREE.Mesh(this.geometry, this.material)
+    this.mesh = new THREE.Points(this.geometry, this.material)
   }
 
   createParticles() {
@@ -138,13 +139,14 @@ export default class Smoke {
     }
   }
 
-  updatePositions() {
+  updatePositions(time) {
     const positions = []
     const size = []
     const colors = []
     const angles = []
 
     this.particles.forEach((particle) => {
+      particle.update(time)
       positions.push(
         particle.position.x,
         particle.position.y,
@@ -165,8 +167,8 @@ export default class Smoke {
     this.geometry.setAttribute('angle', new THREE.Float32BufferAttribute(angles, 1))
   }
 
-  update() {
-    // this.updatePositions()
+  update(time) {
+    this.updatePositions(time)
     // const colors = []
 
     // this.geometry.attributes.color.needsUpdate = true
