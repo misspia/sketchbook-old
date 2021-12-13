@@ -169,7 +169,6 @@ export default class Smoke {
 
   update(time) {
     this.updatePositions(time)
-    // const colors = []
 
     // this.geometry.attributes.color.needsUpdate = true
   }

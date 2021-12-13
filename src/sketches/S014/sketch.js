@@ -7,6 +7,7 @@ import BeatManager from './beatManager';
 import Lights from './lights';
 import Smoke from "./smoke"
 import Hextech from "./hextech"
+import Background from "./background"
 
 import { TestGraph } from "../testGraph"
 
@@ -43,6 +44,7 @@ class Sketch extends SketchManagerThree {
     this.lights = new Lights()
     this.smoke = new Smoke(this)
     this.hextech = new Hextech(this)
+    this.background = new Background(this)
 
     this.testGraph = new TestGraph({
       numNodes: this.numFrequencyNodes,
@@ -73,6 +75,7 @@ class Sketch extends SketchManagerThree {
     this.audio.setSmoothingTimeConstant(0.75);
     this.audio.volume(0)
 
+    this.scene.add(this.background.mesh)
     this.scene.add(this.hextech.group)
     this.scene.add(this.smoke.mesh)
     this.scene.add(this.lights.ambient)

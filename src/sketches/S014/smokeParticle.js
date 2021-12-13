@@ -19,6 +19,6 @@ export default class SmokeParticle {
   }
 
   update(time) {
-    this.position.add(this.velocity.clone().multiplyScalar(time))
+    // this.position.add(this.velocity.clone().multiplyScalar(time))
   }
 }
