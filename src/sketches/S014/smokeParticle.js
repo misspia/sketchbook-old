@@ -4,9 +4,6 @@ import utils from "../utils"
 export default class SmokeParticle {
   constructor() {
     this.position = new THREE.Vector3(
-      //  (Math.random() * 2 - 1) * 1.0,
-      //  (Math.random() * 2 - 1) * 1.0,
-      //  (Math.random() * 2 - 1) * 1.0,
       utils.randomFloatBetween(-5, 5),
       utils.randomFloatBetween(-5, 5),
       utils.randomFloatBetween(-5, 5),

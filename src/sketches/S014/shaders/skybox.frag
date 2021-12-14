@@ -19,7 +19,8 @@ float reverseRemapFreq(float min, float max) {
 void main() {
     vec3 colorA = vec3(1.0, 1.0, 1.0);
     vec3 colorB = vec3(0.3, 0.8, 1.0);
-    float mixFactor = vUv.x * vUv.y + 0.15;
+    float mixFactor = vUv.x * 0.5 + vUv.y * 0.5;
 
     gl_FragColor = vec4(mix(colorA, colorB, mixFactor), 1.0);
+
 }
