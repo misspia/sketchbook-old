@@ -7,7 +7,7 @@ import BeatManager from './beatManager';
 import Lights from './lights';
 import Smoke from "./smoke"
 import Hextech from "./hextech"
-import Skybox from "./Skybox"
+import Skybox from "./skybox"
 
 import { TestGraph } from "../testGraph"
 
@@ -75,7 +75,7 @@ class Sketch extends SketchManagerThree {
     this.audio.setSmoothingTimeConstant(0.75);
     this.audio.volume(0)
 
-    this.scene.add(this.skybox.mesh)
+    // this.scene.add(this.skybox.mesh)
     this.scene.add(this.hextech.group)
     this.scene.add(this.smoke.mesh)
     this.scene.add(this.lights.ambient)
@@ -86,7 +86,6 @@ class Sketch extends SketchManagerThree {
 
     this.render.toneMappingExposure = 0.15
 
-    // this.skybox.position.set(0, 0, -10)
 
     // this.scene.add(this.testGraph.group)
   }

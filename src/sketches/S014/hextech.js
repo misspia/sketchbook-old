@@ -12,14 +12,14 @@ export default class Hextech {
     this.context = context;
     this.beatManager = context.beatManager;
 
-    // this.geometry = new THREE.TetrahedronGeometry(2, 1);
     this.geometry = new THREE.IcosahedronGeometry(2, 1);
     this.geometry.computeFlatVertexNormals();
 
     this.intensity = 5
     this.light = new THREE.PointLight(COLOR, this.intensity, 100)
     this.light.castShadow = true
-    this.light.shadow.bias = -0.005
+    // this.light.shadow.bias = -0.005
+    this.light.shadow.bias = -0.1
 
     this.innerMaterial = new THREE.MeshPhysicalMaterial({
       map: null,
