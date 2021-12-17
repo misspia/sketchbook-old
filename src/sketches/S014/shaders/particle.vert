@@ -7,10 +7,12 @@ uniform float pointMultiplier;
 attribute vec3 position;
 attribute float size;
 attribute float angle;
+attribute float alpha;
 attribute vec4 color;
 
-varying vec4 vColour;
 varying vec2 vAngle;
+varying float vAlpha;
+varying vec4 vColor;
 
 void main() {
 
@@ -18,6 +20,7 @@ void main() {
   gl_Position = projectionMatrix * mvPosition;
   gl_PointSize = size * pointMultiplier / gl_Position.w;
   vAngle = vec2(cos(angle), sin(angle));
-  vColour = color;
+  vColor = color;
+  vAlpha = alpha;
 
 }

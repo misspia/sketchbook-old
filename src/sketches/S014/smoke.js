@@ -48,11 +48,12 @@ export default class Smoke {
     }
   }
 
-  updatePositions(time) {
+  updateParticles(time) {
     const positions = []
     const size = []
     const colors = []
     const angles = []
+    const alphas = []
 
     this.particles.forEach((particle) => {
       particle.update(time)
@@ -68,17 +69,19 @@ export default class Smoke {
         particle.color.b,
       )
       angles.push(particle.rotation)
+      alphas.push(particle.alpha)
     })
 
     this.geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3))
     this.geometry.setAttribute('size', new THREE.Float32BufferAttribute(size, 1))
     this.geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3))
     this.geometry.setAttribute('angle', new THREE.Float32BufferAttribute(angles, 1))
+    this.geometry.setAttribute('alpha', new THREE.Float32BufferAttribute(alphas, 1))
   }
 
   update(time) {
-    this.updatePositions(time)
-
-    // this.geometry.attributes.color.needsUpdate = true
+    this.context.audio.frequencyData.forEach((freq) => {
+      this.updateParticles(freq, time)
+    })
   }
 }

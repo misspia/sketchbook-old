@@ -31,7 +31,7 @@ class Sketch extends SketchManagerThree {
       midrange: 9,
       highrange: 70,
     }
-    this.numFrequencyNodes = 100;
+    this.numFrequencyNodes = 150;
     this.beatManager = new BeatManager(this)
 
     this.composer = {};
@@ -61,8 +61,7 @@ class Sketch extends SketchManagerThree {
   init() {
     // this.disableOrbitControls();
 
-    this.setCameraPos(0, 0, 6);
-    // this.setCameraPos(600, 500, 350);
+    this.setCameraPos(0, 15, 40);
     this.scene.fog = new THREE.Fog(0x050505, 2000, 3500);
     this.lookAt(0, 0, 0);
     this.setClearColor(0x000000);
@@ -73,10 +72,10 @@ class Sketch extends SketchManagerThree {
     };
     this.initAudio(audioConfig);
     this.audio.setSmoothingTimeConstant(0.75);
-    this.audio.volume(0)
+    this.audio.volume(1)
 
     // this.scene.add(this.skybox.mesh)
-    this.scene.add(this.hextech.group)
+    // this.scene.add(this.hextech.group)
     this.scene.add(this.smoke.mesh)
     this.scene.add(this.lights.ambient)
     this.scene.add(this.lights.point1)
@@ -87,7 +86,7 @@ class Sketch extends SketchManagerThree {
     this.render.toneMappingExposure = 0.15
 
 
-    // this.scene.add(this.testGraph.group)
+    this.scene.add(this.testGraph.group)
   }
   draw() {
     this.renderer.render(this.scene, this.camera);
@@ -101,12 +100,12 @@ class Sketch extends SketchManagerThree {
     this.smoke.update(time)
     this.hextech.update(time)
 
-    // this.testGraph.update(
-    //   this.audio.frequencyData,
-    //   this.beatManager.bassAverages,
-    //   this.beatManager.midrangeAverages,
-    //   this.beatManager.highrangeAverages
-    // )
+    this.testGraph.update(
+      this.audio.frequencyData,
+      this.beatManager.bassAverages,
+      this.beatManager.midrangeAverages,
+      this.beatManager.highrangeAverages
+    )
   }
 }
 
