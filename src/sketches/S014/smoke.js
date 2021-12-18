@@ -15,7 +15,7 @@ const ATTRIBUTE_POSITION = 'position'
 export default class Smoke {
   constructor(context) {
     this.context = context
-    this.numParticles = 150;
+    this.numParticles = context.numFrequencyNodes;
     this.particles = []
     this.geometry = new THREE.BufferGeometry()
     this.createParticles()

@@ -4,28 +4,26 @@ import utils from "../utils"
 export default class SmokeParticle {
   constructor() {
     this.size = utils.randomFloatBetween(8, 14)
-    this.color = new THREE.Color().setRGB(0.2, 0.59, 0.86) // 0x3498db,
+    // this.color = new THREE.Color().setRGB(0.2, 0.59, 0.86) // 0x3498db,
+    this.color = new THREE.Color().setRGB(0.86, 0.2, 0.2) // 0x3498db,
     this.rotation = Math.random() * 2.0 * Math.PI
-    this.velocity = new THREE.Vector3(0, -15, 0)
-    this.life = (Math.random() * 0.75 + 0.25) * 10.0
 
-
-    this.yMin = -utils.randomFloatBetween(15, 20)
+    this.yMin = -utils.randomFloatBetween(25, 30)
     this.yMax = utils.randomFloatBetween(1, 2)
-    this.yIncrementMin = utils.randomFloatBetween(0.0001, 0.0003)
+    this.yIncrementMin = utils.randomFloatBetween(0.00001, 0.00003)
     this.yIncrementMax = utils.randomFloatBetween(0.0005, 0.001)
 
-    this.radiusMin = utils.randomFloatBetween(2, 5)
-    this.radiusMax = this.radiusMin + utils.randomFloatBetween(10, 15)
+    this.radiusMin = utils.randomFloatBetween(0.05, 0.1)
+    this.radiusMax = this.radiusMin + utils.randomFloatBetween(20, 22)
     this.radius = utils.randomFloatBetween(10, 25)
-    
+
     this.angle = utils.randomFloatBetween(0, Math.PI * 2)
     this.minAngleIncrement = utils.randomFloatBetween(
-        utils.toRadians(0.0001), 
-        utils.toRadians(0.0005)
+      utils.toRadians(0.0001),
+      utils.toRadians(0.0005)
     )
-    this.maxAngleIncrement 
-      = this.minAngleIncrement + 
+    this.maxAngleIncrement
+      = this.minAngleIncrement +
       utils.randomFloatBetween(utils.toRadians(0.003), utils.toRadians(0.007))
 
     this.centerCoord = new THREE.Vector3(0, 0, 0)
@@ -36,12 +34,12 @@ export default class SmokeParticle {
   }
 
   calcCircleCoord(freq) {
-    const yPrev 
-      = this.position && this.position.y ? 
-      this.position.y :
-      utils.randomFloatBetween(this.yMin, this.yMax)
+    const yPrev
+      = this.position && this.position.y ?
+        this.position.y :
+        utils.randomFloatBetween(this.yMin, this.yMax)
     let y = yPrev
-    if(y >= this.yMax) {
+    if (y >= this.yMax) {
       y = this.yMin
     } else {
       const increment = utils.remapFreq(this.yIncrementMin, this.yIncrementMax, freq)
@@ -54,13 +52,35 @@ export default class SmokeParticle {
     }
   }
 
-  updateAlpha(freq) {
-    this.alpha = utils.remap(this.yMin, this.yMax, 0, 1, this.position.y)
+  updateAlpha() {
+    const positionPercentage = utils.remap(this.yMin, this.yMax, 0, 1, this.position.y)
+    if (positionPercentage < 0.5) {
+      this.alpha = utils.remap(
+        this.yMin,
+        this.yMax,
+        0,
+        1,
+        this.position.y
+      )
+    } else {
+      this.alpha = 1 - utils.remap(
+        this.yMin,
+        this.yMax,
+        0,
+        1,
+        this.position.y
+      )
+    }
   }
 
   updateRadius() {
-    // flip this
-    this.radius = utils.remap(this.yMin, this.yMax, this.radiusMin, this.radiusMax, this.position.y)
+    this.radius = utils.remap(
+      this.yMin,
+      this.yMax,
+      this.radiusMin,
+      this.radiusMax,
+      this.yMax - this.position.y
+    )
   }
 
   update(freq, time) {
@@ -69,7 +89,7 @@ export default class SmokeParticle {
     const { x, y, z } = this.calcCircleCoord(freq)
     this.position.set(x, y, z)
 
-    this.updateAlpha(freq)
+    this.updateAlpha()
     this.updateRadius(freq)
   }
 }
