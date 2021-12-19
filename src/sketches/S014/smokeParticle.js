@@ -8,12 +8,14 @@ export default class SmokeParticle {
     this.color = new THREE.Color().setRGB(0.86, 0.2, 0.2) // 0x3498db,
     this.rotation = Math.random() * 2.0 * Math.PI
 
-    this.yMin = -utils.randomFloatBetween(25, 30)
-    this.yMax = utils.randomFloatBetween(1, 2)
-    this.yIncrementMin = utils.randomFloatBetween(0.00001, 0.00003)
+    this.yMin = -utils.randomFloatBetween(0, 1)
+    this.yMax = utils.randomFloatBetween(18, 23)
+
+    
+    this.yIncrementMin = utils.randomFloatBetween(0.000001, 0.000003)
     this.yIncrementMax = utils.randomFloatBetween(0.0005, 0.001)
 
-    this.radiusMin = utils.randomFloatBetween(0.05, 0.1)
+    this.radiusMin = utils.randomFloatBetween(5, 7)
     this.radiusMax = this.radiusMin + utils.randomFloatBetween(20, 22)
     this.radius = utils.randomFloatBetween(10, 25)
 
@@ -74,6 +76,7 @@ export default class SmokeParticle {
   }
 
   updateRadius() {
+    // console.debug(this.yMax, this.position.y, this.yMax - this.position.y)
     this.radius = utils.remap(
       this.yMin,
       this.yMax,

@@ -84,7 +84,8 @@ class Sketch extends SketchManagerThree {
     this.scene.add(this.lights.point4)
 
     this.render.toneMappingExposure = 0.15
-
+    
+    this.smoke.position.set(0, -22, 0)
 
     this.scene.add(this.testGraph.group)
   }

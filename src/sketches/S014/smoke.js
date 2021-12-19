@@ -39,10 +39,15 @@ export default class Smoke {
     })
 
     this.mesh = new THREE.Points(this.geometry, this.material)
+    this.geometry.computeBoundingBox()
+    this.geometry.computeBoundingSphere()
+  }
+  get position() {
+    return this.mesh.position
   }
 
   createParticles() {
-    for(let i = 0; i < this.numParticles; i++) {
+    for (let i = 0; i < this.numParticles; i++) {
       const particle = new SmokeParticle()
       this.particles.push(particle)
     }
