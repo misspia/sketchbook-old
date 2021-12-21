@@ -12,12 +12,7 @@ import Background from "./background"
 import { TestGraph } from "../testGraph"
 
 /**
- * https://threejs.org/docs/#api/en/materials/MeshToonMaterial
- * https://github.com/mnmxmx/toon-shading
- * https://github.com/mnmxmx/halftone-effect
- * 
- * https://stackoverflow.com/q/50025798
- * 
+ * https://stackoverflow.com/questions/46084830/in-three-js-is-there-a-way-to-produce-a-trail-that-slowly-fades-over-time
  */
 class Sketch extends SketchManagerThree {
   constructor(canvas, audioElement) {
@@ -74,7 +69,7 @@ class Sketch extends SketchManagerThree {
     this.audio.setSmoothingTimeConstant(0.75);
     this.audio.volume(1)
 
-    this.scene.add(this.background.mesh)
+    // this.scene.add(this.background.mesh)
     // this.scene.add(this.hextech.group)
     this.scene.add(this.smoke.mesh)
     this.scene.add(this.lights.ambient)

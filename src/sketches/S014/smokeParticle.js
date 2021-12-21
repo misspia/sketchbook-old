@@ -1,6 +1,10 @@
 import * as THREE from "three"
 import utils from "../utils"
 
+/**
+ * https://www.reddit.com/r/Simulated/comments/lo96rq/mr_meesseks_particles/?utm_medium=android_app&utm_source=share
+ * https://threejs.org/examples/?q=trail#webgl_trails
+ */
 export default class SmokeParticle {
   constructor() {
     this.size = utils.randomFloatBetween(8, 14)
@@ -10,14 +14,13 @@ export default class SmokeParticle {
 
     this.yMin = -utils.randomFloatBetween(0, 1)
     this.yMax = utils.randomFloatBetween(18, 23)
-
     
     this.yIncrementMin = utils.randomFloatBetween(0.000001, 0.000003)
     this.yIncrementMax = utils.randomFloatBetween(0.0005, 0.001)
 
     this.radiusMin = utils.randomFloatBetween(5, 7)
     this.radiusMax = this.radiusMin + utils.randomFloatBetween(20, 22)
-    this.radius = utils.randomFloatBetween(10, 25)
+    this.radius = utils.randomFloatBetween(this.radiusMin, this.radiusMax)
 
     this.angle = utils.randomFloatBetween(0, Math.PI * 2)
     this.minAngleIncrement = utils.randomFloatBetween(
