@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import utils from "../utils"
 
-export class TrailParticle {
+export default class TrailParticle {
   constructor() {
     this.positionsMax = 10
     this.positions = []
@@ -27,6 +27,14 @@ export class TrailParticle {
     this.maxAngleIncrement
       = this.minAngleIncrement +
       utils.randomFloatBetween(utils.toRadians(0.003), utils.toRadians(0.007))
+  }
+
+  populateInitialAttributes() {
+    for(let i = 0; i < this.positionsMax; i++) {
+      this.positions.push(0, 0, 0) 
+      this.colors.push(0.5, 0.5, 0.5)
+      this.alphas.push(0)
+    }
   }
 
   updatePositions(freq) {
@@ -68,12 +76,13 @@ export class TrailParticle {
     }
   } 
 
-  updateColors() {
+  updateColors(freq) {
 
   }
 
   updateAlphas() {
-    let alpha = 1
+    const headPosition = this.positions[0]
+    let alpha = utils.remap(this.yMin, this.yMax, 0, 1, headPosition.y)
     const alphaDecrement = 0.0001
 
     const numCoords = this.positions.length / 3
@@ -82,14 +91,14 @@ export class TrailParticle {
     for(let i = 0; i < numCoords; i ++) {
       this.alphas.push(alpha)
 
-      alpha -= alphaDecrement
+      if(alpha < 0) {
+        alpha = 0
+      } else {
+        alpha -= alphaDecrement
+      }
     }
   }
 
-  
-
-   
-  
   update(freq) {
     this.updatePositions(freq)
     this.updateColors(freq)
