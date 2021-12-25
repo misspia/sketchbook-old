@@ -6,6 +6,7 @@ import BeatManager from './beatManager';
 
 import Lights from './lights';
 import Smoke from "./smoke"
+import Trails from "./trails"
 import Hextech from "./hextech"
 import Background from "./background"
 
@@ -38,6 +39,7 @@ class Sketch extends SketchManagerThree {
     this.bars = [];
     this.lights = new Lights()
     this.smoke = new Smoke(this)
+    this.trails = new Trails(this)
     this.hextech = new Hextech(this)
     this.background = new Background(this)
 
@@ -67,11 +69,12 @@ class Sketch extends SketchManagerThree {
     };
     this.initAudio(audioConfig);
     this.audio.setSmoothingTimeConstant(0.75);
-    this.audio.volume(1)
+    this.audio.volume(0)
 
     // this.scene.add(this.background.mesh)
     // this.scene.add(this.hextech.group)
-    this.scene.add(this.smoke.mesh)
+    // this.scene.add(this.smoke.mesh)
+    this.scene.add(this.trails.mesh)
     this.scene.add(this.lights.ambient)
     this.scene.add(this.lights.point1)
     this.scene.add(this.lights.point2)
@@ -94,6 +97,7 @@ class Sketch extends SketchManagerThree {
     const time = this.clock.getElapsedTime() || 0;
 
     this.smoke.update(time)
+    this.trails.update(time)
     this.hextech.update(time)
 
     this.testGraph.update(

@@ -1,10 +1,8 @@
 import * as THREE from "three"
 import SmokeParticle from "./smokeParticle"
-import fragmentShader from "./shaders/particle.frag"
-import vertexShader from "./shaders/particle.vert"
+import fragmentShader from "./shaders/smoke.frag"
+import vertexShader from "./shaders/smoke.vert"
 import { Images } from "../../themes"
-
-const ATTRIBUTE_POSITION = 'position'
 
 /**
  * https://github.com/simondevyoutube/ThreeJS_Tutorial_ParticleSystems/blob/master/main.js

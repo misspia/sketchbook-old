@@ -1,20 +1,28 @@
 import * as THREE from 'three'
 import TrailParticle from './trailParticle'
+import fragmentShader from "./shaders/trail.frag"
+import vertexShader from "./shaders/trail.vert"
 
 export default class Trails {
   constructor() {
-    this.numParticles = 10
+    this.numParticles = 1
     this.particles = []
 
     this.geometry = new THREE.BufferGeometry()
-    this.material = new THREE.MeshBasicMaterial({
-      color: 0xeeaaff,
+    this.material = new THREE.RawShaderMaterial({
       side: THREE.DoubleSide,
+      vertexShader,
+      fragmentShader,
+      uniforms: {
+        pointMultiplier: {
+          value: window.innerHeight / (2.0 * Math.tan(0.5 * 60.0 * Math.PI / 180.0))
+        }
+      }
     })
 
     this.createParticles()
 
-    this.group = new THREE.Mesh(this.geometry, this.material)
+    this.mesh = new THREE.Mesh(this.geometry, this.material)
   }
   
   createParticles() {
@@ -31,10 +39,11 @@ export default class Trails {
     const alphas = []
     this.particles.forEach(particle => {
       particle.update()
-      positions.push(...particle.positions)
-      colors.push(...particle.colors)
+      positions.push(...particle.flattenedPositions)
+      colors.push(...particle.flattenedColors)
       alphas.push(...particle.alphas)
     })
+    // console.debug(positions)
     this.geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3))
     this.geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3))
     this.geometry.setAttribute('alpha', new THREE.Float32BufferAttribute(alphas, 1))
