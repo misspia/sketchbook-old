@@ -7,6 +7,7 @@ export default class TrailParticle {
     this.positions = []
     this.colors = []
     this.alphas = []
+    this.sizes = []
 
     this.centerCoord = { x: 0, y: 0, z: 0 }
 
@@ -49,10 +50,16 @@ export default class TrailParticle {
     return colors
   }
   populateInitialAttributes() {
+    let size = 1;
+    const sizeIncrement = 2;
+
     for(let i = 0; i < this.numPoints; i++) {
       this.positions.push(new THREE.Vector3(0, 0, 0)) 
-      this.colors.push(new THREE.Color().setRGB(0.5, 0.5, 0.5))
-      this.alphas.push(0)
+      this.colors.push(new THREE.Color().setRGB(1.0, 0.0, 0.0))
+      this.alphas.push(1)
+      this.sizes.push(size)
+
+      size += sizeIncrement;
     }
   }
 
@@ -97,23 +104,27 @@ export default class TrailParticle {
 
   }
 
-  updateAlphas() {
-    const headPosition = this.positions[0]
-    let alpha = utils.remap(this.yMin, this.yMax, 0, 1, headPosition.y)
-    const alphaDecrement = 0.0001
+  // updateAlphas() {
+  //   const headPosition = this.positions[0]
+  //   let alpha = utils.remap(this.yMin, this.yMax, 0, 1, headPosition.y)
+  //   const alphaDecrement = 0.0001
 
-    const numCoords = this.positions.length / 3
-    this.alphas = []
+  //   const numCoords = this.positions.length / 3
+  //   this.alphas = []
     
-    for(let i = 0; i < numCoords; i ++) {
-      this.alphas.push(alpha)
+  //   for(let i = 0; i < numCoords; i ++) {
+  //     this.alphas.push(alpha)
 
-      if(alpha < 0) {
-        alpha = 0
-      } else {
-        alpha -= alphaDecrement
-      }
-    }
+  //     if(alpha < 0) {
+  //       alpha = 0
+  //     } else {
+  //       alpha -= alphaDecrement
+  //     }
+  //   }
+  // }
+
+  updateAlphas() {
+
   }
 
   update(freq) {

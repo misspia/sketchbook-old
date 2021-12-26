@@ -1,6 +1,5 @@
 precision highp float;
 
-uniform float u_time;
 uniform float u_freq;
 
 uniform sampler2D diffuseTexture;
