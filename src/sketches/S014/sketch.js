@@ -73,7 +73,7 @@ class Sketch extends SketchManagerThree {
 
     // this.scene.add(this.background.mesh)
     // this.scene.add(this.hextech.group)
-    // this.scene.add(this.smoke.mesh)
+    this.scene.add(this.smoke.mesh)
     this.scene.add(this.trails.mesh)
     this.scene.add(this.lights.ambient)
     this.scene.add(this.lights.point1)
@@ -86,7 +86,15 @@ class Sketch extends SketchManagerThree {
     this.smoke.position.set(0, -22, 0)
 
     this.scene.add(this.testGraph.group)
+
   }
+
+  customResize() { 
+    this.smoke.onResize()
+    this.trails.onResize()
+  }
+  
+
   draw() {
     this.renderer.render(this.scene, this.camera);
     requestAnimationFrame(() => this.draw());

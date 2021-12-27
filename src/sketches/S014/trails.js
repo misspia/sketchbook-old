@@ -29,6 +29,15 @@ export default class Trails {
     this.createParticles()
   }
   
+  get uniforms() {
+    return this.material.uniforms
+  }
+
+  onResize() {
+    this.material.uniforms.uResolution.value.x = this.context.canvas.width
+    this.material.uniforms.uResolution.value.y = this.context.canvas.height
+  }
+
   createParticles() {
     for(let i = 0; i < this.numParticles; i++) {
       const particle = new TrailParticle()

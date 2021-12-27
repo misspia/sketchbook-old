@@ -10,6 +10,10 @@ import { Images } from "../../themes"
  * 
  * https://youtu.be/5f5wwQb22tE
  */
+
+const getPointMultiplier = () => {
+  return window.innerHeight / (2.0 * Math.tan(0.5 * 60.0 * Math.PI / 180.0))
+}
 export default class Smoke {
   constructor(context) {
     this.context = context
@@ -31,7 +35,7 @@ export default class Smoke {
           value: new THREE.TextureLoader().load(Images.T014),
         },
         pointMultiplier: {
-          value: window.innerHeight / (2.0 * Math.tan(0.5 * 60.0 * Math.PI / 180.0))
+          value: getPointMultiplier()
         }
       },
     })
@@ -40,8 +44,17 @@ export default class Smoke {
     this.geometry.computeBoundingBox()
     this.geometry.computeBoundingSphere()
   }
+
   get position() {
     return this.mesh.position
+  }
+
+  get uniforms() {
+    return this.material.uniforms
+  }
+
+  onResize() {
+    this.material.uniforms.pointMultiplier.value = getPointMultiplier()
   }
 
   createParticles() {
