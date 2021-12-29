@@ -68,5 +68,6 @@ export default class Trails {
 
   update() {
     this.updateAttributes()
+    // console.debug('[UV]', this.geometry.attributes)
   }
 }
