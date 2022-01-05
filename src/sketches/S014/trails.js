@@ -28,6 +28,10 @@ export default class Trails {
     this.mesh = new THREE.Points(this.geometry, this.material)
     this.createParticles()
   }
+
+  get position() {
+    return this.mesh.position
+  }
   
   get uniforms() {
     return this.material.uniforms
@@ -47,19 +51,22 @@ export default class Trails {
   }
 
   updateAttributes() {
+    if(!this.context.audio) {
+      return
+    }
     const positions = []
     const colors = []
     const alphas = []
     const sizes = []
 
-    this.particles.forEach(particle => {
-      particle.update()
+    this.particles.forEach((particle, index) => {
+      const freq = this.context.audio.frequencyData[index]
+      particle.update(freq)
       positions.push(...particle.flattenedPositions)
       colors.push(...particle.flattenedColors)
       alphas.push(...particle.alphas)
       sizes.push(...particle.sizes)
     })
-    // console.debug(positions)
     this.geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3))
     this.geometry.setAttribute('size', new THREE.Float32BufferAttribute(sizes, 1))
     this.geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3))
@@ -68,6 +75,5 @@ export default class Trails {
 
   update() {
     this.updateAttributes()
-    // console.debug('[UV]', this.geometry.attributes)
   }
 }

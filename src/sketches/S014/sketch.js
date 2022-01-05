@@ -69,7 +69,7 @@ class Sketch extends SketchManagerThree {
     };
     this.initAudio(audioConfig);
     this.audio.setSmoothingTimeConstant(0.75);
-    this.audio.volume(0)
+    this.audio.volume(1)
 
     // this.scene.add(this.background.mesh)
     // this.scene.add(this.hextech.group)
@@ -84,6 +84,7 @@ class Sketch extends SketchManagerThree {
     this.render.toneMappingExposure = 0.15
     
     this.smoke.position.set(0, -22, 0)
+    this.trails.position.set(0, -22, 0)
 
     this.scene.add(this.testGraph.group)
 

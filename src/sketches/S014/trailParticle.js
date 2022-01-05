@@ -11,8 +11,8 @@ export default class TrailParticle {
 
     this.centerCoord = { x: 0, y: 0, z: 0 }
 
-    this.yMin = -utils.randomFloatBetween(0, 1)
-    this.yMax = utils.randomFloatBetween(18, 23)
+    this.yMin = -utils.randomFloatBetween(3, 5)
+    this.yMax = utils.randomFloatBetween(25, 30)
     
     this.yIncrementMin = utils.randomFloatBetween(0.000001, 0.000003)
     this.yIncrementMax = utils.randomFloatBetween(0.0005, 0.001)
@@ -22,13 +22,14 @@ export default class TrailParticle {
     this.radius = utils.randomFloatBetween(this.radiusMin, this.radiusMax)
 
     this.minAngleIncrement = utils.randomFloatBetween(
-      utils.toRadians(0.0001),
-      utils.toRadians(0.0005)
+      utils.toRadians(0.1),
+      utils.toRadians(0.5)
     )
     this.maxAngleIncrement
       = this.minAngleIncrement +
       utils.randomFloatBetween(utils.toRadians(0.003), utils.toRadians(0.007))
-
+    this.angle = utils.randomFloatBetween(0, Math.PI * 2)
+    
     this.populateInitialAttributes()
   }
 
@@ -50,8 +51,9 @@ export default class TrailParticle {
     return colors
   }
   populateInitialAttributes() {
-    let size = 1;
-    const sizeIncrement = 2;
+    let size = 2;
+    const minSize = 0.5
+    const sizeDecrement = (size - minSize) / this.numPoints
 
     for(let i = 0; i < this.numPoints; i++) {
       this.positions.push(new THREE.Vector3(0, 0, 0)) 
@@ -59,7 +61,7 @@ export default class TrailParticle {
       this.alphas.push(1)
       this.sizes.push(size)
 
-      size += sizeIncrement;
+      size -= sizeDecrement;
     }
   }
 
@@ -80,11 +82,13 @@ export default class TrailParticle {
       y = this.yMin
     } else {
       // y += utils.remapFreq(this.yMin, this.yMax, freq)
-      y += 0.001
+      y += 0.1
     }
 
-    // const angle = utils.remapFreq(this.minAngleIncrement, this.maxAngleIncrement, freq)
-    const angle = utils.remapFreq(this.minAngleIncrement, this.maxAngleIncrement, 50)
+    // const angleIncrement = utils.remapFreq(this.minAngleIncrement, this.maxAngleIncrement, freq)
+    const angleIncrement = 0
+    this.angle += angleIncrement
+
     const radius = utils.remap(
       this.yMin,
       this.yMax,
@@ -93,9 +97,9 @@ export default class TrailParticle {
       this.yMax - newestPosition.y
     )
     return {
-      x: this.centerCoord.x + radius * Math.cos(angle),
+      x: this.centerCoord.x + radius * Math.cos(this.angle),
       y,
-      z: this.centerCoord.z + radius * Math.sin(angle),
+      z: this.centerCoord.z + radius * Math.sin(this.angle),
 
     }
   } 
@@ -104,32 +108,28 @@ export default class TrailParticle {
 
   }
 
-  // updateAlphas() {
-  //   const headPosition = this.positions[0]
-  //   let alpha = utils.remap(this.yMin, this.yMax, 0, 1, headPosition.y)
-  //   const alphaDecrement = 0.0001
-
-  //   const numCoords = this.positions.length / 3
-  //   this.alphas = []
-    
-  //   for(let i = 0; i < numCoords; i ++) {
-  //     this.alphas.push(alpha)
-
-  //     if(alpha < 0) {
-  //       alpha = 0
-  //     } else {
-  //       alpha -= alphaDecrement
-  //     }
-  //   }
-  // }
-
   updateAlphas() {
+    // const headPosition = this.positions[0]
+    // let alpha = utils.remap(this.yMin, this.yMax, 0, 1, headPosition.y)
+    // const alphaDecrement = 0.0001
 
+    // const numCoords = this.positions.length / 3
+    // this.alphas = []
+    
+    // for(let i = 0; i < numCoords; i ++) {
+    //   this.alphas.push(alpha)
+
+    //   if(alpha < 0) {
+    //     alpha = 0
+    //   } else {
+    //     alpha -= alphaDecrement
+    //   }
+    // }
   }
 
   update(freq) {
     this.updatePositions(freq)
     this.updateColors(freq)
-    this.updateAlphas()
+    this.updateAlphas(freq)
   }
 }
