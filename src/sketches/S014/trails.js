@@ -5,7 +5,8 @@ import vertexShader from "./shaders/trail.vert"
 export default class Trails {
   constructor(context) {
     this.context = context
-    this.numParticles = 1
+    this.numParticles = context.numFrequencyNodes
+    // this.numParticles = 100
     this.particles = []
 
     this.geometry = new THREE.BufferGeometry()

@@ -14,20 +14,20 @@ export default class TrailParticle {
     this.yMin = -utils.randomFloatBetween(3, 5)
     this.yMax = utils.randomFloatBetween(25, 30)
     
-    this.yIncrementMin = utils.randomFloatBetween(0.000001, 0.000003)
-    this.yIncrementMax = utils.randomFloatBetween(0.0005, 0.001)
+    this.yIncrementMin = utils.randomFloatBetween(0.001, 0.003)
+    this.yIncrementMax = utils.randomFloatBetween(0.1, 0.5)
 
     this.radiusMin = utils.randomFloatBetween(5, 7)
     this.radiusMax = this.radiusMin + utils.randomFloatBetween(20, 22)
     this.radius = utils.randomFloatBetween(this.radiusMin, this.radiusMax)
 
     this.minAngleIncrement = utils.randomFloatBetween(
-      utils.toRadians(0.1),
-      utils.toRadians(0.5)
+      utils.toRadians(0.5),
+      utils.toRadians(1)
     )
     this.maxAngleIncrement
       = this.minAngleIncrement +
-      utils.randomFloatBetween(utils.toRadians(0.003), utils.toRadians(0.007))
+      utils.randomFloatBetween(utils.toRadians(1.5), utils.toRadians(2))
     this.angle = utils.randomFloatBetween(0, Math.PI * 2)
     
     this.populateInitialAttributes()
@@ -81,12 +81,10 @@ export default class TrailParticle {
     if(newestPosition.y >= this.yMax) {
       y = this.yMin
     } else {
-      // y += utils.remapFreq(this.yMin, this.yMax, freq)
-      y += 0.1
+      y += utils.remapFreq(this.yIncrementMin, this.yIncrementMax, freq)
     }
 
-    // const angleIncrement = utils.remapFreq(this.minAngleIncrement, this.maxAngleIncrement, freq)
-    const angleIncrement = 0
+    const angleIncrement = utils.remapFreq(this.minAngleIncrement, this.maxAngleIncrement, freq)
     this.angle += angleIncrement
 
     const radius = utils.remap(
