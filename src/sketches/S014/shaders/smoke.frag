@@ -1,26 +1,28 @@
 precision highp float;
 
-uniform float u_freq;
-
 uniform sampler2D diffuseTexture;
-varying vec4 vColor;
 varying vec2 vAngle;
 varying float vAlpha;
+varying float vFreq;
 
 float remap(float min1, float max1, float min2, float max2, float value) {
     return min2 + (max2 - min2) * (value - min1) / (max1 - min1);
 }
 
 float remapFreq(float min, float max) {
-    return remap(0.0, 255.0, min, max, u_freq);
+    return remap(0.0, 255.0, min, max, vFreq);
 }
 
 float reverseRemapFreq(float min, float max) {
-    return remap(0.0, 255.0, min, max, 255.0 - u_freq);
+    return remap(0.0, 255.0, min, max, 255.0 - vFreq);
 }
 
-
 void main() {
-  vec2 coords = (gl_PointCoord - 0.5) * mat2(vAngle.x, vAngle.y, -vAngle.y, vAngle.x) + 0.5;
-  gl_FragColor = texture2D(diffuseTexture, coords) * vec4(vColor.xyz, vAlpha);
+    vec2 coords = (gl_PointCoord - 0.5) * mat2(vAngle.x, vAngle.y, -vAngle.y, vAngle.x) + 0.5;
+    vec3 color = vec3(
+        remapFreq(0.3, 0.4),
+        0.25, 
+        remapFreq(0.3, 0.6)
+    ); 
+    gl_FragColor = texture2D(diffuseTexture, coords) * vec4(color, vAlpha);
 }

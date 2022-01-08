@@ -8,7 +8,7 @@ import utils from "../utils"
 export default class SmokeParticle {
   constructor() {
     this.size = utils.randomFloatBetween(8, 14)
-    this.color = new THREE.Color().setRGB(0.2, 0.2, 0.86) // blue
+    // this.color = new THREE.Color().setRGB(0.2, 0.2, 0.86) // blue
     // this.color = new THREE.Color().setRGB(0.86, 0.2, 0.2) // red
     this.rotation = Math.random() * 2.0 * Math.PI
 

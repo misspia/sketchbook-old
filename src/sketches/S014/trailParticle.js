@@ -5,7 +5,6 @@ export default class TrailParticle {
   constructor() {
     this.numPoints = 10
     this.positions = []
-    this.colors = []
     this.alphas = []
     this.sizes = []
 
@@ -14,20 +13,20 @@ export default class TrailParticle {
     this.yMin = -utils.randomFloatBetween(3, 5)
     this.yMax = utils.randomFloatBetween(25, 30)
     
-    this.yIncrementMin = utils.randomFloatBetween(0.001, 0.003)
-    this.yIncrementMax = utils.randomFloatBetween(0.1, 0.5)
+    this.yIncrementMin = utils.randomFloatBetween(0.0005, 0.0009)
+    this.yIncrementMax = this.yIncrementMin + utils.randomFloatBetween(0.1, 0.5)
 
     this.radiusMin = utils.randomFloatBetween(5, 7)
     this.radiusMax = this.radiusMin + utils.randomFloatBetween(20, 22)
     this.radius = utils.randomFloatBetween(this.radiusMin, this.radiusMax)
 
     this.minAngleIncrement = utils.randomFloatBetween(
-      utils.toRadians(0.5),
-      utils.toRadians(1)
+      utils.toRadians(0.03),
+      utils.toRadians(0.07)
     )
     this.maxAngleIncrement
       = this.minAngleIncrement +
-      utils.randomFloatBetween(utils.toRadians(1.5), utils.toRadians(2))
+      utils.randomFloatBetween(utils.toRadians(1.8), utils.toRadians(2.5))
     this.angle = utils.randomFloatBetween(0, Math.PI * 2)
     
     this.populateInitialAttributes()
@@ -42,14 +41,6 @@ export default class TrailParticle {
     return positions
   }
 
-  get flattenedColors() {
-    const colors = []
-    for(let i = 0; i < this.colors.length; i++) {
-      const { r, g, b } = this.colors[i]
-      colors.push(r, g, b)
-    }
-    return colors
-  }
   populateInitialAttributes() {
     let size = 2;
     const minSize = 0.5
@@ -57,7 +48,6 @@ export default class TrailParticle {
 
     for(let i = 0; i < this.numPoints; i++) {
       this.positions.push(new THREE.Vector3(0, 0, 0)) 
-      this.colors.push(new THREE.Color().setRGB(1.0, 0.0, 0.0))
       this.alphas.push(1)
       this.sizes.push(size)
 
@@ -102,10 +92,6 @@ export default class TrailParticle {
     }
   } 
 
-  updateColors(freq) {
-
-  }
-
   updateAlphas() {
     // const headPosition = this.positions[0]
     // let alpha = utils.remap(this.yMin, this.yMax, 0, 1, headPosition.y)
@@ -127,7 +113,6 @@ export default class TrailParticle {
 
   update(freq) {
     this.updatePositions(freq)
-    this.updateColors(freq)
     this.updateAlphas(freq)
   }
 }

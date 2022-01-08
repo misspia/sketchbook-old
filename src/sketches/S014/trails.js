@@ -2,6 +2,8 @@ import * as THREE from 'three'
 import TrailParticle from './trailParticle'
 import fragmentShader from "./shaders/trail.frag"
 import vertexShader from "./shaders/trail.vert"
+
+const getPointMultiplier = () => window.innerHeight / (2.0 * Math.tan(0.5 * 60.0 * Math.PI / 180.0))
 export default class Trails {
   constructor(context) {
     this.context = context
@@ -18,11 +20,8 @@ export default class Trails {
       vertexShader,
       fragmentShader,
       uniforms: {
-        uResolution: {
-          value: new THREE.Vector2(this.context.canvas.width, this.context.canvas.height)
-        },
         uPointMultiplier: {
-          value: window.innerHeight / (2.0 * Math.tan(0.5 * 60.0 * Math.PI / 180.0))
+          value: getPointMultiplier()
         }
       }
     })
@@ -39,8 +38,7 @@ export default class Trails {
   }
 
   onResize() {
-    this.material.uniforms.uResolution.value.x = this.context.canvas.width
-    this.material.uniforms.uResolution.value.y = this.context.canvas.height
+    this.uniforms.uPointMultiplier.value = getPointMultiplier()
   }
 
   createParticles() {
@@ -56,7 +54,6 @@ export default class Trails {
       return
     }
     const positions = []
-    const colors = []
     const alphas = []
     const sizes = []
 
@@ -64,14 +61,13 @@ export default class Trails {
       const freq = this.context.audio.frequencyData[index]
       particle.update(freq)
       positions.push(...particle.flattenedPositions)
-      colors.push(...particle.flattenedColors)
       alphas.push(...particle.alphas)
       sizes.push(...particle.sizes)
     })
     this.geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3))
     this.geometry.setAttribute('size', new THREE.Float32BufferAttribute(sizes, 1))
-    this.geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3))
     this.geometry.setAttribute('alpha', new THREE.Float32BufferAttribute(alphas, 1))
+    this.geometry.setAttribute('freq', new THREE.Float32BufferAttribute(this.context.audio.frequencyData, 1))
   }
 
   update() {

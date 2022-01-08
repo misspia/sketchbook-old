@@ -75,18 +75,18 @@ class Sketch extends SketchManagerThree {
     // this.scene.add(this.hextech.group)
     this.scene.add(this.smoke.mesh)
     this.scene.add(this.trails.mesh)
-    this.scene.add(this.lights.ambient)
-    this.scene.add(this.lights.point1)
-    this.scene.add(this.lights.point2)
-    this.scene.add(this.lights.point3)
-    this.scene.add(this.lights.point4)
+    // this.scene.add(this.lights.ambient)
+    // this.scene.add(this.lights.point1)
+    // this.scene.add(this.lights.point2)
+    // this.scene.add(this.lights.point3)
+    // this.scene.add(this.lights.point4)
 
     this.render.toneMappingExposure = 0.15
     
     this.smoke.position.set(0, -22, 0)
     this.trails.position.set(0, -22, 0)
 
-    this.scene.add(this.testGraph.group)
+    // this.scene.add(this.testGraph.group)
 
   }
 
@@ -107,14 +107,14 @@ class Sketch extends SketchManagerThree {
 
     this.smoke.update(time)
     this.trails.update(time)
-    this.hextech.update(time)
+    // this.hextech.update(time)
 
-    this.testGraph.update(
-      this.audio.frequencyData,
-      this.beatManager.bassAverages,
-      this.beatManager.midrangeAverages,
-      this.beatManager.highrangeAverages
-    )
+    // this.testGraph.update(
+    //   this.audio.frequencyData,
+    //   this.beatManager.bassAverages,
+    //   this.beatManager.midrangeAverages,
+    //   this.beatManager.highrangeAverages
+    // )
   }
 }
 

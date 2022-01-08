@@ -14,6 +14,7 @@ import { Images } from "../../themes"
 const getPointMultiplier = () => {
   return window.innerHeight / (2.0 * Math.tan(0.5 * 60.0 * Math.PI / 180.0))
 }
+
 export default class Smoke {
   constructor(context) {
     this.context = context
@@ -23,7 +24,6 @@ export default class Smoke {
     this.createParticles()
 
     this.material = new THREE.RawShaderMaterial({
-      // blending: THREE.AdditiveBlending,
       depthTest: true,
       depthWrite: false,
       transparent: true,
@@ -67,7 +67,6 @@ export default class Smoke {
   updateParticles(time) {
     const positions = []
     const size = []
-    const colors = []
     const angles = []
     const alphas = []
 
@@ -79,20 +78,15 @@ export default class Smoke {
         particle.position.z,
       )
       size.push(particle.size)
-      colors.push(
-        particle.color.r,
-        particle.color.g,
-        particle.color.b,
-      )
       angles.push(particle.rotation)
       alphas.push(particle.alpha)
     })
 
     this.geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3))
     this.geometry.setAttribute('size', new THREE.Float32BufferAttribute(size, 1))
-    this.geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3))
     this.geometry.setAttribute('angle', new THREE.Float32BufferAttribute(angles, 1))
     this.geometry.setAttribute('alpha', new THREE.Float32BufferAttribute(alphas, 1))
+    this.geometry.setAttribute('freq', new THREE.Float32BufferAttribute(this.context.audio.frequencyData , 1))
   }
 
   update(time) {

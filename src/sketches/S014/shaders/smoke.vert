@@ -8,11 +8,11 @@ attribute vec3 position;
 attribute float size;
 attribute float angle;
 attribute float alpha;
-attribute vec4 color;
+attribute float freq;
 
 varying vec2 vAngle;
 varying float vAlpha;
-varying vec4 vColor;
+varying float vFreq;
 
 void main() {
 
@@ -20,7 +20,7 @@ void main() {
   gl_Position = projectionMatrix * mvPosition;
   gl_PointSize = size * pointMultiplier / gl_Position.w;
   vAngle = vec2(cos(angle), sin(angle));
-  vColor = color;
   vAlpha = alpha;
+  vFreq = freq;
 
 }
