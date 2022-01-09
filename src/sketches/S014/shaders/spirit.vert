@@ -2,31 +2,25 @@ precision highp float;
 
 uniform mat4 projectionMatrix;
 uniform mat4 modelViewMatrix;
-uniform float pointMultiplier;
+uniform float uPointMultiplier;
 
 attribute vec3 position;
 attribute float size;
-attribute float angle;
 attribute float alpha;
+attribute vec4 color;
 attribute float freq;
-attribute float yMin;
-attribute float yMax;
 
-varying vec2 vAngle;
 varying float vAlpha;
+varying vec4 vColor;
 varying float vFreq;
-varying float vYMin;
-varying float vYMax;
 
 void main() {
-
   vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+  
   gl_Position = projectionMatrix * mvPosition;
-  gl_PointSize = size * pointMultiplier / gl_Position.w;
-  vAngle = vec2(cos(angle), sin(angle));
+  gl_PointSize = size * uPointMultiplier / gl_Position.w;
+
+  vColor = color;
   vAlpha = alpha;
   vFreq = freq;
-  vYMin = yMin;
-  vYMax = yMax;
-
 }

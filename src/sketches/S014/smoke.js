@@ -58,10 +58,20 @@ export default class Smoke {
   }
 
   createParticles() {
+    const yMin = []
+    const yMax = []
     for (let i = 0; i < this.numParticles; i++) {
       const particle = new SmokeParticle()
       this.particles.push(particle)
+
+      /**
+       * constant attributes
+       */
+      yMin.push(particle.yMin)
+      yMax.push(particle.yMax)
     }
+    this.geometry.setAttribute('yMin', new THREE.Float32BufferAttribute(yMin, 1))
+    this.geometry.setAttribute('yMax', new THREE.Float32BufferAttribute(yMax, 1))
   }
 
   updateParticles(time) {

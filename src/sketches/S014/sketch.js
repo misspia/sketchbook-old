@@ -3,24 +3,23 @@ import PostProcessor from '../postProcessor';
 import SketchManagerThree from '../sketchManagerThree';
 import { Audio } from '../../themes';
 import BeatManager from './beatManager';
+import EffectManager from "./effectManager"
+import { Layers } from "./constants"
 
-import Lights from './lights';
 import Smoke from "./smoke"
-import Trails from "./trails"
+import Spirits from "./spirits"
 import Hextech from "./hextech"
-import Background from "./background"
+
 
 import { TestGraph } from "../testGraph"
 
-/**
- * https://stackoverflow.com/questions/46084830/in-three-js-is-there-a-way-to-produce-a-trail-that-slowly-fades-over-time
- */
 class Sketch extends SketchManagerThree {
   constructor(canvas, audioElement) {
     super(canvas, audioElement, { cameraNear: 1, cameraFar: 3500 });
     // this.audioSrc = Audio.S014;
     this.audioSrc = Audio.tester;
     this.clock = new THREE.Clock();
+    this.effectManager = new EffectManager(this);
 
     this.spectrumStart = {
       bass: 0,
@@ -37,11 +36,9 @@ class Sketch extends SketchManagerThree {
 
     this.fftSize = 512;
     this.bars = [];
-    this.lights = new Lights()
     this.smoke = new Smoke(this)
-    this.trails = new Trails(this)
+    this.spirits = new Spirits(this)
     this.hextech = new Hextech(this)
-    this.background = new Background(this)
 
     this.testGraph = new TestGraph({
       numNodes: this.numFrequencyNodes,
@@ -71,42 +68,36 @@ class Sketch extends SketchManagerThree {
     this.audio.setSmoothingTimeConstant(0.75);
     this.audio.volume(1)
 
-    // this.scene.add(this.background.mesh)
     // this.scene.add(this.hextech.group)
     this.scene.add(this.smoke.mesh)
-    this.scene.add(this.trails.mesh)
-    // this.scene.add(this.lights.ambient)
-    // this.scene.add(this.lights.point1)
-    // this.scene.add(this.lights.point2)
-    // this.scene.add(this.lights.point3)
-    // this.scene.add(this.lights.point4)
+    this.scene.add(this.spirits.mesh)
+  
 
     this.render.toneMappingExposure = 0.15
     
     this.smoke.position.set(0, -22, 0)
-    this.trails.position.set(0, -22, 0)
+    this.spirits.position.set(0, -22, 0)
+
+    this.spirits.mesh.layers.set(Layers.AFTERIMAGE)
 
     // this.scene.add(this.testGraph.group)
-
   }
 
-  customResize() { 
+  customResize(width, height) { 
     this.smoke.onResize()
-    this.trails.onResize()
+    this.spirits.onResize()
+    this.effectManager.onResize(width, height)
   }
   
-
   draw() {
-    this.renderer.render(this.scene, this.camera);
-    requestAnimationFrame(() => this.draw());
-
     this.audio.getByteFrequencyData();
     this.beatManager.update();
+    this.effectManager.update()
 
     const time = this.clock.getElapsedTime() || 0;
 
     this.smoke.update(time)
-    this.trails.update(time)
+    this.spirits.update(time)
     // this.hextech.update(time)
 
     // this.testGraph.update(
@@ -115,6 +106,9 @@ class Sketch extends SketchManagerThree {
     //   this.beatManager.midrangeAverages,
     //   this.beatManager.highrangeAverages
     // )
+
+    this.effectManager.render();
+    requestAnimationFrame(() => this.draw());
   }
 }
 

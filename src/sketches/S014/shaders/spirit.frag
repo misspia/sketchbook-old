@@ -1,7 +1,5 @@
 precision highp float;
 
-uniform sampler2D diffuseTexture;
-varying vec2 vAngle;
 varying float vAlpha;
 varying float vFreq;
 
@@ -17,13 +15,20 @@ float reverseRemapFreq(float min, float max) {
     return remap(0.0, 255.0, min, max, 255.0 - vFreq);
 }
 
-// https://youtu.be/a8h1BTe45AU?t=88
+// https://thebookofshaders.com/07/
+// https://stackoverflow.com/questions/15362658/opengl-glsl-line-trails
 void main() {
-    vec2 coords = (gl_PointCoord - 0.5) * mat2(vAngle.x, vAngle.y, -vAngle.y, vAngle.x) + 0.5;
+    float alpha = remapFreq(0.0, 1.0);
+    float len = distance(vec2(0.5, 0.5), gl_PointCoord.xy);
     vec3 color = vec3(
-        remapFreq(0.3, 0.4),
-        0.25, 
-        remapFreq(0.3, 0.6)
-    ); 
-    gl_FragColor = texture2D(diffuseTexture, coords) * vec4(color, vAlpha);
+        reverseRemapFreq(0.7, 0.9),
+        remapFreq(0.5, 0.5),
+        remapFreq(0.7, 0.9)
+    );
+
+    if(len > 0.1) {
+        alpha = 0.0;
+    }
+
+    gl_FragColor = vec4(color, alpha);
 }
