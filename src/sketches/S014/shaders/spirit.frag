@@ -16,7 +16,6 @@ float reverseRemapFreq(float min, float max) {
 }
 
 // https://thebookofshaders.com/07/
-// https://stackoverflow.com/questions/15362658/opengl-glsl-line-trails
 void main() {
     float alpha = remapFreq(0.0, 1.0);
     float len = distance(vec2(0.5, 0.5), gl_PointCoord.xy);
@@ -28,6 +27,10 @@ void main() {
 
     if(len > 0.1) {
         alpha = 0.0;
+    }
+    if(len > 0.08) {
+        color *= 1.2;
+
     }
 
     gl_FragColor = vec4(color, alpha);

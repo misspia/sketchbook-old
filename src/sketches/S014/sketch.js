@@ -23,8 +23,8 @@ class Sketch extends SketchManagerThree {
 
     this.spectrumStart = {
       bass: 0,
-      midrange: 9,
-      highrange: 70,
+      midrange: 16,
+      highrange: 165,
     }
     this.numFrequencyNodes = 300;
     this.beatManager = new BeatManager(this)
@@ -80,7 +80,7 @@ class Sketch extends SketchManagerThree {
 
     this.spirits.mesh.layers.set(Layers.AFTERIMAGE)
 
-    // this.scene.add(this.testGraph.group)
+    this.scene.add(this.testGraph.group)
   }
 
   customResize(width, height) { 
@@ -100,12 +100,12 @@ class Sketch extends SketchManagerThree {
     this.spirits.update(time)
     // this.hextech.update(time)
 
-    // this.testGraph.update(
-    //   this.audio.frequencyData,
-    //   this.beatManager.bassAverages,
-    //   this.beatManager.midrangeAverages,
-    //   this.beatManager.highrangeAverages
-    // )
+    this.testGraph.update(
+      this.audio.frequencyData,
+      this.beatManager.bassAverages,
+      this.beatManager.midrangeAverages,
+      this.beatManager.highrangeAverages
+    )
 
     this.effectManager.render();
     requestAnimationFrame(() => this.draw());

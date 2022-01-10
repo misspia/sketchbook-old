@@ -1,7 +1,11 @@
-import { AfterimagePass } from 'three/examples/jsm/postprocessing/AfterimagePass';
+// import { AfterimagePass } from 'three/examples/jsm/postprocessing/AfterimagePass';
 import PP from '../postProcessor';
 import { Layers } from "./constants"
+import { AfterimagePass } from "./afterimagePass"
 
+/**
+ * https://github.com/mrdoob/three.js/blob/master/examples/webgl_postprocessing_afterimage.html
+ */
 
 export default class EffectManager {
   constructor(context) {
@@ -21,6 +25,8 @@ export default class EffectManager {
 
   createAfterImage() {
     this.afterImagePass = new AfterimagePass();
+
+    // this.afterImagePass.uniforms["damp"].value = 0.5
 
     this.pp.composer.addPass(this.afterImagePass);
   }
