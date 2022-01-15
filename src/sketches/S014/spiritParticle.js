@@ -11,13 +11,13 @@ export default class SpiritParticle {
     this.centerCoord = { x: 0, y: 0, z: 0 }
 
     this.yMin = -utils.randomFloatBetween(3, 5)
-    this.yMax = utils.randomFloatBetween(25, 30)
+    this.yMax = utils.randomFloatBetween(35, 40)
     
     this.yIncrementMin = utils.randomFloatBetween(0.0005, 0.0009)
     this.yIncrementMax = this.yIncrementMin + utils.randomFloatBetween(0.1, 0.5)
 
-    this.radiusMin = utils.randomFloatBetween(5, 7)
-    this.radiusMax = this.radiusMin + utils.randomFloatBetween(20, 22)
+    this.radiusMin = utils.randomFloatBetween(3, 5)
+    this.radiusMax = this.radiusMin + utils.randomFloatBetween(30, 35)
     this.radius = utils.randomFloatBetween(this.radiusMin, this.radiusMax)
 
     this.minAngleIncrement = utils.randomFloatBetween(

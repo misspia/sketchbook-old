@@ -1,7 +1,8 @@
-// import { AfterimagePass } from 'three/examples/jsm/postprocessing/AfterimagePass';
+import * as THREE from 'three';
+import { AfterimagePass } from 'three/examples/jsm/postprocessing/AfterimagePass';
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass';
 import PP from '../postProcessor';
 import { Layers } from "./constants"
-import { AfterimagePass } from "./afterimagePass"
 
 /**
  * https://github.com/mrdoob/three.js/blob/master/examples/webgl_postprocessing_afterimage.html
@@ -11,8 +12,8 @@ export default class EffectManager {
   constructor(context) {
     this.context = context;
     this.pp = new PP(this.context);
-    this.bloomPass = {};
-
+    this.bloomPass = null;
+    this.afterImagePass = null;
     this.init();
   }
 
@@ -20,15 +21,25 @@ export default class EffectManager {
     this.pp.resize(width, height);
   }
   init() {
-    this.createAfterImage();
+    this.afterImagePass = new AfterimagePass(0.8);
+    this.pp.composer.addPass(this.afterImagePass);
+
+    this.bloomPass = new UnrealBloomPass(
+      new THREE.Vector2(window.innerWidth, window.innerHeight),
+      1.5,
+      0.4,
+      0.85
+    );
+    this.bloomPass.threshold = 0;
+    this.bloomPass.strength = 1.5;
+    this.bloomPass.radius = 0;
+    this.pp.composer.addPass(this.bloomPass)
+
   }
 
   createAfterImage() {
-    this.afterImagePass = new AfterimagePass();
 
-    // this.afterImagePass.uniforms["damp"].value = 0.5
 
-    this.pp.composer.addPass(this.afterImagePass);
   }
 
   update() {
