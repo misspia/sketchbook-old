@@ -25,5 +25,7 @@ void main() {
         0.25, 
         remapFreq(0.3, 0.6)
     ); 
+    // float offsetDist = remap(dist, threshold, uRadius, 0.0, 1.0);
+    // float alpha = vAlpha * (1.0 - length(gl_PointCoord.xyz));
     gl_FragColor = texture2D(diffuseTexture, coords) * vec4(color, vAlpha);
 }

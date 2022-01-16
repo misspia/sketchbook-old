@@ -21,7 +21,7 @@ export default class EffectManager {
     this.pp.resize(width, height);
   }
   init() {
-    this.afterImagePass = new AfterimagePass(0.8);
+    this.afterImagePass = new AfterimagePass(0.6);
     this.pp.composer.addPass(this.afterImagePass);
 
     this.bloomPass = new UnrealBloomPass(

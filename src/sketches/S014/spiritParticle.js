@@ -16,8 +16,12 @@ export default class SpiritParticle {
     this.yIncrementMin = utils.randomFloatBetween(0.0005, 0.0009)
     this.yIncrementMax = this.yIncrementMin + utils.randomFloatBetween(0.1, 0.5)
 
+    // this.radiusMin = utils.randomFloatBetween(3, 5)
+    // this.radiusMid = utils.randomFloatBetween()
+    // this.radiusMax = this.radiusMin + utils.randomFloatBetween(30, 35)
     this.radiusMin = utils.randomFloatBetween(3, 5)
-    this.radiusMax = this.radiusMin + utils.randomFloatBetween(30, 35)
+    this.radiusMid = this.radiusMin + utils.randomFloatBetween(12, 15)
+    this.radiusMax = this.radiusMid + utils.randomFloatBetween(20, 25)
     this.radius = utils.randomFloatBetween(this.radiusMin, this.radiusMax)
 
     this.minAngleIncrement = utils.randomFloatBetween(
@@ -77,13 +81,35 @@ export default class SpiritParticle {
     const angleIncrement = utils.remapFreq(this.minAngleIncrement, this.maxAngleIncrement, freq)
     this.angle += angleIncrement
 
-    const radius = utils.remap(
-      this.yMin,
-      this.yMax,
-      this.radiusMin,
-      this.radiusMax,
-      this.yMax - newestPosition.y
-    )
+    // const radius = radius = utils.remap(
+    //   this.yMin,
+    //   this.yMax,
+    //   this.radiusMin,
+    //   this.radiusMax,
+    //   this.yMax - newestPosition.y
+    // )
+    let radius = null
+    const yLowerCheckpoint = (this.yMin + this.yMax) * 2/4 
+    const yUpperCheckpoint = (this.yMin + this.yMax) * 3/4 
+    if(newestPosition.y > yUpperCheckpoint) { // top
+      radius = this.radiusMin
+    } else if (newestPosition.y > yLowerCheckpoint) { // mid
+      radius = utils.remap(
+        yLowerCheckpoint,
+        yUpperCheckpoint,
+        this.radiusMin,
+        this.radiusMid,
+        newestPosition.y - yLowerCheckpoint
+      )
+    } else { // bottom
+      radius = utils.remap(
+        yLowerCheckpoint,
+        this.yMax,
+        this.radiusMid,
+        this.radiusMax,
+        this.yMax - newestPosition.y
+      )
+    }
     return {
       x: this.centerCoord.x + radius * Math.cos(this.angle),
       y,
