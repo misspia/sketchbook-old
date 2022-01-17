@@ -8,6 +8,7 @@ export default class Spirits {
   constructor(context) {
     this.context = context
     this.numParticles = context.numFrequencyNodes
+    // this.numParticles = 1
     this.particles = []
 
     this.geometry = new THREE.BufferGeometry()
