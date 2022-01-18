@@ -60,9 +60,11 @@ export default class Spirits {
     this.particles.forEach((particle, index) => {
       const freq = this.context.audio.frequencyData[index]
       particle.update(freq)
-      positions.push(...particle.flattenedPositions)
-      alphas.push(...particle.alphas)
-      sizes.push(...particle.sizes)
+
+      const { position } = particle
+      positions.push(position.x, position.y, position.z)
+      alphas.push(particle.alpha)
+      sizes.push(particle.size)
     })
     this.geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3))
     this.geometry.setAttribute('size', new THREE.Float32BufferAttribute(sizes, 1))
