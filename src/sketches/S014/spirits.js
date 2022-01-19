@@ -7,7 +7,7 @@ const getPointMultiplier = () => window.innerHeight / (2.0 * Math.tan(0.5 * 60.0
 export default class Spirits {
   constructor(context) {
     this.context = context
-    this.numParticles = context.numFrequencyNodes
+    this.numParticles = context.spectrumStart.highrange - context.spectrumStart.midrange
     // this.numParticles = 1
     this.particles = []
 
@@ -55,19 +55,17 @@ export default class Spirits {
     }
     const positions = []
     const alphas = []
-    const sizes = []
+    const startFreqIndex = this.context.spectrumStart.midrange
 
     this.particles.forEach((particle, index) => {
-      const freq = this.context.audio.frequencyData[index]
+      const freq =  this.context.audio.frequencyData[startFreqIndex + index]
       particle.update(freq)
 
       const { position } = particle
       positions.push(position.x, position.y, position.z)
       alphas.push(particle.alpha)
-      sizes.push(particle.size)
     })
     this.geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3))
-    this.geometry.setAttribute('size', new THREE.Float32BufferAttribute(sizes, 1))
     this.geometry.setAttribute('alpha', new THREE.Float32BufferAttribute(alphas, 1))
     this.geometry.setAttribute('freq', new THREE.Float32BufferAttribute(this.context.audio.frequencyData, 1))
   }

@@ -30,9 +30,9 @@ export default class EffectManager {
       0.4,
       0.85
     );
-    this.bloomPass.threshold = 0;
     this.bloomPass.strength = 1.5;
     this.bloomPass.radius = 0;
+    this.bloomPass.threshold = 0;
     this.pp.composer.addPass(this.bloomPass)
 
   }
