@@ -19,10 +19,20 @@ float reverseRemapFreq(float min, float max) {
 void main() {
     float alpha = remapFreq(0.0, 1.0);
     float len = distance(vec2(0.5, 0.5), gl_PointCoord.xy);
+    // vec3 color = vec3(
+    //     0.9,
+    //     0.4,
+    //     0.3
+    // );
+    // vec3 color = vec3(
+    //     0.5,
+    //     0.4,
+    //     1.0
+    // );
     vec3 color = vec3(
-        reverseRemapFreq(0.7, 0.9),
-        remapFreq(0.5, 0.5),
-        remapFreq(0.7, 0.9)
+        remapFreq(0.1, 0.9),
+        remapFreq(0.4, 0.4),
+        reverseRemapFreq(0.1, 1.0)
     );
 
     if(len > 0.1) {

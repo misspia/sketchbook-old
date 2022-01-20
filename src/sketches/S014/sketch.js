@@ -55,7 +55,7 @@ class Sketch extends SketchManagerThree {
   init() {
     // this.disableOrbitControls();
 
-    this.setCameraPos(0, 20, 55);
+    this.setCameraPos(0, 20, 65);
     this.scene.fog = new THREE.Fog(0x050505, 2000, 3500);
     this.lookAt(0, 0, 0);
     this.setClearColor(0x000000);
@@ -80,7 +80,7 @@ class Sketch extends SketchManagerThree {
 
     this.spirits.mesh.layers.set(Layers.AFTERIMAGE)
 
-    this.scene.add(this.testGraph.group)
+    // this.scene.add(this.testGraph.group)
   }
 
   customResize(width, height) { 
@@ -100,12 +100,12 @@ class Sketch extends SketchManagerThree {
     this.spirits.update(time)
     // this.hextech.update(time)
 
-    this.testGraph.update(
-      this.audio.frequencyData,
-      this.beatManager.bassAverages,
-      this.beatManager.midrangeAverages,
-      this.beatManager.highrangeAverages
-    )
+    // this.testGraph.update(
+    //   this.audio.frequencyData,
+    //   this.beatManager.bassAverages,
+    //   this.beatManager.midrangeAverages,
+    //   this.beatManager.highrangeAverages
+    // )
 
     this.effectManager.render();
     requestAnimationFrame(() => this.draw());
