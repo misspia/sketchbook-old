@@ -3,6 +3,7 @@ import SmokeParticle from "./smokeParticle"
 import fragmentShader from "./shaders/smoke.frag"
 import vertexShader from "./shaders/smoke.vert"
 import { Images } from "../../themes"
+import utils from "../utils"
 
 /**
  * https://github.com/simondevyoutube/ThreeJS_Tutorial_ParticleSystems/blob/master/main.js
@@ -61,7 +62,8 @@ export default class Smoke {
     const yMin = []
     const yMax = []
     for (let i = 0; i < this.numParticles; i++) {
-      const particle = new SmokeParticle()
+      const freqIndex = utils.randomIntBetween(0, this.context.spectrumStart.midrange)
+      const particle = new SmokeParticle(freqIndex)
       this.particles.push(particle)
 
       /**
@@ -96,12 +98,37 @@ export default class Smoke {
     this.geometry.setAttribute('size', new THREE.Float32BufferAttribute(size, 1))
     this.geometry.setAttribute('angle', new THREE.Float32BufferAttribute(angles, 1))
     this.geometry.setAttribute('alpha', new THREE.Float32BufferAttribute(alphas, 1))
-    this.geometry.setAttribute('freq', new THREE.Float32BufferAttribute(this.context.audio.frequencyData , 1))
+    this.geometry.setAttribute('freq', new THREE.Float32BufferAttribute(this.context.audio.frequencyData, 1))
   }
 
   update(time) {
-    this.context.audio.frequencyData.forEach((freq) => {
-      this.updateParticles(freq, time)
+    const positions = []
+    const size = []
+    const angles = []
+    const alphas = []
+    const frequencies = []
+
+    this.particles.forEach((particle) => {
+      const freq = this.context.audio.frequencyData[particle.freqIndex]
+      frequencies.push(freq)
+
+      particle.update(freq, time)
+
+      positions.push(
+        particle.position.x,
+        particle.position.y,
+        particle.position.z,
+      )
+      size.push(particle.size)
+      angles.push(particle.rotation)
+      alphas.push(particle.alpha)
     })
+
+    this.geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3))
+    this.geometry.setAttribute('size', new THREE.Float32BufferAttribute(size, 1))
+    this.geometry.setAttribute('angle', new THREE.Float32BufferAttribute(angles, 1))
+    this.geometry.setAttribute('alpha', new THREE.Float32BufferAttribute(alphas, 1))
+    this.geometry.setAttribute('freq', new THREE.Float32BufferAttribute(frequencies, 1))
   }
+
 }

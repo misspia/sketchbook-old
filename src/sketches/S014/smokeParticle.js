@@ -6,7 +6,8 @@ import utils from "../utils"
  * https://threejs.org/examples/?q=trail#webgl_trails
  */
 export default class SmokeParticle {
-  constructor() {
+  constructor(freqIndex) {
+    this.freqIndex = freqIndex
     this.size = utils.randomFloatBetween(8, 14)
     // this.color = new THREE.Color().setRGB(0.2, 0.2, 0.86) // blue
     // this.color = new THREE.Color().setRGB(0.86, 0.2, 0.2) // red
@@ -15,8 +16,8 @@ export default class SmokeParticle {
     this.yMin = -utils.randomFloatBetween(0, 1)
     this.yMax = utils.randomFloatBetween(18, 23)
     
-    this.yIncrementMin = utils.randomFloatBetween(0.000001, 0.000003)
-    this.yIncrementMax = utils.randomFloatBetween(0.0005, 0.001)
+    this.yIncrementMin = utils.randomFloatBetween(0.0001, 0.0003)
+    this.yIncrementMax = utils.randomFloatBetween(0.05, 0.1)
 
     this.radiusMin = utils.randomFloatBetween(5, 7)
     this.radiusMax = this.radiusMin + utils.randomFloatBetween(20, 22)
@@ -24,12 +25,12 @@ export default class SmokeParticle {
 
     this.angle = utils.randomFloatBetween(0, Math.PI * 2)
     this.minAngleIncrement = utils.randomFloatBetween(
-      utils.toRadians(0.0001),
-      utils.toRadians(0.0005)
+      utils.toRadians(0.01),
+      utils.toRadians(0.05)
     )
     this.maxAngleIncrement
       = this.minAngleIncrement +
-      utils.randomFloatBetween(utils.toRadians(0.003), utils.toRadians(0.007))
+      utils.randomFloatBetween(utils.toRadians(0.3), utils.toRadians(0.7))
 
     this.centerCoord = new THREE.Vector3(0, 0, 0)
 
