@@ -25,11 +25,15 @@ void main() {
     //     0.25, 
     //     remapFreq(0.6, 1.0)
     // ); 
+    // vec3 color = vec3(
+    //     reverseRemapFreq(0.1, 0.3),
+    //     0.25, 
+    //     reverseRemapFreq(0.6, 1.0)
+    // ); 
     vec3 color = vec3(
-        // remapFreq(0.3, 0.7),
-        reverseRemapFreq(0.1, 0.3),
-        0.25, 
-        reverseRemapFreq(0.6, 1.0)
+        remapFreq(0.6, 1.0),
+        reverseRemapFreq(0.2, 0.4),
+        0.4
     ); 
 
 

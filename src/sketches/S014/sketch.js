@@ -8,8 +8,9 @@ import { Layers } from "./constants"
 
 import Smoke from "./smoke"
 import Spirits from "./spirits"
-import Hextech from "./hextech"
-
+import SkyBox from "./skyBox"
+import Lights from './lights';
+import VolumetricSpotlight from './volumetricSpotlight';
 
 import { TestGraph } from "../testGraph"
 
@@ -38,7 +39,9 @@ class Sketch extends SketchManagerThree {
     this.bars = [];
     this.smoke = new Smoke(this)
     this.spirits = new Spirits(this)
-    this.hextech = new Hextech(this)
+    this.skyBox = new SkyBox()
+    this.lights = new Lights()
+    this.spot = new VolumetricSpotlight()
 
     this.testGraph = new TestGraph({
       numNodes: this.numFrequencyNodes,
@@ -55,10 +58,10 @@ class Sketch extends SketchManagerThree {
   init() {
     // this.disableOrbitControls();
 
-    this.setCameraPos(0, 20, 65);
-    this.scene.fog = new THREE.Fog(0x050505, 2000, 3500);
+    this.setCameraPos(0, 20, -65);
     this.lookAt(0, 0, 0);
     this.setClearColor(0x000000);
+    // this.setClearColor(0x010101);
 
     const audioConfig = {
       fftSize: this.fftSize,
@@ -68,13 +71,17 @@ class Sketch extends SketchManagerThree {
     this.audio.setSmoothingTimeConstant(0.75);
     this.audio.volume(1)
 
-    // this.scene.add(this.hextech.group)
     this.scene.add(this.smoke.mesh)
     this.scene.add(this.spirits.mesh)
-  
+    this.scene.add(this.spot.mesh)
+    // this.scene.add(this.skyBox.mesh)
+    // this.scene.add(this.lights.ambient)
+    // this.scene.add(this.lights.spot)
+    // this.scene.add(this.lights.spotHelper)
 
     this.render.toneMappingExposure = 0.15
     
+    this.lights.spot.position.set(0, 30, 0)
     this.smoke.position.set(0, -22, 0)
     this.spirits.position.set(0, -22, 0)
 

@@ -1,6 +1,8 @@
 import * as THREE from 'three';
 import { AfterimagePass } from 'three/examples/jsm/postprocessing/AfterimagePass';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass';
+import { GodRaysFakeSunShader, GodRaysDepthMaskShader, GodRaysCombineShader, GodRaysGenerateShader } from 'three/examples/jsm/shaders/GodRaysShader.js';
+
 import PP from '../postProcessor';
 import { Layers } from "./constants"
 
@@ -37,9 +39,8 @@ export default class EffectManager {
 
   }
 
-  createAfterImage() {
-
-
+  initGodRays() {
+    // https://github.com/mrdoob/three.js/blob/master/examples/webgl_postprocessing_godrays.html
   }
 
   update() {
@@ -55,6 +56,8 @@ export default class EffectManager {
 
     this.context.renderer.clearDepth();
     this.context.camera.layers.set(Layers.DEFAULT);
+
+
     this.context.renderer.render(this.context.scene, this.context.camera);
   }
 }
