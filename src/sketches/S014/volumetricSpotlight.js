@@ -6,7 +6,8 @@ import * as THREE from 'three'
 export default class VolumetricSpotlight {
   constructor() {
     this.geometry = new THREE.CylinderGeometry()
-    this.material = new THREE.RawShaderMaterial({
+    // this.material = new THREE.RawShaderMaterial({
+    this.material = new THREE.MeshBasicMaterial({
 
     })
     this.mesh = new THREE.Mesh(this.geometry, this.material)

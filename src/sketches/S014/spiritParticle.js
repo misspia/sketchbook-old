@@ -3,54 +3,37 @@ import utils from "../utils"
 
 export default class SpiritParticle {
   constructor() {
-    this.position = { x: 0, y: 0, z: 0 }
     this.alpha = 0
 
     this.centerCoord = { x: 0, y: 0, z: 0 }
 
-    this.yMin = -utils.randomFloatBetween(3, 5)
-    this.yMax = utils.randomFloatBetween(35, 40)
+    this.yMin = utils.randomFloatBetween(3, 5)
+    this.yMax = utils.randomFloatBetween(20, 25)
 
     this.yIncrementMin = utils.randomFloatBetween(0.0005, 0.0009)
     this.yIncrementMax = this.yIncrementMin + utils.randomFloatBetween(0.1, 0.5)
 
-    this.radiusMin = utils.randomFloatBetween(1, 3)
-    this.radiusMax = this.radiusMin + utils.randomFloatBetween(20, 40)
+    this.zMin = -60
+    this.zMax = utils.randomFloatBetween(100, 150)
+    this.zIncrementMin = utils.randomFloatBetween(0.01, 0.03)
+    this.zIncrementMax = this.zIncrementMin + utils.randomFloatBetween(0.5, 0.8)
 
-    this.minAngleIncrement = utils.randomFloatBetween(
-      utils.toRadians(0.07),
-      utils.toRadians(0.3)
+    this.position = new THREE.Vector3(
+      utils.randomFloatBetween(-30, 30),
+      utils.randomFloatBetween(this.yMin, this.yMax),
+      utils.randomFloatBetween(this.zMin, this.zMax)
     )
-    this.maxAngleIncrement
-      = this.minAngleIncrement +
-      utils.randomFloatBetween(utils.toRadians(2.0), utils.toRadians(3.5))
-    this.angle = utils.randomFloatBetween(0, Math.PI * 2)
   }
 
   updatePosition(freq) {
-    let y = this.position.y
-    if (this.position.y >= this.yMax) {
-      y = this.yMin
+    let z = this.position.z
+    if (z <= this.zMin) {
+      z = this.zMax
     } else {
-      y += utils.remapFreq(this.yIncrementMin, this.yIncrementMax, freq)
+      const increment = utils.remapFreq(this.zIncrementMin, this.zIncrementMax, freq)
+      z -= increment
     }
-
-    const angleIncrement = utils.remapFreq(this.minAngleIncrement, this.maxAngleIncrement, freq)
-    this.angle += angleIncrement
-
-    const radius = utils.remap(
-      this.yMin,
-      this.yMax,
-      this.radiusMin,
-      this.radiusMax,
-      this.yMax - this.position.y
-    )
-    this.position = {
-      x: this.centerCoord.x + radius * Math.cos(this.angle),
-      y,
-      z: this.centerCoord.z + radius * Math.sin(this.angle),
-
-    }
+    this.position.z = z
   }
 
   updateAlphas(freq) {
@@ -67,7 +50,8 @@ export default class SpiritParticle {
 
     const freqAlpha = utils.remapFreq(0, 1, freq)
 
-    this.alpha = Math.min(posAlpha, freqAlpha)
+    // this.alpha = Math.min(posAlpha, freqAlpha)
+    this.alpha = freqAlpha
   }
 
   update(freq) {

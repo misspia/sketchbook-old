@@ -19,7 +19,7 @@ const getPointMultiplier = () => {
 export default class Smoke {
   constructor(context) {
     this.context = context
-    this.numParticles = context.numFrequencyNodes;
+    this.numParticles = 700;
     this.particles = []
     this.geometry = new THREE.BufferGeometry()
     this.createParticles()

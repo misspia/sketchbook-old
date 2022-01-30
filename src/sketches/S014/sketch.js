@@ -16,7 +16,7 @@ import { TestGraph } from "../testGraph"
 
 class Sketch extends SketchManagerThree {
   constructor(canvas, audioElement) {
-    super(canvas, audioElement, { cameraNear: 1, cameraFar: 3500 });
+    super(canvas, audioElement, { cameraNear: 0.1, cameraFar: 1000 });
     // this.audioSrc = Audio.S014;
     this.audioSrc = Audio.tester;
     this.clock = new THREE.Clock();
@@ -58,7 +58,7 @@ class Sketch extends SketchManagerThree {
   init() {
     // this.disableOrbitControls();
 
-    this.setCameraPos(0, 20, -65);
+    this.setCameraPos(0, -8, -65);
     this.lookAt(0, 0, 0);
     this.setClearColor(0x000000);
     // this.setClearColor(0x010101);
@@ -74,7 +74,7 @@ class Sketch extends SketchManagerThree {
     this.scene.add(this.smoke.mesh)
     this.scene.add(this.spirits.mesh)
     this.scene.add(this.spot.mesh)
-    // this.scene.add(this.skyBox.mesh)
+    this.scene.add(this.skyBox.mesh)
     // this.scene.add(this.lights.ambient)
     // this.scene.add(this.lights.spot)
     // this.scene.add(this.lights.spotHelper)

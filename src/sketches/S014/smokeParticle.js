@@ -8,95 +8,63 @@ import utils from "../utils"
 export default class SmokeParticle {
   constructor(freqIndex) {
     this.freqIndex = freqIndex
-    this.size = utils.randomFloatBetween(8, 14)
-    // this.color = new THREE.Color().setRGB(0.2, 0.2, 0.86) // blue
-    // this.color = new THREE.Color().setRGB(0.86, 0.2, 0.2) // red
+    this.size = utils.randomFloatBetween(8, 17)
     this.rotation = Math.random() * 2.0 * Math.PI
+    this.rotationIncrementMin = utils.randomFloatBetween(0.0005, 0.007)
+    this.rotationIncrementMax = this.rotationIncrementMin + utils.randomFloatBetween(0.0005, 0.007)
+    this.rotationDirection = utils.randomSign()
 
-    this.yMin = -utils.randomFloatBetween(0, 1)
-    this.yMax = utils.randomFloatBetween(18, 23)
-    
+    this.yMin = utils.randomFloatBetween(0, 9)
+    this.yMax = this.yMin + utils.randomFloatBetween(0, 0)
     this.yIncrementMin = utils.randomFloatBetween(0.0001, 0.0003)
     this.yIncrementMax = utils.randomFloatBetween(0.05, 0.1)
 
-    this.radiusMin = utils.randomFloatBetween(5, 7)
-    this.radiusMax = this.radiusMin + utils.randomFloatBetween(20, 22)
-    this.radius = utils.randomFloatBetween(this.radiusMin, this.radiusMax)
+    this.zMin = -60
+    this.zMax = utils.randomFloatBetween(100, 150)
+    this.zIncrementMin = utils.randomFloatBetween(0.01, 0.03)
+    this.zIncrementMax = this.zIncrementMin + utils.randomFloatBetween(0.5, 0.8)
 
-    this.angle = utils.randomFloatBetween(0, Math.PI * 2)
-    this.minAngleIncrement = utils.randomFloatBetween(
-      utils.toRadians(0.01),
-      utils.toRadians(0.05)
+    this.position = new THREE.Vector3(
+      utils.randomFloatBetween(-30, 30),
+      utils.randomFloatBetween(this.yMin, this.yMax),
+      utils.randomFloatBetween(this.zMin, this.zMax)
     )
-    this.maxAngleIncrement
-      = this.minAngleIncrement +
-      utils.randomFloatBetween(utils.toRadians(0.3), utils.toRadians(0.7))
-
-    this.centerCoord = new THREE.Vector3(0, 0, 0)
-
-    const { x, y, z } = this.calcCircleCoord()
-    this.position = new THREE.Vector3(x, y, z)
     this.alpha = 0
   }
 
-  calcCircleCoord(freq) {
-    const yPrev
-      = this.position && this.position.y ?
-        this.position.y :
-        utils.randomFloatBetween(this.yMin, this.yMax)
-    let y = yPrev
-    if (y >= this.yMax) {
-      y = this.yMin
+  updatePosition(freq) {
+    let z = this.position.z
+    // if (z >= this.zMax) {
+      //     z = this.zMin
+      //   } else {
+      //     const increment = utils.remapFreq(this.zIncrementMin, this.zIncrementMax, freq)
+      //     z += increment
+      //   }
+    if (z <= this.zMin) {
+      z = this.zMax
     } else {
-      const increment = utils.remapFreq(this.yIncrementMin, this.yIncrementMax, freq)
-      y += increment
+      const increment = utils.remapFreq(this.zIncrementMin, this.zIncrementMax, freq)
+      z -= increment
     }
-    return {
-      x: this.centerCoord.x + this.radius * Math.cos(this.angle),
-      y,
-      z: this.centerCoord.z + this.radius * Math.sin(this.angle),
-    }
+    this.position.z = z
   }
 
-  updateAlpha() {
-    const positionPercentage = utils.remap(this.yMin, this.yMax, 0, 1, this.position.y)
-    if (positionPercentage < 0.5) {
-      this.alpha = utils.remap(
-        this.yMin,
-        this.yMax,
-        0,
-        1,
-        this.position.y
-      )
-    } else {
-      this.alpha = 1 - utils.remap(
-        this.yMin,
-        this.yMax,
-        0,
-        1,
-        this.position.y
-      )
-    }
+  updateAlpha(freq) {
+    this.alpha = 0.5
   }
 
-  updateRadius() {
-    // console.debug(this.yMax, this.position.y, this.yMax - this.position.y)
-    this.radius = utils.remap(
-      this.yMin,
-      this.yMax,
-      this.radiusMin,
-      this.radiusMax,
-      this.yMax - this.position.y
-    )
+  updateRotation(freq) {
+    this.rotation += this.rotationDirection * utils.remapFreq(this.rotationIncrementMin, this.rotationIncrementMax, freq)
   }
+
 
   update(freq, time) {
     const angleIncrement = utils.remapFreq(this.minAngleIncrement, this.maxAngleIncrement, freq)
     this.angle += angleIncrement
-    const { x, y, z } = this.calcCircleCoord(freq)
-    this.position.set(x, y, z)
 
+
+    this.updatePosition(freq)
     this.updateAlpha()
-    this.updateRadius(freq)
+    this.updateRotation(freq)
   }
 }
