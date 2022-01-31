@@ -8,9 +8,9 @@ import { Layers } from "./constants"
 
 import Smoke from "./smoke"
 import Spirits from "./spirits"
-import SkyBox from "./skyBox"
-import Lights from './lights';
 import VolumetricSpotlight from './volumetricSpotlight';
+import Water from './water'
+import Lights from './lights'
 
 import { TestGraph } from "../testGraph"
 
@@ -39,9 +39,9 @@ class Sketch extends SketchManagerThree {
     this.bars = [];
     this.smoke = new Smoke(this)
     this.spirits = new Spirits(this)
-    this.skyBox = new SkyBox()
-    this.lights = new Lights()
     this.spot = new VolumetricSpotlight()
+    this.water = new Water(this)
+    this.lights = new Lights(this)
 
     this.testGraph = new TestGraph({
       numNodes: this.numFrequencyNodes,
@@ -73,17 +73,18 @@ class Sketch extends SketchManagerThree {
 
     this.scene.add(this.smoke.mesh)
     this.scene.add(this.spirits.mesh)
-    this.scene.add(this.spot.mesh)
-    // this.scene.add(this.skyBox.mesh)
-    // this.scene.add(this.lights.ambient)
-    // this.scene.add(this.lights.spot)
-    // this.scene.add(this.lights.spotHelper)
+    this.scene.add(this.water.mesh)
+    this.scene.add(this.lights.ambient)
+    this.scene.add(this.lights.point)
+    this.scene.add(this.lights.pointHelper)
 
     this.render.toneMappingExposure = 0.15
     
-    this.lights.spot.position.set(0, 30, 0)
     this.smoke.position.set(0, -22, 0)
     this.spirits.position.set(0, -22, 0)
+    this.water.position.set(0, 10, 0)
+
+    this.lights.point.position.set(15, 10, -8)
 
     this.spirits.mesh.layers.set(Layers.AFTERIMAGE)
 

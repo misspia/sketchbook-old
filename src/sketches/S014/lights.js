@@ -2,7 +2,11 @@ import * as THREE from 'three'
 
 export default class Lights {
   constructor() {
-    this.ambient = new THREE.AmbientLight( 0xffffff, 0.1 );
+    this.ambient = new THREE.AmbientLight(0x000000, 1);
+    this.point = new THREE.PointLight(0xffffff, 2, 800);
+    this.pointHelper = new THREE.PointLightHelper(this.point)
+    
+    
     this.spot = new THREE.SpotLight(0xffffff, 1, 100, 0.5)
     this.spot.castShadow = true
     this.spot.shadow.mapSize.width = 1024;
