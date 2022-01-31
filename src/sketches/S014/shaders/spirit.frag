@@ -29,11 +29,14 @@ void main() {
     //     0.4,
     //     1.0
     // );
+
+    // yellow
     vec3 color = vec3(
         remapFreq(0.1, 0.9),
         remapFreq(0.4, 0.4),
         reverseRemapFreq(0.1, 1.0)
     );
+
 
     if(len > 0.1) {
         alpha = 0.0;

@@ -11,6 +11,7 @@ import Spirits from "./spirits"
 import VolumetricSpotlight from './volumetricSpotlight';
 import Water from './water'
 import Lights from './lights'
+import Lightning from './lightning';
 
 import { TestGraph } from "../testGraph"
 
@@ -39,9 +40,10 @@ class Sketch extends SketchManagerThree {
     this.bars = [];
     this.smoke = new Smoke(this)
     this.spirits = new Spirits(this)
-    this.spot = new VolumetricSpotlight()
+    this.spot = new VolumetricSpotlight(this)
     this.water = new Water(this)
     this.lights = new Lights(this)
+    this.lightning = new Lightning(this)
 
     this.testGraph = new TestGraph({
       numNodes: this.numFrequencyNodes,
@@ -73,22 +75,19 @@ class Sketch extends SketchManagerThree {
 
     this.scene.add(this.smoke.mesh)
     this.scene.add(this.spirits.mesh)
-    this.scene.add(this.water.mesh)
-    this.scene.add(this.lights.ambient)
-    this.scene.add(this.lights.point)
-    this.scene.add(this.lights.pointHelper)
+    this.scene.add(this.lightning.mesh)
 
     this.render.toneMappingExposure = 0.15
     
     this.smoke.position.set(0, -22, 0)
     this.spirits.position.set(0, -22, 0)
-    this.water.position.set(0, 10, 0)
 
     this.lights.point.position.set(15, 10, -8)
 
     this.spirits.mesh.layers.set(Layers.AFTERIMAGE)
 
     this.scene.add(this.testGraph.group)
+    this.testGraph.position.set(0, 30, 0)
   }
 
   customResize(width, height) { 
@@ -106,7 +105,7 @@ class Sketch extends SketchManagerThree {
 
     this.smoke.update(time)
     this.spirits.update(time)
-    // this.hextech.update(time)
+    this.lightning.update(time)
 
     this.testGraph.update(
       this.audio.frequencyData,

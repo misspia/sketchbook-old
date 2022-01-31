@@ -15,6 +15,11 @@ export class TestGraph {
     this.group = new THREE.Group() 
     this.createBars()
   }
+
+  get position() {
+    return this.group.position
+  }
+
   createBars() {
     const width = 0.1
     const X_OFFSET = -5;
