@@ -11,11 +11,11 @@ export default class Lightning {
     this.strike = new LightningStrike({
       sourceOffset: new THREE.Vector3(),
       destOffset: new THREE.Vector3(),
-      radius0: 0.5,
-      radius1: 0.5,
+      radius0: 0.2,
+      radius1: 0.2,
       minRadius: 2.5,
       maxIterations: 7,
-      isEternal: true,
+      isEternal: false,
 
       timeScale: 0.7,
 
@@ -32,8 +32,10 @@ export default class Lightning {
     })
 
     this.material = new THREE.MeshBasicMaterial({
-      color: 0xffffff, 
-      side: THREE.DoubleSide
+      color: 0xffcc55, 
+      side: THREE.DoubleSide,
+      transparent: true,
+      opacity: 1.0,
     })
     this.mesh = new THREE.Mesh(this.strike, this.material)
 
