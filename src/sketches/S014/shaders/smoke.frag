@@ -21,22 +21,13 @@ float reverseRemapFreq(float min, float max) {
 void main() {
     vec2 coords = (gl_PointCoord - 0.5) * mat2(vAngle.x, vAngle.y, -vAngle.y, vAngle.x) + 0.5;
     // blue
-    // vec3 color = vec3(
-    //     reverseRemapFreq(0.1, 0.3),
-    //     0.25, 
-    //     reverseRemapFreq(0.6, 1.0)
-    // ); 
-    
-    // red
     vec3 color = vec3(
-        remapFreq(0.4, 1.0),
-        reverseRemapFreq(0.1, 0.4),
-        reverseRemapFreq(0.1, 0.4)
+        reverseRemapFreq(0.1, 0.3),
+        0.25, 
+        reverseRemapFreq(0.6, 1.0)
     ); 
-
-
-
-    // float offsetDist = remap(dist, threshold, uRadius, 0.0, 1.0);
-    // float alpha = vAlpha * (1.0 - length(gl_PointCoord.xyz));
-    gl_FragColor = texture2D(diffuseTexture, coords) * vec4(color, vAlpha);
+    
+    // gl_FragColor = texture2D(diffuseTexture, coords) * vec4(color, vAlpha);
+    float alpha = vAlpha * (1.0 - length(gl_PointCoord.xy)) * 1.3;
+    gl_FragColor = texture2D(diffuseTexture, coords) * vec4(color, alpha);
 }

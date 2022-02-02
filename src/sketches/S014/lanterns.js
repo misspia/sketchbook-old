@@ -60,7 +60,7 @@ export default class Lanterns {
     const { frequencyData } = this.context.audio
 
     this.lanterns.forEach(lantern => {
-      lantern.update()
+      lantern.update(frequencyData[lantern.freqIndex])
       positions.push(
         lantern.position.x, 
         lantern.position.y, 

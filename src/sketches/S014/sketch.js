@@ -9,8 +9,6 @@ import { Layers } from "./constants"
 import Smoke from "./smoke"
 import Spirits from "./spirits"
 import VolumetricSpotlight from './volumetricSpotlight';
-import Water from './water'
-import Lights from './lights'
 import Lightning from './lightning';
 import Lanterns from './lanterns'
 
@@ -42,8 +40,6 @@ class Sketch extends SketchManagerThree {
     this.smoke = new Smoke(this)
     this.spirits = new Spirits(this)
     this.spot = new VolumetricSpotlight(this)
-    this.water = new Water(this)
-    this.lights = new Lights(this)
     this.lightning = new Lightning(this)
     this.lanterns = new Lanterns(this)
 
@@ -78,15 +74,16 @@ class Sketch extends SketchManagerThree {
     this.scene.add(this.smoke.mesh)
     this.scene.add(this.spirits.mesh)
     this.scene.add(this.lightning.mesh)
-    this.scene.add(this.lanterns.mesh)
+    this.scene.add(this.spot.mesh)
+    // this.scene.add(this.lanterns.mesh)
 
     this.render.toneMappingExposure = 0.15
     
     this.smoke.position.set(0, -22, 0)
     this.spirits.position.set(0, -22, 0)
-
-    this.lights.point.position.set(15, 10, -8)
-
+    this.spot.position.set(30, 50, 0)
+    this.spot.lookAt(7, 0, 0)
+    
     this.spirits.mesh.layers.set(Layers.AFTERIMAGE)
 
     this.scene.add(this.testGraph.group)
@@ -109,6 +106,7 @@ class Sketch extends SketchManagerThree {
 
     this.smoke.update(time)
     this.spirits.update(time)
+    this.spot.update(time)
     this.lightning.update(time)
     this.lanterns.update(time)
 

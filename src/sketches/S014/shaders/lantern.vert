@@ -8,10 +8,12 @@ attribute vec3 position;
 attribute float size;
 attribute float alpha;
 attribute float freq;
+attribute vec2 uv;
 
 varying float vAlpha;
 varying float vFreq;
 varying vec3 vPosition;
+varying vec2 vUv;
 
 void main() {
 
@@ -21,4 +23,5 @@ void main() {
   vAlpha = alpha;
   vFreq = freq;
   vPosition = position;
+  vUv = uv;
 }

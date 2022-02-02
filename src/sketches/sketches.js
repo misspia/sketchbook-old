@@ -108,7 +108,7 @@ const Sketches = [
   },
   {
     title: '',
-    instructions: `Disowned - Inova`,
+    instructions: `Coven theme - Riot Games x Andrea Bellucci`,
     // isAudio: true,
     image: Images.S014,
     component: S014,

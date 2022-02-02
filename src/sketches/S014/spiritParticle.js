@@ -2,7 +2,8 @@ import * as THREE from 'three'
 import utils from "../utils"
 
 export default class SpiritParticle {
-  constructor() {
+  constructor(freqIndex) {
+    this.freqIndex = freqIndex
     this.position = { x: 0, y: 0, z: 0 }
     this.alpha = 0
 
@@ -18,12 +19,12 @@ export default class SpiritParticle {
     this.radiusMax = this.radiusMin + utils.randomFloatBetween(20, 40)
 
     this.minAngleIncrement = utils.randomFloatBetween(
-      utils.toRadians(0.07),
-      utils.toRadians(0.3)
+      utils.toRadians(0.02),
+      utils.toRadians(0.09)
     )
     this.maxAngleIncrement
       = this.minAngleIncrement +
-      utils.randomFloatBetween(utils.toRadians(2.0), utils.toRadians(3.5))
+      utils.randomFloatBetween(utils.toRadians(3.2), utils.toRadians(4))
     this.angle = utils.randomFloatBetween(0, Math.PI * 2)
   }
 

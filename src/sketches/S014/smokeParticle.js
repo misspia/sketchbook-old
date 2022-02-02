@@ -1,16 +1,10 @@
 import * as THREE from "three"
 import utils from "../utils"
 
-/**
- * https://www.reddit.com/r/Simulated/comments/lo96rq/mr_meesseks_particles/?utm_medium=android_app&utm_source=share
- * https://threejs.org/examples/?q=trail#webgl_trails
- */
 export default class SmokeParticle {
   constructor(freqIndex) {
     this.freqIndex = freqIndex
-    this.size = utils.randomFloatBetween(8, 14)
-    // this.color = new THREE.Color().setRGB(0.2, 0.2, 0.86) // blue
-    // this.color = new THREE.Color().setRGB(0.86, 0.2, 0.2) // red
+    this.size = utils.randomFloatBetween(10, 16)
     this.rotation = Math.random() * 2.0 * Math.PI
 
     this.yMin = -utils.randomFloatBetween(0, 1)

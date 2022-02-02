@@ -15,20 +15,10 @@ float reverseRemapFreq(float min, float max) {
     return remap(0.0, 255.0, min, max, 255.0 - vFreq);
 }
 
-// https://thebookofshaders.com/07/
+// https://www.pinterest.ca/pin/36169603247384743/
 void main() {
     float alpha = remapFreq(0.0, 1.0);
     float len = distance(vec2(0.5, 0.5), gl_PointCoord.xy);
-    // vec3 color = vec3(
-    //     0.9,
-    //     0.4,
-    //     0.3
-    // );
-    // vec3 color = vec3(
-    //     0.5,
-    //     0.4,
-    //     1.0
-    // );
 
     // yellow
     vec3 color = vec3(
@@ -37,6 +27,12 @@ void main() {
         reverseRemapFreq(0.1, 1.0)
     );
 
+    
+    // vec3 color = vec3(
+    //     remapFreq(0.2, 0.5),
+    //     remapFreq(0.1, 0.1),
+    //     remapFreq(0.1, 0.3)
+    // );
 
     if(len > 0.1) {
         alpha = 0.0;

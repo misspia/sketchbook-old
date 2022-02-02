@@ -2,13 +2,13 @@ import * as THREE from 'three'
 import SpiritParticle from './spiritParticle'
 import fragmentShader from "./shaders/spirit.frag"
 import vertexShader from "./shaders/spirit.vert"
+import utils from '../utils'
 
 const getPointMultiplier = () => window.innerHeight / (2.0 * Math.tan(0.5 * 60.0 * Math.PI / 180.0))
 export default class Spirits {
   constructor(context) {
     this.context = context
-    this.numParticles = context.spectrumStart.highrange - context.spectrumStart.midrange
-    // this.numParticles = 1
+    this.numParticles = 80
     this.particles = []
 
     this.geometry = new THREE.BufferGeometry()
@@ -43,7 +43,11 @@ export default class Spirits {
 
   createParticles() {
     for(let i = 0; i < this.numParticles; i++) {
-      const particle = new SpiritParticle()
+      const freqIndex = utils.randomIntBetween(
+        this.context.spectrumStart.midrange,
+        this.context.spectrumStart.highrange,
+      )
+      const particle = new SpiritParticle(freqIndex)
       this.particles.push(particle)
       this.updateAttributes()
     }
@@ -55,19 +59,20 @@ export default class Spirits {
     }
     const positions = []
     const alphas = []
-    const startFreqIndex = this.context.spectrumStart.midrange
+    const freqs = []
 
-    this.particles.forEach((particle, index) => {
-      const freq =  this.context.audio.frequencyData[startFreqIndex + index]
+    this.particles.forEach((particle) => {
+      const freq =  this.context.audio.frequencyData[particle.freqIndex]
       particle.update(freq)
 
       const { position } = particle
       positions.push(position.x, position.y, position.z)
       alphas.push(particle.alpha)
+      freqs.push(freq)
     })
     this.geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3))
     this.geometry.setAttribute('alpha', new THREE.Float32BufferAttribute(alphas, 1))
-    this.geometry.setAttribute('freq', new THREE.Float32BufferAttribute(this.context.audio.frequencyData, 1))
+    this.geometry.setAttribute('freq', new THREE.Float32BufferAttribute(freqs, 1))
   }
 
   update() {

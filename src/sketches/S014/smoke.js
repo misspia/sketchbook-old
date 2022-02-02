@@ -33,7 +33,7 @@ export default class Smoke {
       fragmentShader,
       uniforms: {
         diffuseTexture: {
-          value: new THREE.TextureLoader().load(Images.T014),
+          value: new THREE.TextureLoader().load(Images.T014Smoke),
         },
         pointMultiplier: {
           value: getPointMultiplier()
