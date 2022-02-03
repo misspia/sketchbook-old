@@ -109,7 +109,7 @@ const Sketches = [
   {
     title: '',
     instructions: `Coven theme - Riot Games x Andrea Bellucci`,
-    // isAudio: true,
+    isAudio: true,
     image: Images.S014,
     component: S014,
   },

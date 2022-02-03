@@ -1,14 +1,15 @@
 import * as THREE from 'three'
-import SpiritParticle from './spiritParticle'
-import fragmentShader from "./shaders/spirit.frag"
-import vertexShader from "./shaders/spirit.vert"
 import utils from '../utils'
+import SpiritParticle from './spiritParticle'
+import fragmentShader from './shaders/spiritAlt.frag'
+import vertexShader from './shaders/spiritAlt.vert'
 
 const getPointMultiplier = () => window.innerHeight / (2.0 * Math.tan(0.5 * 60.0 * Math.PI / 180.0))
-export default class Spirits {
+
+export default class SpiritsAlt {
   constructor(context) {
     this.context = context
-    this.numParticles = 60
+    this.numParticles = 40
     this.particles = []
 
     this.geometry = new THREE.BufferGeometry()

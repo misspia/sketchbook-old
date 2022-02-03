@@ -9,8 +9,8 @@ export default class VolumetricSpotlight {
   constructor(context) {
     this.context = context;
     this.geometry = new THREE.CylinderGeometry(8, 30, 80, 80, 80, true)
-    this.geometry.applyMatrix( new THREE.Matrix4().makeTranslation( 0, -this.geometry.parameters.height/2, 0 ) );
-    this.geometry.applyMatrix( new THREE.Matrix4().makeRotationX( -Math.PI / 2 ) );
+    this.geometry.applyMatrix4( new THREE.Matrix4().makeTranslation( 0, -this.geometry.parameters.height/2, 0 ) );
+    this.geometry.applyMatrix4( new THREE.Matrix4().makeRotationX( -Math.PI / 2 ) );
 
     this.material = new THREE.ShaderMaterial({
       fragmentShader,

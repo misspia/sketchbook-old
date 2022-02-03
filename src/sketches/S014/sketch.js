@@ -8,17 +8,14 @@ import { Layers } from "./constants"
 
 import Smoke from "./smoke"
 import Spirits from "./spirits"
+import SpiritsAlt from './spiritsAlt'
 import VolumetricSpotlight from './volumetricSpotlight';
-import Lightning from './lightning';
-import Lanterns from './lanterns'
-
-import { TestGraph } from "../testGraph"
 
 class Sketch extends SketchManagerThree {
   constructor(canvas, audioElement) {
     super(canvas, audioElement, { cameraNear: 1, cameraFar: 3500 });
-    // this.audioSrc = Audio.S014;
-    this.audioSrc = Audio.tester;
+    this.audioSrc = Audio.S014;
+    // this.audioSrc = Audio.tester;
     this.clock = new THREE.Clock();
     this.effectManager = new EffectManager(this);
 
@@ -40,14 +37,7 @@ class Sketch extends SketchManagerThree {
     this.smoke = new Smoke(this)
     this.spirits = new Spirits(this)
     this.spot = new VolumetricSpotlight(this)
-    this.lightning = new Lightning(this)
-    this.lanterns = new Lanterns(this)
-
-    this.testGraph = new TestGraph({
-      numNodes: this.numFrequencyNodes,
-      midrange: this.spectrumStart.midrange,
-      highrange: this.spectrumStart.highrange,
-    })
+    this.spiritsAlt = new SpiritsAlt(this)
   }
 
   unmount() {
@@ -56,12 +46,11 @@ class Sketch extends SketchManagerThree {
   }
 
   init() {
-    // this.disableOrbitControls();
+    this.disableOrbitControls();
 
-    this.setCameraPos(0, 20, -65);
+    this.setCameraPos(0, 25, -65);
     this.lookAt(0, 0, 0);
     this.setClearColor(0x000000);
-    // this.setClearColor(0x010101);
 
     const audioConfig = {
       fftSize: this.fftSize,
@@ -73,27 +62,25 @@ class Sketch extends SketchManagerThree {
 
     this.scene.add(this.smoke.mesh)
     this.scene.add(this.spirits.mesh)
-    this.scene.add(this.lightning.mesh)
+    this.scene.add(this.spiritsAlt.mesh)
     this.scene.add(this.spot.mesh)
-    // this.scene.add(this.lanterns.mesh)
 
     this.render.toneMappingExposure = 0.15
     
     this.smoke.position.set(0, -22, 0)
     this.spirits.position.set(0, -22, 0)
-    this.spot.position.set(30, 50, 0)
-    this.spot.lookAt(7, 0, 0)
+    this.spiritsAlt.position.set(0, -22, 0)
+    this.spot.position.set(-20, 50, 0)
+    this.spot.lookAt(-2, 0, 0)
     
     this.spirits.mesh.layers.set(Layers.AFTERIMAGE)
-
-    this.scene.add(this.testGraph.group)
-    this.testGraph.position.set(0, 30, 0)
+    this.spiritsAlt.mesh.layers.set(Layers.AFTERIMAGE)
   }
 
   customResize(width, height) { 
     this.smoke.onResize()
     this.spirits.onResize()
-    this.lanterns.onResize()
+    this.spiritsAlt.onResize()
     this.effectManager.onResize(width, height)
   }
   
@@ -107,15 +94,7 @@ class Sketch extends SketchManagerThree {
     this.smoke.update(time)
     this.spirits.update(time)
     this.spot.update(time)
-    this.lightning.update(time)
-    this.lanterns.update(time)
-
-    this.testGraph.update(
-      this.audio.frequencyData,
-      this.beatManager.bassAverages,
-      this.beatManager.midrangeAverages,
-      this.beatManager.highrangeAverages
-    )
+    this.spiritsAlt.update(time)
 
     this.effectManager.render();
     requestAnimationFrame(() => this.draw());

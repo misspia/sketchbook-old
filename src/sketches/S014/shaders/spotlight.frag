@@ -2,17 +2,15 @@ precision highp float;
 
 varying vec3 vNormal;
 varying vec3 vWorldPosition;
-
-uniform vec3 lightColor;
+varying float vAlpha;
+varying vec3 vPosition;
+varying vec2 vUv;
 
 uniform vec3 spotPosition;
 uniform float freq;
 uniform float attenuation;
 uniform float anglePower;
 
-varying float vAlpha;
-varying vec3 vPosition;
-varying vec2 vUv;
 
 float remap(float min1, float max1, float min2, float max2, float value) {
   return min2 + (max2 - min2) * (value - min1) / (max1 - min1);
@@ -38,8 +36,8 @@ void main() {
 
   vec3 lightColor = vec3(
     1.0,
-    reverseRemapFreq(0.8, 1.0),
-    reverseRemapFreq(0.9, 1.0)
+    reverseRemapFreq(0.7, 1.0),
+    reverseRemapFreq(0.7, 1.0)
     );
 
   gl_FragColor	= vec4( lightColor, intensity * remapFreq(0.0, 1.0));

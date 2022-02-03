@@ -18,24 +18,22 @@ float reverseRemapFreq(float min, float max) {
 }
 
 
-// https://www.pinterest.ca/pin/516295544791990773/
 void main() {
-    // red
     vec3 color = vec3(
-        // remap(0.0, 1.0, 0.4, 1.0, 1.0 - gl_PointCoord.y),
-        1.0,
-        remap(0.0, 1.0, 0.4, 1.0, gl_PointCoord.y * 0.7),
-        remap(0.0, 1.0, 0.4, 0.7, gl_PointCoord.y * 0.7)
+        remapFreq(0.0, 0.2),
+        remapFreq(0.0, 0.02),
+        remapFreq(0.0, 0.0)
     ); 
 
-    float alpha = remapFreq(0.0, 1.0);
-    float xMin = remap(0.0, 1.0, 0.0, 0.1, gl_PointCoord.y); 
-    float xMax = remap(0.0, 1.0, 0.9, 1.0, 1.0 - gl_PointCoord.y);
+    float len = distance(vec2(0.5, 0.5), gl_PointCoord.xy);
+    float alpha = remap(150.0, 210.0, 0.0, 1.0, vFreq);
 
-    if(gl_PointCoord.x < xMin || gl_PointCoord.x > xMax) {
-      alpha = 0.0;
+    if(len > 0.1) {
+        alpha = 0.0;
     }
-    
+    if(len > 0.08) {
+        color /= 1.5;
+    }
 
     gl_FragColor = vec4(color, alpha);
 }

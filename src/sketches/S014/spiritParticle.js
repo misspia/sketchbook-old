@@ -19,12 +19,12 @@ export default class SpiritParticle {
     this.radiusMax = this.radiusMin + utils.randomFloatBetween(20, 40)
 
     this.minAngleIncrement = utils.randomFloatBetween(
-      utils.toRadians(0.02),
-      utils.toRadians(0.09)
+      utils.toRadians(0.008),
+      utils.toRadians(0.01)
     )
     this.maxAngleIncrement
       = this.minAngleIncrement +
-      utils.randomFloatBetween(utils.toRadians(3.2), utils.toRadians(4))
+      utils.randomFloatBetween(utils.toRadians(3.2), utils.toRadians(3.7))
     this.angle = utils.randomFloatBetween(0, Math.PI * 2)
   }
 

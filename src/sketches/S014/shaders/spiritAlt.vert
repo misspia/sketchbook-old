@@ -5,9 +5,11 @@ uniform mat4 modelViewMatrix;
 uniform float uPointMultiplier;
 
 attribute vec3 position;
+attribute float alpha;
 attribute vec4 color;
 attribute float freq;
 
+varying float vAlpha;
 varying vec4 vColor;
 varying float vFreq;
 
@@ -26,5 +28,6 @@ void main() {
   gl_PointSize = remapFreq(0.0, 2.0) * uPointMultiplier / gl_Position.w;
 
   vColor = color;
+  vAlpha = alpha;
   vFreq = freq;
 }

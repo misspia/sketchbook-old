@@ -34,11 +34,17 @@ export default class BeatManager {
     return this.highrangeAverages[this.highrangeAverages.length - 1]
   }
 
+  get latestOverallAverage() {
+    return this.overallAverages[this.overallAverages.length - 1]
+  }
+
   update() {
     this.updateBassAverage();
     this.updateMidrangeAverage();
     this.updateHighrangeAverage();
     this.updateOverallAverage();
+
+    // console.debug(this.latestHighrangeAverage)
   }
 
   updateBassAverage() {
