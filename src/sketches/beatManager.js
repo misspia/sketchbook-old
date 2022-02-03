@@ -1,6 +1,13 @@
 export default class BeatManager {
   constructor(context) {
     this.context = context;
+    /**
+     * {
+     *  bass: number
+     *  midrange: number
+     *  highrange: number
+     * }
+     */
     this.spectrumStart = context.spectrumStart;
 
     const totalFrequencies = context.frequencyDataLength - 1;
@@ -14,6 +21,18 @@ export default class BeatManager {
     this.highrangeAverages = [];
 
     this.overallAverages = [];
+  }
+
+  get latestBassAverage() {
+    return this.bassAverages[this.bassAverages.length - 1]
+  }
+
+  get latestMidrangeAverage() {
+    return this.midrangeAverages[this.midrangeAverages.length - 1]
+  }
+
+  get latestHighrangeAverage() {
+    return this.highrangeAverages[this.highrangeAverages.length - 1]
   }
 
   update() {

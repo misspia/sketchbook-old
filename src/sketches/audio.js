@@ -18,6 +18,22 @@ export default class Audio {
     this.play();
   }
 
+  get minDecibels() {
+    return this.analyser.minDecibels
+  }
+
+  get maxDecibels() {
+    return this.analyser.maxDecibels
+  }
+
+  set minDecibels(val) {
+    this.analyser.minDecibels = val
+  }
+
+  set maxDecibels(val) {
+    this.analyser.maxDecibels = val
+  }
+
   close() {
     if(this.context) {
       this.context.close();

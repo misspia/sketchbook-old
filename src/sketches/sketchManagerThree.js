@@ -48,6 +48,11 @@ class SketchManagerThree extends THREE.EventDispatcher {
       alpha: false,
       stencil: false
     });
+    
+    ////////////////////////////////////////////////////////
+    this.renderer.outputEncoding = THREE.sRGBEncoding;
+    ////////////////////////////////////////////////////////
+
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     this.renderer.setClearColor(0xffdddd);
     const dpr = Math.min(1.5, window.devicePixelRatio);
