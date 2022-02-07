@@ -53,9 +53,9 @@ export class TestGraph {
       
       const diff = freq - average
       // this.bars[i].scale.y = (Math.abs(freq - average) + 0.01) * scale
-      // this.bars[i].scale.y = (diff <= 0 ? 0.01 : diff) * scale
+      this.bars[i].scale.y = (diff <= 0 ? 0.01 : diff) * scale
       // this.bars[i].scale.y = (diff > 0 ? 0.01 : diff) * scale
-      this.bars[i].scale.y = freq + 0.01
+      // this.bars[i].scale.y = freq + 0.01
     })
   }
 }

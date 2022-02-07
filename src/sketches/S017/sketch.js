@@ -5,6 +5,10 @@ import BeatManager from './beatManager';
 import EffectManager from "./effectManager"
 import { Audio } from '../../themes'
 import { TestGraph } from '../testGraph'
+
+
+// https://activetheory.net/home
+// https://2019.hki.paris/
 class Sketch extends SketchManagerThree {
   constructor(canvas, audioElement) {
     super(canvas, audioElement);
@@ -35,9 +39,9 @@ class Sketch extends SketchManagerThree {
   }
 
   init() {
-    this.disableOrbitControls();
+    // this.disableOrbitControls();
 
-    this.setCameraPos(0, 0, -30);
+    this.setCameraPos(0, 0, 20);
     this.lookAt(0, 0, 0);
     this.setClearColor(0x000000);
 
@@ -50,6 +54,7 @@ class Sketch extends SketchManagerThree {
     this.audio.volume(1)
 
     this.scene.add(this.testGraph.group)
+    this.testGraph.position.set(-10, 0, 0)
   }
 
   draw() {
