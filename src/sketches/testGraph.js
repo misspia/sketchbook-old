@@ -43,12 +43,14 @@ export class TestGraph {
   update(frequencyData, bassAverages, midrangeAverages, highrangeAverages) {
     const scale = 1.8
     frequencyData.forEach((freq, i) => {
-      const averages
-        = i < this.midrange ?
-          bassAverages :
-          i < this.highrange ?
-            midrangeAverages :
-            highrangeAverages
+      let averages = null
+      if(i >= this.highrange) {
+        averages = highrangeAverages
+      } else if(i >= this.midrange) {
+        averages = midrangeAverages
+      } else {
+        averages = bassAverages
+      }
       const average = averages[averages.length - 1]
       
       const diff = freq - average

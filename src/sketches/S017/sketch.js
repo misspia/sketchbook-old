@@ -4,11 +4,25 @@ import SketchManagerThree from '../sketchManagerThree';
 import BeatManager from './beatManager';
 import EffectManager from "./effectManager"
 import { Audio } from '../../themes'
+
+import { SkyBox } from './skyBox'
+import { Text } from './text'
+
 import { TestGraph } from '../testGraph'
 
 
-// https://activetheory.net/home
-// https://2019.hki.paris/
+
+/**
+ * https://activetheory.net/home
+ * https://2019.hki.paris/
+ * https://threejs.org/examples/#webgl_mirror_nodes
+ * https://brm.io/matter-js/docs/classes/Engine.html
+ * 
+ * Material transition
+ * https://codepen.io/prisoner849/pen/MWWXoMx?editors=1010
+ * https://stackoverflow.com/questions/45761324/animate-between-two-materials-on-a-mesh-three-js
+ */
+
 class Sketch extends SketchManagerThree {
   constructor(canvas, audioElement) {
     super(canvas, audioElement);
@@ -19,13 +33,17 @@ class Sketch extends SketchManagerThree {
 
     this.spectrumStart = {
       bass: 0,
-      midrange: 28,
+      midrange: 25,
       highrange: 185,
     }
     this.numFrequencyNodes = 300;
     this.beatManager = new BeatManager(this)
     this.pp = new PostProcessor(this);
     this.fftSize = 512;
+
+
+    this.skyBox = new SkyBox(this) 
+    this.text = new Text(this)
 
     this.testGraph = new TestGraph({
       numNodes: this.numFrequencyNodes,
@@ -51,7 +69,12 @@ class Sketch extends SketchManagerThree {
     };
     this.initAudio(audioConfig);
     this.audio.setSmoothingTimeConstant(0.75);
-    this.audio.volume(1)
+    this.audio.volume(0)
+
+    // this.scene.add(this.skyBox.mesh)
+    this.scene.add(this.text.group)
+
+
 
     this.scene.add(this.testGraph.group)
     this.testGraph.position.set(-10, 0, 0)
