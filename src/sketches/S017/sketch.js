@@ -7,6 +7,7 @@ import { Audio } from '../../themes'
 
 import { SkyBox } from './skyBox'
 import { Text } from './text'
+import { Lights } from './lights'
 
 import { TestGraph } from '../testGraph'
 
@@ -44,6 +45,7 @@ class Sketch extends SketchManagerThree {
 
     this.skyBox = new SkyBox(this) 
     this.text = new Text(this)
+    this.lights = new Lights(this)
 
     this.testGraph = new TestGraph({
       numNodes: this.numFrequencyNodes,
@@ -61,7 +63,7 @@ class Sketch extends SketchManagerThree {
 
     this.setCameraPos(0, 0, 20);
     this.lookAt(0, 0, 0);
-    this.setClearColor(0x000000);
+    this.setClearColor(0x5555ff);
 
     const audioConfig = {
       fftSize: this.fftSize,
@@ -73,7 +75,14 @@ class Sketch extends SketchManagerThree {
 
     // this.scene.add(this.skyBox.mesh)
     this.scene.add(this.text.group)
+    this.scene.add(this.lights.ambient)
+    this.scene.add(this.lights.spot)
+    this.scene.add(this.lights.spotHelper)
 
+    this.lights.spot.position.set(-10, 30, 0)
+    this.lights.spotHelper.update()
+
+    this.effectManager.setOutlinedObjects([this.text.group])
 
 
     this.scene.add(this.testGraph.group)
