@@ -44,7 +44,7 @@ export class Text {
 
     this.material = new THREE.MeshPhysicalMaterial({
       color: 0xdaf604,
-      emissive: 0xff00ff,
+      // emissive: 0xff00ff,
       roughness: 0.5,
       metalness: 1,
       reflectivity: 1,
@@ -55,15 +55,15 @@ export class Text {
       normalScale: new THREE.Vector2( 0.15, 0.15 )
     })
 
-    // this.material = new THREE.MeshPhongMaterial({
-    //   color: 0xc204f6,
-    //   emissive: 0x270c0c,
-    //   specular: 0xffffff,
-    //   shininess: 0,
-    //   combine: THREE.MultiplyOperation,
-    //   reflectivity: 0,
-    //   refractionRatio: 0,
-    // })
+    this.material = new THREE.MeshPhongMaterial({
+      color: 0xc204f6,
+      emissive: 0x270c0c,
+      specular: 0xffffff,
+      shininess: 0,
+      combine: THREE.MultiplyOperation,
+      reflectivity: 0,
+      refractionRatio: 0,
+    })
 
     this.group = new THREE.Group()
 
@@ -74,9 +74,9 @@ export class Text {
         height: 1.5,
         curveSegments: 15,
         bevelEnabled: true,
-        bevelSegments: 2,
+        bevelSegments: 10,
         bevelThickness: 0.1,
-        bevelSize: 0.01,
+        bevelSize: 0.5,
       })
       this.geometry.center()
       const modifier = new TessellateModifier(8)

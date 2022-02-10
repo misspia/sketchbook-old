@@ -64,7 +64,7 @@ class Sketch extends SketchManagerThree {
   init() {
     // this.disableOrbitControls();
 
-    this.setCameraPos(0, 0, 20);
+    this.setCameraPos(0, 0, 25);
     this.lookAt(0, 0, 0);
     // this.setClearColor(0x5555ff);
     this.setClearColor(0x000000);
@@ -75,7 +75,7 @@ class Sketch extends SketchManagerThree {
     };
     this.initAudio(audioConfig);
     this.audio.setSmoothingTimeConstant(0.75);
-    this.audio.volume(0)
+    this.audio.volume(1)
 
     this.scene.add(this.skyBox.mesh)
     this.scene.add(this.text.group)
@@ -89,7 +89,7 @@ class Sketch extends SketchManagerThree {
 
     this.skyBox.position.set(0, -5, 0)
     this.lights.directional.position.set(1, 0, 1).normalize()
-    this.lights.spot.position.set(-5, 20, 20)
+    this.lights.spot.position.set(-15, 15, 30)
     this.lights.spotHelper.update()
     // this.lights.point.position.set(-5, 0, 10)
     // this.lights.pointHelper.update()
@@ -98,7 +98,7 @@ class Sketch extends SketchManagerThree {
 
 
     this.scene.add(this.testGraph.group)
-    this.testGraph.position.set(-10, 0, 0)
+    this.testGraph.position.set(-10, 8, 0)
   }
 
   draw() {
