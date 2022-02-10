@@ -43,7 +43,7 @@ class Sketch extends SketchManagerThree {
     this.fftSize = 512;
 
 
-    this.skyBox = new SkyBox(this) 
+    this.skyBox = new SkyBox(this)
     this.text = new Text(this)
     this.lights = new Lights(this)
 
@@ -52,6 +52,9 @@ class Sketch extends SketchManagerThree {
       midrange: this.spectrumStart.midrange,
       highrange: this.spectrumStart.highrange,
     })
+
+    this.renderer.shadowMap.enabled = true;
+    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   }
 
   unmount() {
@@ -63,7 +66,8 @@ class Sketch extends SketchManagerThree {
 
     this.setCameraPos(0, 0, 20);
     this.lookAt(0, 0, 0);
-    this.setClearColor(0x5555ff);
+    // this.setClearColor(0x5555ff);
+    this.setClearColor(0x000000);
 
     const audioConfig = {
       fftSize: this.fftSize,
@@ -73,16 +77,24 @@ class Sketch extends SketchManagerThree {
     this.audio.setSmoothingTimeConstant(0.75);
     this.audio.volume(0)
 
-    // this.scene.add(this.skyBox.mesh)
+    this.scene.add(this.skyBox.mesh)
     this.scene.add(this.text.group)
+
+    // this.scene.add(this.lights.directional)
     this.scene.add(this.lights.ambient)
     this.scene.add(this.lights.spot)
     this.scene.add(this.lights.spotHelper)
+    // this.scene.add(this.lights.point)
+    // this.scene.add(this.lights.pointHelper)
 
-    this.lights.spot.position.set(-10, 30, 0)
+    this.skyBox.position.set(0, -5, 0)
+    this.lights.directional.position.set(1, 0, 1).normalize()
+    this.lights.spot.position.set(-5, 20, 20)
     this.lights.spotHelper.update()
+    // this.lights.point.position.set(-5, 0, 10)
+    // this.lights.pointHelper.update()
 
-    this.effectManager.setOutlinedObjects([this.text.group])
+    // this.effectManager.setOutlinedObjects([this.text.group])
 
 
     this.scene.add(this.testGraph.group)
@@ -95,9 +107,9 @@ class Sketch extends SketchManagerThree {
     this.effectManager.update()
 
     this.testGraph.update(
-      this.audio.frequencyData, 
-      this.beatManager.bassAverages, 
-      this.beatManager.midrangeAverages, 
+      this.audio.frequencyData,
+      this.beatManager.bassAverages,
+      this.beatManager.midrangeAverages,
       this.beatManager.highrangeAverages
     )
 
