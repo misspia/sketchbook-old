@@ -1,9 +1,6 @@
 import * as THREE from 'three'
 import { FlakesTexture } from 'three/examples/jsm/textures/FlakesTexture'
 import { TessellateModifier } from 'three/examples/jsm/modifiers/TessellateModifier'
-import { Images } from '../../themes'
-import { Particle } from './particle'
-
 
 const TEXT = 'JoJo'
 const FONT_URL = require('./font-shrikhand.json')
@@ -55,11 +52,18 @@ export class Text {
       normalScale: new THREE.Vector2( 0.15, 0.15 )
     })
 
+    // this.material = new THREE.MeshStandardMaterial({
+    //   color: 0x711772,
+    //   emissive: 0x111111,
+    //   roughness: 0.57,
+    //   metalness: 1,
+    // })
     this.material = new THREE.MeshPhongMaterial({
-      color: 0xc204f6,
-      emissive: 0x270c0c,
-      specular: 0xffffff,
-      shininess: 0,
+      color: 0xa8007b,
+      emissive: 0x101010,
+      // specular: 0x111111,
+      specular: 0x292929,
+      shininess: 100,
       combine: THREE.MultiplyOperation,
       reflectivity: 0,
       refractionRatio: 0,
@@ -71,7 +75,7 @@ export class Text {
       this.geometry = new THREE.TextGeometry(TEXT, {
         font,
         size: 8,
-        height: 1.5,
+        height: 5,
         curveSegments: 15,
         bevelEnabled: true,
         bevelSegments: 10,
@@ -79,9 +83,8 @@ export class Text {
         bevelSize: 0.5,
       })
       this.geometry.center()
-      const modifier = new TessellateModifier(8)
-      modifier.modify(this.geometry)
-
+      // const modifier = new TessellateModifier(8)
+      // modifier.modify(this.geometry)
 
       this.mesh = new THREE.Mesh(
         this.geometry,
@@ -99,12 +102,6 @@ export class Text {
 
   get position() {
     return this.group.position
-  }
-
-  createParticles(positions) {
-    positions.forEach((position) => {
-
-    })
   }
 
   update() {

@@ -55,6 +55,10 @@ class Sketch extends SketchManagerThree {
 
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    this.renderer.physicallyCorrectLights = true
+
+    this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    this.renderer.toneMappingExposure = 1.25;
   }
 
   unmount() {
@@ -66,7 +70,6 @@ class Sketch extends SketchManagerThree {
 
     this.setCameraPos(0, 0, 25);
     this.lookAt(0, 0, 0);
-    // this.setClearColor(0x5555ff);
     this.setClearColor(0x000000);
 
     const audioConfig = {
@@ -75,24 +78,22 @@ class Sketch extends SketchManagerThree {
     };
     this.initAudio(audioConfig);
     this.audio.setSmoothingTimeConstant(0.75);
-    this.audio.volume(1)
+    this.audio.volume(0)
 
-    this.scene.add(this.skyBox.mesh)
+    this.scene.add(this.skyBox.group)
     this.scene.add(this.text.group)
 
-    // this.scene.add(this.lights.directional)
+    this.scene.add(this.lights.directionalFrontLeft)
+    this.scene.add(this.lights.directionalFrontRight)
+    this.scene.add(this.lights.directionalTop)
     this.scene.add(this.lights.ambient)
     this.scene.add(this.lights.spot)
     this.scene.add(this.lights.spotHelper)
-    // this.scene.add(this.lights.point)
-    // this.scene.add(this.lights.pointHelper)
 
     this.skyBox.position.set(0, -5, 0)
-    this.lights.directional.position.set(1, 0, 1).normalize()
-    this.lights.spot.position.set(-15, 15, 30)
+    
+    this.lights.spot.position.set(-15, 30, 30)
     this.lights.spotHelper.update()
-    // this.lights.point.position.set(-5, 0, 10)
-    // this.lights.pointHelper.update()
 
     // this.effectManager.setOutlinedObjects([this.text.group])
 
