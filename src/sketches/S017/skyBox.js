@@ -2,8 +2,8 @@ import * as THREE from 'three'
 
 
 const WIDTH = 200
-const DEPTH = 70
-const HEIGHT = 70
+const DEPTH = 100
+const HEIGHT = 80
 export class SkyBox {
   constructor() {
     this.group = new THREE.Group()
@@ -19,6 +19,15 @@ export class SkyBox {
     //   color: 0xffffff, 
     //   dithering: true,
     // });
+    // this.material = new THREE.MeshStandardMaterial({ 
+    //   color: 0xffffff, 
+    //   emissive: 0x000000,
+    //   roughness: 0,
+    //   metalness: 0,
+    //   depthTest: true,
+    //   depthWrite: true,
+    //   alphaTest: 0,
+    // });
     this.material = new THREE.MeshStandardMaterial({ 
       color: 0xffffff, 
       emissive: 0x000000,
@@ -29,13 +38,13 @@ export class SkyBox {
       alphaTest: 0,
     });
     this.mesh = new THREE.Mesh(this.geometry, this.material)
+    this.mesh.receiveShadow = true
     this.group.add(this.mesh)
   }
 
   createFloor() {
     const geometry = new THREE.PlaneGeometry(WIDTH, DEPTH)
     this.floor = new THREE.Mesh(geometry, this.material) 
-    this.floor.receiveShadow = true
     this.floor.rotation.x = -Math.PI * 0.5
     this.floor.updateMatrix()
 
@@ -45,8 +54,7 @@ export class SkyBox {
   createBackWall() {
     const geometry = new THREE.PlaneGeometry(WIDTH, HEIGHT)
     this.backWall = new THREE.Mesh(geometry, this.material)
-    this.backWall.receiveShadow = true
-    this.backWall.position.set(0, DEPTH / 2, -HEIGHT / 2)
+    this.backWall.position.set(0, HEIGHT / 2, -DEPTH / 2)
     this.backWall.updateMatrix()
     
     this.geometry.merge(this.backWall.geometry, this.backWall.matrix)
@@ -58,13 +66,11 @@ export class SkyBox {
     this.leftWall = new THREE.Mesh(geometry, this.material)
     this.rightWall = this.leftWall.clone()
 
-    this.leftWall.receiveShadow = true
     this.leftWall.rotateY(Math.PI * 0.5) 
     this.leftWall.translateZ(-WIDTH / 2)
     this.leftWall.translateY(HEIGHT / 2)
     this.leftWall.updateMatrix()
 
-    this.rightWall.receiveShadow = true
     this.rightWall.rotateY(-Math.PI * 0.5) 
     this.rightWall.translateZ(-WIDTH / 2)
     this.rightWall.translateY(HEIGHT / 2)
