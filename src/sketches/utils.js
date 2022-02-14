@@ -34,6 +34,9 @@ const utils = {
   randomSign: () => (
     Math.random() >= 0.5 ? 1 : -1
   ),
+  weightedRandomSign: (positiveWeight) => (
+    utils.weightedRandomBool(positiveWeight) >= 0.5 ? 1 : -1
+  ),
   lerp: (a, b, t) => (
     a * (1 - t) + b * t
   ),

@@ -9,6 +9,7 @@ import { SkyBox } from './skyBox'
 import { Text } from './text'
 import { Lights } from './lights'
 import { Specks } from './specks'
+import { Lines } from './lines'
 
 import { TestGraph } from '../testGraph'
 
@@ -48,6 +49,8 @@ class Sketch extends SketchManagerThree {
     this.text = new Text(this)
     this.lights = new Lights(this)
     this.specks = new Specks(this)
+    this.lines = new Lines(this)
+
 
     this.testGraph = new TestGraph({
       numNodes: this.numFrequencyNodes,
@@ -57,7 +60,6 @@ class Sketch extends SketchManagerThree {
 
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    this.renderer.physicallyCorrectLights = true
 
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = 1.25;
@@ -85,6 +87,7 @@ class Sketch extends SketchManagerThree {
     this.scene.add(this.skyBox.group)
     this.scene.add(this.text.group)
     this.scene.add(this.specks.mesh)
+    this.scene.add(this.lines.mesh)
 
     this.scene.add(this.lights.directionalFrontLeft)
     this.scene.add(this.lights.directionalFrontRight)
@@ -111,6 +114,7 @@ class Sketch extends SketchManagerThree {
     this.effectManager.update()
 
     this.specks.update()
+    this.lines.update()
 
     this.testGraph.update(
       this.audio.frequencyData,

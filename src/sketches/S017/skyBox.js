@@ -29,7 +29,7 @@ export class SkyBox {
     //   alphaTest: 0,
     // });
     this.material = new THREE.MeshStandardMaterial({ 
-      color: 0xffffff, 
+      color: 0xffff11, 
       emissive: 0x000000,
       roughness: 0,
       metalness: 0,

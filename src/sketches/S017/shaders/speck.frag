@@ -15,5 +15,12 @@ float reverseRemapFreq(float min, float max) {
 }
 
 void main() {
-  gl_FragColor = vec4(0.9, 0.0, 0.0, 1.0);
+    float len = distance(vec2(0.5, 0.5), gl_PointCoord.xy);
+    float alpha = 1.0;
+
+    if(len > 0.5) {
+        alpha = 0.0;
+    }
+
+    gl_FragColor = vec4(0.0, 0.0, 0.0, alpha);
 }

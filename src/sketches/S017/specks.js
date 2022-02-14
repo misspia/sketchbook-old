@@ -13,7 +13,7 @@ export class Specks {
   constructor(context) {
     this.context = context
     this.geometry = new THREE.BufferGeometry()
-    this.numSpecks = 20
+    this.numSpecks = 50
     this.specks = []
     this.createSpecks()
 
