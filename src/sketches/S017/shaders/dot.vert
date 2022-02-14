@@ -22,7 +22,8 @@ float remapFreq(float min, float max) {
 void main () {
   gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
   
-  float size = remapFreq(0.1, 0.9);
+  float size = remapFreq(0.3, 1.0);
+  // float size = 1.0;
   gl_PointSize = size * pointMultiplier / gl_Position.w;
   vFreq = freq;
 }

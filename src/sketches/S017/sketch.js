@@ -8,7 +8,7 @@ import { Audio } from '../../themes'
 import { SkyBox } from './skyBox'
 import { Text } from './text'
 import { Lights } from './lights'
-import { Specks } from './specks'
+import { Dots } from './dots'
 import { Lines } from './lines'
 
 import { TestGraph } from '../testGraph'
@@ -48,7 +48,7 @@ class Sketch extends SketchManagerThree {
     this.skyBox = new SkyBox(this)
     this.text = new Text(this)
     this.lights = new Lights(this)
-    this.specks = new Specks(this)
+    this.dots = new Dots(this)
     this.lines = new Lines(this)
 
 
@@ -69,6 +69,10 @@ class Sketch extends SketchManagerThree {
 
   }
 
+  customResize() {
+    this.dots.onResize()
+  }
+
   init() {
     // this.disableOrbitControls();
 
@@ -86,7 +90,7 @@ class Sketch extends SketchManagerThree {
 
     this.scene.add(this.skyBox.group)
     this.scene.add(this.text.group)
-    this.scene.add(this.specks.mesh)
+    this.scene.add(this.dots.mesh)
     this.scene.add(this.lines.mesh)
 
     this.scene.add(this.lights.directionalFrontLeft)
@@ -113,7 +117,7 @@ class Sketch extends SketchManagerThree {
     this.beatManager.update();
     this.effectManager.update()
 
-    this.specks.update()
+    this.dots.update()
     this.lines.update()
 
     this.testGraph.update(
