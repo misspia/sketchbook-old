@@ -1,8 +1,11 @@
 import * as THREE from 'three'
 import { Line } from './line'
+import vertexShader from './shaders/line.vert'
+import fragmentShader from './shaders/line.frag'
 
 /**
  * https://www.pinterest.ca/pin/516295544792098058/
+ * https://youtu.be/r2alNYImuM0?t=216
  */
 
 export class Lines {
@@ -12,8 +15,13 @@ export class Lines {
     this.numLines = 30
     this.lines = []
     this.createLines()
-    this.material = new THREE.MeshBasicMaterial({})
-    this.mesh = new THREE.Points()
+    this.material = new THREE.RawShaderMaterial({
+      transparent: true,
+      fragmentShader,
+      vertexShader
+    })
+
+    this.mesh = new THREE.LineSegments(this.geometry, this.material)
   }
 
   get position() {
@@ -34,9 +42,12 @@ export class Lines {
     const freqs = []
     this.lines.forEach(line => {
       positions.push(
-        line.position.x,
-        line.position.y,
-        line.position.z,
+        line.positionStart.x,
+        line.positionStart.y,
+        line.positionStart.z,
+        line.positionEnd.x,
+        line.positionEnd.y,
+        line.positionEnd.z,
       )
       freqs.push(this.context.audio.frequencyData[line.freqIndex])
     })

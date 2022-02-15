@@ -39,7 +39,7 @@ class Sketch extends SketchManagerThree {
       midrange: 25,
       highrange: 185,
     }
-    this.numFrequencyNodes = 300;
+    this.numFrequencyNodes = 324;
     this.beatManager = new BeatManager(this)
     this.pp = new PostProcessor(this);
     this.fftSize = 512;
@@ -86,7 +86,7 @@ class Sketch extends SketchManagerThree {
     };
     this.initAudio(audioConfig);
     this.audio.setSmoothingTimeConstant(0.75);
-    this.audio.volume(1)
+    this.audio.volume(0)
 
     this.scene.add(this.skyBox.group)
     this.scene.add(this.text.group)

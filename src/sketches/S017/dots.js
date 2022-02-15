@@ -43,10 +43,10 @@ export class Dots {
   }
 
   createDots() {
-    const DOTS_PER_ROW = 25
+    const DOTS_PER_ROW = 27
     const ROW_GAP = 3
     const COL_GAP = 3
-    const ROW_START_OFFSET = -35
+    const ROW_START_OFFSET = -39
     const EVEN_ROW_X_START = 0 + ROW_START_OFFSET
     const ODD_ROW_X_START = COL_GAP / 2 + ROW_START_OFFSET
 
