@@ -10,6 +10,7 @@ import { Text } from './text'
 import { Lights } from './lights'
 import { Dots } from './dots'
 import { Lines } from './lines'
+import { Gloops } from './gloops'
 
 import { TestGraph } from '../testGraph'
 
@@ -36,7 +37,7 @@ class Sketch extends SketchManagerThree {
 
     this.spectrumStart = {
       bass: 0,
-      midrange: 25,
+      midrange: 24,
       highrange: 185,
     }
     this.numFrequencyNodes = 324;
@@ -50,6 +51,7 @@ class Sketch extends SketchManagerThree {
     this.lights = new Lights(this)
     this.dots = new Dots(this)
     this.lines = new Lines(this)
+    this.gloops = new Gloops(this)
 
 
     this.testGraph = new TestGraph({
@@ -71,6 +73,7 @@ class Sketch extends SketchManagerThree {
 
   customResize() {
     this.dots.onResize()
+    this.gloops.onResize()
   }
 
   init() {
@@ -86,19 +89,20 @@ class Sketch extends SketchManagerThree {
     };
     this.initAudio(audioConfig);
     this.audio.setSmoothingTimeConstant(0.75);
-    this.audio.volume(0)
+    this.audio.volume(1)
 
     this.scene.add(this.skyBox.group)
     this.scene.add(this.text.group)
     this.scene.add(this.dots.mesh)
-    this.scene.add(this.lines.mesh)
+    this.scene.add(this.gloops.mesh)
+    // this.scene.add(this.lines.mesh)
 
     this.scene.add(this.lights.directionalFrontLeft)
     this.scene.add(this.lights.directionalFrontRight)
     this.scene.add(this.lights.directionalTop)
     this.scene.add(this.lights.ambient)
     this.scene.add(this.lights.spot)
-    this.scene.add(this.lights.spotHelper)
+    // this.scene.add(this.lights.spotHelper)
 
     this.skyBox.position.set(0, -5, 0)
     
@@ -119,6 +123,7 @@ class Sketch extends SketchManagerThree {
 
     this.dots.update()
     this.lines.update()
+    this.gloops.update()
 
     this.testGraph.update(
       this.audio.frequencyData,
