@@ -4,6 +4,7 @@ import SketchManagerThree from '../sketchManagerThree';
 import BeatManager from './beatManager';
 import EffectManager from "./effectManager"
 import { Audio } from '../../themes'
+import utils from '../utils'
 
 import { SkyBox } from './skyBox'
 import { Text } from './text'
@@ -94,7 +95,7 @@ class Sketch extends SketchManagerThree {
     this.scene.add(this.skyBox.group)
     this.scene.add(this.text.group)
     this.scene.add(this.dots.mesh)
-    this.scene.add(this.gloops.mesh)
+    // this.scene.add(this.gloops.group)
     // this.scene.add(this.lines.mesh)
 
     this.scene.add(this.lights.directionalFrontLeft)
@@ -104,16 +105,18 @@ class Sketch extends SketchManagerThree {
     this.scene.add(this.lights.spot)
     // this.scene.add(this.lights.spotHelper)
 
+    // this.text.position.set(25, 0, 5)
+    // this.text.rotation.set(0, -utils.toRadians(45), 0)
     this.skyBox.position.set(0, -5, 0)
-    
+    this.gloops.position.set(30, -1, 10)
     this.lights.spot.position.set(-15, 30, 30)
     this.lights.spotHelper.update()
 
     // this.effectManager.setOutlinedObjects([this.text.group])
 
 
-    this.scene.add(this.testGraph.group)
-    this.testGraph.position.set(-10, 8, 0)
+    // this.scene.add(this.testGraph.group)
+    this.testGraph.position.set(-10, 0, 5)
   }
 
   draw() {

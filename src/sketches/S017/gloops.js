@@ -10,7 +10,7 @@ const getPointMultiplier = () => {
 export class Gloops {
   constructor(context) {
     this.context = context
-    this.numGloops = 25
+    this.numGloops = 1
     this.gloops = []
     this.createGloops()
 

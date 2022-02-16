@@ -9,7 +9,7 @@ const getPointMultiplier = () => {
 /**
  * https://www.pinterest.ca/pin/288089707403666096/
  */
- 
+
 export class Dots {
   constructor(context) {
     this.context = context
@@ -56,12 +56,12 @@ export class Dots {
 
     const positions = []
 
-    for(let i = 0; i < this.numDots; i++) {
+    for (let i = 0; i < this.numDots; i++) {
 
-      const rowPos = i % DOTS_PER_ROW    
-      const colPos = Math.floor(i / DOTS_PER_ROW % DOTS_PER_ROW)   
-      
-      if(rowPos === 0) {
+      const rowPos = i % DOTS_PER_ROW
+      const colPos = Math.floor(i / DOTS_PER_ROW % DOTS_PER_ROW)
+
+      if (rowPos === 0) {
         const isEvenRow = colPos % 2 === 0
         x = isEvenRow ? EVEN_ROW_X_START : ODD_ROW_X_START
         y += ROW_GAP
@@ -74,7 +74,24 @@ export class Dots {
   }
 
   update() {
-    this.geometry.setAttribute('freq', new THREE.Float32BufferAttribute(this.context.audio.frequencyData, 1))
+    const { bassAverages, midrangeAverages, highrangeAverages } = this.context.beatManager
+    const { bass, midrange, highrange } = this.context.spectrumStart
+    // console.debug(this.context.spectrumStart)
+    const freqs = this.context.audio.frequencyData.map((freq, i) => {
+      let averages = null
+      if (i >= highrange) {
+        averages = highrangeAverages
+      } else if (i >= midrange) {
+        averages = midrangeAverages
+      } else {
+        averages = bassAverages
+      }
+      const average = averages[averages.length - 1]
+      const diff = freq - average
+      const scale = 3
+      return (diff <= 0 ? 0 : diff) * scale
+    })
+    this.geometry.setAttribute('freq', new THREE.Float32BufferAttribute(freqs, 1))
+    // this.geometry.setAttribute('freq', new THREE.Float32BufferAttribute(this.context.audio.frequencyData, 1))
   }
-
 }

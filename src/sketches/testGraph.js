@@ -26,11 +26,11 @@ export class TestGraph {
     for (let i = 0; i < this.numNodes; i++) {
       let color = null
       if (i < this.midrange) {
-        color = 0xeeaaaa;
+        color = 0xff0000;
       } else if (i < this.highrange) {
-        color = 0xaaeeaa;
+        color = 0x00ff00;
       } else {
-        color = 0xeeeeaa
+        color = 0x0000ff
       }
       const g = new THREE.BoxGeometry(width, 0.02, width)
       const m = new THREE.MeshBasicMaterial({ color })

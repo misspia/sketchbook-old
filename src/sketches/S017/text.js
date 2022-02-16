@@ -104,6 +104,10 @@ export class Text {
     return this.group.position
   }
 
+  get rotation() {
+    return this.group.rotation
+  }
+
   update() {
 
   }

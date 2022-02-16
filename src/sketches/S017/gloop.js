@@ -1,3 +1,4 @@
+
 import * as THREE from 'three'
 import utils from '../utils'
 
@@ -25,7 +26,6 @@ export class Gloop {
     this.arcProgress = 0
     this.arcProgressMin = 0
     this.arcProgressMax = utils.randomFloatBetween(0.01, 0.1)
-    
   }
 
   updatePosition() {
