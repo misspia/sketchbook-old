@@ -1,17 +1,18 @@
 import * as THREE from 'three';
 import PostProcessor from '../postProcessor';
 import SketchManagerThree from '../sketchManagerThree';
+import { Audio } from '../../themes'
+
 import BeatManager from './beatManager';
 import EffectManager from "./effectManager"
-import { Audio } from '../../themes'
-import utils from '../utils'
+import { CameraManager } from './cameraManager'
 
 import { SkyBox } from './skyBox'
 import { Text } from './text'
 import { Lights } from './lights'
 import { Dots } from './dots'
 import { Lines } from './lines'
-import { Gloops } from './gloops'
+import { Comics } from './comics'
 
 import { TestGraph } from '../testGraph'
 
@@ -46,13 +47,13 @@ class Sketch extends SketchManagerThree {
     this.pp = new PostProcessor(this);
     this.fftSize = 512;
 
-
+    this.cameraManager = new CameraManager(this)
     this.skyBox = new SkyBox(this)
     this.text = new Text(this)
     this.lights = new Lights(this)
     this.dots = new Dots(this)
     this.lines = new Lines(this)
-    this.gloops = new Gloops(this)
+    this.comics = new Comics(this)
 
 
     this.testGraph = new TestGraph({
@@ -74,13 +75,13 @@ class Sketch extends SketchManagerThree {
 
   customResize() {
     this.dots.onResize()
-    this.gloops.onResize()
   }
 
   init() {
     // this.disableOrbitControls();
 
-    this.setCameraPos(-5, 5, 35);
+    this.setCameraPos(0, 3, 40);
+    // this.setCameraPos(0, 0, 40);
     this.lookAt(0, 0, 0);
     this.setClearColor(0x000000);
 
@@ -95,7 +96,7 @@ class Sketch extends SketchManagerThree {
     this.scene.add(this.skyBox.group)
     this.scene.add(this.text.group)
     this.scene.add(this.dots.mesh)
-    // this.scene.add(this.gloops.group)
+    this.scene.add(this.comics.group)
     // this.scene.add(this.lines.mesh)
 
     this.scene.add(this.lights.directionalFrontLeft)
@@ -103,12 +104,8 @@ class Sketch extends SketchManagerThree {
     this.scene.add(this.lights.directionalTop)
     this.scene.add(this.lights.ambient)
     this.scene.add(this.lights.spot)
-    // this.scene.add(this.lights.spotHelper)
 
-    // this.text.position.set(25, 0, 5)
-    // this.text.rotation.set(0, -utils.toRadians(45), 0)
     this.skyBox.position.set(0, -5, 0)
-    this.gloops.position.set(30, -1, 10)
     this.lights.spot.position.set(-15, 30, 30)
     this.lights.spotHelper.update()
 
@@ -123,10 +120,11 @@ class Sketch extends SketchManagerThree {
     this.audio.getByteFrequencyData();
     this.beatManager.update();
     this.effectManager.update()
+    this.cameraManager.update()
 
     this.dots.update()
     this.lines.update()
-    this.gloops.update()
+    this.comics.update()
 
     this.testGraph.update(
       this.audio.frequencyData,

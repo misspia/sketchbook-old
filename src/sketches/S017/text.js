@@ -1,8 +1,9 @@
 import * as THREE from 'three'
 import { FlakesTexture } from 'three/examples/jsm/textures/FlakesTexture'
-import { TessellateModifier } from 'three/examples/jsm/modifiers/TessellateModifier'
 
-const TEXT = 'JoJo'
+import { JoJo } from './jojo'
+import { Symbols } from './symbols'
+
 const FONT_URL = require('./font-shrikhand.json')
 
 const onFontLoadProgess = (xhr) => {
@@ -21,8 +22,8 @@ export class Text {
     this.context = context
     this.particles = []
 
-    this.geometry = null
-    this.mesh = null
+    this.jojo = null
+    this.symbols = null
 
     this.envMap = new THREE.MeshStandardMaterial({
       color: 0x706c00,
@@ -39,18 +40,18 @@ export class Text {
     this.normalMap3.repeat.y = 6;
     this.normalMap3.anisotropy = 16;
 
-    this.material = new THREE.MeshPhysicalMaterial({
-      color: 0xdaf604,
-      // emissive: 0xff00ff,
-      roughness: 0.5,
-      metalness: 1,
-      reflectivity: 1,
-      clearcoat: 1,
-      clearcoatRoughness: 0.1,
-      flatShading: false,
-      normalMap: this.normalMap3,
-      normalScale: new THREE.Vector2( 0.15, 0.15 )
-    })
+    // this.material = new THREE.MeshPhysicalMaterial({
+    //   color: 0xdaf604,
+    //   // emissive: 0xff00ff,
+    //   roughness: 0.5,
+    //   metalness: 1,
+    //   reflectivity: 1,
+    //   clearcoat: 1,
+    //   clearcoatRoughness: 0.1,
+    //   flatShading: false,
+    //   normalMap: this.normalMap3,
+    //   normalScale: new THREE.Vector2( 0.15, 0.15 )
+    // })
 
     // this.material = new THREE.MeshStandardMaterial({
     //   color: 0x711772,
@@ -72,28 +73,12 @@ export class Text {
     this.group = new THREE.Group()
 
     this.font = new THREE.FontLoader().load(FONT_URL, (font) => {
-      this.geometry = new THREE.TextGeometry(TEXT, {
-        font,
-        size: 8,
-        height: 5,
-        curveSegments: 15,
-        bevelEnabled: true,
-        bevelSegments: 10,
-        bevelThickness: 0.1,
-        bevelSize: 0.5,
-      })
-      this.geometry.center()
-      // const modifier = new TessellateModifier(8)
-      // modifier.modify(this.geometry)
+      this.jojo = new JoJo(font, this.material)
+      // this.symbols = new Symbols(font, this.material)
+      this.group.add(this.jojo.mesh)
+      this.group.add(this.symbols.group)
 
-      this.mesh = new THREE.Mesh(
-        this.geometry,
-        this.material
-      )
-      this.mesh.receiveShadow = true
-      this.mesh.castShadow = true
-
-      this.group.add(this.mesh)
+      this.symbols.position.set(0, 0, 8)
     },
       onFontLoadProgess,
       onFontLoadError
@@ -109,6 +94,11 @@ export class Text {
   }
 
   update() {
-
+    if(this.jojo) {
+      this.jojo.update()
+    }
+    if(this.symbols) {
+      this.symbols.update()
+    }
   }
 }
