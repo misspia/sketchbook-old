@@ -80,9 +80,10 @@ class Sketch extends SketchManagerThree {
   init() {
     // this.disableOrbitControls();
 
-    this.setCameraPos(0, 3, 40);
+    this.setCameraPos(0, 50, 45);
+    this.lookAt(0, 0, 16);
     // this.setCameraPos(0, 0, 40);
-    this.lookAt(0, 0, 0);
+    // this.lookAt(0, 0, 0);
     this.setClearColor(0x000000);
 
     const audioConfig = {
@@ -105,6 +106,7 @@ class Sketch extends SketchManagerThree {
     this.scene.add(this.lights.ambient)
     this.scene.add(this.lights.spot)
 
+    this.comics.position.set(0, -4, 0)
     this.skyBox.position.set(0, -5, 0)
     this.lights.spot.position.set(-15, 30, 30)
     this.lights.spotHelper.update()

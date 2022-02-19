@@ -11,9 +11,14 @@ export class Comic {
       transparent: true,
       side: THREE.DoubleSide,
       uniforms: {
-        image1: { type: 't', value: texture }
+        image1: { type: 't', value: texture },
+        screenRatio: { value: width / height },
+        textureRatio: { value: texture.image.width / texture.image.height }
       }
     })
+
+    console.debug('[width]', width, '[height]', height)
+    console.debug('----->', width / height, texture.image.width / texture.image.height)
     this.mesh = new THREE.Mesh(this.geometry, this.material)
   }
 

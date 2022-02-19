@@ -32,6 +32,9 @@ const Images = {
   T017JoJo1: require('./images/T017-jojo-1.jpg'),
   T017JoJo2: require('./images/T017-jojo-2.jpg'),
   T017JoJo3: require('./images/T017-jojo-3.jpg'),
+  T017JoJo4: require('./images/T017-jojo-4.jpg'),
+  T017JoJo5: require('./images/T017-jojo-5.jpg'),
+  T017JoJo6: require('./images/T017-jojo-6.jpg'),
 }
 
 export default Images;
