@@ -92,7 +92,7 @@ class Sketch extends SketchManagerThree {
     };
     this.initAudio(audioConfig);
     this.audio.setSmoothingTimeConstant(0.75);
-    this.audio.volume(1)
+    this.audio.volume(0)
 
     this.scene.add(this.skyBox.group)
     this.scene.add(this.text.group)
@@ -106,13 +106,11 @@ class Sketch extends SketchManagerThree {
     this.scene.add(this.lights.ambient)
     this.scene.add(this.lights.spot)
 
-    this.comics.position.set(0, -4, 0)
+    this.comics.position.set(0, -5, 0)
     this.skyBox.position.set(0, -5, 0)
+    // this.dots.position.set(0, 0, -10)
     this.lights.spot.position.set(-15, 30, 30)
     this.lights.spotHelper.update()
-
-    // this.effectManager.setOutlinedObjects([this.text.group])
-
 
     // this.scene.add(this.testGraph.group)
     this.testGraph.position.set(-10, 0, 5)

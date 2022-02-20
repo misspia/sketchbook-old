@@ -18,7 +18,7 @@ export class Comics {
     this.loader = new THREE.TextureLoader()
     this.init()
 
-    this.floor = null 
+    this.leftWall = null 
 
     this.group = new THREE.Group()
   }
@@ -29,21 +29,21 @@ export class Comics {
 
   async init() {
     await this.loadTextures()
-    this.floor = new Comic(
-      WIDTH * 0.9,
-      DEPTH * 0.4,
-      // this.textures[3]
+    this.leftWall = new Comic(
+      WIDTH * 0.93,
+      HEIGHT,
       this.textures[5]
     )
 
-    console.debug('screenRatio: ', (WIDTH * 0.9) / (DEPTH * 0.4))
     this.textures.forEach((texture) => {
       console.debug(texture.image.width / texture.image.height)
     })
 
-    this.group.add(this.floor.mesh)
-    this.floor.rotation.x = -utils.toRadians(90)
-    this.floor.position.z = DEPTH * 0.3
+    this.group.add(this.leftWall.mesh)
+    this.leftWall.rotation.y = -utils.toRadians(90)
+    this.leftWall.position.x = -WIDTH * 0.49
+    this.leftWall.position.y = HEIGHT * 0.5
+    this.leftWall.position.z = 0.3
   }
 
   async loadTextures() {
@@ -57,8 +57,8 @@ export class Comics {
   }
 
   update() {
-    if(this.floor) {
-      this.floor.update()
+    if(this.leftWall) {
+      this.leftWall.update()
     }
   }
 }
