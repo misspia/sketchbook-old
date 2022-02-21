@@ -76,9 +76,9 @@ export class Text {
       this.jojo = new JoJo(font, this.material)
       // this.symbols = new Symbols(font, this.material)
       this.group.add(this.jojo.mesh)
-      this.group.add(this.symbols.group)
+      // this.group.add(this.symbols.group)
 
-      this.symbols.position.set(0, 0, 8)
+      // this.symbols.position.set(0, 0, 8)
     },
       onFontLoadProgess,
       onFontLoadError

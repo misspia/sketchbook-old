@@ -37,8 +37,8 @@ void main() {
     gl_FragColor = vec4(texture.rgb, alpha);
 
     float colorStrength = length(texture.xyz);
-    // float maxColorStrength = remapFreq(0.0, 3.0);
-    float maxColorStrength = reverseRemapFreq(0.0, 1.8);
+    // float maxColorStrength = reverseRemapFreq(0.0, 2.0);
+    float maxColorStrength = reverseRemapFreq(0.0, 2.3);
     
     if(
         colorStrength > maxColorStrength

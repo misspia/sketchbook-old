@@ -12,6 +12,7 @@ import { Text } from './text'
 import { Lights } from './lights'
 import { Dots } from './dots'
 import { Comics } from './comics'
+import { Lines} from './lines'
 
 import { TestGraph } from '../testGraph'
 
@@ -52,6 +53,7 @@ class Sketch extends SketchManagerThree {
     this.lights = new Lights(this)
     this.dots = new Dots(this)
     this.comics = new Comics(this)
+    this.lines = new Lines(this)
 
 
     this.testGraph = new TestGraph({
@@ -76,7 +78,7 @@ class Sketch extends SketchManagerThree {
   }
 
   init() {
-    // this.disableOrbitControls();
+    this.disableOrbitControls();
 
     this.setCameraPos(0, 0, 40);
     this.lookAt(0, 0, 0);
@@ -94,6 +96,7 @@ class Sketch extends SketchManagerThree {
     this.scene.add(this.text.group)
     this.scene.add(this.dots.mesh)
     this.scene.add(this.comics.group)
+    this.scene.add(this.lines.mesh)
 
     this.scene.add(this.lights.directionalFrontLeft)
     this.scene.add(this.lights.directionalFrontRight)
@@ -103,10 +106,11 @@ class Sketch extends SketchManagerThree {
 
     this.comics.position.set(0, -5, 0)
     this.skyBox.position.set(0, -5, 0)
+    this.lines.position.set(0, -5, 0)
     this.lights.spot.position.set(-15, 30, 30)
     this.lights.spotHelper.update()
 
-    // this.scene.add(this.testGraph.group)
+    this.scene.add(this.testGraph.group)
     this.testGraph.position.set(-10, 0, 5)
   }
 
@@ -118,6 +122,7 @@ class Sketch extends SketchManagerThree {
 
     this.dots.update()
     this.comics.update()
+    this.lines.update()
 
     this.testGraph.update(
       this.audio.frequencyData,
