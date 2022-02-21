@@ -11,7 +11,6 @@ import { SkyBox } from './skyBox'
 import { Text } from './text'
 import { Lights } from './lights'
 import { Dots } from './dots'
-import { Lines } from './lines'
 import { Comics } from './comics'
 
 import { TestGraph } from '../testGraph'
@@ -52,7 +51,6 @@ class Sketch extends SketchManagerThree {
     this.text = new Text(this)
     this.lights = new Lights(this)
     this.dots = new Dots(this)
-    this.lines = new Lines(this)
     this.comics = new Comics(this)
 
 
@@ -80,10 +78,8 @@ class Sketch extends SketchManagerThree {
   init() {
     // this.disableOrbitControls();
 
-    this.setCameraPos(0, 50, 45);
-    this.lookAt(0, 0, 16);
-    // this.setCameraPos(0, 0, 40);
-    // this.lookAt(0, 0, 0);
+    this.setCameraPos(0, 0, 40);
+    this.lookAt(0, 0, 0);
     this.setClearColor(0x000000);
 
     const audioConfig = {
@@ -92,13 +88,12 @@ class Sketch extends SketchManagerThree {
     };
     this.initAudio(audioConfig);
     this.audio.setSmoothingTimeConstant(0.75);
-    this.audio.volume(0)
+    this.audio.volume(1)
 
     this.scene.add(this.skyBox.group)
     this.scene.add(this.text.group)
     this.scene.add(this.dots.mesh)
     this.scene.add(this.comics.group)
-    // this.scene.add(this.lines.mesh)
 
     this.scene.add(this.lights.directionalFrontLeft)
     this.scene.add(this.lights.directionalFrontRight)
@@ -108,7 +103,6 @@ class Sketch extends SketchManagerThree {
 
     this.comics.position.set(0, -5, 0)
     this.skyBox.position.set(0, -5, 0)
-    // this.dots.position.set(0, 0, -10)
     this.lights.spot.position.set(-15, 30, 30)
     this.lights.spotHelper.update()
 
@@ -123,7 +117,6 @@ class Sketch extends SketchManagerThree {
     this.cameraManager.update()
 
     this.dots.update()
-    this.lines.update()
     this.comics.update()
 
     this.testGraph.update(

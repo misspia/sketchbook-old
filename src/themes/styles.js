@@ -3,7 +3,8 @@ import styled, { css } from 'styled-components'
 const Styles = {
   SectionContainer: styled.section`
     width: 100%;
-    min-height: 100vh;
+    height: 100vh;
+    overflow: hidden;
   `,
   anchorReset: css`
 		text-decoration: none;

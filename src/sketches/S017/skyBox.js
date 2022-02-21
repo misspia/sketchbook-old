@@ -1,9 +1,9 @@
 import * as THREE from 'three'
 
 
-export const WIDTH = 200
-export const DEPTH = 100
-export const HEIGHT = 80
+export const WIDTH = 160
+export const DEPTH = 130
+export const HEIGHT = 90
 export class SkyBox {
   constructor() {
     this.group = new THREE.Group()
@@ -14,22 +14,7 @@ export class SkyBox {
     this.createBackWall()
     this.createSideWalls()
 
-    // this.material = new THREE.MeshPhongMaterial({ 
-    //   // color: 0x808080, 
-    //   color: 0xffffff, 
-    //   dithering: true,
-    // });
-    // this.material = new THREE.MeshStandardMaterial({ 
-    //   color: 0xffffff, 
-    //   emissive: 0x000000,
-    //   roughness: 0,
-    //   metalness: 0,
-    //   depthTest: true,
-    //   depthWrite: true,
-    //   alphaTest: 0,
-    // });
     this.material = new THREE.MeshStandardMaterial({ 
-      // color: 0xffff11, 
       color: 0xffff00, 
       emissive: 0x000000,
       roughness: 0,

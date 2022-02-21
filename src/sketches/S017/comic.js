@@ -15,8 +15,7 @@ export class Comic {
         image1: { type: 't', value: texture },
         screenRatio: { value: width / height },
         textureRatio: { value: texture.image.width / texture.image.height },
-        xOffset: { value: 0.0 },
-        maxColorStrength: { value: 1.0 },
+        freq: { value: 0.0 },
       }
     })
 
@@ -31,7 +30,11 @@ export class Comic {
     return this.mesh.rotation
   }
 
-  update() {
+  get uniforms() {
+    return this.material.uniforms
+  }
 
+  update(freq) {
+    this.uniforms.freq.value = freq
   }
 }
