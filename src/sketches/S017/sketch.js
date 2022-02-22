@@ -23,10 +23,6 @@ import { TestGraph } from '../testGraph'
  * https://2019.hki.paris/
  * https://threejs.org/examples/#webgl_mirror_nodes
  * https://brm.io/matter-js/docs/classes/Engine.html
- * 
- * Material transition
- * https://codepen.io/prisoner849/pen/MWWXoMx?editors=1010
- * https://stackoverflow.com/questions/45761324/animate-between-two-materials-on-a-mesh-three-js
  */
 
 class Sketch extends SketchManagerThree {
@@ -78,7 +74,7 @@ class Sketch extends SketchManagerThree {
   }
 
   init() {
-    this.disableOrbitControls();
+    // this.disableOrbitControls();
 
     this.setCameraPos(0, 0, 40);
     this.lookAt(0, 0, 0);
@@ -104,13 +100,14 @@ class Sketch extends SketchManagerThree {
     this.scene.add(this.lights.ambient)
     this.scene.add(this.lights.spot)
 
+    this.text.position.set(0, 0, -10)
     this.comics.position.set(0, -5, 0)
     this.skyBox.position.set(0, -5, 0)
     this.lines.position.set(0, -5, 0)
     this.lights.spot.position.set(-15, 30, 30)
     this.lights.spotHelper.update()
 
-    this.scene.add(this.testGraph.group)
+    // this.scene.add(this.testGraph.group)
     this.testGraph.position.set(-10, 0, 5)
   }
 
@@ -123,6 +120,7 @@ class Sketch extends SketchManagerThree {
     this.dots.update()
     this.comics.update()
     this.lines.update()
+    this.text.update()
 
     this.testGraph.update(
       this.audio.frequencyData,

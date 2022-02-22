@@ -17,7 +17,7 @@ export class Line {
 
     this.minZ = -DEPTH / 2
     this.maxZ = DEPTH / 2
-    this.minIncrementZ = utils.randomFloatBetween(0.001, 0.003)
+    this.minIncrementZ = utils.randomFloatBetween(0.0, 0.0)
     this.maxIncrementZ = this.minIncrementZ + utils.randomFloatBetween(2.0, 2.7)
 
     const leftSideX = -WIDTH / 2 + 0.1 

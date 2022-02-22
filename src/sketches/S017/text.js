@@ -75,7 +75,7 @@ export class Text {
     this.font = new THREE.FontLoader().load(FONT_URL, (font) => {
       this.jojo = new JoJo(font, this.material)
       // this.symbols = new Symbols(font, this.material)
-      this.group.add(this.jojo.mesh)
+      this.group.add(this.jojo.group)
       // this.group.add(this.symbols.group)
 
       // this.symbols.position.set(0, 0, 8)
@@ -95,7 +95,8 @@ export class Text {
 
   update() {
     if(this.jojo) {
-      this.jojo.update()
+      const { latestOverallAverage, latestBassAverage } = this.context.beatManager
+      this.jojo.update(latestBassAverage)
     }
     if(this.symbols) {
       this.symbols.update()

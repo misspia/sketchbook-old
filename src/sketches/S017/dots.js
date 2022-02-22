@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import vertexShader from './shaders/dot.vert'
 import fragmentShader from './shaders/dot.frag'
+import { DEPTH } from './skyBox'
 
 const getPointMultiplier = () => {
   return window.innerHeight / (2.0 * Math.tan(0.5 * 60.0 * Math.PI / 180.0))
@@ -44,15 +45,15 @@ export class Dots {
 
   createDots() {
     const DOTS_PER_ROW = 23
-    const ROW_GAP = 3
-    const COL_GAP = 3.3
-    const ROW_START_OFFSET = -37
+    const ROW_GAP = 5.8
+    const COL_GAP = 6.9
+    const ROW_START_OFFSET = -78
     const EVEN_ROW_X_START = 0 + ROW_START_OFFSET
     const ODD_ROW_X_START = COL_GAP / 2 + ROW_START_OFFSET
 
     let x = EVEN_ROW_X_START
     let y = -5
-    const z = -10
+    const z = -DEPTH / 2 + 1
 
     const positions = []
 
