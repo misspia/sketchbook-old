@@ -3,7 +3,6 @@ precision highp float;
 varying float vFreq;
 varying vec2 vUv;
 varying vec3 vPosition;
-varying float vPointSize;
 
 uniform float minZ; 
 
@@ -23,9 +22,6 @@ float reverseRemapFreq(float min, float max) {
 void main() {
     float alpha = 1.0;
         
-    if(vPosition.z < minZ + 5.0) {
-      alpha = 0.0;
-    }
     if(vFreq < 20.0) {
       alpha = remap(0.0, 20.0, 0.0, 1.0, vFreq);
     }

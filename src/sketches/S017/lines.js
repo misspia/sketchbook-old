@@ -3,6 +3,7 @@ import { Line, Side } from './line'
 import { DEPTH } from './skyBox'
 import vertexShader from './shaders/line.vert'
 import fragmentShader from './shaders/line.frag'
+import utils from '../utils'
 
 const getPointMultiplier = () => {
   return window.innerHeight / (2.0 * Math.tan(0.5 * 60.0 * Math.PI / 180.0))
@@ -35,7 +36,7 @@ export class Lines {
         }
       }
     })
-    this.mesh = new THREE.Points(this.geometry, this.material)
+    this.mesh = new THREE.LineSegments(this.geometry, this.material)
   }
   
   get position() {
@@ -47,12 +48,10 @@ export class Lines {
   }
 
   createLines() {
-    const { numFrequencyNodes } = this.context
-    const { midrange, highrange } = this.context.spectrumStart
+    const { midrange } = this.context.spectrumStart
     let freqIndex = midrange
-    const numLeft = numFrequencyNodes - highrange
     for(let i = 0; i < this.numLines; i ++) {
-      const side = i >= numLeft ? Side.RIGHT_SIDE : Side.LEFT_SIDE
+      const side = utils.randomBool() ? Side.RIGHT_SIDE : Side.LEFT_SIDE
       const line = new Line(freqIndex, side)
       this.lines.push(line)
 
@@ -67,11 +66,16 @@ export class Lines {
     
     this.lines.forEach((line) => {
       const freq = frequencyData[line.freqIndex]
-      // console.debug(frequencyData[line.freqIndex])
       line.update(freq)
 
-      // console.debug(line.position)
-      positions.push(line.position.x, line.position.y, line.position.z)
+      positions.push(
+        line.tail.x, 
+        line.tail.y, 
+        line.tail.z,
+        line.head.x, 
+        line.head.y, 
+        line.head.z
+      )
       freqs.push(freq)
 
     })
