@@ -2,7 +2,6 @@ import * as THREE from 'three'
 import { FlakesTexture } from 'three/examples/jsm/textures/FlakesTexture'
 
 import { JoJo } from './jojo'
-import { Symbols } from './symbols'
 
 const FONT_URL = require('./font-shrikhand.json')
 
@@ -40,25 +39,6 @@ export class Text {
     this.normalMap3.repeat.y = 6;
     this.normalMap3.anisotropy = 16;
 
-    // this.material = new THREE.MeshPhysicalMaterial({
-    //   color: 0xdaf604,
-    //   // emissive: 0xff00ff,
-    //   roughness: 0.5,
-    //   metalness: 1,
-    //   reflectivity: 1,
-    //   clearcoat: 1,
-    //   clearcoatRoughness: 0.1,
-    //   flatShading: false,
-    //   normalMap: this.normalMap3,
-    //   normalScale: new THREE.Vector2( 0.15, 0.15 )
-    // })
-
-    // this.material = new THREE.MeshStandardMaterial({
-    //   color: 0x711772,
-    //   emissive: 0x111111,
-    //   roughness: 0.57,
-    //   metalness: 1,
-    // })
     this.material = new THREE.MeshPhongMaterial({
       color: 0xa8007b,
       emissive: 0x101010,
@@ -73,12 +53,8 @@ export class Text {
     this.group = new THREE.Group()
 
     this.font = new THREE.FontLoader().load(FONT_URL, (font) => {
-      this.jojo = new JoJo(font, this.material)
-      // this.symbols = new Symbols(font, this.material)
-      this.group.add(this.jojo.group)
-      // this.group.add(this.symbols.group)
-
-      // this.symbols.position.set(0, 0, 8)
+      this.jojo = new JoJo(this.context, font, this.material)
+      this.group.add(this.jojo.mesh)
     },
       onFontLoadProgess,
       onFontLoadError
@@ -95,11 +71,7 @@ export class Text {
 
   update() {
     if(this.jojo) {
-      const { latestOverallAverage, latestBassAverage } = this.context.beatManager
-      this.jojo.update(latestBassAverage)
-    }
-    if(this.symbols) {
-      this.symbols.update()
+      this.jojo.update()
     }
   }
 }

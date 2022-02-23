@@ -16,11 +16,14 @@ export default class BeatManager {
     this.highrangeWeight = (totalFrequencies - this.spectrumStart.highrange) / totalFrequencies;
 
     this.bassAverages = [];
-
     this.midrangeAverages = [];
     this.highrangeAverages = [];
-
     this.overallAverages = [];
+
+    this.maxBassFreq = 0
+    this.maxMidrangeFreq = 0
+    this.maxHighrangeFreq = 0
+    this.maxOverallFreq = 0
   }
 
   get latestBassAverage() {
@@ -48,35 +51,52 @@ export default class BeatManager {
 
   updateBassAverage() {
     const { bass, midrange } = this.spectrumStart;
-
+    const { frequencyData } = this.context.audio
+    
+    let max = frequencyData[bass] 
     let avg = 0;
     for(let i = bass; i < midrange; i++) {
-      avg += this.context.audio.frequencyData[i];
+      const freq = frequencyData[i] 
+      avg += freq;
+      max = Math.max(max, freq)
     }
     avg /= (midrange - bass);
 
     this.bassAverages.push(avg);
+    this.maxBassFreq = max
   }
 
   updateMidrangeAverage() {
     const { midrange, highrange } = this.spectrumStart;
+    const { frequencyData } = this.context.audio
+
+    let max = frequencyData[midrange]  
     let avg = 0;
     for(let i = midrange; i < highrange; i++) {
-      avg += this.context.audio.frequencyData[i];
+      const freq = frequencyData[i] 
+      avg += freq;
+      max = Math.max(max, freq)
     }
     avg /= (highrange - midrange);
     this.midrangeAverages.push(avg);
+    this.maxMidrangeFreq = max
   }
 
   updateHighrangeAverage() {
     const { highrange } = this.spectrumStart;
+    const { frequencyData } = this.context.audio
+
+    let max = frequencyData[highrange]  
     const total = this.context.frequencyDataLength - 1;
     let avg = 0;
     for(let i = highrange; i < total; i++) {
-      avg += this.context.audio.frequencyData[i];
+      const freq = frequencyData[i] 
+      avg += freq;
+      max = Math.max(max, freq)
     }
     avg /= (total - highrange);
     this.highrangeAverages.push(avg);
+    this.maxHighrangeFreq = max
   }
 
   updateOverallAverage() {
@@ -85,5 +105,10 @@ export default class BeatManager {
       this.midrangeAverages[this.midrangeAverages.length - 1] * this.midrangeWeight +
       this.highrangeAverages[this.highrangeAverages.length - 1] * this.highrangeWeight
     );
+    this.maxOverallFreq = Math.max(
+      this.maxBassFreq,
+      this.maxMidrangeFreq,
+      this.maxHighrangeFreq
+    )
   }
 }

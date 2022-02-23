@@ -7,14 +7,15 @@ import BeatManager from './beatManager';
 import EffectManager from "./effectManager"
 import { CameraManager } from './cameraManager'
 
-import { SkyBox } from './skyBox'
+import { DEPTH, SkyBox, WIDTH } from './skyBox'
 import { Text } from './text'
 import { Lights } from './lights'
 import { Dots } from './dots'
 import { Comics } from './comics'
-import { Lines} from './lines'
+import { Lines } from './lines'
 
 import { TestGraph } from '../testGraph'
+import utils from '../utils';
 
 
 
@@ -74,10 +75,11 @@ class Sketch extends SketchManagerThree {
   }
 
   init() {
-    // this.disableOrbitControls();
+    this.disableOrbitControls();
 
-    this.setCameraPos(0, 0, 40);
-    this.lookAt(0, 0, 0);
+    this.setCameraPos(0, 5, 40);
+    this.lookAt(0, 5, 0);
+
     this.setClearColor(0x000000);
 
     const audioConfig = {
@@ -100,7 +102,6 @@ class Sketch extends SketchManagerThree {
     this.scene.add(this.lights.ambient)
     this.scene.add(this.lights.spot)
 
-    this.text.position.set(0, 0, -10)
     this.comics.position.set(0, -5, 0)
     this.skyBox.position.set(0, -5, 0)
     this.lines.position.set(0, -5, 0)
