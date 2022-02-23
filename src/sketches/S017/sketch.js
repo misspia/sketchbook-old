@@ -39,7 +39,7 @@ class Sketch extends SketchManagerThree {
       midrange: 24,
       highrange: 185,
     }
-    this.numFrequencyNodes = 324;
+    this.numFrequencyNodes = 345;
     this.beatManager = new BeatManager(this)
     this.pp = new PostProcessor(this);
     this.fftSize = 512;
