@@ -9,8 +9,7 @@ export default class BeatManager {
      * }
      */
     this.spectrumStart = context.spectrumStart;
-
-    const totalFrequencies = context.frequencyDataLength - 1;
+    const totalFrequencies = context.numFrequencyNodes - 1;
     this.bassWeight = (this.spectrumStart.midrange - this.spectrumStart.bass) / totalFrequencies;
     this.midrangeWeight = (this.spectrumStart.highrange - this.spectrumStart.midrange) / totalFrequencies;
     this.highrangeWeight = (totalFrequencies - this.spectrumStart.highrange) / totalFrequencies;
@@ -39,7 +38,7 @@ export default class BeatManager {
   }
 
   get latestOverallAverage() {
-    return this.highrangeAverages[this.highrangeAverages.length - 1]
+    return this.overallAverages[this.overallAverages.length - 1]
   }
 
   update() {
@@ -47,6 +46,8 @@ export default class BeatManager {
     this.updateMidrangeAverage();
     this.updateHighrangeAverage();
     this.updateOverallAverage();
+
+    // console.debug(this.latestHighrangeAverage)
   }
 
   updateBassAverage() {
@@ -87,7 +88,7 @@ export default class BeatManager {
     const { frequencyData } = this.context.audio
 
     let max = frequencyData[highrange]  
-    const total = this.context.frequencyDataLength - 1;
+    const total = this.context.numFrequencyNodes - 1;
     let avg = 0;
     for(let i = highrange; i < total; i++) {
       const freq = frequencyData[i] 

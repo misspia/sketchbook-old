@@ -27,13 +27,9 @@ class Sketch extends SketchManagerThree {
     this.numFrequencyNodes = 300;
     this.beatManager = new BeatManager(this)
 
-    this.composer = {};
     this.pp = new PostProcessor(this);
-    this.renderPass = {};
-    this.clock = new THREE.Clock();
 
     this.fftSize = 512;
-    this.bars = [];
     this.smoke = new Smoke(this)
     this.spirits = new Spirits(this)
     this.spot = new VolumetricSpotlight(this)

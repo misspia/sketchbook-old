@@ -17,6 +17,7 @@ import S013 from './S013';
 import S014 from './S014';
 import S015 from './S015';
 import S016 from './S016';
+import S017 from './S017';
 
 
 /**
@@ -126,6 +127,13 @@ const Sketches = [
     isAudio: true,
     image: Images.S016,
     component: S016,
+  },
+  {
+    title: '',
+    instructions: `Il vento d'oro - Yugo Kanno`,
+    isAudio: true,
+    image: Images.S017,
+    component: S017,
   },
 
   // // {

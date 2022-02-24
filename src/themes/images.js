@@ -16,6 +16,7 @@ const Images = {
   S014: require('./images/014.jpg'),
   S015: require('./images/015.jpg'),
   S016: require('./images/016.jpg'),
+  S017: require('./images/017.jpg'),
 
   T005a: require('./images/T005a.jpg'),
   T005b: require('./images/T005b.png'),
@@ -26,9 +27,10 @@ const Images = {
   T012a: require('./images/T012a.jpg'),
   T012b: require('./images/T012b.jpg'),
   T014Smoke: require('./images/T014-smoke.png'),
-  T014ThreeTone: require('./images/T014-three-tone.jpg'),
-  T014FiveTone: require('./images/T014-five-tone.jpg'),
   T015: require('./images/T015.png'),
+  T017ThreeTone: require('./images/T017-three-tone.jpg'),
+  T017FiveTone: require('./images/T017-five-tone.jpg'),
+  T017JoJo6: require('./images/T017-jojo-6.jpg'),
 }
 
 export default Images;

@@ -5,6 +5,7 @@ export const Container = styled(Styles.SectionContainer)`
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow-y: scroll;
 
   background-color: ${Colors.cream};
 `;

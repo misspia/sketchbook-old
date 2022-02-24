@@ -26,11 +26,11 @@ export class TestGraph {
     for (let i = 0; i < this.numNodes; i++) {
       let color = null
       if (i < this.midrange) {
-        color = 0xeeaaaa;
+        color = 0xff0000;
       } else if (i < this.highrange) {
-        color = 0xaaeeaa;
+        color = 0x00ff00;
       } else {
-        color = 0xeeeeaa
+        color = 0x0000ff
       }
       const g = new THREE.BoxGeometry(width, 0.02, width)
       const m = new THREE.MeshBasicMaterial({ color })
@@ -43,19 +43,21 @@ export class TestGraph {
   update(frequencyData, bassAverages, midrangeAverages, highrangeAverages) {
     const scale = 1.8
     frequencyData.forEach((freq, i) => {
-      const averages
-        = i < this.midrange ?
-          bassAverages :
-          i < this.highrange ?
-            midrangeAverages :
-            highrangeAverages
+      let averages = null
+      if(i >= this.highrange) {
+        averages = highrangeAverages
+      } else if(i >= this.midrange) {
+        averages = midrangeAverages
+      } else {
+        averages = bassAverages
+      }
       const average = averages[averages.length - 1]
       
       const diff = freq - average
       // this.bars[i].scale.y = (Math.abs(freq - average) + 0.01) * scale
-      // this.bars[i].scale.y = (diff <= 0 ? 0.01 : diff) * scale
+      this.bars[i].scale.y = (diff <= 0 ? 0.01 : diff) * scale
       // this.bars[i].scale.y = (diff > 0 ? 0.01 : diff) * scale
-      this.bars[i].scale.y = freq + 0.01
+      // this.bars[i].scale.y = freq + 0.01
     })
   }
 }
