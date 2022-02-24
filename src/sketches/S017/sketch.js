@@ -7,29 +7,18 @@ import BeatManager from './beatManager';
 import EffectManager from "./effectManager"
 import { CameraManager } from './cameraManager'
 
-import { DEPTH, SkyBox, WIDTH } from './skyBox'
+import { SkyBox } from './skyBox'
 import { Text } from './text'
 import { Lights } from './lights'
 import { Dots } from './dots'
 import { Comics } from './comics'
 import { Lines } from './lines'
 
-import { TestGraph } from '../testGraph'
-import utils from '../utils';
-
-
-
-/**
- * https://activetheory.net/home
- * https://2019.hki.paris/
- * https://threejs.org/examples/#webgl_mirror_nodes
- * https://brm.io/matter-js/docs/classes/Engine.html
- */
-
 class Sketch extends SketchManagerThree {
   constructor(canvas, audioElement) {
     super(canvas, audioElement);
-    this.audioSrc = Audio.tester;
+    this.audioSrc = Audio.S017;
+    // this.audioSrc = Audio.tester;
 
     this.clock = new THREE.Clock();
     this.effectManager = new EffectManager(this);
@@ -51,13 +40,6 @@ class Sketch extends SketchManagerThree {
     this.dots = new Dots(this)
     this.comics = new Comics(this)
     this.lines = new Lines(this)
-
-
-    this.testGraph = new TestGraph({
-      numNodes: this.numFrequencyNodes,
-      midrange: this.spectrumStart.midrange,
-      highrange: this.spectrumStart.highrange,
-    })
 
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -108,8 +90,6 @@ class Sketch extends SketchManagerThree {
     this.lights.spot.position.set(-15, 30, 30)
     this.lights.spotHelper.update()
 
-    // this.scene.add(this.testGraph.group)
-    this.testGraph.position.set(-10, 0, 5)
   }
 
   draw() {
@@ -122,13 +102,6 @@ class Sketch extends SketchManagerThree {
     this.comics.update()
     this.lines.update()
     this.text.update()
-
-    this.testGraph.update(
-      this.audio.frequencyData,
-      this.beatManager.bassAverages,
-      this.beatManager.midrangeAverages,
-      this.beatManager.highrangeAverages
-    )
 
     this.effectManager.render();
     requestAnimationFrame(() => this.draw());

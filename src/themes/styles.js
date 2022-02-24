@@ -4,7 +4,7 @@ const Styles = {
   SectionContainer: styled.section`
     width: 100%;
     height: 100vh;
-    overflow: hidden;
+    box-sizing: border-box; 
   `,
   anchorReset: css`
 		text-decoration: none;

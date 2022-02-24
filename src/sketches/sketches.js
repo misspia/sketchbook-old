@@ -131,8 +131,8 @@ const Sketches = [
   {
     title: '',
     instructions: `Il vento d'oro - Yugo Kanno`,
-    // isAudio: true,
-    image: Images.S016,
+    isAudio: true,
+    image: Images.S017,
     component: S017,
   },
 

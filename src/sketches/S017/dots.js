@@ -7,10 +7,6 @@ const getPointMultiplier = () => {
   return window.innerHeight / (2.0 * Math.tan(0.5 * 60.0 * Math.PI / 180.0))
 }
 
-/**
- * https://www.pinterest.ca/pin/288089707403666096/
- */
-
 export class Dots {
   constructor(context) {
     this.context = context

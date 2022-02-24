@@ -2,14 +2,8 @@ import * as THREE from 'three'
 import { Comic } from './comic'
 import { WIDTH, HEIGHT, DEPTH } from './skyBox'
 import { Images } from '../../themes'
-import utils from '../utils'
 
 const images = [
-  Images.T017JoJo1,
-  Images.T017JoJo2,
-  Images.T017JoJo3,
-  Images.T017JoJo4,
-  Images.T017JoJo5,
   Images.T017JoJo6,
 ]
 export class Comics {
@@ -34,7 +28,7 @@ export class Comics {
     this.backWall = new Comic(
       WIDTH,
       HEIGHT,
-      this.textures[5]
+      this.textures[0]
     )
 
     this.group.add(this.backWall.mesh)

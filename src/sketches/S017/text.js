@@ -13,13 +13,9 @@ const onFontLoadError = (err) => {
   console.debug('error loading font', err)
 }
 
-/**
- * https://github.com/mrdoob/three.js/blob/master/examples/webgl_modifier_tessellation.html
- */
 export class Text {
   constructor(context) {
     this.context = context
-    this.particles = []
 
     this.jojo = null
     this.symbols = null

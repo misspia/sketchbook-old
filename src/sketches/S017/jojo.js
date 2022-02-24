@@ -8,11 +8,11 @@ export class JoJo {
     this.geometry = new THREE.TextGeometry('JoJo', {
       font,
       size: 4,
-      height: 1,
+      height: 3,
       curveSegments: 12,
       bevelEnabled: true,
       bevelSegments: 8,
-      bevelThickness: 0.1,
+      bevelThickness: 0.3,
       bevelSize: 0.5,
     })
     this.mesh = new THREE.Mesh(
@@ -26,12 +26,14 @@ export class JoJo {
 
     this.bbox = new THREE.Box3()
 
-    this.yMinRotation = -utils.toRadians(20)
-    this.yMaxRotation = utils.toRadians(20)
+    this.yMinRotation = -utils.toRadians(30)
+    this.yMaxRotation = utils.toRadians(30)
     this.yRotationDirection = utils.randomSign()
 
-    this.yMinRotationIncrement = 0.0001
-    this.yMaxRotationIncrement = 0.15
+    this.yMinRotationIncrement = 0.0
+    this.yMaxRotationIncrement = 0.015
+
+    this.position.y = -0.2
   }
 
   get position() {
@@ -79,13 +81,9 @@ export class JoJo {
 
     } = this.context.beatManager
 
-    this.scale.set(
-      utils.remapFreq(1, 2.5, maxMidrangeFreq - midrangeAverage),
-      utils.reverseRemapFreq(0.75, 2.0, maxMidrangeFreq - midrangeAverage),
-      3
-    )
+    this.scale.x = utils.remapFreq(0.5, 3.0, maxMidrangeFreq - midrangeAverage)
+    this.scale.y = utils.reverseRemapFreq(0.75, 2.1, maxHighrangeFreq - highrangeAverage);
 
-    this.position.y = -0.2
     this.position.z = this.depth / 2
 
     if (
@@ -97,9 +95,8 @@ export class JoJo {
     const yRotationIncrement = utils.remapFreq(
       this.yMinRotationIncrement,
       this.yMaxRotationIncrement,
-      maxMidrangeFreq - midrangeAverage
+      maxBassFreq
     )
-    // this.rotation.x += this.yRotationDirection * yRotationIncrement
     this.rotation.y += this.yRotationDirection * yRotationIncrement
   }
 }

@@ -4,6 +4,7 @@ import { Colors, Styles } from '../../themes'
 export const Container = styled(Styles.SectionContainer)`
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 `;
 
 
