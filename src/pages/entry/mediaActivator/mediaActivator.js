@@ -2,18 +2,19 @@ import React from 'react';
 
 import * as S from './mediaActivator.styles';
 
-export default class MediaActivator extends React.Component {
-    static defaultProps = {
-        text: 'Press to play music',
-        onClick: () => {},
-    }
-    render() {
-        return (
-            <S.Container>
-                <S.Button onClick={e => this.props.onClick(e)}>
-                    {this.props.text}
+const MediaActivator = ({
+    text = "Let's play some music",
+    onClick = () => { },
+}) => {
+    return (
+        <S.Container tabIndex="0">
+            <S.ButtonContainer>
+                <S.Button onClick={onClick}>
+                    {text}
                 </S.Button>
-            </S.Container>
-        )
-    }
+            </S.ButtonContainer>
+        </S.Container>
+    )
 }
+
+export default MediaActivator
