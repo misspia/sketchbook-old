@@ -29,12 +29,14 @@ export const ButtonContainer = styled.div`
     z-index: 0;
 `
 
+const HOVER_DURATION = '1s';
+
 export const Button = styled.div`
     font-size: 1.4em;
     line-height: 1em;
     color: ${Colors.cream};
 
-    transition: all 1s cubic-bezier(0.32, 0, 0.67, 0);
+    transition: all ${HOVER_DURATION} cubic-bezier(0.32, 0, 0.67, 0);
 
     cursor: pointer;
 
@@ -47,7 +49,7 @@ export const Button = styled.div`
         height: 100%;
         top: 0;
         right: 0;
-        transition: clip-path 1s cubic-bezier(0.65, 0, 0.35, 1);
+        transition: clip-path ${HOVER_DURATION} cubic-bezier(0.65, 0, 0.35, 1);
     }
 
     &::before {
@@ -58,36 +60,35 @@ export const Button = styled.div`
     &::after {
         background-color: ${Colors.black};
         clip-path: polygon(
-            40% 0%,
-            60% 0%,
-            60% 0%,
-            40% 0%,
-            40% 100%,
-            60% 100%,
-            60% 100%,
-            40% 100%
+            45% 0%,
+            55% 0%,
+            55% 0%,
+            45% 0%,
+            45% 100%,
+            55% 100%,
+            55% 100%,
+            45% 100%
         );
     }
 
     &:hover, &:focus {
      color: ${Colors.black};
      letter-spacing: 3px;
-     transition: all 1s cubic-bezier(0.33, 1, 0.68, 1);
+     transition: all ${HOVER_DURATION} cubic-bezier(0.33, 1, 0.68, 1);
      &::before {
          clip-path: circle(100% at 50% 50%);
      }
      &::after {
-         clip-path: polygon(
-             40% 10%,
-             60% 10%,
-             60% 35%,
-             40% 35%,
-             40% 90%,
-             60% 90%,
-             60% 65%,
-             40% 65%
-         );
+         clip-path: polygon( 
+            45% 10%,
+            55% 10%,
+            55% 35%,
+            45% 35%,
+            45% 90%,
+            55% 90%,
+            55% 65%,
+            45% 65%
+        );
      }
-
  }
 `;
