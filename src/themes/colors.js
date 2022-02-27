@@ -3,7 +3,7 @@ const Colors = {
   whiteTranslucent: 'rgba(255, 255, 255, 0.6)',
 
   white: '#fff',
-  black: '#22313F',
+  black: '#151515',
   grey: '#6C7A89',
   greyDark: '#343a39',
   cream: '#eeeeee',
