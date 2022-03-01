@@ -9,6 +9,7 @@ import { CameraManager } from './cameraManager'
 
 import { SkyBox } from './skyBox'
 import { Text } from './text'
+import { OFFSET_Y } from './jojo'
 import { Lights } from './lights'
 import { Dots } from './dots'
 import { Comics } from './comics'
@@ -84,9 +85,9 @@ class Sketch extends SketchManagerThree {
     this.scene.add(this.lights.ambient)
     this.scene.add(this.lights.spot)
 
-    this.comics.position.set(0, -5, 0)
-    this.skyBox.position.set(0, -5, 0)
-    this.lines.position.set(0, -5, 0)
+    this.comics.position.set(0, OFFSET_Y, 0)
+    this.skyBox.position.set(0, OFFSET_Y, 0)
+    this.lines.position.set(0, OFFSET_Y, 0)
     this.lights.spot.position.set(-15, 30, 30)
     this.lights.spotHelper.update()
 
