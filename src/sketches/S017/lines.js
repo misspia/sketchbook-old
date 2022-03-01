@@ -27,6 +27,7 @@ export class Lines {
       depthWrite: false,
       transparent: true,
       vertexColors: true,
+      linewidth: 1,
       uniforms: {
         pointMultiplier: {
           value: getPointMultiplier()

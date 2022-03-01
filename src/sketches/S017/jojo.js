@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import utils from '../utils'
 
+export const OFFSET_Y = -5
 export class JoJo {
   constructor(context, font, material) {
     this.context = context
@@ -24,7 +25,7 @@ export class JoJo {
     this.mesh.receiveShadow = true
     this.mesh.castShadow = true
 
-    this.bbox = new THREE.Box3()
+    this.bbox = new THREE.Box3().setFromObject(this.mesh)
 
     this.yMinRotation = -utils.toRadians(30)
     this.yMaxRotation = utils.toRadians(30)
@@ -33,7 +34,7 @@ export class JoJo {
     this.yMinRotationIncrement = 0.0
     this.yMaxRotationIncrement = 0.015
 
-    this.position.y = -0.2
+    this.position.y = this.height / 2 + OFFSET_Y
   }
 
   get position() {
@@ -68,6 +69,37 @@ export class JoJo {
     return Math.abs(this.max.z - this.min.z)
   }
 
+  reset() {
+    if(this.scale.x === 1 && this.scale.y === 1 && this.rotation.y === 0) {
+      return
+    }
+    if(this.scale.x > -1.1 && this.scale.x < 1.1) {
+      this.scale.x = 1
+    } else if(this.scale.x <= -1.1) {
+      this.scale.x += 0.05
+    } else {
+      this.scale.x -= 0.05
+    }
+
+    this.position.y = 0
+    if(this.scale.y > -1.1 && this.scale.y < 1.1) {
+      this.scale.y = 1
+    } else if(this.scale.y <= -1.1) {
+      this.scale.y += 0.05
+    } else {
+      this.scale.y -= 0.05
+    }
+    this.position.y = this.height / 2 + OFFSET_Y
+
+    if(this.rotation.y > -0.1 && this.rotation.y < 0.1) {
+      this.rotation.y = 0
+    } else if(this.rotation.y <= -0.1) {
+      this.rotation.y += 0.05
+    } else {
+      this.rotation.y -= 0.05
+    }
+  }
+
   update() {
     const {
       latestOverallAverage: overallAverage,
@@ -77,13 +109,18 @@ export class JoJo {
       maxBassFreq,
       maxMidrangeFreq,
       maxHighrangeFreq,
-      maxOverallFreq,
-
     } = this.context.beatManager
 
+    if(overallAverage === 0) {
+      this.reset()
+      return
+    }
+
+    this.position.y = 0
     this.scale.x = utils.remapFreq(0.5, 3.0, maxMidrangeFreq - midrangeAverage)
     this.scale.y = utils.reverseRemapFreq(0.75, 2.1, maxHighrangeFreq - highrangeAverage);
-
+    this.position.y = this.height / 2 + OFFSET_Y
+    
     this.position.z = this.depth / 2
 
     if (
