@@ -61,7 +61,7 @@ class Sketch extends SketchManagerThree {
     this.disableOrbitControls();
 
     this.setCameraPos(0, 5, 40);
-    this.lookAt(0, 5, 0);
+    this.lookAt(0, 4.8, 0);
 
     this.setClearColor(0x000000);
 
