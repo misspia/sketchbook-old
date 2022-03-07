@@ -4,8 +4,9 @@
   "description": "collection of webgl experiments",
   "main": "index.html",
   "scripts": {
-    "build": "webpack -p --config webpack.prod.js",
-    "dev": "webpack-dev-server --colors --hot --inline --config webpack.dev.js"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
   },
   "repository": {
     "type": "git",
