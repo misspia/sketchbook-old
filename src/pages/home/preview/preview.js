@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import Link from 'next/link'
 import * as S from './preview.styles'
 import Icon from '../../../components/icon';
 import { Icons, Colors } from '../../../themes';
@@ -18,7 +18,7 @@ export default function Preview({
           src={image} 
           onLoad={onLoad}
         />
-        <NavLink to={to} />
+        <Link href={to} />
         <S.HiddenContainer>
 
         </S.HiddenContainer>

@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import Image from 'next/image'
+import NextImage from 'next/image'
 import { Colors, Metrics, Styles } from '../../../themes'
 
 export const Container = styled.div`
@@ -22,7 +22,7 @@ export const Container = styled.div`
   }
 `;
 
-export const Image = styled(Image)`
+export const Image = styled(NextImage)`
   z-index: 0;
   position: absolute;
   top: 0;
