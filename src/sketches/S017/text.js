@@ -1,5 +1,7 @@
 import * as THREE from 'three'
-import { FlakesTexture } from 'three/examples/jsm/textures/FlakesTexture'
+import dynamic from 'next/dynamic'
+const { FlakesTexture } = dynamic(() => import('three/examples/jsm/textures/FlakesTexture'))
+// import { FlakesTexture } from 'three/examples/jsm/textures/FlakesTexture'
 
 import { JoJo } from './jojo'
 

@@ -1,6 +1,11 @@
-import { NodePass } from 'three/examples/jsm/nodes/postprocessing/NodePass';
-import * as Nodes from 'three/examples/jsm/nodes/Nodes';
-import { GlitchPass } from 'three/examples/jsm/postprocessing/GlitchPass';
+import dynamic from 'next/dynamic'
+const { NodePass } = dynamic(() => import('three/examples/jsm/nodes/postprocessing/NodePass'))
+const { GlitchPass } = dynamic(() => import('three/examples/jsm/postprocessing/GlitchPass'))
+const Nodes = dynamic(() => import('three/examples/jsm/nodes/Nodes'))
+
+// import { NodePass } from 'three/examples/jsm/nodes/postprocessing/NodePass';
+// import { GlitchPass } from 'three/examples/jsm/postprocessing/GlitchPass';
+// import * as Nodes from 'three/examples/jsm/nodes/Nodes';
 import PP from '../postProcessor';
 
 export default class EffectManager {

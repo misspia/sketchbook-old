@@ -1,6 +1,8 @@
 import * as THREE from 'three';
-import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
-import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass';
+import dynamic from 'next/dynamic'
+const { UnrealBloomPass } = dynamic(() => import('three/examples/jsm/postprocessing/UnrealBloomPass'))
+
+// import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass';
 import PP from '../postProcessor';
 
 export const Layers = {

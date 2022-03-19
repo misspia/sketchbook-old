@@ -1,7 +1,11 @@
 import * as THREE from 'three';
-import { AfterimagePass } from 'three/examples/jsm/postprocessing/AfterimagePass';
-import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass';
-import { GodRaysFakeSunShader, GodRaysDepthMaskShader, GodRaysCombineShader, GodRaysGenerateShader } from 'three/examples/jsm/shaders/GodRaysShader.js';
+
+import dynamic from 'next/dynamic'
+const { UnrealBloomPass } = dynamic(() => import('three/examples/jsm/postprocessing/UnrealBloomPass'))
+const { AfterimagePass } = dynamic(() => import('three/examples/jsm/postprocessing/AfterimagePass'))
+
+// import { AfterimagePass } from 'three/examples/jsm/postprocessing/AfterimagePass';
+// import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass';
 
 import PP from '../postProcessor';
 import { Layers } from "./constants"

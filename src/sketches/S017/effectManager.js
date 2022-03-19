@@ -1,9 +1,9 @@
 import * as THREE from 'three'
-import { NodePass } from 'three/examples/jsm/nodes/postprocessing/NodePass';
-import * as Nodes from 'three/examples/jsm/nodes/Nodes';
 import PP from '../postProcessor';
-import  { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass'
+// import  { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass'
 
+import dynamic from 'next/dynamic'
+const { OutlinePass } = dynamic(() => import('three/examples/jsm/postprocessing/OutlinePass'))
 /**
  * https://discourse.threejs.org/t/post-processing-outline-error/1081/2
  * https://discourse.threejs.org/t/why-outline-do-not-support-black-color/4993/6

@@ -16,7 +16,7 @@ export default function Home() {
     <Container>
       {
         progress < 100 &&
-        <Loader progress={progress}/>
+        <Loader progress={progress} />
       }
       <Header>
         <Title>Sketchbook</Title>
@@ -37,5 +37,6 @@ export default function Home() {
           setProgress(loadedItems / total * 100);
         }}
       />
-    </Container>)
+    </Container>
+  )
 }

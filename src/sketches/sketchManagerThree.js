@@ -1,4 +1,3 @@
-import dat from 'dat.gui';
 import Stats from 'stats-js';
 import * as THREE from 'three';
 import OrbitControls from 'three-orbit-controls';
@@ -28,7 +27,6 @@ class SketchManagerThree extends THREE.EventDispatcher {
 
     this.canvas = canvas;
     this.mouse = {};
-    this.gui = {};
     this.stats = {};
     this.scene = {};
     this.camera = {};
@@ -99,10 +97,6 @@ class SketchManagerThree extends THREE.EventDispatcher {
     this.audio = new Audio(config);
   }
 
-
-  createDatGUI() {
-    this.gui = new dat.GUI();
-  }
   createStats() {
     this.stats = new Stats();
     this.stats.showPanel(0); // starts at FPS
