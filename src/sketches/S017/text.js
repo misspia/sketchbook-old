@@ -1,6 +1,6 @@
 import * as THREE from 'three'
-import dynamic from 'next/dynamic'
-const { FlakesTexture } = dynamic(() => import('three/examples/jsm/textures/FlakesTexture'))
+// import dynamic from 'next/dynamic'
+// const { FlakesTexture } = dynamic(() => import('three/examples/jsm/textures/FlakesTexture'))
 // import { FlakesTexture } from 'three/examples/jsm/textures/FlakesTexture'
 
 import { JoJo } from './jojo'
@@ -30,7 +30,7 @@ export class Text {
       side: THREE.DoubleSide,
     });
 
-    this.normalMap3 = new THREE.CanvasTexture( new FlakesTexture() );
+    // this.normalMap3 = new THREE.CanvasTexture( new FlakesTexture() );
     this.normalMap3.wrapS = THREE.RepeatWrapping;
     this.normalMap3.wrapT = THREE.RepeatWrapping;
     this.normalMap3.repeat.x = 10;

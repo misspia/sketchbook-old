@@ -9,29 +9,34 @@ export default function Preview({
   title = '',
   image = '',
   isAudio = false,
-  onLoad = () => {},
+  onLoad = () => { },
 
 }) {
-    return (
-      <S.Container>
-        <S.Image 
+  return (
+    <S.Container>
+      {/* <S.Image 
           src={image} 
           onLoad={onLoad}
-        />
-        <Link href={to} />
-        <S.HiddenContainer>
+          width="auto"
+          height="100%"
+        /> */}
+      <Link href={to}>
+        <a>
+          <S.HiddenContainer>
 
-        </S.HiddenContainer>
-        {
-          isAudio && 
-          <S.IconWrapper>
-            <Icon
-              size='1.5em'
-              color={Colors.grey}
-              name={Icons.audio}/> 
-          </S.IconWrapper>          
-        }
-        
-      </S.Container>
-    );
+          </S.HiddenContainer>
+          {
+            isAudio &&
+            <S.IconWrapper>
+              <Icon
+                size='1.5em'
+                color={Colors.grey}
+                name={Icons.audio} />
+            </S.IconWrapper>
+          }
+        </a>
+      </Link>
+
+    </S.Container>
+  );
 }

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import Routes from '../../../router/routes'
+import Link from "next/link"
+// import Routes from '../../../router/routes'
 import Preview from '../preview/preview'
 
 import { Container } from './sketchList.styles'
@@ -7,7 +8,7 @@ import { Container } from './sketchList.styles'
 import Sketches from '../../../sketches/sketches'
 
 export default function SketchList({
-  onLoad = (loadedItems, total) => {},
+  onLoad = (loadedItems, total) => { },
 }) {
   const [loadedItems, setLoadedItems] = useState(0);
   const reversedList = Sketches.slice().reverse(); // display newest at top
@@ -23,7 +24,7 @@ export default function SketchList({
       {reversedList.map((sketch, index) => (
         <Preview
           key={index}
-          to={Routes.toSketch(total - index)}
+          to="/"
           title={sketch.title}
           image={sketch.image}
           isAudio={sketch.isAudio}
