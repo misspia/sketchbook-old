@@ -1,7 +1,8 @@
 import * as THREE from 'three';
 import PostProcessor from '../postProcessor';
 import SketchManagerThree from '../sketchManagerThree';
-import { Audio } from '../../themes'
+// import { Audio } from '../../themes'
+import { Audio } from '@themes'
 
 import BeatManager from './beatManager';
 import EffectManager from "./effectManager"

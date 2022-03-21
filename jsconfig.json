@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@sketches/*": ["./src/sketches/*"],
+      "@themes": ["./src/themes/index.js"],
+    }
+  }
+}
