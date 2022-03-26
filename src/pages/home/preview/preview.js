@@ -1,4 +1,4 @@
-import React from 'react'
+import React,  { useEffect } from 'react'
 import Link from 'next/link'
 import * as S from './preview.styles'
 import Icon from '../../../components/icon';
@@ -12,14 +12,19 @@ export default function Preview({
   onLoad = () => { },
 
 }) {
+  useEffect(() => {
+    console.debug("!")
+    onLoad()
+  }, [])
+        // onLoadingComplete={onLoad}
+
   return (
     <S.Container>
-      {/* <S.Image 
-          src={image} 
-          onLoad={onLoad}
-          width="auto"
-          height="100%"
-        /> */}
+      <S.Image
+        src={image}
+        layout="fill"
+        objectFit="fill"
+      />
       <Link href={to}>
         <a>
           <S.HiddenContainer>
@@ -31,7 +36,7 @@ export default function Preview({
               <Icon
                 size='1.5em'
                 color={Colors.grey}
-                name={Icons.audio} />
+                IconComponent={Icons.audio} />
             </S.IconWrapper>
           }
         </a>

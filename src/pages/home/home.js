@@ -14,10 +14,11 @@ export default function Home() {
   const [progress, setProgress] = useState(0);
   return (
     <Container>
-      {
-        progress < 100 &&
-        <Loader progress={progress} />
-      }
+      {/* {
+        progress < 100 ?
+          <Loader progress={progress} /> :
+          null
+      } */}
       <Header>
         <Title>Sketchbook</Title>
         <Subtitle>a collection of WebGL experiments</Subtitle>
@@ -27,12 +28,12 @@ export default function Home() {
               key={index}
               href={link.url}
               target='_blank'>
-              <Icon name={link.icon} />
+              <Icon IconComponent={link.icon} />
             </SocialLink>
           ))}
         </SocialContainer>
       </Header>
-      <SketchList 
+      <SketchList
         onLoad={(loadedItems, total) => {
           setProgress(loadedItems / total * 100);
         }}

@@ -23,17 +23,6 @@ export const Container = styled.div`
 `;
 
 export const Image = styled(NextImage)`
-  z-index: 0;
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  margin: auto;
-
-  width: auto;
-  height: 100%;
-
   filter: grayscale(60%);
   transition: 0.2s all;
 

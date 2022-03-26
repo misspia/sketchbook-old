@@ -3,7 +3,7 @@ const SKETCH_ROUTE = '/sketch/';
 
 const Routes = {
   home: HOME_ROUTE,
-  sketch: `${SKETCH_ROUTE}:index`,
+  sketch: SKETCH_ROUTE,
 
   toSketch: (index) => {
     return `${SKETCH_ROUTE}${index}`;

@@ -1,8 +1,10 @@
 import React from 'react'
 import * as S from './icon.styles'
+import { AiOutlineClose } from "react-icons/ai"
+
 
 export default function Icon({
-	name = '',
+	IconComponent = AiOutlineClose,
 	size = '1em',
 	color = '',
 	customStyle = '', // ex. 'margin:1em; opacity: 0.5;',
@@ -16,7 +18,7 @@ export default function Icon({
 			customStyles={customStyle}
 			hover={hover}
 		>
-			<ion-icon name={name}/>
+			<IconComponent />
 		</S.Wrapper>
 	)
 }

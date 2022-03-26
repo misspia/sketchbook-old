@@ -16,7 +16,7 @@ class Header extends Component {
   }
   renderBackButton() {
     return <NavLink exact to={Routes.home}>
-      <Icon name={Icons.close}/>
+      <Icon IconComponent={Icons.close}/>
     </NavLink>
   }
   renderInstructions() {
