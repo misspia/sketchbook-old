@@ -1,9 +1,5 @@
-import dynamic from 'next/dynamic'
-const { EffectComposer } = dynamic(() => import('three/examples/jsm/postprocessing/EffectComposer'))
-const { RenderPass } = dynamic(() => import('three/examples/jsm/postprocessing/RenderPass'))
-
-// import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
-// import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
+import { EffectComposer } from './S13/lib/EffectComposer'
+import { RenderPass } from "./renderPass"
 
 export default class PostProcessor {
   constructor(context) {

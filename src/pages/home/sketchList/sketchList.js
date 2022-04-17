@@ -14,7 +14,6 @@ export default function SketchList({
   const total = Sketches.length - 1;
 
   useEffect(() => {
-    console.debug(loadedItems, Sketches.length)
     onLoad(loadedItems, total);
   }, [loadedItems]);
 

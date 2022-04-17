@@ -6,7 +6,7 @@ import {
   GodRaysGenerateShader
 } from 'three/examples/jsm/shaders/GodRaysShader';
 
-import PP from '../postProcessor';
+import PP from './lib/postProcessor';
 
 /**
  * https://github.com/mrdoob/three.js/blob/master/examples/webgl_postprocessing_godrays.html
