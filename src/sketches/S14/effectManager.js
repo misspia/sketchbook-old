@@ -1,13 +1,8 @@
 import * as THREE from 'three';
 
-import dynamic from 'next/dynamic'
-const { UnrealBloomPass } = dynamic(() => import('three/examples/jsm/postprocessing/UnrealBloomPass'))
-const { AfterimagePass } = dynamic(() => import('three/examples/jsm/postprocessing/AfterimagePass'))
-
-// import { AfterimagePass } from 'three/examples/jsm/postprocessing/AfterimagePass';
-// import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass';
-
-import PP from '../postProcessor';
+import { UnrealBloomPass }  from './lib/UnrealBloomPass'
+import { AfterimagePass }  from './lib/AfterimagePass'
+import PP from './lib/PostProcessor';
 import { Layers } from "./constants"
 
 /**
