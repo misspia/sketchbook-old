@@ -1,12 +1,11 @@
-import dynamic from 'next/dynamic'
-const { NodePass } = dynamic(() => import('three/examples/jsm/nodes/postprocessing/NodePass'))
-const { GlitchPass } = dynamic(() => import('three/examples/jsm/postprocessing/GlitchPass'))
-const Nodes = dynamic(() => import('three/examples/jsm/nodes/Nodes'))
+import { ColorAdjustmentNode } from './lib/ColorAdjustmentNode'
+import { ScreenNode } from "./lib/ScreenNode"
+import { FloatNode } from "./lib/FloatNode"
+import { NodePass } from './lib/NodePass';
+import { GlitchPass } from './lib/GlitchPass';
+import PP from './lib/PostProcessor';
 
-// import { NodePass } from 'three/examples/jsm/nodes/postprocessing/NodePass';
 // import { GlitchPass } from 'three/examples/jsm/postprocessing/GlitchPass';
-// import * as Nodes from 'three/examples/jsm/nodes/Nodes';
-import PP from '../postProcessor';
 
 export default class EffectManager {
   constructor(context) {
@@ -44,12 +43,12 @@ export default class EffectManager {
 
     this.nodePass = new NodePass();
 
-    const screen = new Nodes.ScreenNode();
-    this.brightness = new Nodes.FloatNode(0);
-    this.contrast = new Nodes.FloatNode(1);
+    const screen = new ScreenNode();
+    this.brightness = new FloatNode(0);
+    this.contrast = new FloatNode(1);
 
-    this.brightnessNode = new Nodes.ColorAdjustmentNode(screen, this.brightness, Nodes.ColorAdjustmentNode.BRIGHTNESS);
-    this.contrastNode = new Nodes.ColorAdjustmentNode(this.brightnessNode, this.contrast, Nodes.ColorAdjustmentNode.CONTRAST);
+    this.brightnessNode = new ColorAdjustmentNode(screen, this.brightness, ColorAdjustmentNode.BRIGHTNESS);
+    this.contrastNode = new ColorAdjustmentNode(this.brightnessNode, this.contrast, ColorAdjustmentNode.CONTRAST);
 
     this.nodePass.input = this.contrastNode;
     this.pp.addPass(this.nodePass);
