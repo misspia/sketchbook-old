@@ -3,7 +3,6 @@ import * as THREE from 'three';
 import OrbitControls from 'three-orbit-controls';
 
 import Audio from './audio';
-import PostProcessor from './postProcessor';
 
 const OrbitController = OrbitControls(THREE);
 
@@ -59,7 +58,6 @@ class SketchManagerThree extends THREE.EventDispatcher {
     window.scene = this.scene;
 
     this.controls = new OrbitController(this.camera, this.renderer.domElement);
-    this.pp = new PostProcessor(this);
 
   }
 
@@ -118,7 +116,6 @@ class SketchManagerThree extends THREE.EventDispatcher {
     this.camera.updateProjectionMatrix();
 
     this.renderer.setSize(width, height);
-    this.pp.resize(width, height);
 
     this.customResize(width, height);
   }
