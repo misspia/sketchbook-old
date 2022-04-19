@@ -1,11 +1,8 @@
 import * as THREE from 'three'
-// import dynamic from 'next/dynamic'
-// const { FlakesTexture } = dynamic(() => import('three/examples/jsm/textures/FlakesTexture'))
-// import { FlakesTexture } from 'three/examples/jsm/textures/FlakesTexture'
-
+import { FlakesTexture } from "./lib/FlakesTexture"
 import { JoJo } from './jojo'
 
-const FONT_URL = require('./font-shrikhand.json')
+const FONT_URL = '/fonts/font-shrikhand.json'
 
 const onFontLoadProgess = (xhr) => {
   console.log(`Font ${(xhr.loaded / xhr.total * 100)}% loaded`);
@@ -30,7 +27,7 @@ export class Text {
       side: THREE.DoubleSide,
     });
 
-    // this.normalMap3 = new THREE.CanvasTexture( new FlakesTexture() );
+    this.normalMap3 = new THREE.CanvasTexture( new FlakesTexture() );
     this.normalMap3.wrapS = THREE.RepeatWrapping;
     this.normalMap3.wrapT = THREE.RepeatWrapping;
     this.normalMap3.repeat.x = 10;

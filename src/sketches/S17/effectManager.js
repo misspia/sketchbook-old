@@ -1,15 +1,8 @@
 import * as THREE from 'three'
-import PP from '../postProcessor';
-// import  { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass'
+import PP from './lib/postProcessor';
 
-import dynamic from 'next/dynamic'
-const { OutlinePass } = dynamic(() => import('three/examples/jsm/postprocessing/OutlinePass'))
-/**
- * https://discourse.threejs.org/t/post-processing-outline-error/1081/2
- * https://discourse.threejs.org/t/why-outline-do-not-support-black-color/4993/6
- * https://github.com/mrdoob/three.js/blob/master/examples/jsm/postprocessing/OutlinePass.js
- * https://github.com/mrdoob/three.js/blob/master/examples/webgl_postprocessing_outline.html
- */
+import { OutlinePass }  from './lib/OutlinePass'
+
 export default class EffectManager {
   constructor(context) {
     this.context = context;
