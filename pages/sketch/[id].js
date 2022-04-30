@@ -1,5 +1,7 @@
 import { useRouter } from "next/router"
 import dynamic from "next/dynamic"
+import MediaActivator from "@components/MediaActivator"
+import Loader from "@components/Loader"
 
 const getSketch = (id) => {
   console.debug('[id]', id)
@@ -9,7 +11,7 @@ const getSketch = (id) => {
       loading: ({ isLoading }) => {
         if(isLoading) {
           return (
-            <>loading...</>
+            <Loader />
           )
         }
         return null

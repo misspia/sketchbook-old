@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from 'react';
-import * as S from './loader.styles';
+import React from 'react';
+import * as S from './Loader.styles';
 
 export default function Loader({
   progress = 0, // 0 - 100

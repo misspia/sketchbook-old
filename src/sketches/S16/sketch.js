@@ -8,10 +8,15 @@ import Debris from './debris';
 import Floor from './floor';
 import Lights from './lights';
 
+// const audio = require(Audio.Tester)
+// console.debug("audio", audio)
+
 class Sketch extends SketchManagerThree {
   constructor(canvas, audioElement) {
     super(canvas, audioElement);
-    this.audioSrc = Audio.S016;
+    // this.audioSrc = Audio.S016;
+    console.debug(Audio)
+    this.audioSrc = Audio.Tester;
     this.numFrequencyNodes = 25;
     this.fftSize = 512;
     this.frequencyDataLength = 110;
@@ -56,6 +61,7 @@ class Sketch extends SketchManagerThree {
     const audioConfig = { fftSize: this.fftSize, dataLength: this.frequencyDataLength };
     this.initAudio(audioConfig);
     this.audio.setSmoothingTimeConstant(0.85);
+    // this.audio.volume(0)
 
     this.scene.add(this.lights.directionalTop);
     this.scene.add(this.lights.directionalSide);

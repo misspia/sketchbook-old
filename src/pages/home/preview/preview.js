@@ -1,8 +1,8 @@
 import React,  { useEffect } from 'react'
 import Link from 'next/link'
 import * as S from './preview.styles'
-import Icon from '../../../components/icon';
-import { Icons, Colors } from '../../../themes';
+import Icon from '@components/Icon';
+import { Icons, Colors } from '@themes';
 
 export default function Preview({
   to = '',

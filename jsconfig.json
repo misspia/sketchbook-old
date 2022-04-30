@@ -4,6 +4,7 @@
     "paths": {
       "@sketches/*": ["./src/sketches/*"],
       "@themes": ["./src/themes/index.js"],
+      "@components/*": ["./src/components/*"],
     }
   }
 }

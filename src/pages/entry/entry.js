@@ -5,7 +5,7 @@ import Header from './header'
 import * as S from './entry.styles'
 
 import Sketches from '../../sketches/sketches'
-import MediaActivator from './mediaActivator/mediaActivator';
+import MediaActivator from '@components/MediaActivator';
 
 const Entry = ({
   match,

@@ -4,8 +4,8 @@ import {
   Container, Header, Title, Subtitle,
   SocialContainer, SocialLink
 } from './home.styles'
-import Icon from '../../components/icon'
-import Loader from '../../components/loader'
+import Icon from '@components/Icon'
+import Loader from '@components/Loader'
 import SketchList from './sketchList/sketchList'
 
 import Metadata from './home.metadata'

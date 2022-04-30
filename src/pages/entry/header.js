@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
 import Routes from '../../router/routes'
 
-import { Icons } from '../../themes'
-import Icon from '../../components/icon'
+import { Icons } from '@themes'
+import Icon from '@components/Icon'
 
 import * as S from './entry.styles'
 
