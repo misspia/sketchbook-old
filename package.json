@@ -17,6 +17,13 @@
     "url": "https://github.com/misspia/sketchbook/issues"
   },
   "homepage": "https://github.com/misspia/sketchbook#readme",
+  "workspaces": [
+    "packages/app",
+    "packages/sketchbook-kit",
+    "packages/sketches/000",
+    "packages/sketches/001",
+    "packages/sketches/017"
+  ],
   "devDependencies": {
     "@babel/core": "^7.2.2",
     "@babel/plugin-proposal-object-rest-spread": "^7.2.0",
