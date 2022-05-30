@@ -1,16 +1,9 @@
-const path = require('path')
 const webpack = require('webpack');
-const { merge } = require('webpack-merge');
+const merge = require('webpack-merge');
 const common = require('./webpack.common.js');
 
 module.exports = merge(common, {
 	mode: 'development',
-	devServer: {
-		static: {
-			directory: path.join(__dirname, 'dist'),
-		},
-		port: 8080
-	},
 	plugins: [
 		new webpack.DefinePlugin({
 			'process.env': {

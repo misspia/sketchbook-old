@@ -1,4 +1,4 @@
-const path = require('path')
+const path = require('path');
 const webpack = require('webpack');
 const { merge } = require('webpack-merge');
 const common = require('./webpack.common.js');
@@ -9,7 +9,7 @@ module.exports = merge(common, {
 		static: {
 			directory: path.join(__dirname, 'dist'),
 		},
-		port: 8080
+		port: 3001,
 	},
 	plugins: [
 		new webpack.DefinePlugin({

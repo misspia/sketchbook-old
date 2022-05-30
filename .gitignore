@@ -5,6 +5,7 @@ audio.test.js
 .idea/
 .vscode/
 node_modules/
+**/**/node_modules/
 .DS_Store
 *.tgz
 my-app*

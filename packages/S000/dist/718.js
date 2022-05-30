@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk=self.webpackChunk||[]).push([[718],{718:(e,t,r)=>{r.r(t),r.d(t,{default:()=>u});var n=r(634),a=r(629),l=r.n(a);function u(){return l().createElement("div",null,"test s00")}var s=document.getElementById("root");(0,n.s)(s).render(l().createElement(u,null))},634:(e,t,r)=>{var n=r(336);t.s=n.createRoot,n.hydrateRoot}}]);
