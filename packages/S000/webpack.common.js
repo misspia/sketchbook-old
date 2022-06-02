@@ -111,6 +111,9 @@ module.exports = {
       exposes: {
         './Page': './src/Page.js',
       },
+			remotes: {
+        SketchbookKit: 'SketchbookKit@http://localhost:3001/remoteEntry.js'
+      },
       shared: {
         react: { singleton: true, requiredVersion: deps.react },
 				'react-dom': { singleton: true, requiredVersion: deps['react-dom'] }

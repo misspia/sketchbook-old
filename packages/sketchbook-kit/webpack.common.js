@@ -1,5 +1,6 @@
 const path = require('path');
 const { ModuleFederationPlugin } = require('webpack').container
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const paths = {
 	DIST: path.resolve(__dirname, 'dist'),
@@ -7,24 +8,31 @@ const paths = {
 };
 
 module.exports = {
-	context: path.resolve(__dirname, 'src'),
-	entry: path.join(paths.SRC, 'index.js'),
+	entry: 'index.js',
 	output: {
-		path: paths.DIST,
-		filename: 'bundle.js',
-		publicPath: 'dist/'
+		publicPath: 'http://localhost:3000/',
+		clean: true,
 	},
 	plugins: [
+		new HtmlWebpackPlugin({
+			title: 'Sketchbook Kit',
+			template: './template.html',
+			filename: 'index.html',
+		}),
 		new ModuleFederationPlugin({
-      name: 'SketchbookKit',
+			name: 'SketchbookKit',
 			filename: 'remoteEntry.js',
+			library: { type: 'var', name: 'sketchbook-kit' },
 			exposes: {
-				'./hooks': './hooks/index.js'
+				'./hooks': './hooks/index.js',
+				'./components': './components/index.js',
+				'./themes': './themes/index.js',
 			},
 			shared: {
-
+				react: { singleton: true, requiredVersion: deps.react },
+				'react-dom': { singleton: true, requiredVersion: deps['react-dom'] }
 			}
-    })
+		})
 	],
 	module: {
 		rules: [
@@ -39,7 +47,7 @@ module.exports = {
 				],
 			},
 			{
-        test: /\.(glsl|vert|frag)$/,
+				test: /\.(glsl|vert|frag)$/,
 				use: [
 					{
 						loader: 'raw-loader',
@@ -50,7 +58,7 @@ module.exports = {
 						options: {},
 					},
 				],
-      },
+			},
 			{
 				test: /\.(js|jsx)$/,
 				exclude: /node_modules/,
