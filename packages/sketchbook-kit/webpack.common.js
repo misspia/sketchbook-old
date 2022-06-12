@@ -1,3 +1,4 @@
+const deps = require('./package.json').dependencies
 const path = require('path');
 const { ModuleFederationPlugin } = require('webpack').container
 const HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -22,7 +23,7 @@ module.exports = {
 		new ModuleFederationPlugin({
 			name: 'SketchbookKit',
 			filename: 'remoteEntry.js',
-			library: { type: 'var', name: 'sketchbook-kit' },
+			library: { type: 'var', name: 'SketchbookKit' },
 			exposes: {
 				'./hooks': './hooks/index.js',
 				'./components': './components/index.js',

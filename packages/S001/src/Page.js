@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useMemo } from 'react';
 import { useWindowSize } from './useWindowSize';
-import { Sketch }from './Sketch';
+import { Sketch } from './Sketch';
 
 export default function View({
   ready = true,

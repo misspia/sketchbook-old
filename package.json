@@ -22,7 +22,8 @@
   "workspaces": {
     "packages": [
       "packages/app",
-      "packages/S000"
+      "packages/S000",
+      "packages/S001"
     ]
   },
   "devDependencies": {

@@ -3,9 +3,7 @@ import { createRoot } from 'react-dom/client'
 import React, { Suspense } from 'react'
 
 const S000 = React.lazy(() => import('S000/Page'))
-// const Test = React.lazy(() => import('S000/TestComponent'))
-
-// console.debug("[S000]", S000)
+const S001 = React.lazy(() => import('S001/Page'))
 
 const App = () => {
   return (
@@ -13,6 +11,9 @@ const App = () => {
       <h1>app</h1>
       <Suspense fallback={"loading..."} >
         <S000 />
+      </Suspense>
+      <Suspense fallback={"loading..."} >
+        <S001 />
       </Suspense>
     </div>
   )
