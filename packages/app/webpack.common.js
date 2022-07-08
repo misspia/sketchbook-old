@@ -57,8 +57,21 @@ module.exports = {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: ['babel-loader'],
-      }
+      },
+      {
+				test: /\.(pdf|png|jpg|jpeg|gif|ico|mp3|json)$/,
+				type: 'javascript/auto',
+				use: [
+					{
+						loader: 'file-loader',
+						options: {},
+					}
+				],
+			},
     ]
+  },
+  resolve: {
+    extensions: ['*', '.js', '.jsx'],
   },
   plugins: [
     new HtmlWebpackPlugin({
