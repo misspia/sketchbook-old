@@ -16,14 +16,14 @@ module.exports = {
 	},
 	plugins: [
     new HtmlWebpackPlugin({
-      title: 'S001',
+      title: 'S002',
       template: './src/template.html',
       filename: 'index.html',
     }),
 		new ModuleFederationPlugin({
-      name: 'S001',
+      name: 'S002',
       filename: 'remoteEntry.js',
-			library: { type: 'var', name: 'S001' },
+			library: { type: 'var', name: 'S002' },
       exposes: {
         './Page': './src/Page.js',
       },

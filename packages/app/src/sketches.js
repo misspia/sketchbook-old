@@ -3,6 +3,7 @@ import { Images } from './assets';
 
 const S000 = React.lazy(() => import('S000/Page'))
 const S001 = React.lazy(() => import('S001/Page'))
+// const S002 = React.lazy(() => import('S002/Page'))
 
 
 /**
@@ -18,16 +19,15 @@ const S001 = React.lazy(() => import('S001/Page'))
 
 export const Sketches = [
   {
-    title: 'Playing with oscillators',
-    image: Images.S001,
-    component: S001
-  },
-  {
     title: 'Metaballs',
     image: Images.S000,
     component: S000
   },
-  
+  {
+    title: 'Playing with oscillators',
+    image: Images.S001,
+    component: S001
+  },
   // {
   //   title: 'SDFs',
   //   image: Images.S002,

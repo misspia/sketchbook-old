@@ -1,6 +1,6 @@
 import vert from './vertex.glsl'
 import frag from './fragment.glsl'
-import SketchManager from '../sketchManager'
+import { SketchManager } from './SketchManager'
 
 class GradientBlobs extends SketchManager {
   constructor(canvas) {

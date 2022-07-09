@@ -59,10 +59,10 @@ export default function Home() {
   const [progress, setProgress] = useState(0);
   return (
     <Container>
-      {
+      {/* {
         progress < 100 &&
         <Loader progress={progress} />
-      }
+      } */}
       <Header>
         <Title>Sketchbook</Title>
         <Subtitle>a collection of WebGL experiments</Subtitle>

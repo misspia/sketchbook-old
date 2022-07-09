@@ -1,20 +1,18 @@
-export const Images = {
-  S000: require('./images/000.jpg'),
-  S001: require('./images/001.jpg'),
-  S002: require('./images/002.jpg'),
-  S003: require('./images/003.jpg'),
-  S004: require('./images/004.jpg'),
-  S005: require('./images/005.jpg'),
-  S006: require('./images/006.jpg'),
-  S007: require('./images/007.jpg'),
-  S008: require('./images/008.jpg'),
-  S009: require('./images/009.jpg'),
-  S010: require('./images/010.jpg'),
-  S011: require('./images/011.jpg'),
-  S012: require('./images/012.jpg'),
-  S013: require('./images/013.jpg'),
-  S014: require('./images/014.jpg'),
-  S015: require('./images/015.jpg'),
-  S016: require('./images/016.jpg'),
-  S017: require('./images/017.jpg'),
-}
+export { default as S000 } from './images/000.jpg'
+export { default as S001 } from './images/001.jpg'
+export { default as S002 } from './images/002.jpg'
+export { default as S003 } from './images/003.jpg'
+export { default as S004 } from './images/004.jpg'
+export { default as S005 } from './images/005.jpg'
+export { default as S006 } from './images/006.jpg'
+export { default as S007 } from './images/007.jpg'
+export { default as S008 } from './images/008.jpg'
+export { default as S009 } from './images/009.jpg'
+export { default as S010 } from './images/010.jpg'
+export { default as S011 } from './images/011.jpg'
+export { default as S012 } from './images/012.jpg'
+export { default as S013 } from './images/013.jpg'
+export { default as S014 } from './images/014.jpg'
+export { default as S015 } from './images/015.jpg'
+export { default as S016 } from './images/016.jpg'
+export { default as S017 } from './images/017.jpg'
