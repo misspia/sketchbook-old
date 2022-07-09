@@ -23,7 +23,10 @@
     "packages": [
       "packages/app",
       "packages/S000",
-      "packages/S001"
+      "packages/S001",
+      "packages/S002",
+      "packages/S003",
+      "packages/S004"
     ]
   },
   "devDependencies": {

@@ -75,9 +75,10 @@ export default function Home() {
         </SocialContainer>
       </Header>
       <SketchPreviews
-        onLoad={(loadedItems, total) => (
+        onLoad={(loadedItems, total) => {
+          console.debug(loadedItems);
           setProgress(loadedItems / total * 100)
-        )}
+        }}
       />
     </Container>)
 }
