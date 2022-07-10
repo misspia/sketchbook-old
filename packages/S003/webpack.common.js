@@ -3,11 +3,6 @@ const path = require('path');
 const { ModuleFederationPlugin } = require('webpack').container
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
-const paths = {
-	DIST: path.resolve(__dirname, 'dist'),
-	SRC: path.resolve(__dirname, 'src'),
-};
-
 module.exports = {
 	entry:  './index.js',
 	output: {
