@@ -11,21 +11,21 @@ const paths = {
 module.exports = {
 	entry:  './index.js',
 	output: {
-		publicPath: 'http://localhost:3002/',
+		publicPath: 'http://localhost:3004/',
 		clean: true,
 	},
 	plugins: [
     new HtmlWebpackPlugin({
-      title: 'S001',
+      title: 'S004',
       template: './src/template.html',
       filename: 'index.html',
     }),
 		new ModuleFederationPlugin({
-      name: 'S001',
+      name: 'S004',
       filename: 'remoteEntry.js',
-			library: { type: 'var', name: 'S001' },
+			library: { type: 'var', name: 'S004' },
       exposes: {
-        './Page': './src/Page.js',
+        './Page': './src/Page.jsx',
       },
       shared: {
         react: { singleton: true, requiredVersion: deps.react },

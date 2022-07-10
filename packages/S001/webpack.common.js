@@ -25,7 +25,7 @@ module.exports = {
       filename: 'remoteEntry.js',
 			library: { type: 'var', name: 'S001' },
       exposes: {
-        './Page': './src/Page.js',
+        './Page': './src/Page.jsx',
       },
       shared: {
         react: { singleton: true, requiredVersion: deps.react },
