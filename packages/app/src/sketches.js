@@ -3,7 +3,8 @@ import { Images } from './assets';
 
 const S000 = React.lazy(() => import('S000/Page'))
 const S001 = React.lazy(() => import('S001/Page'))
-// const S002 = React.lazy(() => import('S002/Page'))
+const S002 = React.lazy(() => import('S002/Page'))
+const S003 = React.lazy(() => import('S003/Page'))
 
 
 /**
@@ -28,16 +29,16 @@ export const Sketches = [
     image: Images.S001,
     component: S001
   },
-  // {
-  //   title: 'SDFs',
-  //   image: Images.S002,
-  //   component: S002
-  // },
-  // {
-  //   title: 'Ray marching',
-  //   image: Images.S003,
-  //   component: S003
-  // },
+  {
+    title: 'SDFs',
+    image: Images.S002,
+    component: S002
+  },
+  {
+    title: 'Ray marching',
+    image: Images.S003,
+    component: S003
+  },
   // {
   //   title: 'Toon shading',
   //   image: Images.S004,

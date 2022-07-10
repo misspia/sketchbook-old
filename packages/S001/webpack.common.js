@@ -11,7 +11,7 @@ const paths = {
 module.exports = {
 	entry:  './index.js',
 	output: {
-		publicPath: 'http://localhost:3002/',
+		publicPath: 'http://localhost:3001/',
 		clean: true,
 	},
 	plugins: [

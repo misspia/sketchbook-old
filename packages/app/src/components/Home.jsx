@@ -11,9 +11,10 @@ export const Container = styled(Styles.SectionContainer)`
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow-y: scroll;
 
   background-color: ${Colors.cream};
+  height: 100%;
+  width: 100%;
 `;
 
 export const Header = styled.header`
@@ -55,6 +56,8 @@ export const SocialLink = styled.a`
   }
 `;
 
+
+
 export default function Home() {
   const [progress, setProgress] = useState(0);
   return (
@@ -76,8 +79,9 @@ export default function Home() {
       </Header>
       <SketchPreviews
         onLoad={(loadedItems, total) => {
-          console.debug(loadedItems);
+          console.debug(loadedItems, total)
           setProgress(loadedItems / total * 100)
+
         }}
       />
     </Container>)

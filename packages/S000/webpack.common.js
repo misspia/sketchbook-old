@@ -11,7 +11,7 @@ const paths = {
 module.exports = {
 	entry:  './index.js',
 	output: {
-		publicPath: 'http://localhost:3001/',
+		publicPath: 'http://localhost:3000/',
 		clean: true,
 	},
 	plugins: [
@@ -25,7 +25,7 @@ module.exports = {
       filename: 'remoteEntry.js',
 			library: { type: 'var', name: 'S000' },
       exposes: {
-        './Page': './src/Page.js',
+        './Page': './src/Page.jsx',
       },
       shared: {
         react: { singleton: true, requiredVersion: deps.react },

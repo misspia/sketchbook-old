@@ -11,19 +11,19 @@ const paths = {
 module.exports = {
 	entry:  './index.js',
 	output: {
-		publicPath: 'http://localhost:3002/',
+		publicPath: 'http://localhost:3003/',
 		clean: true,
 	},
 	plugins: [
     new HtmlWebpackPlugin({
-      title: 'S001',
+      title: 'S003',
       template: './src/template.html',
       filename: 'index.html',
     }),
 		new ModuleFederationPlugin({
-      name: 'S001',
+      name: 'S003',
       filename: 'remoteEntry.js',
-			library: { type: 'var', name: 'S001' },
+			library: { type: 'var', name: 'S003' },
       exposes: {
         './Page': './src/Page.js',
       },

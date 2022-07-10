@@ -83,8 +83,10 @@ module.exports = {
     new ModuleFederationPlugin({
       name: 'app',
       remotes: {
-        S000: 'S000@http://localhost:3001/remoteEntry.js',
-        S001: 'S001@http://localhost:3002/remoteEntry.js',
+        S000: 'S000@http://localhost:3000/remoteEntry.js',
+        S001: 'S001@http://localhost:3001/remoteEntry.js',
+        S002: 'S002@http://localhost:3002/remoteEntry.js',
+        S003: 'S003@http://localhost:3003/remoteEntry.js',
       },
       shared: {
         react: { singleton: true, requiredVersion: deps.react },
