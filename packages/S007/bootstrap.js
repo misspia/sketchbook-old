@@ -11,6 +11,6 @@ export default function View() {
   )
 }
 
-const container = document.getElementById('S002-container')
+const container = document.getElementById('S007-container')
 const root = createRoot(container)
 root.render(<View />)

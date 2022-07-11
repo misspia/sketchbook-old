@@ -5,6 +5,10 @@ const S000 = React.lazy(() => import('S000/Page'))
 const S001 = React.lazy(() => import('S001/Page'))
 const S002 = React.lazy(() => import('S002/Page'))
 const S003 = React.lazy(() => import('S003/Page'))
+const S004 = React.lazy(() => import('S004/Page'))
+const S005 = React.lazy(() => import('S005/Page'))
+const S006 = React.lazy(() => import('S006/Page'))
+const S007 = React.lazy(() => import('S007/Page'))
 
 
 /**
@@ -39,27 +43,27 @@ export const Sketches = [
     image: Images.S003,
     component: S003
   },
-  // {
-  //   title: 'Toon shading',
-  //   image: Images.S004,
-  //   component: S004
-  // },
-  // {
-  //   title: 'Basic texture mapping',
-  //   image: Images.S005,
-  //   component: S005
-  // },
-  // {
-  //   title: 'Mesh explosion',
-  //   instructions: 'Press & hold to make the sphere explode',
-  //   image: Images.S006,
-  //   component: S006
-  // },
-  // {
-  //   title: 'Tunnel',
-  //   image: Images.S007,
-  //   component: S007
-  // },
+  {
+    title: 'Toon shading',
+    image: Images.S004,
+    component: S004
+  },
+  {
+    title: 'Basic texture mapping',
+    image: Images.S005,
+    component: S005
+  },
+  {
+    title: 'Mesh explosion',
+    instructions: 'Press & hold to make the sphere explode',
+    image: Images.S006,
+    component: S006
+  },
+  {
+    title: 'Tunnel',
+    image: Images.S007,
+    component: S007
+  },
   // {
   //   title: '',
   //   instructions: `Right Now - Nurko & Misdom`,

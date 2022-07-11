@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useMemo } from 'react';
-import { useWindowSize } from '../../hooks';
-import Sketch from './sketch';
+import { useWindowSize } from './useWindowSize';
+import { Sketch } from './Sketch';
 
-export default function View({
+export default function Page({
   ready = true,
 }) {
   const canvasRef = useRef(null);

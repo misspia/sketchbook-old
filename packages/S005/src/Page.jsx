@@ -2,9 +2,7 @@ import React, { useEffect, useRef, useMemo } from 'react';
 import { useWindowSize } from './useWindowSize';
 import { Sketch } from './Sketch';
 
-export default function Page({
-  ready = true,
-}) {
+export default function Page () {
   const canvasRef = useRef(null);
   const audioRef = useRef(null);
   const sketch = useMemo(() => {
@@ -26,11 +24,11 @@ export default function Page({
   }, [sketch, width, height]);
 
   useEffect(() => {
-    if(!sketch || !ready) {
+    if(!sketch) {
       return;
     }
     sketch.render();
-  }, [sketch, ready]);
+  }, [sketch]);
 
   return (
     <>

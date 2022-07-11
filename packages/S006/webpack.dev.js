@@ -9,7 +9,7 @@ module.exports = merge(common, {
 		static: {
 			directory: path.join(__dirname, 'dist'),
 		},
-		port: 3004,
+		port: 3006,
 	},
 	plugins: [
 		new webpack.DefinePlugin({

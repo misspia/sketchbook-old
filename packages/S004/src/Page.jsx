@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useMemo } from 'react';
 import { useWindowSize } from './useWindowSize';
 import { Sketch } from './Sketch';
 
-export default function View({
+export default function Page({
   ready = true,
 }) {
   const canvasRef = useRef(null);
