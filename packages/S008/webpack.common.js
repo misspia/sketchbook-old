@@ -3,12 +3,12 @@ const path = require('path');
 const { ModuleFederationPlugin } = require('webpack').container
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
-const APP_NAME = 'S007'
+const APP_NAME = "S008"
 
 module.exports = {
 	entry:  './index.js',
 	output: {
-		publicPath: 'http://localhost:3007/',
+		publicPath: 'http://localhost:3008/',
 		clean: true,
 	},
 	plugins: [

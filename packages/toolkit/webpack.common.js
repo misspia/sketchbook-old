@@ -3,12 +3,12 @@ const path = require('path');
 const { ModuleFederationPlugin } = require('webpack').container
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
-const APP_NAME = 'S007'
+const APP_NAME = 'toolkit'
 
 module.exports = {
 	entry:  './index.js',
 	output: {
-		publicPath: 'http://localhost:3007/',
+		publicPath: 'http://localhost:8081/',
 		clean: true,
 	},
 	plugins: [
@@ -22,7 +22,10 @@ module.exports = {
       filename: 'remoteEntry.js',
 			library: { type: 'var', name: APP_NAME },
       exposes: {
-        './Page': './src/Page.jsx',
+				'./utils': './src/utils.js',
+        './hooks': './src/hooks/index.js',
+        './audio': './src/audio/index.js',
+        
       },
       shared: {
         react: { singleton: true, requiredVersion: deps.react },
@@ -42,19 +45,6 @@ module.exports = {
 					}
 				],
 			},
-			{
-        test: /\.(glsl|vert|frag)$/,
-				use: [
-					{
-						loader: 'raw-loader',
-						options: {},
-					},
-					{
-						loader: 'glslify-loader',
-						options: {},
-					},
-				],
-      },
 			{
 				test: /\.(js|jsx)$/,
 				exclude: /node_modules/,
