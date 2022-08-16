@@ -1,10 +1,14 @@
+import dat from 'dat.gui';
+import Stats from 'stats-js';
 import * as THREE from 'three';
 import OrbitControls from 'three-orbit-controls';
+
+import { Audio } from './Audio';
 
 const OrbitController = OrbitControls(THREE);
 
 export class SketchManager extends THREE.EventDispatcher {
-  constructor(canvas, customOptions = {}) {
+  constructor(canvas, audioElement, customOptions = {}) {
     super();
     const options = {
       cameraNear: 0.1,
@@ -15,10 +19,16 @@ export class SketchManager extends THREE.EventDispatcher {
     this.frag = '';
     this.vert = '';
 
+    this.audioElement = audioElement;
+    this.audioSrc = '';
+    this.audio = null;
+
     this.startTime = Date.now();
 
     this.canvas = canvas;
     this.mouse = {};
+    this.gui = {};
+    this.stats = {};
     this.scene = {};
     this.camera = {};
 
@@ -75,6 +85,27 @@ export class SketchManager extends THREE.EventDispatcher {
     }
   }
 
+  // create audio context
+  initAudio(additionalConfig) {
+    const { audioElement, audioSrc } = this;
+    const config = {
+      audioElement,
+      audioSrc,
+      camera: this.camera,
+      ...additionalConfig
+    };
+    this.audio = new Audio(config);
+  }
+
+
+  createDatGUI() {
+    this.gui = new dat.GUI();
+  }
+  createStats() {
+    this.stats = new Stats();
+    this.stats.showPanel(0); // starts at FPS
+    document.body.appendChild(this.stats.dom);
+  }
   createMouseListener() {
     this.mouse = new THREE.Vector2();
     this.canvas.addEventListener('mousemove', e => {
@@ -91,7 +122,6 @@ export class SketchManager extends THREE.EventDispatcher {
     this.camera.updateProjectionMatrix();
 
     this.renderer.setSize(width, height);
-
     this.customResize(width, height);
   }
 

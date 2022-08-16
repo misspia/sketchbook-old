@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useMemo } from 'react';
-import { useWindowSize } from './useWindowSize';
+import hooks from 'toolkit/hooks';
 import { Sketch } from './Sketch';
+
+const { useWindowSize } = hooks
 
 export default function Page({
   ready = true,

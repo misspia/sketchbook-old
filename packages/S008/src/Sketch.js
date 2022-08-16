@@ -1,19 +1,14 @@
-import * as THREE from 'three';
-import vert from './vertex.glsl';
-import frag from './fragment.glsl';
-import { SketchManager } from './SketchManager';
-
-import { Images } from './assets';
-
-import { Audio } from '../../themes';
+import * as THREE from "three"
+import { SketchManager } from "./SketchManager"
 import AudioNode from './node';
-import utils from '../utils';
+
+import Audio from "toolkit/audio"
+import utils from "toolkit/utils"
 
 export class Sketch extends SketchManager {
   constructor(canvas, audioElement) {
     super(canvas, audioElement);
-    // this.audioSrc = Audio.S008;
-    this.audioSrc = "";
+    this.audioSrc = Audio.S008;
     this.graph = new THREE.Group();
     this.fftSize = 512;
 

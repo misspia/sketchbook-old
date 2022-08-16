@@ -22,6 +22,7 @@
   "workspaces": {
     "packages": [
       "packages/app",
+      "packages/toolkit",
       "packages/S000",
       "packages/S001",
       "packages/S002",
@@ -29,7 +30,8 @@
       "packages/S004",
       "packages/S005",
       "packages/S006",
-      "packages/S007"
+      "packages/S007",
+      "packages/S008"
     ]
   },
   "devDependencies": {

@@ -1,44 +1,3 @@
-// const path = require('path')
-// const { ModuleFederationPlugin } = require('webpack').container
-// const ExternalTemplateRemotesPlugin = require("external-remotes-plugin");
-// const HtmlWebpackPlugin = require('html-webpack-plugin')
-// const { CleanWebpackPlugin } = require('clean-webpack-plugin')
-
-// module.exports = {
-//   entry: path.resolve(__dirname, './src/index.js'),
-//   output: {
-//     path: path.resolve(__dirname, './dist'),
-//     filename: '[name].bundle.js',
-//   },
-//   module: {
-//     rules: [
-//       {
-//         test: /\.(js|jsx)$/,
-// 				exclude: /node_modules/,
-//         use: ['babel-loader'],
-//       }
-//     ]
-//   },
-//   plugins: [
-//     new HtmlWebpackPlugin({
-//       title: 'Sketchbook',
-//       template: path.resolve(__dirname, './src/template.html'),
-//       filename: 'index.html',
-//     }),
-//     new CleanWebpackPlugin(),
-//     new ModuleFederationPlugin({
-//       name: 'app',
-//       remotes: {
-//         // S000: 'S000@[S000Url]/remoteEntry.js'
-//         S000: 'S000@http://localhost:3000/remoteEntry.js'
-//       }
-//     }),
-//     new ExternalTemplateRemotesPlugin(),
-//   ],
-
-// }
-
-
 const deps = require('./package.json').dependencies
 const path = require('path')
 const { ModuleFederationPlugin } = require('webpack').container
@@ -91,6 +50,7 @@ module.exports = {
         S005: 'S005@http://localhost:3005/remoteEntry.js',
         S006: 'S006@http://localhost:3006/remoteEntry.js',
         S007: 'S007@http://localhost:3007/remoteEntry.js',
+        S008: 'S008@http://localhost:3008/remoteEntry.js',
       },
       shared: {
         react: { singleton: true, requiredVersion: deps.react },

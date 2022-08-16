@@ -20,10 +20,12 @@ module.exports = {
 		new ModuleFederationPlugin({
       name: APP_NAME,
       filename: 'remoteEntry.js',
-			library: { type: 'var', name: APP_NAME },
       exposes: {
         './Page': './src/Page.jsx',
       },
+			remotes: {
+				toolkit: ['toolkit@http://localhost:8081/remoteEntry.js']
+			},
       shared: {
         react: { singleton: true, requiredVersion: deps.react },
 				'react-dom': { singleton: true, requiredVersion: deps['react-dom'] }
