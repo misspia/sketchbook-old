@@ -23,6 +23,7 @@ module.exports = {
 			library: { type: 'var', name: APP_NAME },
       exposes: {
 				'./utils': './src/utils.js',
+				'./components': './src/components/index.js',
         './hooks': './src/hooks/index.js',
         './audio': './src/audio/index.js',
         
