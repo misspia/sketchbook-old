@@ -10,6 +10,7 @@ const S005 = React.lazy(() => import('S005/Page'))
 const S006 = React.lazy(() => import('S006/Page'))
 const S007 = React.lazy(() => import('S007/Page'))
 const S008 = React.lazy(() => import('S008/Page'))
+const S009 = React.lazy(() => import('S009/Page'))
 
 
 /**
@@ -68,15 +69,14 @@ export const Sketches = [
   {
     title: '',
     instructions: `Right Now - Nurko & Misdom`,
-    isAudio: true,
     image: Images.S008,
     component: S008
   },
-  // {
-  //   title: 'Light Tunnel',
-  //   image: Images.S009,
-  //   component: S009,
-  // },
+  {
+    title: 'Light Tunnel',
+    image: Images.S009,
+    component: S009,
+  },
   // {
   //   title: 'Noise',
   //   instructions: 'Hover to activate the ribbons',

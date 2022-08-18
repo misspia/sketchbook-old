@@ -31,7 +31,8 @@
       "packages/S005",
       "packages/S006",
       "packages/S007",
-      "packages/S008"
+      "packages/S008",
+      "packages/S009"
     ]
   },
   "devDependencies": {
