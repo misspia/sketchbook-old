@@ -11,6 +11,7 @@ const S006 = React.lazy(() => import('S006/Page'))
 const S007 = React.lazy(() => import('S007/Page'))
 const S008 = React.lazy(() => import('S008/Page'))
 const S009 = React.lazy(() => import('S009/Page'))
+const S010 = React.lazy(() => import('S010/Page'))
 
 
 /**
@@ -77,12 +78,12 @@ export const Sketches = [
     image: Images.S009,
     component: S009,
   },
-  // {
-  //   title: 'Noise',
-  //   instructions: 'Hover to activate the ribbons',
-  //   image: Images.S010,
-  //   component: S010,
-  // },
+  {
+    title: 'Noise',
+    instructions: 'Hover to activate the ribbons',
+    image: Images.S010,
+    component: S010,
+  },
   // {
   //   title: 'Bloom',
   //   image: Images.S011,

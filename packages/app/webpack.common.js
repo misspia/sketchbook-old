@@ -52,6 +52,7 @@ module.exports = {
         S007: 'S007@http://localhost:3007/remoteEntry.js',
         S008: 'S008@http://localhost:3008/remoteEntry.js',
         S009: 'S009@http://localhost:3009/remoteEntry.js',
+        S010: 'S010@http://localhost:3010/remoteEntry.js',
       },
       shared: {
         react: { singleton: true, requiredVersion: deps.react },
