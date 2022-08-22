@@ -12,6 +12,7 @@ const S007 = React.lazy(() => import('S007/Page'))
 const S008 = React.lazy(() => import('S008/Page'))
 const S009 = React.lazy(() => import('S009/Page'))
 const S010 = React.lazy(() => import('S010/Page'))
+const S011 = React.lazy(() => import('S011/Page'))
 
 
 /**
@@ -84,11 +85,11 @@ export const Sketches = [
     image: Images.S010,
     component: S010,
   },
-  // {
-  //   title: 'Bloom',
-  //   image: Images.S011,
-  //   component: S011,
-  // },
+  {
+    title: 'Bloom',
+    image: Images.S011,
+    component: S011,
+  },
   // {
   //   title: 'Noisey plane & texture mixing',
   //   instructions: 'Press & hold to reach level 9000',
