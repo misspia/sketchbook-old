@@ -1,7 +1,7 @@
 import * as THREE from 'three';
-import utils from '../utils';
+import utils from 'toolkit/utils';
 
-export default class Bat {
+export class Bat {
   constructor() {
     this.progressX = 0;
     this.progressY = 0;

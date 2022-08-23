@@ -1,7 +1,7 @@
 import * as THREE from 'three';
-import utils from '../utils';
+import utils from 'toolkit/utils';
 
-export default class ArcLight {
+export class ArcLight {
   constructor({
     width = 10,
     height = 10,

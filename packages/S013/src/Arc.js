@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-export default class Arc {
+export class Arc {
   constructor({
     height = 10,
     width = 5,

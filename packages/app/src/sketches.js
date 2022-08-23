@@ -14,6 +14,7 @@ const S009 = React.lazy(() => import('S009/Page'))
 const S010 = React.lazy(() => import('S010/Page'))
 const S011 = React.lazy(() => import('S011/Page'))
 const S012 = React.lazy(() => import('S012/Page'))
+const S013 = React.lazy(() => import('S013/Page'))
 
 
 /**
@@ -97,11 +98,11 @@ export const Sketches = [
     image: Images.S012,
     component: S012,
   },
-  // {
-  //   title: 'God rays',
-  //   image: Images.S013,
-  //   component: S013,
-  // },
+  {
+    title: 'God rays',
+    image: Images.S013,
+    component: S013,
+  },
   // {
   //   title: '',
   //   instructions: `Coven theme - Riot Games x Andrea Bellucci`,

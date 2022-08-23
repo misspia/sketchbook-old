@@ -1,8 +1,8 @@
 import * as THREE from 'three';
-import Bat from './bat';
-import utils from '../utils';
+import { Bat } from './Bat';
+import utils from 'toolkit/utils';
 
-export default class Bats {
+export class Bats {
   constructor() {
     this.numBats = utils.randomFloatBetween(8, 12);
     this.bats = [];

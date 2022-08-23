@@ -1,9 +1,9 @@
 import * as THREE from 'three';
-import Arc from './arc';
-import ArcLight from './arcLight';
-import Bats from './bats';
+import { Arc } from './Arc';
+import { ArcLight } from './ArcLight';
+import { Bats } from './Bats';
 
-export default class Entrance {
+export class Entrance {
   constructor({
     numArcs = 5,
     arcMaxHeight = 20,

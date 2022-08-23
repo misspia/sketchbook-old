@@ -6,7 +6,7 @@ import {
   GodRaysGenerateShader
 } from 'three/examples/jsm/shaders/GodRaysShader';
 
-import PP from '../postProcessor';
+import { PostProcessor } from './PostProcessor';
 
 /**
  * https://github.com/mrdoob/three.js/blob/master/examples/webgl_postprocessing_godrays.html
@@ -16,7 +16,7 @@ export default class EffectManager {
     this.godrayRenderTargetResolutionMultiplier = 1.0 / 4.0;
     this.context = context;
     this.context.renderer.autoClear = false;
-    this.pp = new PP(this.context);
+    this.pp = new PostProcessor(this.context);
 
     this.sunPosition = new THREE.Vector3(0, 1000, -1000);
     this.clipPosition = new THREE.Vector4();
