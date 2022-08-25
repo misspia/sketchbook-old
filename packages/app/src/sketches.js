@@ -17,6 +17,7 @@ const S012 = React.lazy(() => import('S012/Page'))
 const S013 = React.lazy(() => import('S013/Page'))
 const S014 = React.lazy(() => import('S014/Page'))
 const S015 = React.lazy(() => import('S015/Page'))
+const S016 = React.lazy(() => import('S016/Page'))
 
 
 /**
@@ -119,13 +120,13 @@ export const Sketches = [
     image: Images.S015,
     component: S015,
   },
-  // {
-  //   title: '',
-  //   instructions: `Wrong (ft. Lil Uzi Vert) - MAX`,
-  //   isAudio: true,
-  //   image: Images.S016,
-  //   component: S016,
-  // },
+  {
+    title: '',
+    instructions: `Wrong (ft. Lil Uzi Vert) - MAX`,
+    isAudio: true,
+    image: Images.S016,
+    component: S016,
+  },
   // {
   //   title: '',
   //   instructions: `Il vento d'oro - Yugo Kanno`,
