@@ -39,7 +39,8 @@
       "packages/S013",
       "packages/S014",
       "packages/S015",
-      "packages/S016"
+      "packages/S016",
+      "packages/S017"
     ]
   },
   "devDependencies": {

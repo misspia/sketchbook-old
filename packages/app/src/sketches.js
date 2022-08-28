@@ -18,6 +18,7 @@ const S013 = React.lazy(() => import('S013/Page'))
 const S014 = React.lazy(() => import('S014/Page'))
 const S015 = React.lazy(() => import('S015/Page'))
 const S016 = React.lazy(() => import('S016/Page'))
+const S017 = React.lazy(() => import('S017/Page'))
 
 
 /**
@@ -127,13 +128,13 @@ export const Sketches = [
     image: Images.S016,
     component: S016,
   },
-  // {
-  //   title: '',
-  //   instructions: `Il vento d'oro - Yugo Kanno`,
-  //   isAudio: true,
-  //   image: Images.S017,
-  //   component: S017,
-  // },
+  {
+    title: '',
+    instructions: `Il vento d'oro - Yugo Kanno`,
+    isAudio: true,
+    image: Images.S017,
+    component: S017,
+  },
 
   // // {
   // //   title: '',
