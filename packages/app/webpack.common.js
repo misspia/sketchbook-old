@@ -42,6 +42,7 @@ module.exports = {
     new ModuleFederationPlugin({
       name: 'app',
       remotes: {
+        toolkit: 'toolkit@http://localhost:8081/remoteEntry.js',
         S000: 'S000@http://localhost:3000/remoteEntry.js',
         S001: 'S001@http://localhost:3001/remoteEntry.js',
         S002: 'S002@http://localhost:3002/remoteEntry.js',

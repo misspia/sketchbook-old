@@ -1,8 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
-import { Colors, Metrics, Styles, Icons } from '../themes'
-import { Icon } from './Icon';
+import { Colors, Metrics, Styles } from '../themes'
 
 const Container = styled.div`
   margin: ${Metrics.previewMargin}px;
@@ -62,33 +61,9 @@ const HiddenContainer = styled.div`
   }
 `;
 
-const Title = styled.h2`
-  font-size: 1.2em;
-  letter-spacing: 0.1em;
-  text-align: center;
-  color: ${Colors.greyDark};
-`;
-
-const IconWrapper = styled.div`
-
-  margin: 0.5em;
-  padding: 0.2em;
-  position: absolute;
-  bottom: 0;
-  right: 0;
-
-  background-color: ${Colors.thistle};
-  border-radius: 0.2em;
-  box-sizing: border-box;
-`;
-
-
-
 export const Preview = ({
   to = '',
-  title = '',
   image = '',
-  isAudio = false,
   onLoad = () => {},
 
 }) => {
@@ -100,18 +75,7 @@ export const Preview = ({
         />
         <NavLink to={to} />
         <HiddenContainer>
-
         </HiddenContainer>
-        {
-          isAudio && 
-          <IconWrapper>
-            <Icon
-              size='1.5em'
-              color={Colors.grey}
-              name={Icons.audio}/> 
-          </IconWrapper>          
-        }
-        
       </Container>
     );
 }

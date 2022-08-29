@@ -39,9 +39,7 @@ export const SketchPreviews = ({
         <Preview
           key={index}
           to={Routes.toSketch(index)}
-          title={sketch.title}
           image={sketch.image}
-          isAudio={sketch.isAudio}
           onLoad={() => (
             setLoadedItems(loadedItems + 1)
           )}
