@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styled, { createGlobalStyle } from 'styled-components'
+import styled from 'styled-components'
 
 import { Icon } from './Icon'
 import { Loader } from './Loader'
@@ -7,10 +7,6 @@ import { SketchPreviews } from './SketchPreviews'
 
 import { Colors, Fonts, Styles, Icons } from '../themes'
 import typography from "toolkit/typography"
-
-const GlobalStyle = createGlobalStyle`
-  ${typography.import}
-`
 
 export const Container = styled(Styles.SectionContainer)`
 
@@ -66,8 +62,6 @@ export const SocialLink = styled.a`
 export default function Home() {
   const [progress, setProgress] = useState(0);
   return (
-    <>
-      <GlobalStyle />
       <Container>
         {/* {
         progress < 100 &&
@@ -92,6 +86,5 @@ export default function Home() {
           }}
         />
       </Container>
-    </>
   )
 }

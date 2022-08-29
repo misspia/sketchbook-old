@@ -58,7 +58,6 @@ export const Sketches = [
     component: S005
   },
   {
-    instructions: 'Press & hold to make the sphere explode',
     image: Images.S006,
     component: S006
   },
@@ -67,7 +66,6 @@ export const Sketches = [
     component: S007
   },
   {
-    instructions: `Right Now - Nurko & Misdom`,
     image: Images.S008,
     component: S008
   },
@@ -76,7 +74,6 @@ export const Sketches = [
     component: S009,
   },
   {
-    instructions: 'Hover to activate the ribbons',
     image: Images.S010,
     component: S010,
   },
@@ -85,7 +82,6 @@ export const Sketches = [
     component: S011,
   },
   {
-    instructions: 'Press & hold to reach level 9000',
     image: Images.S012,
     component: S012,
   },
@@ -94,26 +90,18 @@ export const Sketches = [
     component: S013,
   },
   {
-    instructions: `Coven theme - Riot Games x Andrea Bellucci`,
-    isAudio: true,
     image: Images.S014,
     component: S014,
   },
   {
-    instructions: `Nobody (ft. MINO) - Blue.D`,
-    isAudio: true,
     image: Images.S015,
     component: S015,
   },
   {
-    instructions: `Wrong (ft. Lil Uzi Vert) - MAX`,
-    isAudio: true,
     image: Images.S016,
     component: S016,
   },
   {
-    instructions: `Il vento d'oro - Yugo Kanno`,
-    isAudio: true,
     image: Images.S017,
     component: S017,
   },

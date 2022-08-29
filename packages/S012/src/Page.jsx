@@ -1,8 +1,10 @@
 import React, { useEffect, useRef, useMemo } from 'react';
 import hooks from 'toolkit/hooks';
+import components from 'toolkit/components';
 import { Sketch } from './Sketch';
 
 const { useWindowSize } = hooks
+const { Tooltip } = components
 
 export default function Page() {
   const canvasRef = useRef(null);
@@ -34,6 +36,9 @@ export default function Page() {
 
   return (
     <>
+      <Tooltip>
+      Press & hold to reach level 9000
+      </Tooltip>
       <canvas ref={canvasRef}></canvas>
       <audio ref={audioRef} loop />
     </>

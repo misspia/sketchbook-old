@@ -1,6 +1,9 @@
 import React, { useEffect, useRef, useMemo } from 'react';
 import { useWindowSize } from './useWindowSize';
+import components from 'toolkit/components';
 import { Sketch } from './Sketch';
+
+const { Tooltip } = components
 
 export default function Page({
   ready = true,
@@ -8,7 +11,7 @@ export default function Page({
   const canvasRef = useRef(null);
   const audioRef = useRef(null);
   const sketch = useMemo(() => {
-    if(!canvasRef.current) {
+    if (!canvasRef.current) {
       return;
     }
     return new Sketch(
@@ -19,14 +22,14 @@ export default function Page({
   const { width, height } = useWindowSize();
 
   useEffect(() => {
-    if(!sketch) {
+    if (!sketch) {
       return;
     }
     sketch.resize(width, height)
   }, [sketch, width, height]);
 
   useEffect(() => {
-    if(!sketch || !ready) {
+    if (!sketch || !ready) {
       return;
     }
     sketch.render();
@@ -34,6 +37,9 @@ export default function Page({
 
   return (
     <>
+      <Tooltip>
+        Press & hold to make the sphere explode
+      </Tooltip>
       <canvas ref={canvasRef}></canvas>
       <audio ref={audioRef} loop />
     </>

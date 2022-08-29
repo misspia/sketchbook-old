@@ -18,7 +18,9 @@ module.exports = {
 		new ModuleFederationPlugin({
       name: 'S006',
       filename: 'remoteEntry.js',
-			library: { type: 'var', name: 'S006' },
+			remotes: {
+				toolkit: ['toolkit@http://localhost:8081/remoteEntry.js']
+			},
       exposes: {
         './Page': './src/Page.jsx',
       },

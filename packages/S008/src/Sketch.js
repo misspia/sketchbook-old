@@ -8,7 +8,7 @@ import utils from "toolkit/utils"
 export class Sketch extends SketchManager {
   constructor(canvas, audioElement) {
     super(canvas, audioElement);
-    this.audioSrc = Audio.S008;
+    this.audioSrc = Audio.S008.url;
     this.graph = new THREE.Group();
     this.fftSize = 512;
 
