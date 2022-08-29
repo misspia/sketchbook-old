@@ -3,7 +3,7 @@ import Stats from 'stats-js';
 import * as THREE from 'three';
 import OrbitControls from 'three-orbit-controls';
 
-import { Audio } from './Audio';
+import AudioManager from 'toolkit/AudioManager';
 
 const OrbitController = OrbitControls(THREE);
 
@@ -94,7 +94,7 @@ export class SketchManager extends THREE.EventDispatcher {
       camera: this.camera,
       ...additionalConfig
     };
-    this.audio = new Audio(config);
+    this.audio = new AudioManager(config);
   }
 
 

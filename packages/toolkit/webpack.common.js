@@ -26,6 +26,7 @@ module.exports = {
 				'./components': './src/components/index.js',
         './hooks': './src/hooks/index.js',
         './audio': './src/audio/index.js',
+        './AudioManager': './src/AudioManager.js',
         
       },
       shared: {
