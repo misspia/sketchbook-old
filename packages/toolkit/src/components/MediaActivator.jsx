@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import typography from '../typography';
 
 const Colors = {
   black: '#151515',
@@ -17,6 +18,7 @@ const Container = styled.div`
     z-index: 999;
 
     background-color: ${Colors.black};
+    font-family: ${typography.body};
 `;
 
 /**
