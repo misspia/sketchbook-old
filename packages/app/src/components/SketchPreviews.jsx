@@ -1,26 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
-import { Metrics } from '../themes'
 import { Routes } from './Router/routes'
 import { Preview } from './Preview'
 import { Sketches } from '../sketches'
 
-const previewGridWidth = Metrics.previewSize + Metrics.previewMargin * 2;
-const outerPadding = Metrics.previewMargin;
-
-const totalWidthMax = previewGridWidth * 3 + outerPadding * 3;
 export const Container = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 1em;
 
-  width: ${totalWidthMax}px;
-
-  @media (max-width: 800px) {
-    justify-content: center;
-    width: 100%;
+  justify-items: center;
+  
+  @media (max-width: 850px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (max-width: 580px) {
+    grid-template-columns: repeat(1, 1fr);
   }
 `;
 

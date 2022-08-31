@@ -4,17 +4,17 @@ import styled from 'styled-components'
 import { Loader } from './Loader'
 import { SketchPreviews } from './SketchPreviews'
 
-import { Colors, Styles } from '../themes'
+import { Colors } from '../themes'
 import typography from "toolkit/typography"
 import { Images } from "../assets"
 
-const Container = styled(Styles.SectionContainer)`
+const Container = styled.div`
+  padding: 1em 0;
   display: flex;
   flex-direction: column;
   align-items: center;
 
   background-color: ${Colors.cream};
-  height: 100%;
   width: 100%;
 `;
 
@@ -42,7 +42,7 @@ const Subtitle = styled.h2`
 `;
 
 const SocialLink = styled.a`
-  margin-top: 0.5em;
+  margin: 0.5em 0;
   color: ${Colors.black};
   transition: 0.2s all;
 `;

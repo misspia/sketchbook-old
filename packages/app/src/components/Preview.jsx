@@ -1,17 +1,16 @@
 import React from 'react'
 import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
-import { Colors, Metrics, Styles } from '../themes'
+import { Colors, Styles } from '../themes'
 
 const Container = styled.div`
-  margin: ${Metrics.previewMargin}px;
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  width: ${Metrics.previewSize}px;
-  height: ${Metrics.previewSize}px;
+  width: 256px;
+  height: 256px;
   overflow: hidden;
 
   a {
