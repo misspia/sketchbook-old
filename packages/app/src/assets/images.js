@@ -1,3 +1,4 @@
+export { default as Github } from './images/github.png'
 export { default as S000 } from './images/000.jpg'
 export { default as S001 } from './images/001.jpg'
 export { default as S002 } from './images/002.jpg'

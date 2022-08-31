@@ -1,5 +1,4 @@
 export * from "./colors"
 export * from "./fonts"
-export * from "./icons"
 export * from "./metrics"
 export * from "./styles"
