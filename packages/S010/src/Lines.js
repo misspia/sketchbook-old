@@ -21,6 +21,7 @@ export class Lines {
     this.padding = 0.15;
     this.lines = [];
     this.linesMap = {};
+    this.bbox = new THREE.Box3()
 
     this.pivot = new THREE.Group();
     this.createLines();
@@ -33,6 +34,11 @@ export class Lines {
 
   get children() {
     return this.pivot.children;
+  }
+
+  get width () {
+    this.bbox.setFromObject(this.pivot)
+    return this.bbox.max.x - this.bbox.min.x
   }
 
   dispose() {

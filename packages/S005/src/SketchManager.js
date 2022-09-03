@@ -132,8 +132,8 @@ export class SketchManager {
    */
   loadImage(imageSource, onLoadHandler) {
     const image = new Image();
-    image.crossOrigin = "anonymous"
-    image.src = imageSource;
+    // image.crossOrigin = "Anonymous"
+    // image.src = imageSource;
     image.onload = onLoadHandler;
     return image;
   }
@@ -142,7 +142,8 @@ export class SketchManager {
 
     // Called each time an image finished
     // If all the images are loaded call the callback.
-    const onImageLoad = () => {
+    const onImageLoad = (...args) => {
+      console.debug('loaded image', args, this)
       --imagesToLoad;
       if (imagesToLoad == 0) callback();
     };

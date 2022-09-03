@@ -6,9 +6,12 @@ export function useWindowSize() {
 
   useEffect(() => {
     const onResize = () => {
-      const { innerWidth, innerHeight } = window;
-      setWidth(innerWidth);
-      setHeight(innerHeight);
+      // const { innerWidth, innerHeight } = window;
+      // setWidth(innerWidth);
+      // setHeight(innerHeight);
+      const { offsetWidth, offsetHeight } = document.body;
+      setWidth(offsetWidth);
+      setHeight(offsetHeight);
     }
 
     onResize();

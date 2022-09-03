@@ -19,7 +19,7 @@ export class Sketch extends SketchManager {
   init() {
     this.disableOrbitControls();
     this.setClearColor(0x555555);
-    this.setCameraPos(27.5, 3.2, -0.5);
+    this.setCameraPos(this.lines.width / 2, 3.2, 0.5);
     this.lookAt(0, 0, 0);
 
     this.scene.add(this.lines.pivot);
