@@ -1,37 +1,33 @@
 const deps = require('./package.json').dependencies
-const path = require('path');
+const projectNo = require('./package.json').name
 const { ModuleFederationPlugin } = require('webpack').container
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
-const paths = {
-	DIST: path.resolve(__dirname, 'dist'),
-	SRC: path.resolve(__dirname, 'src'),
-};
-
 module.exports = {
-	entry:  './index.js',
+	entry: './index.js',
 	output: {
-		publicPath: 'http://localhost:3001/',
+		publicPath: `http://localhost:3${projectNo}/`,
 		clean: true,
 	},
 	plugins: [
-    new HtmlWebpackPlugin({
-      title: 'S001',
-      template: './src/template.html',
-      filename: 'index.html',
-    }),
+		new HtmlWebpackPlugin({
+			title: `S${projectNo}`,
+			containerId: `S${projectNo}-container`,
+			template: './src/template.html',
+			filename: 'index.html',
+		}),
 		new ModuleFederationPlugin({
-      name: 'S001',
-      filename: 'remoteEntry.js',
-			library: { type: 'var', name: 'S001' },
-      exposes: {
-        './Page': './src/Page.jsx',
-      },
-      shared: {
-        react: { singleton: true, requiredVersion: deps.react },
+			name: `S${projectNo}`,
+			filename: 'remoteEntry.js',
+			library: { type: 'var', name: `S${projectNo}` },
+			exposes: {
+				'./Page': './src/Page.jsx',
+			},
+			shared: {
+				react: { singleton: true, requiredVersion: deps.react },
 				'react-dom': { singleton: true, requiredVersion: deps['react-dom'] }
-      },
-    }),
+			},
+		}),
 	],
 	module: {
 		rules: [
@@ -46,7 +42,7 @@ module.exports = {
 				],
 			},
 			{
-        test: /\.(glsl|vert|frag)$/,
+				test: /\.(glsl|vert|frag)$/,
 				use: [
 					{
 						loader: 'raw-loader',
@@ -57,7 +53,7 @@ module.exports = {
 						options: {},
 					},
 				],
-      },
+			},
 			{
 				test: /\.(js|jsx)$/,
 				exclude: /node_modules/,

@@ -1,4 +1,5 @@
 const deps = require('./package.json').dependencies
+const projectNo = require('./package.json').name
 const path = require('path');
 const { ModuleFederationPlugin } = require('webpack').container
 const HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -11,19 +12,19 @@ const paths = {
 module.exports = {
 	entry:  './index.js',
 	output: {
-		publicPath: 'http://localhost:3002/',
+		publicPath: `http://localhost:3${projectNo}/`,
 		clean: true,
 	},
 	plugins: [
     new HtmlWebpackPlugin({
-      title: 'S002',
+      title: `S${projectNo}`,
       template: './src/template.html',
       filename: 'index.html',
     }),
 		new ModuleFederationPlugin({
-      name: 'S002',
+      name: `S${projectNo}`,
       filename: 'remoteEntry.js',
-			library: { type: 'var', name: 'S002' },
+			library: { type: 'var', name: `S${projectNo}` },
       exposes: {
         './Page': './src/Page.jsx',
       },

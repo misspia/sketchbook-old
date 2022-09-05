@@ -2,7 +2,7 @@ import { createRoot } from 'react-dom/client'
 import React from 'react'
 import Page from './src/Page'
 
-const projectNo = require('./package.json').name
+const projectNo = require("./package.json").name
 
 export default function View() {
   return (

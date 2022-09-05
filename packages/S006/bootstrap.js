@@ -1,9 +1,8 @@
-
-
 import { createRoot } from 'react-dom/client'
 import React from 'react'
 import Page from './src/Page'
 
+const projectNo = require("./package.json").name
 
 export default function View() {
   return (
@@ -11,6 +10,6 @@ export default function View() {
   )
 }
 
-const container = document.getElementById('S006-container')
+const container = document.getElementById(`S${projectNo}-container`)
 const root = createRoot(container)
 root.render(<View />)
