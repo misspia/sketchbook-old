@@ -1,6 +1,4 @@
 import * as THREE from 'three';
-import vert from './vertex.glsl';
-import frag from './fragment.glsl';
 import { SketchManager } from './SketchManager';
 
 import { Images } from './assets';
@@ -31,14 +29,19 @@ export class Sketch extends SketchManager {
   }
 
   init() {
-    this.setCameraPos(0, 0, 1.3);
-    this.setClearColor(0xf1ebeb);
+    this.setClearColor(0x222222);
     this.createLight();
     this.createFog();
     this.createCurve();
     this.createSpline();
     this.createTube();
     this.disableOrbitControls();
+
+    const cameraPos = this.curve.getPointAt(0)
+    this.setCameraPos(cameraPos.x, cameraPos.y, cameraPos.z)
+
+    const lookAt = this.curve.getPointAt(0.1)
+    this.lookAt(lookAt.x, lookAt.y, lookAt.z)
   }
   createLight() {
     const hemi = new THREE.HemisphereLight(0xffffbb, 0x887979, 0.9);
@@ -51,8 +54,12 @@ export class Sketch extends SketchManager {
     this.scene.fog = new THREE.Fog(0x222222, 0.6, 2.8);
   }
   createTube() {
-    this.tubeGeometry = this.createTubeGeometry();
-    this.tubeMaterial = this.createTubeMaterial();
+    this.tubeGeometry = new THREE.TubeGeometry(this.curve, 70, 0.2, 50, false);
+    this.texture = new THREE.TextureLoader().load(Images.Texture);
+    this.tubeMaterial = new THREE.MeshBasicMaterial({
+      side: THREE.BackSide,
+      map: this.texture,
+    });
     this.wrapTubeMaterialMap();
 
     this.tube = new THREE.Mesh(this.tubeGeometry, this.tubeMaterial);
@@ -60,7 +67,7 @@ export class Sketch extends SketchManager {
   }
   createCurve() {
     let points = [];
-    for (let i = 0; i < 5; i += 1) {
+    for (let i = 0; i < 10; i += 1) {
       points.push(new THREE.Vector3(0, 0, 2.5 * (i / 4)));
     }
     points[4].y = -0.06;
@@ -71,16 +78,6 @@ export class Sketch extends SketchManager {
     const geometry = new THREE.Geometry();
     geometry.vertices = this.curve.getPoints(70);
     this.spline = new THREE.Line(geometry, material);
-  }
-  createTubeGeometry() {
-    return new THREE.TubeGeometry(this.curve, 70, 0.02, 50, false);
-  }
-  createTubeMaterial() {
-    this.texture = new THREE.TextureLoader().load(Images.Texture);
-    return new THREE.MeshBasicMaterial({
-      side: THREE.BackSide,
-      map: this.texture,
-    });
   }
   wrapTubeMaterialMap() {
     this.tubeMaterial.map.wrapS = THREE.RepeatWrapping;
