@@ -126,14 +126,13 @@ export class SketchManager {
     this.gl.uniform2f(uMouse, this.mouse.x, this.mouse.y);
   }
 
-  // textures
   /**
-   * https://github.com/ml5js/ml5-library/issues/217#issuecomment-424085565
+   * textures
    */
   loadImage(imageSource, onLoadHandler) {
     const image = new Image();
-    // image.crossOrigin = "Anonymous"
-    // image.src = imageSource;
+    image.crossOrigin = "Anonymous"
+    image.src = imageSource;
     image.onload = onLoadHandler;
     return image;
   }
@@ -143,7 +142,6 @@ export class SketchManager {
     // Called each time an image finished
     // If all the images are loaded call the callback.
     const onImageLoad = (...args) => {
-      console.debug('loaded image', args, this)
       --imagesToLoad;
       if (imagesToLoad == 0) callback();
     };

@@ -11,6 +11,9 @@ module.exports = merge(common, {
 			directory: path.join(__dirname, 'dist'),
 		},
 		port: `3${projectNo}`,
+		headers: {
+			"Access-Control-Allow-Origin": "*"
+		 },
 	},
 	plugins: [
 		new webpack.DefinePlugin({
