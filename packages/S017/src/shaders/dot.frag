@@ -1,0 +1,26 @@
+precision highp float;
+
+varying float vFreq;
+
+float remap(float min1, float max1, float min2, float max2, float value) {
+    return min2 + (max2 - min2) * (value - min1) / (max1 - min1);
+}
+
+float remapFreq(float min, float max) {
+    return remap(0.0, 255.0, min, max, vFreq);
+}
+
+float reverseRemapFreq(float min, float max) {
+    return remap(0.0, 255.0, min, max, 255.0 - vFreq);
+}
+
+void main() {
+    float len = distance(vec2(0.5, 0.5), gl_PointCoord.xy);
+    float alpha = 1.0;
+
+    if(len > 0.5) {
+        alpha = 0.0;
+    }
+
+    gl_FragColor = vec4(0.0, 0.0, 0.0, alpha);
+}
