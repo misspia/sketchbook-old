@@ -85,7 +85,7 @@ export class Sketch extends SketchManager {
       transparent: true,
       fragmentShader: glsl(frag),
       vertexShader: glsl(vert),
-      shading: THREE.FlatShading,
+      flatShading: true,
       uniforms: {
         u_time: { type: 'f', value: 0 },
         u_amp: { type: 'f', value: this.amp },
