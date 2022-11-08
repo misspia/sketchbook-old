@@ -63,15 +63,10 @@ const HiddenContainer = styled.div`
 export const Preview = ({
   to = '',
   image = '',
-  onLoad = () => {},
-
 }) => {
     return (
       <Container>
-        <Image 
-          src={image} 
-          onLoad={onLoad}
-        />
+        <Image  src={image}  />
         <NavLink to={to} />
         <HiddenContainer>
         </HiddenContainer>

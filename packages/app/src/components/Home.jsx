@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components'
 
-import { Loader } from './Loader'
-import { SketchPreviews } from './SketchPreviews'
-
 import { Colors } from '../themes'
 import typography from "toolkit/typography"
 import { Images } from "../assets"
@@ -71,19 +68,8 @@ export const SketchesContainer = styled.div`
 `;
 
 export default function Home() {
-  // const [progress, setProgress] = useState(0);
-  const [loadedItems, setLoadedItems] = useState(0);
-
-
-  console.debug(loadedItems)
-  useEffect(() => {
-  }, [loadedItems])
   return (
     <Container>
-      {/* {
-        progress < 100 &&
-        <Loader progress={progress} />
-      } */}
       <Header>
         <Title>Sketchbook</Title>
         <Subtitle>a collection of WebGL experiments</Subtitle>
@@ -93,22 +79,12 @@ export default function Home() {
           <GithubImg src={Images.Github} />
         </SocialLink>
       </Header>
-      {/* <SketchPreviews
-        onLoad={(loadedItems, total) => {
-          console.debug(loadedItems, total)
-          setProgress(loadedItems / total * 100)
-
-        }}
-      /> */}
       <SketchesContainer>
         {Sketches.map((sketch, index) => (
           <Preview
             key={index}
             to={Routes.toSketch(index)}
             image={sketch.image}
-            onLoad={() => (
-              setLoadedItems(loadedItems + 1)
-            )}
           />
         )).reverse()}
       </SketchesContainer>
