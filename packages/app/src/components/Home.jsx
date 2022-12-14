@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components'
 
-import { Colors } from '../themes'
-import typography from "toolkit/typography"
+import { Colors, typography } from '../themes'
 import { Images } from "../assets"
 import { Sketches } from '../sketches'
 import { Routes } from './Router/routes'

@@ -1,14 +1,7 @@
-import { testAudio } from "./audio.test"
-
 export const BASE_URL = 'https://raw.githubusercontent.com/misspia/assets/master/audio/';
 
-const testers = testAudio || {} 
-
 const Audio = {
-  elemId: 'audio',
-  
-  ...testers,
-  
+  elemId: 'audio',  
   S008: {
     url: `${BASE_URL}nurko-right-now.mp3`,
     title: `Right Now - Nurko & Misdom` 
@@ -31,6 +24,8 @@ const Audio = {
      title: `Il vento d'oro - Yugo Kanno`,
    },
 
+  //  tester: require("./so-beautiful.mp3"),
+  // tester: require('/audio/.mp3'),
 }
 
 export default Audio;
