@@ -59,7 +59,7 @@ module.exports = {
         S014: 'S014@http://localhost:3014/remoteEntry.js',
         S015: 'S015@http://localhost:3015/remoteEntry.js',
         S016: 'S016@http://localhost:3016/remoteEntry.js',
-        S017: 'S017@http://localhost:3017/remoteEntry.js',
+        S017: `${process.env.S017_URL}/remoteEntry.js` || 'S017@http://localhost:3017/remoteEntry.js',
       },
       shared: {
         react: { singleton: true, requiredVersion: deps.react },

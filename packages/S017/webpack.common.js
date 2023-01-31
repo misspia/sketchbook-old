@@ -22,7 +22,7 @@ module.exports = {
         './Page': './src/Page.jsx',
       },
 			remotes: {
-				toolkit: ['toolkit@http://localhost:8081/remoteEntry.js']
+				toolkit: [`${process.env.TOOLKIT_URL}/remoteEntry.js` || 'toolkit@http://localhost:8081/remoteEntry.js']
 			},
       shared: {
         react: { singleton: true, requiredVersion: deps.react },
